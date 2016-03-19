@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>sisc_seguridad</artifactId>
+    <groupId>com.sisc.acme</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <groupId>com.sisc.acme</groupId>
+  <artifactId>sisc_seguridad-ear</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>sisc_seguridad-ear</name>
+  <modules>
+    <module>sisc_seguridad_ear</module>
+    <module>sisc_seguridad-web</module>
+    <module>sisc_seguridad-ejb</module>
+  </modules>
+</project>
