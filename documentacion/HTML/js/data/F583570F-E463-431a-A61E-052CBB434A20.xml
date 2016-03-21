@@ -1,0 +1,11 @@
+tocTab[tocTab.length] = new Array("1:1", "", "«table» cirugia", "EARoot/EA1/EA12.htm", "28.png", "14", "0", "", "Class0","{0B7A2656-7414-4386-AB53-7E090F6ED78E}");
+tocTab[tocTab.length] = new Array("1:2", "", "«table» cita", "EARoot/EA1/EA13.htm", "28.png", "21", "0", "", "Class0","{9558262A-6740-4147-998B-E14FCB1DB6E8}");
+tocTab[tocTab.length] = new Array("1:3", "", "«table» Examen", "EARoot/EA1/EA14.htm", "28.png", "13", "0", "", "Class0","{BCB7F638-046A-49b2-8CB1-F4E0A0AE9237}");
+tocTab[tocTab.length] = new Array("1:4", "", "«table» incapacidad", "EARoot/EA1/EA15.htm", "28.png", "19", "0", "", "Class0","{77202076-0ED4-45b0-952C-4A0B82E9013E}");
+tocTab[tocTab.length] = new Array("1:5", "", "«table» medicamento", "EARoot/EA1/EA16.htm", "28.png", "11", "0", "", "Class0","{FB3BD903-1EFB-44b0-81D9-5681CE6A78CB}");
+tocTab[tocTab.length] = new Array("1:6", "", "«table» persona_cirugia", "EARoot/EA1/EA17.htm", "28.png", "20", "0", "", "Class0","{9EEDFAAF-0901-478f-AF89-480F838C22A7}");
+tocTab[tocTab.length] = new Array("1:7", "", "«table» persona_examen", "EARoot/EA1/EA18.htm", "28.png", "18", "0", "", "Class0","{AEBF3EE9-DA2D-4ed2-817E-54D05365B8A3}");
+tocTab[tocTab.length] = new Array("1:8", "", "«table» persona_medicamento", "EARoot/EA1/EA19.htm", "28.png", "16", "0", "", "Class0","{E21029AB-A8AF-46ce-9D86-83B8B19C2035}");
+tocTab[tocTab.length] = new Array("1:9", "", "«table» persona_tratamiento", "EARoot/EA1/EA20.htm", "28.png", "17", "0", "", "Class0","{E51FC938-BD20-40c8-83D2-B331661A8F5A}");
+tocTab[tocTab.length] = new Array("1:10", "", "«table» Persona1", "EARoot/EA1/EA21.htm", "28.png", "15", "0", "", "Class0","{D65B7AF8-2E25-4398-87B9-EF5614A67EF9}");
+tocTab[tocTab.length] = new Array("1:11", "", "«table» Tratamiento", "EARoot/EA1/EA22.htm", "28.png", "12", "0", "", "Class0","{7438AF1C-5209-4298-A110-268E0A97AD24}");

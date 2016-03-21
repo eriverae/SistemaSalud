@@ -1,0 +1,11 @@
+tocTab[tocTab.length] = new Array("2:1", "", "«table» acceso", "EARoot/EA2/EA23.htm", "28.png", "80", "0", "", "Class0","{F19EFFE5-4228-4dab-A27E-D754442DA3EB}");
+tocTab[tocTab.length] = new Array("2:2", "", "«table» accgrup", "EARoot/EA2/EA24.htm", "28.png", "81", "0", "", "Class0","{EE71C18D-683B-4da2-8EEC-B9B8FD72A1F7}");
+tocTab[tocTab.length] = new Array("2:3", "", "«table» accusua", "EARoot/EA2/EA25.htm", "28.png", "82", "0", "", "Class0","{CF53BCC1-EAAA-4951-9328-68C7DB9FAB91}");
+tocTab[tocTab.length] = new Array("2:4", "", "«table» auditusu", "EARoot/EA2/EA26.htm", "28.png", "83", "0", "", "Class0","{E2D691B7-CE2A-487b-B00C-B8BC4C26ACC0}");
+tocTab[tocTab.length] = new Array("2:5", "", "«table» grupo", "EARoot/EA2/EA27.htm", "28.png", "84", "0", "", "Class0","{3237EE86-488C-4eba-A110-08FC891F4F16}");
+tocTab[tocTab.length] = new Array("2:6", "", "«table» grupusu", "EARoot/EA2/EA28.htm", "28.png", "85", "0", "", "Class0","{4FB5ADA6-D011-45a5-85E8-1EF20BA6B795}");
+tocTab[tocTab.length] = new Array("2:7", "", "«table» log_notifica", "EARoot/EA2/EA29.htm", "28.png", "86", "0", "", "Class0","{04AC40AD-5340-491f-91B9-84EE78994FDF}");
+tocTab[tocTab.length] = new Array("2:8", "", "«table» persjuri", "EARoot/EA2/EA30.htm", "28.png", "87", "0", "", "Class0","{06FC748C-596B-4b92-8C63-1BCEBE234400}");
+tocTab[tocTab.length] = new Array("2:9", "", "«table» persona", "EARoot/EA2/EA31.htm", "28.png", "88", "0", "", "Class0","{0A800634-C537-460a-985B-AC445FB59A21}");
+tocTab[tocTab.length] = new Array("2:10", "", "«table» usuario", "EARoot/EA2/EA32.htm", "28.png", "89", "0", "", "Class0","{1CB97A67-547E-4c83-952E-93DB8C5441F0}");
+tocTab[tocTab.length] = new Array("2:11", "", "«table» usuempr", "EARoot/EA2/EA33.htm", "28.png", "90", "0", "", "Class0","{F6805C1E-7C0C-4f67-9C93-75A994C94F52}");

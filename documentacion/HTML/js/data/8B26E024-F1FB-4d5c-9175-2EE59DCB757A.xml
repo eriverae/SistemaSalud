@@ -1,0 +1,10 @@
+tocTab[tocTab.length] = new Array("0:1", "", "Modelo de datos", "EARoot/EA1.htm", "175.png", "1", "0", "", "Logical diagram0","{38AE594B-B816-4c96-9D68-3E63DBC496EA}");
+tocTab[tocTab.length] = new Array("0:2", "", "«table» Table1", "EARoot/EA5.htm", "28.png", "77", "0", "", "Class0","{858970A6-43B2-4702-97B9-686558FFE7BA}");
+tocTab[tocTab.length] = new Array("0:3", "", "«table» Agenda", "EARoot/EA6.htm", "28.png", "68", "0", "", "Class0","{BFF6D1A0-699F-4780-AFC6-E9BC32D708F6}");
+tocTab[tocTab.length] = new Array("0:4", "", "«table» Cita", "EARoot/EA7.htm", "28.png", "72", "0", "", "Class0","{90071624-0584-44dc-9760-6A933DE411CA}");
+tocTab[tocTab.length] = new Array("0:5", "", "«table» Consultorioo", "EARoot/EA8.htm", "28.png", "73", "0", "", "Class0","{899EDA49-0D54-4433-BB1C-F6C666010629}");
+tocTab[tocTab.length] = new Array("0:6", "", "«table» EstadoAgendamiento", "EARoot/EA9.htm", "28.png", "75", "0", "", "Class0","{8931667A-CBB9-4efd-8FCA-3F2E1FCFD480}");
+tocTab[tocTab.length] = new Array("1", "1", "MODULO_HISTORIA", "EARoot/EA3.htm", "4.png", "", "", "{F583570F-E463-431a-A61E-052CBB434A20}", "Package");
+tocTab[tocTab.length] = new Array("2", "1", "MODULO_SEGURIDAD", "EARoot/EA4.htm", "4.png", "", "", "{2AEBF24A-1E11-454a-8984-206412BECAC8}", "Package");
+tocTab[tocTab.length] = new Array("3", "1", "MODULO_AGENDA", "EARoot/EA10.htm", "4.png", "", "", "{C133C39F-C0BC-47bd-ABF2-EC6D50E22DF5}", "Package");
+tocTab[tocTab.length] = new Array("4", "1", "MODULO_REGISTRO", "EARoot/EA11.htm", "4.png", "", "", "{6DA22D4A-4C24-4890-A5D7-D90B53BD1F5C}", "Package");

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="com.acme.sisc_sisc_agenda-client_jar_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.acme.sisc.agenda.entidades.Accgrup</class>
+    <class>com.acme.sisc.agenda.entidades.Usuempr</class>
+    <class>com.acme.sisc.agenda.entidades.Persona</class>
+    <class>com.acme.sisc.agenda.entidades.Especialidad</class>
+    <class>com.acme.sisc.agenda.entidades.Acceso</class>
+    <class>com.acme.sisc.agenda.entidades.Tratamiento</class>
+    <class>com.acme.sisc.agenda.entidades.Cita</class>
+    <class>com.acme.sisc.agenda.entidades.Grupusu</class>
+    <class>com.acme.sisc.agenda.entidades.Operacion</class>
+    <class>com.acme.sisc.agenda.entidades.PersonaNaturalEspecialidad</class>
+    <class>com.acme.sisc.agenda.entidades.Grupo</class>
+    <class>com.acme.sisc.agenda.entidades.PersonaNaturalOperacion</class>
+    <class>com.acme.sisc.agenda.entidades.TipoPersonaNatural</class>
+    <class>com.acme.sisc.agenda.entidades.Alergia</class>
+    <class>com.acme.sisc.agenda.entidades.Agenda</class>
+    <class>com.acme.sisc.agenda.entidades.PersonaNaturalAlergia</class>
+    <class>com.acme.sisc.agenda.entidades.Auditusu</class>
+    <class>com.acme.sisc.agenda.entidades.Examen</class>
+    <class>com.acme.sisc.agenda.entidades.PersonaJuridica</class>
+    <class>com.acme.sisc.agenda.entidades.PersonaNaturalEnfermedad</class>
+    <class>com.acme.sisc.agenda.entidades.PersonaNatural</class>
+    <class>com.acme.sisc.agenda.entidades.Incapacidad</class>
+    <class>com.acme.sisc.agenda.entidades.PersonaNaturalBeneficiario</class>
+    <class>com.acme.sisc.agenda.entidades.Usuario</class>
+    <class>com.acme.sisc.agenda.entidades.Cirugia</class>
+    <class>com.acme.sisc.agenda.entidades.LogNotifica</class>
+    <class>com.acme.sisc.agenda.entidades.Enfermedad</class>
+    <class>com.acme.sisc.agenda.entidades.Accusua</class>
+    <class>com.acme.sisc.agenda.entidades.Medicamento</class>
+    <class>com.acme.sisc.agenda.entidades.PersonaEps</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/siscDB"/>
+      <property name="javax.persistence.jdbc.password" value="ADMIN"/>
+      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+      <property name="javax.persistence.jdbc.user" value="postgres"/>
+    </properties>
+  </persistence-unit>
+</persistence>

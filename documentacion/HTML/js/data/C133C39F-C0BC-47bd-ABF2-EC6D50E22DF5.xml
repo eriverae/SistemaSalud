@@ -1,0 +1,10 @@
+tocTab[tocTab.length] = new Array("3:1", "", "Esquema_Agenda", "EARoot/EA3/EA34.htm", "175.png", "5", "0", "", "Logical diagram0","{BC70B98C-0863-4fcc-862F-0C9620EC43A3}");
+tocTab[tocTab.length] = new Array("3:2", "", "«table» Agenda", "EARoot/EA3/EA36.htm", "28.png", "53", "0", "", "Class0","{6ACE0FA4-6D95-4453-8A7F-B1119169EFCF}");
+tocTab[tocTab.length] = new Array("3:3", "", "«table» Cita", "EARoot/EA3/EA37.htm", "28.png", "57", "0", "", "Class0","{F4005AF9-211E-4802-A44E-A906BF6FD74C}");
+tocTab[tocTab.length] = new Array("3:4", "", "«table» Cita_informe", "EARoot/EA3/EA38.htm", "28.png", "58", "0", "", "Class0","{30088C92-5DB8-4854-82C9-7CE789C7DBF1}");
+tocTab[tocTab.length] = new Array("3:5", "", "«table» Consultorio", "EARoot/EA3/EA39.htm", "28.png", "60", "0", "", "Class0","{8E9941AB-A818-4245-9FA6-9A004C0A2731}");
+tocTab[tocTab.length] = new Array("3:6", "", "«table» EstadoAgendamiento", "EARoot/EA3/EA40.htm", "28.png", "64", "0", "", "Class0","{8A252781-3752-491f-B36B-10C2F1FDD038}");
+tocTab[tocTab.length] = new Array("3:7", "", "«table» Medico", "EARoot/EA3/EA41.htm", "28.png", "61", "0", "", "Class0","{D9FD7E60-F926-47b1-91DC-2334F2EF6F37}");
+tocTab[tocTab.length] = new Array("3:8", "", "«table» Paciente", "EARoot/EA3/EA42.htm", "28.png", "55", "0", "", "Class0","{43673816-9EA2-4e40-BB5B-A8B178D4BE38}");
+tocTab[tocTab.length] = new Array("3:9", "", "«table» Persona", "EARoot/EA3/EA43.htm", "28.png", "62", "0", "", "Class0","{852CE94A-DCC8-49e9-9DB2-4F94353A5F53}");
+tocTab[tocTab.length] = new Array("3:10", "", "«table» persona_eps", "EARoot/EA3/EA44.htm", "28.png", "59", "0", "", "Class0","{18612202-D3FB-40d7-90F7-A7BE9CF5AEC8}");
