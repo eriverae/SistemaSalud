@@ -1,2 +1,2 @@
 # SistemaSalud
-Proyecto Grado Sistema de salud
+Proyecto Sistema de salud
