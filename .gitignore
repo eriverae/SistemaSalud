@@ -9,3 +9,7 @@
 /proyecto/sisc_registro/sisc_registro-ejb/target/
 /proyecto/sisc_registro/sisc_registro-api/target/
 /proyecto/sisc_registro/sisc_registro-ear/target/
+/proyecto/sisc_seguridad/sisc_seguridad-api/target/
+/proyecto/sisc_seguridad/sisc_seguridad-ear/target/
+/proyecto/sisc_seguridad/sisc_seguridad-ejb/target/
+/proyecto/sisc_seguridad/sisc_seguridad-shared/target/
