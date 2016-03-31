@@ -95,10 +95,13 @@ public class PersonaNatural implements Serializable {
     private String grupoSanguineo;
     @Column(name = "tarjeta_profesional")
     private String tarjetaProfesional;
-    @OneToMany(mappedBy = "idPersonaNatural")
+    
+    @OneToMany(mappedBy = "idPaciente")
     private List<PersonaEps> personaEpsList;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPersonaNatural")
     private List<Cita> citaList;
+    
     @JoinColumn(name = "id_persona", referencedColumnName = "id_persona")
     @OneToOne(optional = false)
     private Persona idPersona;

@@ -35,9 +35,8 @@
     <class>com.acme.sisc.agenda.entidades.PersonaEps</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
-      <properties>
       <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
-    </properties>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
 </persistence>

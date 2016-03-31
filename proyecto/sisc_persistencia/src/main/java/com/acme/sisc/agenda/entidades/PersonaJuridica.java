@@ -49,7 +49,7 @@ public class PersonaJuridica implements Serializable {
     @JoinColumn(name = "id_persona", referencedColumnName = "id_persona")
     @OneToOne(optional = false)
     private Persona idPersona;
-    @OneToMany(mappedBy = "idPersonaNatural1")
+    @OneToMany(mappedBy = "idEps")
     private List<PersonaEps> personaEpsList;
 
     public PersonaJuridica() {
