@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -22,9 +23,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Julio
+ * @author jamer
  */
 @Entity
+
 @Table(name = "persona_juridica")
 @XmlRootElement
 @NamedQueries({
@@ -33,38 +35,22 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "PersonaJuridica.findByRazonSocial", query = "SELECT p FROM PersonaJuridica p WHERE p.razonSocial = :razonSocial"),
     @NamedQuery(name = "PersonaJuridica.findByFechaConstitucion", query = "SELECT p FROM PersonaJuridica p WHERE p.fechaConstitucion = :fechaConstitucion"),
     @NamedQuery(name = "PersonaJuridica.findByRepresentanteLegal", query = "SELECT p FROM PersonaJuridica p WHERE p.representanteLegal = :representanteLegal")})
-public class PersonaJuridica implements Serializable {
+public class PersonaJuridica extends Persona implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "id_persona_juridica")
-    private Long idPersonaJuridica;
+    
+    
     @Column(name = "razon_social")
     private String razonSocial;
     @Column(name = "fecha_constitucion")
     private Long fechaConstitucion;
     @Column(name = "representante_legal")
     private Long representanteLegal;
-    @JoinColumn(name = "id_persona", referencedColumnName = "id_persona")
-    @OneToOne(optional = false)
-    private Persona idPersona;
-    @OneToMany(mappedBy = "idEps")
+    
+    @OneToMany(mappedBy = "idPersonaNatural1")
     private List<PersonaEps> personaEpsList;
 
     public PersonaJuridica() {
-    }
-
-    public PersonaJuridica(Long idPersonaJuridica) {
-        this.idPersonaJuridica = idPersonaJuridica;
-    }
-
-    public Long getIdPersonaJuridica() {
-        return idPersonaJuridica;
-    }
-
-    public void setIdPersonaJuridica(Long idPersonaJuridica) {
-        this.idPersonaJuridica = idPersonaJuridica;
     }
 
     public String getRazonSocial() {
@@ -91,13 +77,7 @@ public class PersonaJuridica implements Serializable {
         this.representanteLegal = representanteLegal;
     }
 
-    public Persona getIdPersona() {
-        return idPersona;
-    }
 
-    public void setIdPersona(Persona idPersona) {
-        this.idPersona = idPersona;
-    }
 
     @XmlTransient
     public List<PersonaEps> getPersonaEpsList() {
@@ -108,29 +88,5 @@ public class PersonaJuridica implements Serializable {
         this.personaEpsList = personaEpsList;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idPersonaJuridica != null ? idPersonaJuridica.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PersonaJuridica)) {
-            return false;
-        }
-        PersonaJuridica other = (PersonaJuridica) object;
-        if ((this.idPersonaJuridica == null && other.idPersonaJuridica != null) || (this.idPersonaJuridica != null && !this.idPersonaJuridica.equals(other.idPersonaJuridica))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.acme.sisc.agenda.entidades.PersonaJuridica[ idPersonaJuridica=" + idPersonaJuridica + " ]";
-    }
-    
+   
 }
