@@ -8,7 +8,8 @@
   <name>sisc_registro</name>
   <modules>
     <module>sisc_registro-ear</module>
-    <module>sisc_registro-api</module>
     <module>sisc_registro-ejb</module>
+    <module>sisc_registro-shared</module>
+    <module>sisc_registro-api</module>
   </modules>
 </project>

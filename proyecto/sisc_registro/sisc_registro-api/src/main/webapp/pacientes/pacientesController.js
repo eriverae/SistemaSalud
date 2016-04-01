@@ -1,18 +1,18 @@
 'use strict';
-var app = angular.module('demobanco');
+var app = angular.module('sisc_registro');
 // Create a controller with name personsFormController to bind to the form section.
-app.controller('clienteFormController', function ($scope, $rootScope, $stateParams, $state, 
-          clienteService,modalService) {
+app.controller('pacientesController', function ($scope, $rootScope, $stateParams, $state, 
+          pacienteService,modalService) {
   
-  $scope.cliente={};
+  $scope.paciente={};
   
-  if (angular.isDefined($stateParams.idCliente)){
-    console.log('Cliente a modificar, ID = '+ $stateParams.idCliente);
-    clienteService.get({id: $stateParams.idCliente}).$promise.then(
+  if (angular.isDefined($stateParams.idPaciente)){
+    console.log('Paciente a modificar, ID = '+ $stateParams.idPaciente);
+    pacienteService.get({id: $stateParams.idPaciente}).$promise.then(
       function (data) {
-        $scope.cliente = data;
+        $scope.paciente = data;
         //A partir de Angular 1.3, ng-model requiere un objeto de tipo Date valido, no acepta un String
-        $scope.cliente.fechaNacimiento = new Date($scope.cliente.fechaNacimiento); 
+        $scope.paciente.fechaNacimiento = new Date($scope.paciente.fechaNacimiento); 
       },
       function () {
         // Broadcast the event for a server error.
@@ -35,21 +35,21 @@ app.controller('clienteFormController', function ($scope, $rootScope, $statePara
   
   // Clears the form. Either by clicking the 'Clear' button in the form, or when a successfull save is performed.
   $scope.clearForm = function () {
-    $scope.cliente = null;
+    $scope.paciente = null;
     // Resets the form validation state.
-    $scope.clienteForm.$setPristine();
+    $scope.pacienteForm.$setPristine();
     // Broadcast the event to also clear the grid selection.
     $rootScope.$broadcast('clear');
   };
 
-  // Calls the rest method to save a Cliente.
-  $scope.updateCliente = function () {
-    clienteService.save($scope.cliente).$promise.then(
+  // Calls the rest method to save a Paciente.
+  $scope.updatePaciente = function () {
+    pacienteService.save($scope.paciente).$promise.then(
     function () {
       // Broadcast the event to refresh the grid.
       $rootScope.$broadcast('refreshGrid');
       // Broadcast the event to display a save message.
-      $rootScope.$broadcast('clienteSaved');
+      $rootScope.$broadcast('pacienteSaved');
       
     },
     function () {
@@ -60,12 +60,12 @@ app.controller('clienteFormController', function ($scope, $rootScope, $statePara
 
   // Picks up the event broadcasted when the person is selected from the grid and perform the person load by calling
   // the appropiate rest service.
-  $scope.$on('clienteSelected', function (event, id) {
-    console.log('Cliente seleccionado, ID = '+ id);
-    $scope.cliente = clienteService.get({id: id});
+  $scope.$on('pacienteSelected', function (event, id) {
+    console.log('Paciente seleccionado, ID = '+ id);
+    $scope.paciente = pacienteService.get({id: id});
   });
   
-  $scope.$on('clienteSaved', function(){
+  $scope.$on('pacienteSaved', function(){
     var modalOptions = {
           //closeButtonText: 'Cancelar',
           actionButtonText: 'Continuar',
@@ -75,12 +75,12 @@ app.controller('clienteFormController', function ($scope, $rootScope, $statePara
 
       modalService.showModal({}, modalOptions).then(function () {
         $scope.clearForm();
-        $state.go('clientes');
+        $state.go('pacientes');
       });
   });
   
   $scope.cancelar = function(){
-    $state.go('clientes');
+    $state.go('pacientes');
   };
   
 });

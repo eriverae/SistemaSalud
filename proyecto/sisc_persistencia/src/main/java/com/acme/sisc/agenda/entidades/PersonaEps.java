@@ -44,49 +44,24 @@ public class PersonaEps implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_persona_eps")
     private Long idPersonaEps;
-    
-//    @Column(name = "id_eps")
-//    private Long idEps;
-    
-   
-    
+    @Column(name = "id_eps")
+    private Long idEps;
     @Column(name = "fecha_inicio")
     @Temporal(TemporalType.DATE)
     private Date fechaInicio;
-    
     @Column(name = "fecha_fin")
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
-    
     @JoinColumn(name = "id_persona_natural", referencedColumnName = "id_persona_natural")
     @ManyToOne
-    private PersonaNatural idPaciente;
-    
-    @JoinColumn(name = "id_persona_juridica", referencedColumnName = "id_persona_juridica")
+    private PersonaNatural idPersonaNatural;
+    @JoinColumn(name = "id_persona_natural", referencedColumnName = "id_persona_juridica")
     @ManyToOne
-    private PersonaJuridica idEps;
-    
+    private PersonaJuridica idPersonaNatural1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPersonaEps")
     private List<Cita> citaList;
 
     public PersonaEps() {
-    }
-
-    public PersonaNatural getIdPaciente() {
-        return idPaciente;
-    }
-
-    public void setIdPaciente(PersonaNatural idPaciente) {
-        this.idPaciente = idPaciente;
-    }
-
-   
-    public PersonaJuridica getIdEps() {
-        return idEps;
-    }
-
-    public void setIdEps(PersonaJuridica idEps) {
-        this.idEps = idEps;
     }
 
     public PersonaEps(Long idPersonaEps) {
@@ -101,7 +76,13 @@ public class PersonaEps implements Serializable {
         this.idPersonaEps = idPersonaEps;
     }
 
-   
+    public Long getIdEps() {
+        return idEps;
+    }
+
+    public void setIdEps(Long idEps) {
+        this.idEps = idEps;
+    }
 
     public Date getFechaInicio() {
         return fechaInicio;
@@ -119,7 +100,21 @@ public class PersonaEps implements Serializable {
         this.fechaFin = fechaFin;
     }
 
-   
+    public PersonaNatural getIdPersonaNatural() {
+        return idPersonaNatural;
+    }
+
+    public void setIdPersonaNatural(PersonaNatural idPersonaNatural) {
+        this.idPersonaNatural = idPersonaNatural;
+    }
+
+    public PersonaJuridica getIdPersonaNatural1() {
+        return idPersonaNatural1;
+    }
+
+    public void setIdPersonaNatural1(PersonaJuridica idPersonaNatural1) {
+        this.idPersonaNatural1 = idPersonaNatural1;
+    }
 
     @XmlTransient
     public List<Cita> getCitaList() {

@@ -10,21 +10,28 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Julio
+ * @author Jamer
  */
 @Entity
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 @Table(name = "persona")
 @XmlRootElement
 @NamedQueries({
@@ -41,7 +48,7 @@ public class Persona implements Serializable {
     private Long idPersona;
     @Basic(optional = false)
     @Column(name = "tipo_identificacion")
-    private String tipoIdentificacion;
+    private TipoIdentificacion tipoIdentificacion;
     @Basic(optional = false)
     @Column(name = "numero_identificacion")
     private long numeroIdentificacion;
@@ -51,6 +58,9 @@ public class Persona implements Serializable {
     private PersonaJuridica personaJuridica;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "idPersona")
     private PersonaNatural personaNatural;
+   @Version
+   @Column(name = "VERSION")
+   private Long version;
 
     public Persona() {
     }
@@ -59,7 +69,7 @@ public class Persona implements Serializable {
         this.idPersona = idPersona;
     }
 
-    public Persona(Long idPersona, String tipoIdentificacion, long numeroIdentificacion) {
+    public Persona(Long idPersona, TipoIdentificacion tipoIdentificacion, long numeroIdentificacion) {
         this.idPersona = idPersona;
         this.tipoIdentificacion = tipoIdentificacion;
         this.numeroIdentificacion = numeroIdentificacion;
@@ -73,11 +83,11 @@ public class Persona implements Serializable {
         this.idPersona = idPersona;
     }
 
-    public String getTipoIdentificacion() {
+    public TipoIdentificacion getTipoIdentificacion() {
         return tipoIdentificacion;
     }
 
-    public void setTipoIdentificacion(String tipoIdentificacion) {
+    public void setTipoIdentificacion(TipoIdentificacion tipoIdentificacion) {
         this.tipoIdentificacion = tipoIdentificacion;
     }
 
@@ -137,6 +147,20 @@ public class Persona implements Serializable {
     @Override
     public String toString() {
         return "com.acme.sisc.agenda.entidades.Persona[ idPersona=" + idPersona + " ]";
+    }
+
+    /**
+     * @return the version
+     */
+    public Long getVersion() {
+        return version;
+    }
+
+    /**
+     * @param version the version to set
+     */
+    public void setVersion(Long version) {
+        this.version = version;
     }
     
 }

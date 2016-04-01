@@ -36,7 +36,12 @@
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <validation-mode>NONE</validation-mode>
     <properties>
+      <properties>
       <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+<<<<<<< HEAD
+=======
+    </properties>
+>>>>>>> f969445d4b9afe0c835cabd4564b777badbd6211
     </properties>
   </persistence-unit>
 </persistence>
