@@ -8,7 +8,5 @@
   <name>sisc_registro</name>
   <modules>
     <module>sisc_registro-ear</module>
-    <module>sisc_registro-api</module>
-    <module>sisc_registro-ejb</module>
   </modules>
 </project>
