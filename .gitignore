@@ -6,9 +6,11 @@
 /proyecto/sisc_agenda/sisc_agenda-ejb/target/
 /proyecto/sisc_agenda/sisc_agenda-api/target/
 /proyecto/sisc_agenda/sisc_agenda-ear/target/
+#Registro
 /proyecto/sisc_registro/sisc_registro-ejb/target/
 /proyecto/sisc_registro/sisc_registro-api/target/
 /proyecto/sisc_registro/sisc_registro-ear/target/
+/proyecto/sisc_registro/sisc_registro-shared/target/
 #Se excluye los target de seguridad
 /proyecto/sisc_seguridad/sisc_seguridad-api/target/
 /proyecto/sisc_seguridad/sisc_seguridad-ear/target/
