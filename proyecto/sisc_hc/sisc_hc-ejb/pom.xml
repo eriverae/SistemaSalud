@@ -22,6 +22,12 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>sisc_hc-shared</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>sisc_persistencia</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>

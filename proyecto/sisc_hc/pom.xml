@@ -9,6 +9,7 @@
   <modules>
     <module>sisc_hc-ear</module>
     <module>sisc_hc-api</module>
+    <module>sisc_hc-shared</module>
     <module>sisc_hc-ejb</module>
   </modules>
 </project>
