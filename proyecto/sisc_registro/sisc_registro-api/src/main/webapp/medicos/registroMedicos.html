@@ -1,5 +1,5 @@
 <div class="col-md-6 col-md-offset-3">
-  <!-- Verify person, if there is no id present, that we are Adding a Person -->
+  <!-- Verify medico, if there is no id present, that we are Adding a Person -->
   <div ng-if="medico.id == null">
     <h3>Crear nuevo Médico</h3>
   </div>
@@ -11,7 +11,17 @@
   <div>
     <!-- Specify the function to be called on submit and disable HTML5 validation, since we're using Angular validation-->
     <form class="form-horizontal" name="medicoForm" ng-submit="updateMedico()" novalidate>
+      <!-- uib-tabset not allowed as child of element form
+      <uib-tabset active="activeJustified" justified="true">
+        <uib-tab index="0" heading="Justified">Justified content</uib-tab>
+        <uib-tab index="1" heading="SJ">Short Labeled Justified content</uib-tab>
+        <uib-tab index="2" heading="Long Justified">Long Labeled Justified content</uib-tab>
+      </uib-tabset> 
+      -->
+            
       
+      
+      <!-- Nombres -->
       <div class="form-group" ng-class="{'has-error' : medicoForm.nombres.$invalid && medicoForm.nombres.$dirty}">
         <label for="nombres">Nombres:</label>
         <!-- Display a check when the field is valid and was modified -->
@@ -19,12 +29,12 @@
         <input id="nombres" name="nombres" type="text" class="form-control" maxlength="30"
                ng-model="medico.nombres" required ng-minlength="3" ng-maxlength="30"
                placeholder="Nombres"/>
-
         <!-- Validation messages to be displayed on required, minlength and maxlength -->
         <p class="help-block" ng-show="medicoForm.nombres.$error.minlength">Debe tener al menos 3 digitos</p>
         <p class="help-block" ng-show="medicoForm.nombres.$error.maxlength">No debe superar los 30 digitos</p>
       </div>
       
+      <!-- Apellidos -->
       <div class="form-group" ng-class="{'has-error' : medicoForm.apellidos.$invalid && medicoForm.apellidos.$dirty}">
         <label for="apellidos">Apellidos:</label>
         <!-- Display a check when the field is valid and was modified -->
@@ -38,6 +48,7 @@
         <p class="help-block" ng-show="medicoForm.apellidos.$error.maxlength">No debe superar los 30 digitos</p>
       </div>
         
+      <!-- Tipo de identificación -->
       <div class="form-group" ng-class="{'has-error' : medicoForm.tipoIdentificacion.$invalid && medicoForm.tipoIdentificacion.$dirty}">
         <label for="tipoIdentificacion">Tipo Identificacion</label>
         <!-- Display a check when the field is valid and was modified -->
@@ -50,7 +61,7 @@
         -->
       </div>
       
-      <!-- Display an error if the input is invalid and is dirty (only when someone changes the value) -->
+      <!-- Número de identificación -->
       <div class="form-group" ng-class="{'has-error' : medicoForm.identificacion.$invalid && medicoForm.identificacion.$dirty}">
         <label for="identification">Identificacion:</label>
         <!-- Display a check when the field is valid and was modified -->
@@ -65,6 +76,7 @@
         <p class="help-block" ng-show="medicoForm.identificacion.$error.maxlength">La identifiacion no debe superar 20 digitos.</p>
       </div>
       
+      <!-- Género -->
       <div class="form-group" ng-class="{'has-error' : medicoForm.genero.$invalid && medicoForm.genero.$dirty}">
         <label for="genero">Genero:</label>
         <!-- Display a check when the field is valid and was modified -->
@@ -80,8 +92,7 @@
         <p class="help-block" ng-show="medicoForm.genero.$error.required">Seleccione genero.</p>
       </div>
       
-
-      <!-- Display an error if the input is invalid and is dirty (only when someone changes the value) -->
+      <!-- Fecha de nacimiento -->
       <div class="form-group" ng-class="{'has-error' : medicoForm.dateBirth.$invalid && medicoForm.dateBirth.$dirty}">
         <label for="dateBirth">Fecha de nacimiento:</label>
         <!-- Display a check when the field is valid and was modified -->
@@ -95,7 +106,7 @@
         <p class="help-block" ng-show="medicoForm.dateBirth.$error.required">Ingrese fecha de nacimiento.</p>
       </div>
       
-      <!-- Display an error if the input is invalid and is dirty (only when someone changes the value) -->
+      <!-- Tarjeta profesional -->
       <div class="form-group" ng-class="{'has-error' : medicoForm.tarjetaProfesional.$invalid && medicoForm.tarjetaProfesional.$dirty}">
         <label for="tarjetaProfesional">Identificacion:</label>
         <!-- Display a check when the field is valid and was modified -->
@@ -113,7 +124,7 @@
       <!-- Form buttons. The 'Save' button is only enabled when the form is valid. -->
       <div class="buttons">
         <button type="button" class="btn btn-primary" ng-click="cancelar()">Cancelar</button>
-        <button type="submit" class="btn btn-primary" ng-disabled="clienteForm.$invalid">Guardar</button>
+        <button type="submit" class="btn btn-primary" ng-disabled="medicoForm.$invalid">Guardar</button>
       </div>
     </form>
   </div>

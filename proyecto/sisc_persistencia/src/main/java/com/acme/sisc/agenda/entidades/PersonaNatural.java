@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -42,19 +43,17 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "PersonaNatural.findByGenero", query = "SELECT p FROM PersonaNatural p WHERE p.genero = :genero"),
     @NamedQuery(name = "PersonaNatural.findByFechaNacimiento", query = "SELECT p FROM PersonaNatural p WHERE p.fechaNacimiento = :fechaNacimiento"),
     @NamedQuery(name = "PersonaNatural.findByTelefonoCelular", query = "SELECT p FROM PersonaNatural p WHERE p.telefonoCelular = :telefonoCelular"),
-    @NamedQuery(name = "PersonaNatural.findByTelefonoFijo", query = "SELECT p FROM PersonaNatural p WHERE p.telefonoFijo = :telefonoFijo"),
+    @NamedQuery(name = "PersonaNa   tural.findByTelefonoFijo", query = "SELECT p FROM PersonaNatural p WHERE p.telefonoFijo = :telefonoFijo"),
     @NamedQuery(name = "PersonaNatural.findByDireccion", query = "SELECT p FROM PersonaNatural p WHERE p.direccion = :direccion"),
     @NamedQuery(name = "PersonaNatural.findByFotografia", query = "SELECT p FROM PersonaNatural p WHERE p.fotografia = :fotografia"),
     @NamedQuery(name = "PersonaNatural.findByRh", query = "SELECT p FROM PersonaNatural p WHERE p.rh = :rh"),
     @NamedQuery(name = "PersonaNatural.findByGrupoSanguineo", query = "SELECT p FROM PersonaNatural p WHERE p.grupoSanguineo = :grupoSanguineo"),
     @NamedQuery(name = "PersonaNatural.findByTarjetaProfesional", query = "SELECT p FROM PersonaNatural p WHERE p.tarjetaProfesional = :tarjetaProfesional")})
-public class PersonaNatural implements Serializable {
+public class PersonaNatural extends Persona implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "id_persona_natural")
-    private Long idPersonaNatural;
+    
+    
     @Column(name = "tipo_persona")
     private Short tipoPersona;
     @Basic(optional = false)
@@ -95,26 +94,18 @@ public class PersonaNatural implements Serializable {
     private String grupoSanguineo;
     @Column(name = "tarjeta_profesional")
     private String tarjetaProfesional;
-    
-    @OneToMany(mappedBy = "idPaciente")
+    @OneToMany(mappedBy = "idPersonaNatural")
     private List<PersonaEps> personaEpsList;
-    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPersonaNatural")
     private List<Cita> citaList;
     
-    @JoinColumn(name = "id_persona", referencedColumnName = "id_persona")
-    @OneToOne(optional = false)
-    private Persona idPersona;
+   
 
     public PersonaNatural() {
     }
 
-    public PersonaNatural(Long idPersonaNatural) {
-        this.idPersonaNatural = idPersonaNatural;
-    }
-
-    public PersonaNatural(Long idPersonaNatural, String correoElectronico, String nombres, String apellidos, Character genero, Date fechaNacimiento, long telefonoCelular, long telefonoFijo, String direccion, Character rh, String grupoSanguineo) {
-        this.idPersonaNatural = idPersonaNatural;
+    public PersonaNatural(String correoElectronico, String nombres, String apellidos, Character genero, Date fechaNacimiento, long telefonoCelular, long telefonoFijo, String direccion, Character rh, String grupoSanguineo) {
+        
         this.correoElectronico = correoElectronico;
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -127,14 +118,7 @@ public class PersonaNatural implements Serializable {
         this.grupoSanguineo = grupoSanguineo;
     }
 
-    public Long getIdPersonaNatural() {
-        return idPersonaNatural;
-    }
-
-    public void setIdPersonaNatural(Long idPersonaNatural) {
-        this.idPersonaNatural = idPersonaNatural;
-    }
-
+    
     public Short getTipoPersona() {
         return tipoPersona;
     }
@@ -265,37 +249,5 @@ public class PersonaNatural implements Serializable {
         this.citaList = citaList;
     }
 
-    public Persona getIdPersona() {
-        return idPersona;
-    }
-
-    public void setIdPersona(Persona idPersona) {
-        this.idPersona = idPersona;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idPersonaNatural != null ? idPersonaNatural.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PersonaNatural)) {
-            return false;
-        }
-        PersonaNatural other = (PersonaNatural) object;
-        if ((this.idPersonaNatural == null && other.idPersonaNatural != null) || (this.idPersonaNatural != null && !this.idPersonaNatural.equals(other.idPersonaNatural))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.acme.sisc.agenda.entidades.PersonaNatural[ idPersonaNatural=" + idPersonaNatural + " ]";
-    }
     
 }

@@ -58,11 +58,9 @@ public class Cita implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_agenda")
     private long idAgenda;
-    
     @JoinColumn(name = "id_persona_natural", referencedColumnName = "id_persona_natural")
     @ManyToOne(optional = false)
     private PersonaNatural idPersonaNatural;
-    
     @JoinColumn(name = "id_persona_eps", referencedColumnName = "id_persona_eps")
     @ManyToOne(optional = false)
     private PersonaEps idPersonaEps;

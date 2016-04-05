@@ -12,13 +12,13 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
     })
       
     .state('registroMedicos',{
-      url:'/medicos',
+      url:'/personaNatural',
       templateUrl: 'medicos/registroMedicos.html',
       controller: 'medicosController'
     })
   
     .state('registroPacientes',{
-      url: '/pacientes',
+      url: '/personaNatural',
       templateUrl: 'pacientes/registroPacientes.html',
       controller: 'pacientesController'
     });
