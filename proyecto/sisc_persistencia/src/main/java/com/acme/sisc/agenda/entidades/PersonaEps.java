@@ -12,6 +12,9 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,6 +24,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -32,122 +36,142 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "persona_eps")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "PersonaEps.findAll", query = "SELECT p FROM PersonaEps p"),
-    @NamedQuery(name = "PersonaEps.findByIdPersonaEps", query = "SELECT p FROM PersonaEps p WHERE p.idPersonaEps = :idPersonaEps"),
-    @NamedQuery(name = "PersonaEps.findByIdEps", query = "SELECT p FROM PersonaEps p WHERE p.idEps = :idEps"),
-    @NamedQuery(name = "PersonaEps.findByFechaInicio", query = "SELECT p FROM PersonaEps p WHERE p.fechaInicio = :fechaInicio"),
-    @NamedQuery(name = "PersonaEps.findByFechaFin", query = "SELECT p FROM PersonaEps p WHERE p.fechaFin = :fechaFin")})
+  @NamedQuery(name = "PersonaEps.findAll", query = "SELECT p FROM PersonaEps p"),
+  @NamedQuery(name = "PersonaEps.findByIdPersonaEps", query = "SELECT p FROM PersonaEps p WHERE p.idPersonaEps = :idPersonaEps"),
+  @NamedQuery(name = "PersonaEps.findByFechaInicio", query = "SELECT p FROM PersonaEps p WHERE p.fechaInicio = :fechaInicio"),
+  @NamedQuery(name = "PersonaEps.findByFechaFin", query = "SELECT p FROM PersonaEps p WHERE p.fechaFin = :fechaFin")})
 public class PersonaEps implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "id_persona_eps")
-    private Long idPersonaEps;
-    @Column(name = "id_eps")
-    private Long idEps;
-    @Column(name = "fecha_inicio")
-    @Temporal(TemporalType.DATE)
-    private Date fechaInicio;
-    @Column(name = "fecha_fin")
-    @Temporal(TemporalType.DATE)
-    private Date fechaFin;
-    @JoinColumn(name = "id_persona_natural", referencedColumnName = "id_persona_natural")
-    @ManyToOne
-    private PersonaNatural idPersonaNatural;
-    @JoinColumn(name = "id_persona_natural", referencedColumnName = "id_persona_juridica")
-    @ManyToOne
-    private PersonaJuridica idPersonaNatural1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPersonaEps")
-    private List<Cita> citaList;
+  private static final long serialVersionUID = 1L;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Basic(optional = false)
+  @Column(name = "id_persona_eps")
+  private Long idPersonaEps;
 
-    public PersonaEps() {
-    }
+  @Column(name = "fecha_inicio")
+  @Temporal(TemporalType.DATE)
+  private Date fechaInicio;
 
-    public PersonaEps(Long idPersonaEps) {
-        this.idPersonaEps = idPersonaEps;
-    }
+  @Column(name = "fecha_fin")
+  @Temporal(TemporalType.DATE)
+  private Date fechaFin;
 
-    public Long getIdPersonaEps() {
-        return idPersonaEps;
-    }
+  @JoinColumn(name = "id_persona", referencedColumnName = "id_persona")
+  @ManyToOne
+  private PersonaNatural persona;// Este atributo representa un Medico o un Paciente, segun el rol en PersonaNatural
 
-    public void setIdPersonaEps(Long idPersonaEps) {
-        this.idPersonaEps = idPersonaEps;
-    }
+  @JoinColumn(name = "id_eps", referencedColumnName = "id_persona")
+  @ManyToOne
+  private PersonaJuridica eps;
 
-    public Long getIdEps() {
-        return idEps;
-    }
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "pacienteEps", fetch = FetchType.LAZY)
+  private List<Cita> listaCitasPaciente;
+  
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "medicoEps", fetch = FetchType.LAZY)
+  private List<Cita> listaCitasMedico;
 
-    public void setIdEps(Long idEps) {
-        this.idEps = idEps;
-    }
+  
 
-    public Date getFechaInicio() {
-        return fechaInicio;
-    }
+  @Version
+  @Column(name = "VERSION")
+  private Long version;
 
-    public void setFechaInicio(Date fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
+  public PersonaEps() {
+  }
 
-    public Date getFechaFin() {
-        return fechaFin;
-    }
+  public PersonaEps(Long idPersonaEps) {
+    this.idPersonaEps = idPersonaEps;
+  }
 
-    public void setFechaFin(Date fechaFin) {
-        this.fechaFin = fechaFin;
-    }
+  public Long getIdPersonaEps() {
+    return idPersonaEps;
+  }
 
-    public PersonaNatural getIdPersonaNatural() {
-        return idPersonaNatural;
-    }
+  public void setIdPersonaEps(Long idPersonaEps) {
+    this.idPersonaEps = idPersonaEps;
+  }
 
-    public void setIdPersonaNatural(PersonaNatural idPersonaNatural) {
-        this.idPersonaNatural = idPersonaNatural;
-    }
+  public Date getFechaInicio() {
+    return fechaInicio;
+  }
 
-    public PersonaJuridica getIdPersonaNatural1() {
-        return idPersonaNatural1;
-    }
+  public void setFechaInicio(Date fechaInicio) {
+    this.fechaInicio = fechaInicio;
+  }
 
-    public void setIdPersonaNatural1(PersonaJuridica idPersonaNatural1) {
-        this.idPersonaNatural1 = idPersonaNatural1;
-    }
+  public Date getFechaFin() {
+    return fechaFin;
+  }
 
-    @XmlTransient
-    public List<Cita> getCitaList() {
-        return citaList;
-    }
+  public void setFechaFin(Date fechaFin) {
+    this.fechaFin = fechaFin;
+  }
 
-    public void setCitaList(List<Cita> citaList) {
-        this.citaList = citaList;
-    }
+  public PersonaNatural getPersona() {
+    return persona;
+  }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idPersonaEps != null ? idPersonaEps.hashCode() : 0);
-        return hash;
-    }
+  public void setPersona(PersonaNatural persona) {
+    this.persona = persona;
+  }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PersonaEps)) {
-            return false;
-        }
-        PersonaEps other = (PersonaEps) object;
-        if ((this.idPersonaEps == null && other.idPersonaEps != null) || (this.idPersonaEps != null && !this.idPersonaEps.equals(other.idPersonaEps))) {
-            return false;
-        }
-        return true;
-    }
+  public PersonaJuridica getEps() {
+    return eps;
+  }
 
-    @Override
-    public String toString() {
-        return "com.acme.sisc.agenda.entidades.PersonaEps[ idPersonaEps=" + idPersonaEps + " ]";
+  public void setEps(PersonaJuridica eps) {
+    this.eps = eps;
+  }
+
+  @XmlTransient
+  public List<Cita> getListaCitasPaciente() {
+    return listaCitasPaciente;
+  }
+
+  public void setListaCitasPaciente(List<Cita> listaCitasPaciente) {
+    this.listaCitasPaciente = listaCitasPaciente;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 0;
+    hash += (idPersonaEps != null ? idPersonaEps.hashCode() : 0);
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object object) {
+    // TODO: Warning - this method won't work in the case the id fields are not set
+    if (!(object instanceof PersonaEps)) {
+      return false;
     }
-    
+    PersonaEps other = (PersonaEps) object;
+    if ((this.idPersonaEps == null && other.idPersonaEps != null) || (this.idPersonaEps != null && !this.idPersonaEps.equals(other.idPersonaEps))) {
+      return false;
+    }
+    return true;
+  }
+
+  @Override
+  public String toString() {
+    return "com.acme.sisc.agenda.entidades.PersonaEps[ idPersonaEps=" + idPersonaEps + " ]";
+  }
+
+  public Long getVersion() {
+    return version;
+  }
+
+  public void setVersion(Long version) {
+    this.version = version;
+  }
+  
+  public List<Cita> getListaCitasMedico() {
+    return listaCitasMedico;
+  }
+
+  public void setListaCitasMedico(List<Cita> listaCitasMedico) {
+    this.listaCitasMedico = listaCitasMedico;
+  }
+
 }

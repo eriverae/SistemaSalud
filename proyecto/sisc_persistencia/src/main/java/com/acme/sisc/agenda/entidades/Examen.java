@@ -6,6 +6,7 @@
 package com.acme.sisc.agenda.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -18,7 +19,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
@@ -31,78 +31,78 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author GABRIEL
  */
 @Entity
-@Table(name = "cirugia")
+@Table(name = "examen")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Cirugia.findAll", query = "SELECT c FROM Cirugia c"),
-    @NamedQuery(name = "Cirugia.findByIdCirugia", query = "SELECT c FROM Cirugia c WHERE c.idCirugia = :idCirugia"),
-    @NamedQuery(name = "Cirugia.findByNombreCirugia", query = "SELECT c FROM Cirugia c WHERE c.nombreCirugia = :nombreCirugia")})
-public class Cirugia implements Serializable {
+    @NamedQuery(name = "Examen.findAll", query = "SELECT e FROM Examen e"),
+    @NamedQuery(name = "Examen.findByIdExamen", query = "SELECT e FROM Examen e WHERE e.idExamen = :idExamen"),
+    @NamedQuery(name = "Examen.findByNombreExamen", query = "SELECT e FROM Examen e WHERE e.nombreExamen = :nombreExamen")})
+public class Examen implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
-    @Column(name = "id_cirugia")
-    private Long idCirugia;
+    @Column(name = "id_examen")
+    private Long idExamen;
     @Size(max = 150)
-    @Column(name = "nombre_cirugia")
-    private String nombreCirugia;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cirugia", fetch = FetchType.LAZY)
-    private List<CitaCirugia> citaCirugiaList;
-
+    @Column(name = "nombre_examen")
+    private String nombreExamen;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "examen", fetch = FetchType.LAZY)
+    private List<CitaExamen> citaExamenList;
+    
     @Version
     @Column(name = "VERSION")
     private Long version;
     
-    public Cirugia() {
+    public Examen() {
     }
 
-    public Cirugia(Long idCirugia) {
-        this.idCirugia = idCirugia;
+    public Examen(Long idExamen) {
+        this.idExamen = idExamen;
     }
 
-    public Long getIdCirugia() {
-        return idCirugia;
+    public Long getIdExamen() {
+        return idExamen;
     }
 
-    public void setIdCirugia(Long idCirugia) {
-        this.idCirugia = idCirugia;
+    public void setIdExamen(Long idExamen) {
+        this.idExamen = idExamen;
     }
 
-    public String getNombreCirugia() {
-        return nombreCirugia;
+    public String getNombreExamen() {
+        return nombreExamen;
     }
 
-    public void setNombreCirugia(String nombreCirugia) {
-        this.nombreCirugia = nombreCirugia;
+    public void setNombreExamen(String nombreExamen) {
+        this.nombreExamen = nombreExamen;
     }
 
     @XmlTransient
-    public List<CitaCirugia> getCitaCirugiaList() {
-        return citaCirugiaList;
+    public List<CitaExamen> getCitaExamenList() {
+        return citaExamenList;
     }
 
-    public void setCitaCirugiaList(List<CitaCirugia> citaCirugiaList) {
-        this.citaCirugiaList = citaCirugiaList;
+    public void setCitaExamenList(List<CitaExamen> citaExamenList) {
+        this.citaExamenList = citaExamenList;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idCirugia != null ? idCirugia.hashCode() : 0);
+        hash += (idExamen != null ? idExamen.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Cirugia)) {
+        if (!(object instanceof Examen)) {
             return false;
         }
-        Cirugia other = (Cirugia) object;
-        if ((this.idCirugia == null && other.idCirugia != null) || (this.idCirugia != null && !this.idCirugia.equals(other.idCirugia))) {
+        Examen other = (Examen) object;
+        if ((this.idExamen == null && other.idExamen != null) || (this.idExamen != null && !this.idExamen.equals(other.idExamen))) {
             return false;
         }
         return true;
@@ -110,7 +110,7 @@ public class Cirugia implements Serializable {
 
     @Override
     public String toString() {
-        return "com.acme.sisc.agenda.entidades.Cirugia[ idCirugia=" + idCirugia + " ]";
+        return "com.acme.sisc.agenda.entidades.Examen[ idExamen=" + idExamen + " ]";
     }
 
     public Long getVersion() {

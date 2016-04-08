@@ -6,78 +6,86 @@
 package com.acme.sisc.agenda.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Julio
+ * @author GABRIEL
  */
 @Entity
 @Table(name = "incapacidad")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Incapacidad.findAll", query = "SELECT i FROM Incapacidad i"),
-    @NamedQuery(name = "Incapacidad.findByIdincapacidad", query = "SELECT i FROM Incapacidad i WHERE i.idincapacidad = :idincapacidad"),
-    @NamedQuery(name = "Incapacidad.findByIdpersona", query = "SELECT i FROM Incapacidad i WHERE i.idpersona = :idpersona"),
+    @NamedQuery(name = "Incapacidad.findByIdincapacidad", query = "SELECT i FROM Incapacidad i WHERE i.idIncapacidad = :idIncapacidad"),
     @NamedQuery(name = "Incapacidad.findByPeriodo", query = "SELECT i FROM Incapacidad i WHERE i.periodo = :periodo"),
-    @NamedQuery(name = "Incapacidad.findByMotivo", query = "SELECT i FROM Incapacidad i WHERE i.motivo = :motivo")})
+    @NamedQuery(name = "Incapacidad.findByMotivo", query = "SELECT i FROM Incapacidad i WHERE i.motivo = :motivo"),
+    @NamedQuery(name = "Incapacidad.findByFechaGeneracion", query = "SELECT i FROM Incapacidad i WHERE i.fechaGeneracion = :fechaGeneracion")})
 public class Incapacidad implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "idincapacidad")
-    private Long idincapacidad;
+    @NotNull
+    @Column(name = "id_incapacidad")
+    private Long idIncapacidad;
     @Basic(optional = false)
-    @Column(name = "idpersona")
-    private long idpersona;
-    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 150)
     @Column(name = "periodo")
     private String periodo;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2147483647)
     @Column(name = "motivo")
     private String motivo;
-    @JoinColumn(name = "id_persona", referencedColumnName = "id_persona")
-    @ManyToOne(optional = false)
-    private Persona idPersona;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "fecha_generacion")
+    @Temporal(TemporalType.DATE)
+    private Date fechaGeneracion;
+    @JoinColumn(name = "id_cita", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Cita cita;
 
     public Incapacidad() {
     }
 
     public Incapacidad(Long idincapacidad) {
-        this.idincapacidad = idincapacidad;
+        this.idIncapacidad = idincapacidad;
     }
 
-    public Incapacidad(Long idincapacidad, long idpersona, String periodo, String motivo) {
-        this.idincapacidad = idincapacidad;
-        this.idpersona = idpersona;
+    public Incapacidad(Long idincapacidad, String periodo, String motivo, Date fechaGeneracion) {
+        this.idIncapacidad = idincapacidad;
         this.periodo = periodo;
         this.motivo = motivo;
+        this.fechaGeneracion = fechaGeneracion;
     }
 
     public Long getIdincapacidad() {
-        return idincapacidad;
+        return idIncapacidad;
     }
 
-    public void setIdincapacidad(Long idincapacidad) {
-        this.idincapacidad = idincapacidad;
-    }
-
-    public long getIdpersona() {
-        return idpersona;
-    }
-
-    public void setIdpersona(long idpersona) {
-        this.idpersona = idpersona;
+    public void setIdincapacidad(Long idIncapacidad) {
+        this.idIncapacidad = idIncapacidad;
     }
 
     public String getPeriodo() {
@@ -96,18 +104,26 @@ public class Incapacidad implements Serializable {
         this.motivo = motivo;
     }
 
-    public Persona getIdPersona() {
-        return idPersona;
+    public Date getFechaGeneracion() {
+        return fechaGeneracion;
     }
 
-    public void setIdPersona(Persona idPersona) {
-        this.idPersona = idPersona;
+    public void setFechaGeneracion(Date fechaGeneracion) {
+        this.fechaGeneracion = fechaGeneracion;
+    }
+
+    public Cita getCita() {
+        return cita;
+    }
+
+    public void setCita(Cita cita) {
+        this.cita = cita;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idincapacidad != null ? idincapacidad.hashCode() : 0);
+        hash += (idIncapacidad != null ? idIncapacidad.hashCode() : 0);
         return hash;
     }
 
@@ -118,7 +134,7 @@ public class Incapacidad implements Serializable {
             return false;
         }
         Incapacidad other = (Incapacidad) object;
-        if ((this.idincapacidad == null && other.idincapacidad != null) || (this.idincapacidad != null && !this.idincapacidad.equals(other.idincapacidad))) {
+        if ((this.idIncapacidad == null && other.idIncapacidad != null) || (this.idIncapacidad != null && !this.idIncapacidad.equals(other.idIncapacidad))) {
             return false;
         }
         return true;
@@ -126,7 +142,7 @@ public class Incapacidad implements Serializable {
 
     @Override
     public String toString() {
-        return "com.acme.sisc.agenda.entidades.Incapacidad[ idincapacidad=" + idincapacidad + " ]";
+        return "com.acme.sisc.agenda.entidades.Incapacidad[ idIncapacidad=" + idIncapacidad + " ]";
     }
     
 }
