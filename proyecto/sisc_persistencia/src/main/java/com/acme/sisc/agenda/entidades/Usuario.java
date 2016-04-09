@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
+    @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.usuaEmail = :email"),
     @NamedQuery(name = "Usuario.findByUsuaUsua", query = "SELECT u FROM Usuario u WHERE u.usuaUsua = :usuaUsua")})
 public class Usuario implements Serializable {
 
@@ -68,10 +69,12 @@ public class Usuario implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date usuaUsumd;
     @Column(name = "usua_block")
-    private String usuaBlock;
+    private boolean usuaBlock;
+    /* Este Atributo no va
     @Basic(optional = false)
     @Column(name = "usua_persn")
     private long usuaPersn;
+    */
     @Basic(optional = false)
     @Column(name = "usua_conta")
     private long usuaConta;
@@ -98,7 +101,7 @@ public class Usuario implements Serializable {
         this.usuaUsua = usuaUsua;
     }
 
-    public Usuario(Long usuaUsua, String usuaEmail, String usuaPass, String usuaEsta, String usuaUsucs, Date usuaUsucd, String usuaUsums, Date usuaUsumd, long usuaPersn, long usuaConta) {
+    public Usuario(Long usuaUsua, String usuaEmail, String usuaPass, String usuaEsta, String usuaUsucs, Date usuaUsucd, String usuaUsums, Date usuaUsumd, long usuaConta) {
         this.usuaUsua = usuaUsua;
         this.usuaEmail = usuaEmail;
         this.usuaPass = usuaPass;
@@ -107,7 +110,6 @@ public class Usuario implements Serializable {
         this.usuaUsucd = usuaUsucd;
         this.usuaUsums = usuaUsums;
         this.usuaUsumd = usuaUsumd;
-        this.usuaPersn = usuaPersn;
         this.usuaConta = usuaConta;
     }
 
@@ -175,20 +177,12 @@ public class Usuario implements Serializable {
         this.usuaUsumd = usuaUsumd;
     }
 
-    public String getUsuaBlock() {
+    public boolean   getUsuaBlock() {
         return usuaBlock;
     }
 
-    public void setUsuaBlock(String usuaBlock) {
+    public void setUsuaBlock(boolean usuaBlock) {
         this.usuaBlock = usuaBlock;
-    }
-
-    public long getUsuaPersn() {
-        return usuaPersn;
-    }
-
-    public void setUsuaPersn(long usuaPersn) {
-        this.usuaPersn = usuaPersn;
     }
 
     public long getUsuaConta() {

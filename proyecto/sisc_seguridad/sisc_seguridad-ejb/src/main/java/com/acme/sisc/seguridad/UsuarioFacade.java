@@ -7,6 +7,7 @@ package com.acme.sisc.seguridad;
 
 import com.acme.sisc.agenda.entidades.Usuario;
 import com.acme.sisc.seguridad.exceptions.SeguridadException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -39,21 +40,29 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
     @Override
     public void crearUsuario(Usuario usuario) throws SeguridadException{
         LOGGER.info("Inicia Usuario(...)");
+        
         Usuario u = findByEmail(usuario.getUsuaEmail());
         if (u != null){
-            em.lock(u, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
             LOGGER.warning("Usuario "+ usuario.getUsuaEmail() + " ya existe !!");
             throw new SeguridadException("El usuario " +usuario.getUsuaEmail() +" ya existe en el sistema");
         }
-        //em.persist(usuario);
+        
+        usuario.setUsuaBlock(true);
+        usuario.setUsuaConta(0);
+        usuario.setUsuaEsta("Activo");
+        usuario.setUsuaUsucd(new Date());
+        usuario.setUsuaUsucs("Administrador");
+        usuario.setUsuaUsumd(new Date());
+        usuario.setUsuaUsums("El usuario mismo");        
+        em.persist(usuario);
     }
 
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Override
     public Usuario findByEmail(String email) {
         LOGGER.log(Level.FINE,"Consulta cliente {0}",  email);
-        Query  q = em.createNamedQuery("Usuario.findByUsuaEmail");
-        q.setParameter("usuaEmail", email);
+        Query  q = em.createNamedQuery("Usuario.findByEmail");
+        q.setParameter("email", email);
         try{
             return (Usuario) q.getSingleResult();
         }catch(NoResultException e){
