@@ -17,7 +17,7 @@
     <class>com.acme.sisc.agenda.entidades.PersonaNaturalOperacion</class>
     <class>com.acme.sisc.agenda.entidades.TipoPersonaNatural</class>
     <class>com.acme.sisc.agenda.entidades.Alergia</class>
-    <class>com.acme.sisc.agenda.entidades.Agenda</class>
+   
     <class>com.acme.sisc.agenda.entidades.PersonaNaturalAlergia</class>
     <class>com.acme.sisc.agenda.entidades.Auditusu</class>
     <class>com.acme.sisc.agenda.entidades.PersonaNaturalEnfermedad</class>
@@ -29,6 +29,7 @@
     <class>com.acme.sisc.agenda.entidades.Alergia</class>
     <class>com.acme.sisc.agenda.entidades.PersonaNaturalAlergia</class>
     <class>com.acme.sisc.agenda.entidades.Cita</class>
+    <class>com.acme.sisc.agenda.entidades.Agenda</class>
     <class>com.acme.sisc.agenda.entidades.Examen</class>
     <!--
     
@@ -65,6 +66,7 @@
     <validation-mode>NONE</validation-mode>
     <properties>
       <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
 </persistence>
