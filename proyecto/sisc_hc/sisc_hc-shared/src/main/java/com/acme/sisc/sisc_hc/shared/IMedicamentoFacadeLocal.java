@@ -5,9 +5,11 @@
  */
 package com.acme.sisc.sisc_hc.shared;
 
+import com.acme.sisc.agenda.entidades.CitaMedicamento;
 import com.acme.sisc.agenda.entidades.Medicamento;
 import java.util.List;
 import javax.ejb.Local;
+import org.json.*;
 
 /**
  *
@@ -16,5 +18,6 @@ import javax.ejb.Local;
 @Local
 public interface IMedicamentoFacadeLocal {
     Medicamento find(Object id);
-    List<Medicamento> findAll();   
+    List<Medicamento> findAll();
+    void addMedicamentoCita(List<CitaMedicamento> listaMedicamentos);
 }
