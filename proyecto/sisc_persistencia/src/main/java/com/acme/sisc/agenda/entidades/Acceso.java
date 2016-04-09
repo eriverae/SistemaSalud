@@ -9,10 +9,13 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -25,13 +28,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Acceso.findAll", query = "SELECT a FROM Acceso a"),
     @NamedQuery(name = "Acceso.findByAcceAcce", query = "SELECT a FROM Acceso a WHERE a.acceAcce = :acceAcce"),
-    @NamedQuery(name = "Acceso.findByAcceNombre", query = "SELECT a FROM Acceso a WHERE a.acceNombre = :acceNombre"),
-    @NamedQuery(name = "Acceso.findByAcceDesc", query = "SELECT a FROM Acceso a WHERE a.acceDesc = :acceDesc"),
-    @NamedQuery(name = "Acceso.findByAcceEsta", query = "SELECT a FROM Acceso a WHERE a.acceEsta = :acceEsta")})
+    @NamedQuery(name = "Acceso.findByAcceNombre", query = "SELECT a FROM Acceso a WHERE a.acceNombre = :acceNombre")})
 public class Acceso implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "acce_acce")
     private Long acceAcce;
@@ -44,6 +46,10 @@ public class Acceso implements Serializable {
     @Basic(optional = false)
     @Column(name = "acce_esta")
     private String acceEsta;
+    
+    @Version
+    @Column(name = "VERSION")
+    private Long version;
 
     public Acceso() {
     }
@@ -114,6 +120,20 @@ public class Acceso implements Serializable {
     @Override
     public String toString() {
         return "com.acme.sisc.agenda.entidades.Acceso[ acceAcce=" + acceAcce + " ]";
+    }
+    
+    /**
+     * @return the version
+     */
+    public Long getVersion() {
+      return version;
+    }
+
+    /**
+     * @param version the version to set
+     */
+    public void setVersion(Long version) {
+      this.version = version;
     }
     
 }

@@ -9,10 +9,15 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -34,6 +39,7 @@ public class LogNotifica implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "lgno_lgno")
     private Long lgnoLgno;
@@ -51,6 +57,22 @@ public class LogNotifica implements Serializable {
     @Basic(optional = false)
     @Column(name = "lgno_pers")
     private long lgnoPers;
+    
+    @Version
+    @Column(name = "VERSION")
+    private Long version;
+    
+    @JoinColumn(name = "id_persona", referencedColumnName = "id_persona")
+    @ManyToOne(optional = false)
+    private Persona persona;
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
 
     public LogNotifica() {
     }
@@ -138,6 +160,14 @@ public class LogNotifica implements Serializable {
     @Override
     public String toString() {
         return "com.acme.sisc.agenda.entidades.LogNotifica[ lgnoLgno=" + lgnoLgno + " ]";
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
     
 }

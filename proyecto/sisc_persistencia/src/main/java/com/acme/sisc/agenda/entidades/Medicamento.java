@@ -6,18 +6,28 @@
 package com.acme.sisc.agenda.entidades;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Julio
+ * @author GABRIEL
  */
 @Entity
 @Table(name = "medicamento")
@@ -30,13 +40,23 @@ public class Medicamento implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id_medicamento")
     private Long idMedicamento;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 150)
     @Column(name = "nombre_medicamento")
     private String nombreMedicamento;
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "medicamento", fetch = FetchType.LAZY)
+    private List<CitaMedicamento> citaMedicamentoList;
+    
+    @Version
+    @Column(name = "VERSION")
+    private Long version;
+    
     public Medicamento() {
     }
 
@@ -65,6 +85,15 @@ public class Medicamento implements Serializable {
         this.nombreMedicamento = nombreMedicamento;
     }
 
+    @XmlTransient
+    public List<CitaMedicamento> getCitaMedicamentoList() {
+        return citaMedicamentoList;
+    }
+
+    public void setCitaMedicamentoList(List<CitaMedicamento> citaMedicamentoList) {
+        this.citaMedicamentoList = citaMedicamentoList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -88,6 +117,14 @@ public class Medicamento implements Serializable {
     @Override
     public String toString() {
         return "com.acme.sisc.agenda.entidades.Medicamento[ idMedicamento=" + idMedicamento + " ]";
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
     
 }

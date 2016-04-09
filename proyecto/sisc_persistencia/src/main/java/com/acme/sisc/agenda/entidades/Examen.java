@@ -6,18 +6,29 @@
 package com.acme.sisc.agenda.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Julio
+ * @author GABRIEL
  */
 @Entity
 @Table(name = "examen")
@@ -30,12 +41,21 @@ public class Examen implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id_examen")
     private Long idExamen;
+    @Size(max = 150)
     @Column(name = "nombre_examen")
     private String nombreExamen;
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "examen", fetch = FetchType.LAZY)
+    private List<CitaExamen> citaExamenList;
+    
+    @Version
+    @Column(name = "VERSION")
+    private Long version;
+    
     public Examen() {
     }
 
@@ -57,6 +77,15 @@ public class Examen implements Serializable {
 
     public void setNombreExamen(String nombreExamen) {
         this.nombreExamen = nombreExamen;
+    }
+
+    @XmlTransient
+    public List<CitaExamen> getCitaExamenList() {
+        return citaExamenList;
+    }
+
+    public void setCitaExamenList(List<CitaExamen> citaExamenList) {
+        this.citaExamenList = citaExamenList;
     }
 
     @Override
@@ -82,6 +111,14 @@ public class Examen implements Serializable {
     @Override
     public String toString() {
         return "com.acme.sisc.agenda.entidades.Examen[ idExamen=" + idExamen + " ]";
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
     
 }

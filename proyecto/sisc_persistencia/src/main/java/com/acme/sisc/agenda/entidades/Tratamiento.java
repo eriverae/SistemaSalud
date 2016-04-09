@@ -6,18 +6,27 @@
 package com.acme.sisc.agenda.entidades;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Julio
+ * @author GABRIEL
  */
 @Entity
 @Table(name = "tratamiento")
@@ -30,11 +39,16 @@ public class Tratamiento implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id_tratamiento")
     private Long idTratamiento;
+    @Size(max = 150)
     @Column(name = "nombre_tratamiento")
     private String nombreTratamiento;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tratamiento", fetch = FetchType.LAZY)
+    private List<CitaTratamiento> citaTratamientoList;
 
     public Tratamiento() {
     }
@@ -82,6 +96,15 @@ public class Tratamiento implements Serializable {
     @Override
     public String toString() {
         return "com.acme.sisc.agenda.entidades.Tratamiento[ idTratamiento=" + idTratamiento + " ]";
+    }
+    
+    @XmlTransient
+    public List<CitaTratamiento> getCitaTratamientoList() {
+        return citaTratamientoList;
+    }
+
+    public void setCitaTratamientoList(List<CitaTratamiento> citaTratamientoList) {
+        this.citaTratamientoList = citaTratamientoList;
     }
     
 }

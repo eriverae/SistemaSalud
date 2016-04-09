@@ -6,11 +6,19 @@
 package com.acme.sisc.agenda.entidades;
 
 import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -21,38 +29,38 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "grupusu")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Grupusu.findAll", query = "SELECT g FROM Grupusu g"),
-    @NamedQuery(name = "Grupusu.findByGrusGrup", query = "SELECT g FROM Grupusu g WHERE g.grupusuPK.grusGrup = :grusGrup"),
-    @NamedQuery(name = "Grupusu.findByGrusUsua", query = "SELECT g FROM Grupusu g WHERE g.grupusuPK.grusUsua = :grusUsua")})
+    @NamedQuery(name = "Grupusu.findAll", query = "SELECT g FROM Grupusu g")})
 public class Grupusu implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected GrupusuPK grupusuPK;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id_grupusu")
+    private Long idGrupusu;
+    
+    @Version
+    @Column(name = "VERSION")
+    private Long version;
+
+    @JoinColumn(name = "acce_acce", referencedColumnName = "acce_acce")
+    @ManyToOne
+    private Acceso acceso;
+    
+    @JoinColumn(name = "usua_usua", referencedColumnName = "usua_usua")
+    @ManyToOne
+    private Usuario usuario;
+    
+    
     public Grupusu() {
     }
 
-    public Grupusu(GrupusuPK grupusuPK) {
-        this.grupusuPK = grupusuPK;
-    }
-
-    public Grupusu(long grusGrup, long grusUsua) {
-        this.grupusuPK = new GrupusuPK(grusGrup, grusUsua);
-    }
-
-    public GrupusuPK getGrupusuPK() {
-        return grupusuPK;
-    }
-
-    public void setGrupusuPK(GrupusuPK grupusuPK) {
-        this.grupusuPK = grupusuPK;
-    }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (grupusuPK != null ? grupusuPK.hashCode() : 0);
+        hash += (idGrupusu != null ? idGrupusu.hashCode() : 0);
         return hash;
     }
 
@@ -63,7 +71,7 @@ public class Grupusu implements Serializable {
             return false;
         }
         Grupusu other = (Grupusu) object;
-        if ((this.grupusuPK == null && other.grupusuPK != null) || (this.grupusuPK != null && !this.grupusuPK.equals(other.grupusuPK))) {
+        if ((this.idGrupusu == null && other.idGrupusu != null) || (this.idGrupusu != null && !this.idGrupusu.equals(other.idGrupusu))) {
             return false;
         }
         return true;
@@ -71,7 +79,39 @@ public class Grupusu implements Serializable {
 
     @Override
     public String toString() {
-        return "com.acme.sisc.agenda.entidades.Grupusu[ grupusuPK=" + grupusuPK + " ]";
+        return "com.acme.sisc.agenda.entidades.Grupusu[ grupusuPK=" + idGrupusu + " ]";
+    }
+
+    public Long getIdGrupusu() {
+        return idGrupusu;
+    }
+
+    public void setIdGrupusu(Long idGrupusu) {
+        this.idGrupusu = idGrupusu;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public Acceso getAcceso() {
+        return acceso;
+    }
+
+    public void setAcceso(Acceso acceso) {
+        this.acceso = acceso;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
     
 }

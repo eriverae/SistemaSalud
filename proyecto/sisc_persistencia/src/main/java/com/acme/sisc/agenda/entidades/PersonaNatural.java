@@ -13,16 +13,15 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -31,223 +30,214 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Julio
  */
 @Entity
+@DiscriminatorValue("NATURAL")
 @Table(name = "persona_natural")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "PersonaNatural.findAll", query = "SELECT p FROM PersonaNatural p"),
-    @NamedQuery(name = "PersonaNatural.findByIdPersonaNatural", query = "SELECT p FROM PersonaNatural p WHERE p.idPersonaNatural = :idPersonaNatural"),
-    @NamedQuery(name = "PersonaNatural.findByTipoPersona", query = "SELECT p FROM PersonaNatural p WHERE p.tipoPersona = :tipoPersona"),
-    @NamedQuery(name = "PersonaNatural.findByCorreoElectronico", query = "SELECT p FROM PersonaNatural p WHERE p.correoElectronico = :correoElectronico"),
-    @NamedQuery(name = "PersonaNatural.findByNombres", query = "SELECT p FROM PersonaNatural p WHERE p.nombres = :nombres"),
-    @NamedQuery(name = "PersonaNatural.findByApellidos", query = "SELECT p FROM PersonaNatural p WHERE p.apellidos = :apellidos"),
-    @NamedQuery(name = "PersonaNatural.findByGenero", query = "SELECT p FROM PersonaNatural p WHERE p.genero = :genero"),
-    @NamedQuery(name = "PersonaNatural.findByFechaNacimiento", query = "SELECT p FROM PersonaNatural p WHERE p.fechaNacimiento = :fechaNacimiento"),
-    @NamedQuery(name = "PersonaNatural.findByTelefonoCelular", query = "SELECT p FROM PersonaNatural p WHERE p.telefonoCelular = :telefonoCelular"),
-    @NamedQuery(name = "PersonaNa   tural.findByTelefonoFijo", query = "SELECT p FROM PersonaNatural p WHERE p.telefonoFijo = :telefonoFijo"),
-    @NamedQuery(name = "PersonaNatural.findByDireccion", query = "SELECT p FROM PersonaNatural p WHERE p.direccion = :direccion"),
-    @NamedQuery(name = "PersonaNatural.findByFotografia", query = "SELECT p FROM PersonaNatural p WHERE p.fotografia = :fotografia"),
-    @NamedQuery(name = "PersonaNatural.findByRh", query = "SELECT p FROM PersonaNatural p WHERE p.rh = :rh"),
-    @NamedQuery(name = "PersonaNatural.findByGrupoSanguineo", query = "SELECT p FROM PersonaNatural p WHERE p.grupoSanguineo = :grupoSanguineo"),
-    @NamedQuery(name = "PersonaNatural.findByTarjetaProfesional", query = "SELECT p FROM PersonaNatural p WHERE p.tarjetaProfesional = :tarjetaProfesional")})
+  @NamedQuery(name = "PersonaNatural.findAll", query = "SELECT p FROM PersonaNatural p"),
+  @NamedQuery(name = "PersonaNatural.findByCorreoElectronico", query = "SELECT p FROM PersonaNatural p WHERE p.correoElectronico = :correoElectronico"),
+  @NamedQuery(name = "PersonaNatural.findByNombres", query = "SELECT p FROM PersonaNatural p WHERE p.nombres = :nombres"),
+  @NamedQuery(name = "PersonaNatural.findByApellidos", query = "SELECT p FROM PersonaNatural p WHERE p.apellidos = :apellidos")
+})
 public class PersonaNatural extends Persona implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    
-    
-    @Column(name = "tipo_persona")
-    private Short tipoPersona;
-    @Basic(optional = false)
-    @Column(name = "correo_electronico")
-    private String correoElectronico;
-    @Basic(optional = false)
-    @Column(name = "nombres")
-    private String nombres;
-    @Basic(optional = false)
-    @Column(name = "apellidos")
-    private String apellidos;
-    @Basic(optional = false)
-    @Column(name = "genero")
-    private Character genero;
-    @Basic(optional = false)
-    @Column(name = "fecha_nacimiento")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaNacimiento;
-    @Basic(optional = false)
-    @Column(name = "telefono_celular")
-    private long telefonoCelular;
-    @Basic(optional = false)
-    @Column(name = "telefono_fijo")
-    private long telefonoFijo;
-    @Basic(optional = false)
-    @Column(name = "direccion")
-    private String direccion;
-    @Column(name = "fotografia")
-    private String fotografia;
-    @Lob
-    @Column(name = "huella")
-    private byte[] huella;
-    @Basic(optional = false)
-    @Column(name = "rh")
-    private Character rh;
-    @Basic(optional = false)
-    @Column(name = "grupo_sanguineo")
-    private String grupoSanguineo;
-    @Column(name = "tarjeta_profesional")
-    private String tarjetaProfesional;
-    @OneToMany(mappedBy = "idPersonaNatural")
-    private List<PersonaEps> personaEpsList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPersonaNatural")
-    private List<Cita> citaList;
-    
-   
+  private static final long serialVersionUID = 1L;
 
-    public PersonaNatural() {
-    }
+  @Basic(optional = false)
+  @Column(name = "correo_electronico")
+  private String correoElectronico;
+  @Basic(optional = false)
+  @Column(name = "nombres")
+  private String nombres;
+  @Basic(optional = false)
+  @Column(name = "apellidos")
+  private String apellidos;
+  @Basic(optional = false)
+  @Column(name = "genero")
+  private Character genero;
+  @Basic(optional = false)
+  @Column(name = "fecha_nacimiento")
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date fechaNacimiento;
+  @Basic(optional = false)
+  @Column(name = "telefono_celular")
+  private long telefonoCelular;
+  @Basic(optional = false)
+  @Column(name = "telefono_fijo")
+  private long telefonoFijo;
+  @Basic(optional = false)
+  @Column(name = "direccion")
+  private String direccion;
+  @Column(name = "fotografia")
+  private String fotografia;
+  @Lob
+  @Column(name = "huella")
+  private byte[] huella;
+  @Basic(optional = false)
+  @Column(name = "rh")
+  private Character rh;
+  @Basic(optional = false)
 
-    public PersonaNatural(String correoElectronico, String nombres, String apellidos, Character genero, Date fechaNacimiento, long telefonoCelular, long telefonoFijo, String direccion, Character rh, String grupoSanguineo) {
-        
-        this.correoElectronico = correoElectronico;
-        this.nombres = nombres;
-        this.apellidos = apellidos;
-        this.genero = genero;
-        this.fechaNacimiento = fechaNacimiento;
-        this.telefonoCelular = telefonoCelular;
-        this.telefonoFijo = telefonoFijo;
-        this.direccion = direccion;
-        this.rh = rh;
-        this.grupoSanguineo = grupoSanguineo;
-    }
+  @Column(name = "grupo_sanguineo")
+  private String grupoSanguineo;
 
-    
-    public Short getTipoPersona() {
-        return tipoPersona;
-    }
+  @Column(name = "tarjeta_profesional")
+  private String tarjetaProfesional;
 
-    public void setTipoPersona(Short tipoPersona) {
-        this.tipoPersona = tipoPersona;
-    }
+  @Column(name = "rol_persona_natural")
+  private String rolPersonaNatutal;
 
-    public String getCorreoElectronico() {
-        return correoElectronico;
-    }
+  @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY)
+  private List<PersonaEps> listaPersonasEps;
 
-    public void setCorreoElectronico(String correoElectronico) {
-        this.correoElectronico = correoElectronico;
-    }
 
-    public String getNombres() {
-        return nombres;
-    }
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "paciente", fetch = FetchType.LAZY)
+  private List<PersonaNaturalAlergia> listaAlergias;
 
-    public void setNombres(String nombres) {
-        this.nombres = nombres;
-    }
+  public PersonaNatural() {
+  }
 
-    public String getApellidos() {
-        return apellidos;
-    }
+  public PersonaNatural(String correoElectronico, String nombres, String apellidos, Character genero, Date fechaNacimiento, long telefonoCelular, long telefonoFijo, String direccion, Character rh, String grupoSanguineo) {
 
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
+    this.correoElectronico = correoElectronico;
+    this.nombres = nombres;
+    this.apellidos = apellidos;
+    this.genero = genero;
+    this.fechaNacimiento = fechaNacimiento;
+    this.telefonoCelular = telefonoCelular;
+    this.telefonoFijo = telefonoFijo;
+    this.direccion = direccion;
+    this.rh = rh;
+    this.grupoSanguineo = grupoSanguineo;
+  }
 
-    public Character getGenero() {
-        return genero;
-    }
+  public String getCorreoElectronico() {
+    return correoElectronico;
+  }
 
-    public void setGenero(Character genero) {
-        this.genero = genero;
-    }
+  public void setCorreoElectronico(String correoElectronico) {
+    this.correoElectronico = correoElectronico;
+  }
 
-    public Date getFechaNacimiento() {
-        return fechaNacimiento;
-    }
+  public String getNombres() {
+    return nombres;
+  }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
+  public void setNombres(String nombres) {
+    this.nombres = nombres;
+  }
 
-    public long getTelefonoCelular() {
-        return telefonoCelular;
-    }
+  public String getApellidos() {
+    return apellidos;
+  }
 
-    public void setTelefonoCelular(long telefonoCelular) {
-        this.telefonoCelular = telefonoCelular;
-    }
+  public void setApellidos(String apellidos) {
+    this.apellidos = apellidos;
+  }
 
-    public long getTelefonoFijo() {
-        return telefonoFijo;
-    }
+  public Character getGenero() {
+    return genero;
+  }
 
-    public void setTelefonoFijo(long telefonoFijo) {
-        this.telefonoFijo = telefonoFijo;
-    }
+  public void setGenero(Character genero) {
+    this.genero = genero;
+  }
 
-    public String getDireccion() {
-        return direccion;
-    }
+  public Date getFechaNacimiento() {
+    return fechaNacimiento;
+  }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
+  public void setFechaNacimiento(Date fechaNacimiento) {
+    this.fechaNacimiento = fechaNacimiento;
+  }
 
-    public String getFotografia() {
-        return fotografia;
-    }
+  public long getTelefonoCelular() {
+    return telefonoCelular;
+  }
 
-    public void setFotografia(String fotografia) {
-        this.fotografia = fotografia;
-    }
+  public void setTelefonoCelular(long telefonoCelular) {
+    this.telefonoCelular = telefonoCelular;
+  }
 
-    public byte[] getHuella() {
-        return huella;
-    }
+  public long getTelefonoFijo() {
+    return telefonoFijo;
+  }
 
-    public void setHuella(byte[] huella) {
-        this.huella = huella;
-    }
+  public void setTelefonoFijo(long telefonoFijo) {
+    this.telefonoFijo = telefonoFijo;
+  }
 
-    public Character getRh() {
-        return rh;
-    }
+  public String getDireccion() {
+    return direccion;
+  }
 
-    public void setRh(Character rh) {
-        this.rh = rh;
-    }
+  public void setDireccion(String direccion) {
+    this.direccion = direccion;
+  }
 
-    public String getGrupoSanguineo() {
-        return grupoSanguineo;
-    }
+  public String getFotografia() {
+    return fotografia;
+  }
 
-    public void setGrupoSanguineo(String grupoSanguineo) {
-        this.grupoSanguineo = grupoSanguineo;
-    }
+  public void setFotografia(String fotografia) {
+    this.fotografia = fotografia;
+  }
 
-    public String getTarjetaProfesional() {
-        return tarjetaProfesional;
-    }
+  public byte[] getHuella() {
+    return huella;
+  }
 
-    public void setTarjetaProfesional(String tarjetaProfesional) {
-        this.tarjetaProfesional = tarjetaProfesional;
-    }
+  public void setHuella(byte[] huella) {
+    this.huella = huella;
+  }
 
-    @XmlTransient
-    public List<PersonaEps> getPersonaEpsList() {
-        return personaEpsList;
-    }
+  public Character getRh() {
+    return rh;
+  }
 
-    public void setPersonaEpsList(List<PersonaEps> personaEpsList) {
-        this.personaEpsList = personaEpsList;
-    }
+  public void setRh(Character rh) {
+    this.rh = rh;
+  }
 
-    @XmlTransient
-    public List<Cita> getCitaList() {
-        return citaList;
-    }
+  public String getGrupoSanguineo() {
+    return grupoSanguineo;
+  }
 
-    public void setCitaList(List<Cita> citaList) {
-        this.citaList = citaList;
-    }
+  public void setGrupoSanguineo(String grupoSanguineo) {
+    this.grupoSanguineo = grupoSanguineo;
+  }
 
-    
+  public String getTarjetaProfesional() {
+    return tarjetaProfesional;
+  }
+
+  public void setTarjetaProfesional(String tarjetaProfesional) {
+    this.tarjetaProfesional = tarjetaProfesional;
+  }
+
+  @XmlTransient
+  public List<PersonaEps> getListaPersonasEps() {
+    return listaPersonasEps;
+  }
+
+  public void setListaPersonasEps(List<PersonaEps> listaPersonasEps) {
+    this.listaPersonasEps = listaPersonasEps;
+  }
+
+  public String getRolPersonaNatutal() {
+    return rolPersonaNatutal;
+  }
+
+  public void setRolPersonaNatutal(String rolPersonaNatutal) {
+    this.rolPersonaNatutal = rolPersonaNatutal;
+  }
+
+  public List<PersonaNaturalAlergia> getListaAlergias() {
+    return listaAlergias;
+  }
+
+  public void setListaAlergias(List<PersonaNaturalAlergia> listaAlergias) {
+    this.listaAlergias = listaAlergias;
+  }
+
 }

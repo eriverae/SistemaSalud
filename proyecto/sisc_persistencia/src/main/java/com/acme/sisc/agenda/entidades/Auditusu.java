@@ -11,12 +11,17 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -28,16 +33,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Auditusu.findAll", query = "SELECT a FROM Auditusu a"),
-    @NamedQuery(name = "Auditusu.findByAudiAudi", query = "SELECT a FROM Auditusu a WHERE a.audiAudi = :audiAudi"),
-    @NamedQuery(name = "Auditusu.findByAudiFech", query = "SELECT a FROM Auditusu a WHERE a.audiFech = :audiFech"),
-    @NamedQuery(name = "Auditusu.findByAudiUsua", query = "SELECT a FROM Auditusu a WHERE a.audiUsua = :audiUsua"),
-    @NamedQuery(name = "Auditusu.findByAudiObser", query = "SELECT a FROM Auditusu a WHERE a.audiObser = :audiObser"),
-    @NamedQuery(name = "Auditusu.findByAudiDrip", query = "SELECT a FROM Auditusu a WHERE a.audiDrip = :audiDrip"),
-    @NamedQuery(name = "Auditusu.findByAudiHostn", query = "SELECT a FROM Auditusu a WHERE a.audiHostn = :audiHostn")})
+    @NamedQuery(name = "Auditusu.findByAudiAudi", query = "SELECT a FROM Auditusu a WHERE a.audiAudi = :audiAudi")})
 public class Auditusu implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "audi_audi")
     private Long audiAudi;
@@ -52,6 +53,22 @@ public class Auditusu implements Serializable {
     private String audiDrip;
     @Column(name = "audi_hostn")
     private String audiHostn;
+    
+    @JoinColumn(name = "usua_usua", referencedColumnName = "usua_usua")
+    @ManyToOne(optional = false)
+    private Usuario usuario;
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
+    @Version
+    @Column(name = "VERSION")
+    private Long version;
 
     public Auditusu() {
     }
@@ -131,6 +148,14 @@ public class Auditusu implements Serializable {
     @Override
     public String toString() {
         return "com.acme.sisc.agenda.entidades.Auditusu[ audiAudi=" + audiAudi + " ]";
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
     
 }

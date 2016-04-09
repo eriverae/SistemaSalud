@@ -6,18 +6,29 @@
 package com.acme.sisc.agenda.entidades;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Julio
+ * @author GABRIEL
  */
 @Entity
 @Table(name = "cirugia")
@@ -30,12 +41,21 @@ public class Cirugia implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id_cirugia")
     private Long idCirugia;
+    @Size(max = 150)
     @Column(name = "nombre_cirugia")
     private String nombreCirugia;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cirugia", fetch = FetchType.LAZY)
+    private List<CitaCirugia> citaCirugiaList;
 
+    @Version
+    @Column(name = "VERSION")
+    private Long version;
+    
     public Cirugia() {
     }
 
@@ -57,6 +77,15 @@ public class Cirugia implements Serializable {
 
     public void setNombreCirugia(String nombreCirugia) {
         this.nombreCirugia = nombreCirugia;
+    }
+
+    @XmlTransient
+    public List<CitaCirugia> getCitaCirugiaList() {
+        return citaCirugiaList;
+    }
+
+    public void setCitaCirugiaList(List<CitaCirugia> citaCirugiaList) {
+        this.citaCirugiaList = citaCirugiaList;
     }
 
     @Override
@@ -82,6 +111,14 @@ public class Cirugia implements Serializable {
     @Override
     public String toString() {
         return "com.acme.sisc.agenda.entidades.Cirugia[ idCirugia=" + idCirugia + " ]";
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
     
 }

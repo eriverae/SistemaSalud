@@ -6,11 +6,19 @@
 package com.acme.sisc.agenda.entidades;
 
 import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -21,38 +29,52 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "accgrup")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Accgrup.findAll", query = "SELECT a FROM Accgrup a"),
-    @NamedQuery(name = "Accgrup.findByAcgrAcce", query = "SELECT a FROM Accgrup a WHERE a.accgrupPK.acgrAcce = :acgrAcce"),
-    @NamedQuery(name = "Accgrup.findByAcgrGrup", query = "SELECT a FROM Accgrup a WHERE a.accgrupPK.acgrGrup = :acgrGrup")})
+    @NamedQuery(name = "Accgrup.findAll", query = "SELECT a FROM Accgrup a")})
 public class Accgrup implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected AccgrupPK accgrupPK;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id_accgrup")
+    private Long idAccgrup;
+    
+    @JoinColumn(name = "acce_acce", referencedColumnName = "acce_acce")
+    @ManyToOne
+    private Acceso acceso;
+    
+    @JoinColumn(name = "grup_grup", referencedColumnName = "grup_grup")
+    @ManyToOne
+    private Grupo grupo;
+    
+    @Version
+    @Column(name = "VERSION")
+    private Long version;
+
+    public Acceso getAcceso() {
+        return acceso;
+    }
+
+    public void setAcceso(Acceso acceso) {
+        this.acceso = acceso;
+    }
+
+    public Grupo getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
+    }
 
     public Accgrup() {
-    }
-
-    public Accgrup(AccgrupPK accgrupPK) {
-        this.accgrupPK = accgrupPK;
-    }
-
-    public Accgrup(long acgrAcce, long acgrGrup) {
-        this.accgrupPK = new AccgrupPK(acgrAcce, acgrGrup);
-    }
-
-    public AccgrupPK getAccgrupPK() {
-        return accgrupPK;
-    }
-
-    public void setAccgrupPK(AccgrupPK accgrupPK) {
-        this.accgrupPK = accgrupPK;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (accgrupPK != null ? accgrupPK.hashCode() : 0);
+        hash += (idAccgrup != null ? idAccgrup.hashCode() : 0);
         return hash;
     }
 
@@ -63,7 +85,7 @@ public class Accgrup implements Serializable {
             return false;
         }
         Accgrup other = (Accgrup) object;
-        if ((this.accgrupPK == null && other.accgrupPK != null) || (this.accgrupPK != null && !this.accgrupPK.equals(other.accgrupPK))) {
+        if ((this.idAccgrup == null && other.idAccgrup != null) || (this.idAccgrup != null && !this.idAccgrup.equals(other.idAccgrup))) {
             return false;
         }
         return true;
@@ -71,7 +93,23 @@ public class Accgrup implements Serializable {
 
     @Override
     public String toString() {
-        return "com.acme.sisc.agenda.entidades.Accgrup[ accgrupPK=" + accgrupPK + " ]";
+        return "com.acme.sisc.agenda.entidades.Accgrup[ accgrupPK=" + idAccgrup + " ]";
+    }
+
+    public Long getIdAccgrup() {
+        return idAccgrup;
+    }
+
+    public void setIdAccgrup(Long idAccgrup) {
+        this.idAccgrup = idAccgrup;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
     
 }

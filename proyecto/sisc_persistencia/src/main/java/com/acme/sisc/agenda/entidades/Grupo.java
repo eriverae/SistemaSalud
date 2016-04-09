@@ -9,10 +9,13 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -24,14 +27,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Grupo.findAll", query = "SELECT g FROM Grupo g"),
-    @NamedQuery(name = "Grupo.findByGrupGrup", query = "SELECT g FROM Grupo g WHERE g.grupGrup = :grupGrup"),
-    @NamedQuery(name = "Grupo.findByGrupNombr", query = "SELECT g FROM Grupo g WHERE g.grupNombr = :grupNombr"),
-    @NamedQuery(name = "Grupo.findByGrupDescri", query = "SELECT g FROM Grupo g WHERE g.grupDescri = :grupDescri"),
-    @NamedQuery(name = "Grupo.findByGrupEsta", query = "SELECT g FROM Grupo g WHERE g.grupEsta = :grupEsta")})
+    @NamedQuery(name = "Grupo.findByGrupGrup", query = "SELECT g FROM Grupo g WHERE g.grupGrup = :grupGrup")})
 public class Grupo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "grup_grup")
     private Long grupGrup;
@@ -44,6 +45,10 @@ public class Grupo implements Serializable {
     @Basic(optional = false)
     @Column(name = "grup_esta")
     private String grupEsta;
+    
+    @Version
+    @Column(name = "VERSION")
+    private Long version;
 
     public Grupo() {
     }
@@ -114,6 +119,14 @@ public class Grupo implements Serializable {
     @Override
     public String toString() {
         return "com.acme.sisc.agenda.entidades.Grupo[ grupGrup=" + grupGrup + " ]";
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
     
 }

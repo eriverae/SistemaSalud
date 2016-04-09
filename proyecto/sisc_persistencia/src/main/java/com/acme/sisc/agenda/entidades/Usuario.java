@@ -7,15 +7,22 @@ package com.acme.sisc.agenda.entidades;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -27,21 +34,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
-    @NamedQuery(name = "Usuario.findByUsuaUsua", query = "SELECT u FROM Usuario u WHERE u.usuaUsua = :usuaUsua"),
-    @NamedQuery(name = "Usuario.findByUsuaEmail", query = "SELECT u FROM Usuario u WHERE u.usuaEmail = :usuaEmail"),
-    @NamedQuery(name = "Usuario.findByUsuaPass", query = "SELECT u FROM Usuario u WHERE u.usuaPass = :usuaPass"),
-    @NamedQuery(name = "Usuario.findByUsuaEsta", query = "SELECT u FROM Usuario u WHERE u.usuaEsta = :usuaEsta"),
-    @NamedQuery(name = "Usuario.findByUsuaUsucs", query = "SELECT u FROM Usuario u WHERE u.usuaUsucs = :usuaUsucs"),
-    @NamedQuery(name = "Usuario.findByUsuaUsucd", query = "SELECT u FROM Usuario u WHERE u.usuaUsucd = :usuaUsucd"),
-    @NamedQuery(name = "Usuario.findByUsuaUsums", query = "SELECT u FROM Usuario u WHERE u.usuaUsums = :usuaUsums"),
-    @NamedQuery(name = "Usuario.findByUsuaUsumd", query = "SELECT u FROM Usuario u WHERE u.usuaUsumd = :usuaUsumd"),
-    @NamedQuery(name = "Usuario.findByUsuaBlock", query = "SELECT u FROM Usuario u WHERE u.usuaBlock = :usuaBlock"),
-    @NamedQuery(name = "Usuario.findByUsuaPersn", query = "SELECT u FROM Usuario u WHERE u.usuaPersn = :usuaPersn"),
-    @NamedQuery(name = "Usuario.findByUsuaConta", query = "SELECT u FROM Usuario u WHERE u.usuaConta = :usuaConta")})
+    @NamedQuery(name = "Usuario.findByUsuaUsua", query = "SELECT u FROM Usuario u WHERE u.usuaUsua = :usuaUsua")})
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "usua_usua")
     private Long usuaUsua;
@@ -76,6 +75,21 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     @Column(name = "usua_conta")
     private long usuaConta;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "audiAudi", fetch = FetchType.LAZY)
+    private List<Auditusu> listaAuditores;
+    
+    @Version
+    @Column(name = "VERSION")
+    private Long version;
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
 
     public Usuario() {
     }
@@ -208,6 +222,14 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "com.acme.sisc.agenda.entidades.Usuario[ usuaUsua=" + usuaUsua + " ]";
+    }
+
+    public List<Auditusu> getListaAuditores() {
+        return listaAuditores;
+    }
+
+    public void setListaAuditores(List<Auditusu> listaAuditores) {
+        this.listaAuditores = listaAuditores;
     }
     
 }
