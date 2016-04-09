@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>persona_natural_enfermedad</title>
+<title>MODULO_REGISTRO::persona_natural_beneficiario</title>
 <link href="../../css/ea.css" rel="stylesheet" type="text/css" />
 <script>
 function initPage(src) {
@@ -16,15 +16,15 @@ function initPage(src) {
 <body onload="initPage(this);" class="Content">
 <div class="pageHeader"></div>
 <div class="PageBody">
-	<span class="ObjectTitle">persona_natural_enfermedad  : public  &lt;&lt;table&gt;&gt; clase</span>
+	<span class="ObjectTitle">persona_natural_beneficiario  : public  &lt;&lt;table&gt;&gt; clase</span>
 	<table border="0" cellpadding="0" cellspacing="0" class="ObjectDetails">
 		<tr>
 			<td width="15%" class="ObjectDetailsTopic">Created:</td>
-			<td width="85%" class="ObjectDetailsValue">12/03/2016 11:56:19 a. m.</td>
+			<td width="85%" class="ObjectDetailsValue">12/03/2016 10:13:18 a. m.</td>
 		</tr>
 		<tr>
 			<td class="ObjectDetailsTopic">Modified:</td>
-			<td class="ObjectDetailsValue">15/03/2016 11:41:13 p. m.</td>
+			<td class="ObjectDetailsValue">15/03/2016 11:41:41 p. m.</td>
 		</tr>
 		<tr style="height: 10px"><td colspan="2"></td></tr>
 		<tr>
@@ -57,11 +57,11 @@ function initPage(src) {
 		</tr>
 		<tr id="adv00" style="display: none;">
 			<td class="ObjectDetailsTopic" style="padding-left: 18px;">UUID:</td>
-			<td class="ObjectDetailsValue">{30DCED0E-A8B9-4e93-A545-5A67E23464CA}</td>
+			<td class="ObjectDetailsValue">{46CFA548-E676-4f30-B520-8184831A14C2}</td>
 		</tr>
 		<tr id="adv01" style="display: none;">
 			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Appears In:</td>
-			<td class="ObjectDetailsValue"><a href="../EA1.htm">Modelo de datos</a>, <a href="EA45.htm">Esquema_Registro</a></td>
+			<td class="ObjectDetailsValue"><a href="../EA1.htm">Modelo de datos</a>, <a href="EA46.htm">Esquema_Registro</a></td>
 		</tr>
 	</table>
 	
@@ -77,24 +77,57 @@ function initPage(src) {
 			<td width="100%" class="TableHeading">Attribute</td>
 		</tr>
 						<tr>
-				<td width="100%" class="TableRow" valign="top"><i>public static numeric(10)</i><br /><strong>&nbsp;&nbsp;id_persona</strong></td>
+				<td width="100%" class="TableRow" valign="top"><i>public static numeric(10)</i><br /><strong>&nbsp;&nbsp;id_persona_natural_beneficiario</strong></td>
 			</tr>
 			<tr>
 				<td class="TableRowBottomDashed"  colspan="1">
-					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageAttributes448" onclick="parent.toggleDiv('detailsDIVAttributes448','DetailsImageAttributes448')" />Details:
-						<div id="detailsDIVAttributes448" class="DetailsDiv" >
+					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageAttributes478" onclick="parent.toggleDiv('detailsDIVAttributes478','DetailsImageAttributes478')" />Details:
+						<div id="detailsDIVAttributes478" class="DetailsDiv" >
 						<i>&lt;&lt;column&gt;&gt;Ordered <br /></i>&nbsp;
 						</div>
 					</div>
 				</td>
 			</tr>			<tr>
-				<td width="100%" class="TableRow" valign="top"><i>public static numeric(10)</i><br /><strong>&nbsp;&nbsp;id_enfermedad</strong></td>
+				<td width="100%" class="TableRow" valign="top"><i>public numeric(1)</i><br /><strong>&nbsp;&nbsp;id_beneficiario</strong></td>
 			</tr>
 			<tr>
 				<td class="TableRowBottomDashed"  colspan="1">
-					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageAttributes449" onclick="parent.toggleDiv('detailsDIVAttributes449','DetailsImageAttributes449')" />Details:
-						<div id="detailsDIVAttributes449" class="DetailsDiv" >
-						<i>&lt;&lt;column&gt;&gt;Ordered <br /></i>&nbsp;
+					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageAttributes479" onclick="parent.toggleDiv('detailsDIVAttributes479','DetailsImageAttributes479')" />Details:
+						<div id="detailsDIVAttributes479" class="DetailsDiv" >
+						<i>&lt;&lt;column&gt;&gt;</i>&nbsp;
+						</div>
+					</div>
+				</td>
+			</tr>			<tr>
+				<td width="100%" class="TableRow" valign="top"><i>public numeric(10)</i><br /><strong>&nbsp;&nbsp;id_cotizante</strong></td>
+			</tr>
+			<tr>
+				<td class="TableRowBottomDashed"  colspan="1">
+					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageAttributes480" onclick="parent.toggleDiv('detailsDIVAttributes480','DetailsImageAttributes480')" />Details:
+						<div id="detailsDIVAttributes480" class="DetailsDiv" >
+						<i>&lt;&lt;column&gt;&gt;</i>&nbsp;
+						</div>
+					</div>
+				</td>
+			</tr>			<tr>
+				<td width="100%" class="TableRow" valign="top"><i>public varchar(5)</i><br /><strong>&nbsp;&nbsp;parentezco</strong></td>
+			</tr>
+			<tr>
+				<td class="TableRowBottomDashed"  colspan="1">
+					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageAttributes481" onclick="parent.toggleDiv('detailsDIVAttributes481','DetailsImageAttributes481')" />Details:
+						<div id="detailsDIVAttributes481" class="DetailsDiv" >
+						<i>&lt;&lt;column&gt;&gt;</i>&nbsp;
+						</div>
+					</div>
+				</td>
+			</tr>			<tr>
+				<td width="100%" class="TableRow" valign="top"><i>public varchar(50)</i><br /><strong>&nbsp;&nbsp;version</strong></td>
+			</tr>
+			<tr>
+				<td class="TableRowBottomDashed"  colspan="1">
+					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageAttributes482" onclick="parent.toggleDiv('detailsDIVAttributes482','DetailsImageAttributes482')" />Details:
+						<div id="detailsDIVAttributes482" class="DetailsDiv" >
+						<i>&lt;&lt;column&gt;&gt;</i>&nbsp;
 						</div>
 					</div>
 				</td>
@@ -109,41 +142,22 @@ function initPage(src) {
 						<tr>
 				<td width="100%" class="TableRow">
 					<i>public</i><br />
-					<strong>PK_PersonaNatural_Enfermedad</strong>(<br />
-					<a href="#" onclick="parent.toggleData('param{02589879-1707-4ce7-92EC-02A95C3C9315}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{02589879-1707-4ce7-92EC-02A95C3C9315}" border="0" />id_persona: numeric</a>, 
+					<strong>PK_Beneficiarios</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{4AC45162-93DD-4f13-80AE-A59A3A65BCAB}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{4AC45162-93DD-4f13-80AE-A59A3A65BCAB}" border="0" />id_persona_natural_beneficiario: numeric</a>, 
 					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
-						<tr id="param{02589879-1707-4ce7-92EC-02A95C3C9315}00" style="display: none;">
+						<tr id="param{4AC45162-93DD-4f13-80AE-A59A3A65BCAB}00" style="display: none;">
 							<td width="50"><strong>Default:</strong></td>
 							<td></td>
 						</tr>
-						<tr id="param{02589879-1707-4ce7-92EC-02A95C3C9315}01" style="display: none;">
+						<tr id="param{4AC45162-93DD-4f13-80AE-A59A3A65BCAB}01" style="display: none;">
 							<td width="50"><strong>Kind:</strong></td>
 							<td>in</td>
 						</tr>
-						<tr id="param{02589879-1707-4ce7-92EC-02A95C3C9315}02" style="display: none;">
+						<tr id="param{4AC45162-93DD-4f13-80AE-A59A3A65BCAB}02" style="display: none;">
 							<td width="50"><strong>Stereotype: </strong></td>
 							<td></td>
 						</tr>
-						<tr id="param{02589879-1707-4ce7-92EC-02A95C3C9315}03" style="display: none;">
-							<td width="50"></td>
-							<td></td>
-						</tr>
-					</table>
-					<a href="#" onclick="parent.toggleData('param{05299664-6E43-443b-987C-2B059D6A32E8}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{05299664-6E43-443b-987C-2B059D6A32E8}" border="0" />id_enfermedad: NUMERIC</a>, 
-					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
-						<tr id="param{05299664-6E43-443b-987C-2B059D6A32E8}00" style="display: none;">
-							<td width="50"><strong>Default:</strong></td>
-							<td></td>
-						</tr>
-						<tr id="param{05299664-6E43-443b-987C-2B059D6A32E8}01" style="display: none;">
-							<td width="50"><strong>Kind:</strong></td>
-							<td>in</td>
-						</tr>
-						<tr id="param{05299664-6E43-443b-987C-2B059D6A32E8}02" style="display: none;">
-							<td width="50"><strong>Stereotype: </strong></td>
-							<td></td>
-						</tr>
-						<tr id="param{05299664-6E43-443b-987C-2B059D6A32E8}03" style="display: none;">
+						<tr id="param{4AC45162-93DD-4f13-80AE-A59A3A65BCAB}03" style="display: none;">
 							<td width="50"></td>
 							<td></td>
 						</tr>
@@ -153,8 +167,8 @@ function initPage(src) {
 			</tr>
 			<tr>
 				<td class="TableRowBottomDashed"  colspan="1">
-					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageOperations450" onclick="parent.toggleDiv('detailsDIVOperations450','DetailsImageOperations450')" />Details:
-						<div id="detailsDIVOperations450" class="DetailsDiv" >
+					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageOperations483" onclick="parent.toggleDiv('detailsDIVOperations483','DetailsImageOperations483')" />Details:
+						<div id="detailsDIVOperations483" class="DetailsDiv" >
 					<i> &lt;&lt;PK&gt;&gt; </i>
 					<table>
 						<tr>
@@ -172,22 +186,22 @@ function initPage(src) {
 			<tr>
 				<td width="100%" class="TableRow">
 					<i>public</i><br />
-					<strong>UQ_persona_natural_enfermedad_id_enfermedad</strong>(<br />
-					<a href="#" onclick="parent.toggleData('param{FAB35A90-24DE-4e0c-8817-BC9A7A371C0F}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{FAB35A90-24DE-4e0c-8817-BC9A7A371C0F}" border="0" />id_enfermedad: numeric</a>, 
+					<strong>UQ_persona_natural_beneficiario_id_persona_natural_beneficiario</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{3AC9D985-645D-4e89-A867-5A3EB9B1A4FC}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{3AC9D985-645D-4e89-A867-5A3EB9B1A4FC}" border="0" />id_persona_natural_beneficiario: numeric</a>, 
 					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
-						<tr id="param{FAB35A90-24DE-4e0c-8817-BC9A7A371C0F}00" style="display: none;">
+						<tr id="param{3AC9D985-645D-4e89-A867-5A3EB9B1A4FC}00" style="display: none;">
 							<td width="50"><strong>Default:</strong></td>
 							<td></td>
 						</tr>
-						<tr id="param{FAB35A90-24DE-4e0c-8817-BC9A7A371C0F}01" style="display: none;">
+						<tr id="param{3AC9D985-645D-4e89-A867-5A3EB9B1A4FC}01" style="display: none;">
 							<td width="50"><strong>Kind:</strong></td>
 							<td>in</td>
 						</tr>
-						<tr id="param{FAB35A90-24DE-4e0c-8817-BC9A7A371C0F}02" style="display: none;">
+						<tr id="param{3AC9D985-645D-4e89-A867-5A3EB9B1A4FC}02" style="display: none;">
 							<td width="50"><strong>Stereotype: </strong></td>
 							<td></td>
 						</tr>
-						<tr id="param{FAB35A90-24DE-4e0c-8817-BC9A7A371C0F}03" style="display: none;">
+						<tr id="param{3AC9D985-645D-4e89-A867-5A3EB9B1A4FC}03" style="display: none;">
 							<td width="50"></td>
 							<td></td>
 						</tr>
@@ -197,52 +211,8 @@ function initPage(src) {
 			</tr>
 			<tr>
 				<td class="TableRowBottomDashed"  colspan="1">
-					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageOperations451" onclick="parent.toggleDiv('detailsDIVOperations451','DetailsImageOperations451')" />Details:
-						<div id="detailsDIVOperations451" class="DetailsDiv" >
-					<i> &lt;&lt;unique&gt;&gt; </i>
-					<table>
-						<tr>
-							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
-							<td></td>
-						</tr>
-					</table>
-					
-					
-					
-						</div>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td width="100%" class="TableRow">
-					<i>public</i><br />
-					<strong>UQ_persona_natural_enfermedad_id_persona</strong>(<br />
-					<a href="#" onclick="parent.toggleData('param{3D9F4F71-4EDC-4a2e-AA0F-0AA8922EC46A}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{3D9F4F71-4EDC-4a2e-AA0F-0AA8922EC46A}" border="0" />id_persona: numeric</a>, 
-					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
-						<tr id="param{3D9F4F71-4EDC-4a2e-AA0F-0AA8922EC46A}00" style="display: none;">
-							<td width="50"><strong>Default:</strong></td>
-							<td></td>
-						</tr>
-						<tr id="param{3D9F4F71-4EDC-4a2e-AA0F-0AA8922EC46A}01" style="display: none;">
-							<td width="50"><strong>Kind:</strong></td>
-							<td>in</td>
-						</tr>
-						<tr id="param{3D9F4F71-4EDC-4a2e-AA0F-0AA8922EC46A}02" style="display: none;">
-							<td width="50"><strong>Stereotype: </strong></td>
-							<td></td>
-						</tr>
-						<tr id="param{3D9F4F71-4EDC-4a2e-AA0F-0AA8922EC46A}03" style="display: none;">
-							<td width="50"></td>
-							<td></td>
-						</tr>
-					</table>
-):
-				</td>
-			</tr>
-			<tr>
-				<td class="TableRowBottomDashed"  colspan="1">
-					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageOperations452" onclick="parent.toggleDiv('detailsDIVOperations452','DetailsImageOperations452')" />Details:
-						<div id="detailsDIVOperations452" class="DetailsDiv" >
+					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageOperations484" onclick="parent.toggleDiv('detailsDIVOperations484','DetailsImageOperations484')" />Details:
+						<div id="detailsDIVOperations484" class="DetailsDiv" >
 					<i> &lt;&lt;unique&gt;&gt; </i>
 					<table>
 						<tr>
@@ -268,13 +238,13 @@ function initPage(src) {
 					<td width="40%" class="TableHeading">Notes</td>
 				</tr>
 				<tr>
-					<td width="30%" class="TableRow" valign="top"><a href="EA54.htm">«table» persona_natural</a></td>
+					<td width="30%" class="TableRow" valign="top"><a href="EA55.htm">«table» persona_natural</a></td>
 					<td width="15%" class="TableRow" valign="top">Class</td>
 					<td width="15%" class="TableRow" valign="top">Dependencia</td>
 					<td width="40%" class="TableRow" valign="top">&nbsp;</td>
 				</tr>
 				<tr>
-					<td width="30%" class="TableRow" valign="top"><a href="EA48.htm">«table» enfermedad</a></td>
+					<td width="30%" class="TableRow" valign="top"><a href="EA55.htm">«table» persona_natural</a></td>
 					<td width="15%" class="TableRow" valign="top">Class</td>
 					<td width="15%" class="TableRow" valign="top">Dependencia</td>
 					<td width="40%" class="TableRow" valign="top">&nbsp;</td>

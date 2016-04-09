@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Examen</title>
+<title>MODULO_HISTORIA::cita_tratamiento</title>
 <link href="../../css/ea.css" rel="stylesheet" type="text/css" />
 <script>
 function initPage(src) {
@@ -16,15 +16,15 @@ function initPage(src) {
 <body onload="initPage(this);" class="Content">
 <div class="pageHeader"></div>
 <div class="PageBody">
-	<span class="ObjectTitle">Examen  : public  &lt;&lt;table&gt;&gt; clase</span>
+	<span class="ObjectTitle">cita_tratamiento  : public  &lt;&lt;table&gt;&gt; clase</span>
 	<table border="0" cellpadding="0" cellspacing="0" class="ObjectDetails">
 		<tr>
 			<td width="15%" class="ObjectDetailsTopic">Created:</td>
-			<td width="85%" class="ObjectDetailsValue">15/03/2016 6:31:48 p. m.</td>
+			<td width="85%" class="ObjectDetailsValue">15/03/2016 7:23:41 p. m.</td>
 		</tr>
 		<tr>
 			<td class="ObjectDetailsTopic">Modified:</td>
-			<td class="ObjectDetailsValue">15/03/2016 11:39:24 p. m.</td>
+			<td class="ObjectDetailsValue">04/04/2016 9:30:58 p. m.</td>
 		</tr>
 		<tr style="height: 10px"><td colspan="2"></td></tr>
 		<tr>
@@ -57,7 +57,7 @@ function initPage(src) {
 		</tr>
 		<tr id="adv00" style="display: none;">
 			<td class="ObjectDetailsTopic" style="padding-left: 18px;">UUID:</td>
-			<td class="ObjectDetailsValue">{BCB7F638-046A-49b2-8CB1-F4E0A0AE9237}</td>
+			<td class="ObjectDetailsValue">{E51FC938-BD20-40c8-83D2-B331661A8F5A}</td>
 		</tr>
 		<tr id="adv01" style="display: none;">
 			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Appears In:</td>
@@ -69,7 +69,7 @@ function initPage(src) {
 		<ul class="ItemTitle">
 			<li onClick="parent.toggleItem('Attributes');" id="AttributesTitle">Atributos</li>
 			<li onClick="parent.toggleItem('Operations');" id="OperationsTitle">Operaciones</li>
-			<li onClick="parent.toggleItem('AssociationsDesde');" id="AssociationsDesdeTitle">Asociaciones Desde</li>
+			<li onClick="parent.toggleItem('AssociationsHasta');" id="AssociationsHastaTitle">Asociaciones Hasta</li>
 		</ul>
 <div class="ItemBody" id="AttributesTable">
 	<table border="0" cellspacing="0" cellpadding="0" class="Table">
@@ -77,23 +77,45 @@ function initPage(src) {
 			<td width="100%" class="TableHeading">Attribute</td>
 		</tr>
 						<tr>
-				<td width="100%" class="TableRow" valign="top"><i>public static bigint</i><br /><strong>&nbsp;&nbsp;id_examen</strong></td>
+				<td width="100%" class="TableRow" valign="top"><i>public bigint</i><br /><strong>&nbsp;&nbsp;id_tratamiento</strong></td>
 			</tr>
 			<tr>
 				<td class="TableRowBottomDashed"  colspan="1">
-					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageAttributes100" onclick="parent.toggleDiv('detailsDIVAttributes100','DetailsImageAttributes100')" />Details:
-						<div id="detailsDIVAttributes100" class="DetailsDiv" >
+					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageAttributes90" onclick="parent.toggleDiv('detailsDIVAttributes90','DetailsImageAttributes90')" />Details:
+						<div id="detailsDIVAttributes90" class="DetailsDiv" >
 						<i>&lt;&lt;column&gt;&gt;Ordered <br /></i>&nbsp;
 						</div>
 					</div>
 				</td>
 			</tr>			<tr>
-				<td width="100%" class="TableRow" valign="top"><i>public static varchar(150)</i><br /><strong>&nbsp;&nbsp;nombre_examen</strong></td>
+				<td width="100%" class="TableRow" valign="top"><i>public bigint</i><br /><strong>&nbsp;&nbsp;id_cita</strong></td>
 			</tr>
 			<tr>
 				<td class="TableRowBottomDashed"  colspan="1">
-					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageAttributes101" onclick="parent.toggleDiv('detailsDIVAttributes101','DetailsImageAttributes101')" />Details:
-						<div id="detailsDIVAttributes101" class="DetailsDiv" >
+					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageAttributes91" onclick="parent.toggleDiv('detailsDIVAttributes91','DetailsImageAttributes91')" />Details:
+						<div id="detailsDIVAttributes91" class="DetailsDiv" >
+						<i>&lt;&lt;column&gt;&gt;Ordered <br /></i>&nbsp;
+						</div>
+					</div>
+				</td>
+			</tr>			<tr>
+				<td width="100%" class="TableRow" valign="top"><i>public text</i><br /><strong>&nbsp;&nbsp;observaciones</strong></td>
+			</tr>
+			<tr>
+				<td class="TableRowBottomDashed"  colspan="1">
+					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageAttributes92" onclick="parent.toggleDiv('detailsDIVAttributes92','DetailsImageAttributes92')" />Details:
+						<div id="detailsDIVAttributes92" class="DetailsDiv" >
+						<i>&lt;&lt;column&gt;&gt;</i>&nbsp;
+						</div>
+					</div>
+				</td>
+			</tr>			<tr>
+				<td width="100%" class="TableRow" valign="top"><i>public date</i><br /><strong>&nbsp;&nbsp;fecha_generacion</strong></td>
+			</tr>
+			<tr>
+				<td class="TableRowBottomDashed"  colspan="1">
+					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageAttributes93" onclick="parent.toggleDiv('detailsDIVAttributes93','DetailsImageAttributes93')" />Details:
+						<div id="detailsDIVAttributes93" class="DetailsDiv" >
 						<i>&lt;&lt;column&gt;&gt;</i>&nbsp;
 						</div>
 					</div>
@@ -109,22 +131,22 @@ function initPage(src) {
 						<tr>
 				<td width="100%" class="TableRow">
 					<i>public</i><br />
-					<strong>PK_Examen</strong>(<br />
-					<a href="#" onclick="parent.toggleData('param{022356DE-4C73-4a2b-86D5-74BE6C5EA352}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{022356DE-4C73-4a2b-86D5-74BE6C5EA352}" border="0" />id_examen: bigint</a>, 
+					<strong>FK_tratamiento_Cita</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{A482BC49-5017-4d55-A164-BC343B24E0A5}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{A482BC49-5017-4d55-A164-BC343B24E0A5}" border="0" />id_cita: bigint</a>, 
 					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
-						<tr id="param{022356DE-4C73-4a2b-86D5-74BE6C5EA352}00" style="display: none;">
+						<tr id="param{A482BC49-5017-4d55-A164-BC343B24E0A5}00" style="display: none;">
 							<td width="50"><strong>Default:</strong></td>
 							<td></td>
 						</tr>
-						<tr id="param{022356DE-4C73-4a2b-86D5-74BE6C5EA352}01" style="display: none;">
+						<tr id="param{A482BC49-5017-4d55-A164-BC343B24E0A5}01" style="display: none;">
 							<td width="50"><strong>Kind:</strong></td>
 							<td>in</td>
 						</tr>
-						<tr id="param{022356DE-4C73-4a2b-86D5-74BE6C5EA352}02" style="display: none;">
+						<tr id="param{A482BC49-5017-4d55-A164-BC343B24E0A5}02" style="display: none;">
 							<td width="50"><strong>Stereotype: </strong></td>
 							<td></td>
 						</tr>
-						<tr id="param{022356DE-4C73-4a2b-86D5-74BE6C5EA352}03" style="display: none;">
+						<tr id="param{A482BC49-5017-4d55-A164-BC343B24E0A5}03" style="display: none;">
 							<td width="50"></td>
 							<td></td>
 						</tr>
@@ -134,97 +156,72 @@ function initPage(src) {
 			</tr>
 			<tr>
 				<td class="TableRowBottomDashed"  colspan="1">
-					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageOperations102" onclick="parent.toggleDiv('detailsDIVOperations102','DetailsImageOperations102')" />Details:
-						<div id="detailsDIVOperations102" class="DetailsDiv" >
+					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageOperations94" onclick="parent.toggleDiv('detailsDIVOperations94','DetailsImageOperations94')" />Details:
+						<div id="detailsDIVOperations94" class="DetailsDiv" >
+					<i> &lt;&lt;FK&gt;&gt; </i>
+					<table>
+						<tr>
+							<td valign = "top"><i>Tags:</i><span style="margin-left: .7cm;"> </span></td>
+							<td>property=Delete Cascade=0;Update Cascade=0;<br/></td>
+						</tr>
+					</table>
+					
+					
+					
+						</div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td width="100%" class="TableRow">
+					<i>public</i><br />
+					<strong>PK_cita_tratamiento</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{AEB5C66E-FC19-4465-B0A6-F40497AEC893}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{AEB5C66E-FC19-4465-B0A6-F40497AEC893}" border="0" />id_tratamiento: bigint</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{AEB5C66E-FC19-4465-B0A6-F40497AEC893}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{AEB5C66E-FC19-4465-B0A6-F40497AEC893}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{AEB5C66E-FC19-4465-B0A6-F40497AEC893}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{AEB5C66E-FC19-4465-B0A6-F40497AEC893}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+					<a href="#" onclick="parent.toggleData('param{21FA6281-9BD5-493d-B62E-E3B36E2A2FE0}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{21FA6281-9BD5-493d-B62E-E3B36E2A2FE0}" border="0" />id_cita: bigint</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{21FA6281-9BD5-493d-B62E-E3B36E2A2FE0}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{21FA6281-9BD5-493d-B62E-E3B36E2A2FE0}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{21FA6281-9BD5-493d-B62E-E3B36E2A2FE0}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{21FA6281-9BD5-493d-B62E-E3B36E2A2FE0}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):
+				</td>
+			</tr>
+			<tr>
+				<td class="TableRowBottomDashed"  colspan="1">
+					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageOperations95" onclick="parent.toggleDiv('detailsDIVOperations95','DetailsImageOperations95')" />Details:
+						<div id="detailsDIVOperations95" class="DetailsDiv" >
 					<i> &lt;&lt;PK&gt;&gt; </i>
-					<table>
-						<tr>
-							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
-							<td></td>
-						</tr>
-					</table>
-					
-					
-					
-						</div>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td width="100%" class="TableRow">
-					<i>public</i><br />
-					<strong>UQ_Examen_id_examen</strong>(<br />
-					<a href="#" onclick="parent.toggleData('param{6D7DD144-618B-4a5c-874A-A98B2F08619C}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{6D7DD144-618B-4a5c-874A-A98B2F08619C}" border="0" />id_examen: bigint</a>, 
-					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
-						<tr id="param{6D7DD144-618B-4a5c-874A-A98B2F08619C}00" style="display: none;">
-							<td width="50"><strong>Default:</strong></td>
-							<td></td>
-						</tr>
-						<tr id="param{6D7DD144-618B-4a5c-874A-A98B2F08619C}01" style="display: none;">
-							<td width="50"><strong>Kind:</strong></td>
-							<td>in</td>
-						</tr>
-						<tr id="param{6D7DD144-618B-4a5c-874A-A98B2F08619C}02" style="display: none;">
-							<td width="50"><strong>Stereotype: </strong></td>
-							<td></td>
-						</tr>
-						<tr id="param{6D7DD144-618B-4a5c-874A-A98B2F08619C}03" style="display: none;">
-							<td width="50"></td>
-							<td></td>
-						</tr>
-					</table>
-):
-				</td>
-			</tr>
-			<tr>
-				<td class="TableRowBottomDashed"  colspan="1">
-					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageOperations103" onclick="parent.toggleDiv('detailsDIVOperations103','DetailsImageOperations103')" />Details:
-						<div id="detailsDIVOperations103" class="DetailsDiv" >
-					<i> &lt;&lt;unique&gt;&gt; </i>
-					<table>
-						<tr>
-							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
-							<td></td>
-						</tr>
-					</table>
-					
-					
-					
-						</div>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td width="100%" class="TableRow">
-					<i>public</i><br />
-					<strong>UQ_Examen_nombre_examen</strong>(<br />
-					<a href="#" onclick="parent.toggleData('param{61DFE67D-7700-4b6c-98AC-9F19D740806D}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{61DFE67D-7700-4b6c-98AC-9F19D740806D}" border="0" />nombre_examen: varchar</a>, 
-					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
-						<tr id="param{61DFE67D-7700-4b6c-98AC-9F19D740806D}00" style="display: none;">
-							<td width="50"><strong>Default:</strong></td>
-							<td></td>
-						</tr>
-						<tr id="param{61DFE67D-7700-4b6c-98AC-9F19D740806D}01" style="display: none;">
-							<td width="50"><strong>Kind:</strong></td>
-							<td>in</td>
-						</tr>
-						<tr id="param{61DFE67D-7700-4b6c-98AC-9F19D740806D}02" style="display: none;">
-							<td width="50"><strong>Stereotype: </strong></td>
-							<td></td>
-						</tr>
-						<tr id="param{61DFE67D-7700-4b6c-98AC-9F19D740806D}03" style="display: none;">
-							<td width="50"></td>
-							<td></td>
-						</tr>
-					</table>
-):
-				</td>
-			</tr>
-			<tr>
-				<td class="TableRowBottomDashed"  colspan="1">
-					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageOperations104" onclick="parent.toggleDiv('detailsDIVOperations104','DetailsImageOperations104')" />Details:
-						<div id="detailsDIVOperations104" class="DetailsDiv" >
-					<i> &lt;&lt;unique&gt;&gt; </i>
 					<table>
 						<tr>
 							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
@@ -240,7 +237,7 @@ function initPage(src) {
 			</tr>
 
 		</table>
-</div>		<div class="ItemBody" id="AssociationsDesdeTable">
+</div>		<div class="ItemBody" id="AssociationsHastaTable">
 			<table border="0" cellspacing="0" cellpadding="0" class="Table">
 				<tr>
 					<td width="40%" class="TableHeading">Element</td>
@@ -249,22 +246,45 @@ function initPage(src) {
 				</tr>
 				<tr>
 					<td width="40%" class="TableRow" valign="top">
-						<a href="EA15.htm">«table» cita_examen</a><br />
+						<a href="../EA8.htm">«table» Cita</a><br />
 						Clase «FK» 
 					</td>
 					<td width="30%" class="TableRow" valign="top">
-						<strong>Name:</strong> FK_cita_examen_Examen<br />
+						<strong>Name:</strong> FK_tratamiento_Cita<br />
 						&nbsp;
 					</td>
 					<td width="30%" class="TableRow" valign="top">
-						<strong>Name:</strong> PK_Examen<br />
+						<strong>Name:</strong> PK_Cita<br />
 						&nbsp;	
 					</td>
 				</tr>
 				<tr>
 					<td class="TableRowBottomDashed"  colspan="3">
-						<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageLink106" onclick="parent.toggleDiv('detailsDIVLink106','DetailsImageLink106')" />Details:
-							<div id="detailsDIVLink106" class="DetailsDiv" >
+						<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageLink96" onclick="parent.toggleDiv('detailsDIVLink96','DetailsImageLink96')" />Details:
+							<div id="detailsDIVLink96" class="DetailsDiv" >
+							&nbsp;
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td width="40%" class="TableRow" valign="top">
+						<a href="EA23.htm">«table» Tratamiento</a><br />
+						Clase «FK» 
+					</td>
+					<td width="30%" class="TableRow" valign="top">
+						<strong>Name:</strong> FK_cita_tratamiento_Tratamiento<br />
+						&nbsp;
+					</td>
+					<td width="30%" class="TableRow" valign="top">
+						<strong>Name:</strong> PK_Tratamiento<br />
+						&nbsp;	
+					</td>
+				</tr>
+				<tr>
+					<td class="TableRowBottomDashed"  colspan="3">
+						<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageLink97" onclick="parent.toggleDiv('detailsDIVLink97','DetailsImageLink97')" />Details:
+							<div id="detailsDIVLink97" class="DetailsDiv" >
 							&nbsp;
 							</div>
 						</div>
