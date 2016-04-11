@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -45,7 +44,7 @@ public class CitaMedicamento implements Serializable {
     @NotNull
     @Column(name = "id")
     private Long id;
-    @JoinColumn(name = "id_cita", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "id_cita", referencedColumnName = "id_cita")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Cita cita;
     @Basic(optional = false)

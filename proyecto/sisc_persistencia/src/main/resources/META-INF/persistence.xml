@@ -11,16 +11,19 @@
     <class>com.acme.sisc.agenda.entidades.Acceso</class>
     <class>com.acme.sisc.agenda.entidades.Tratamiento</class>
     <class>com.acme.sisc.agenda.entidades.Grupusu</class>
-    <class>com.acme.sisc.agenda.entidades.Operacion</class>
+    
     <class>com.acme.sisc.agenda.entidades.PersonaNaturalEspecialidad</class>
     <class>com.acme.sisc.agenda.entidades.Grupo</class>
-    <class>com.acme.sisc.agenda.entidades.PersonaNaturalOperacion</class>
+    
     <class>com.acme.sisc.agenda.entidades.TipoPersonaNatural</class>
     <class>com.acme.sisc.agenda.entidades.Alergia</class>
-    <class>com.acme.sisc.agenda.entidades.Agenda</class>
+   
     <class>com.acme.sisc.agenda.entidades.PersonaNaturalAlergia</class>
     <class>com.acme.sisc.agenda.entidades.Auditusu</class>
     <class>com.acme.sisc.agenda.entidades.PersonaNaturalEnfermedad</class>
+    
+    <class>com.acme.sisc.agenda.entidades.PersonaNaturalOperacion</class>
+     
     -->
     <class>com.acme.sisc.agenda.entidades.Persona</class>
     <class>com.acme.sisc.agenda.entidades.PersonaNatural</class>
@@ -29,7 +32,9 @@
     <class>com.acme.sisc.agenda.entidades.Alergia</class>
     <class>com.acme.sisc.agenda.entidades.PersonaNaturalAlergia</class>
     <class>com.acme.sisc.agenda.entidades.Cita</class>
+    <class>com.acme.sisc.agenda.entidades.Agenda</class>
     <class>com.acme.sisc.agenda.entidades.Examen</class>
+    <class>com.acme.sisc.agenda.entidades.Operacion</class>
     <!--
     
    
@@ -65,6 +70,7 @@
     <validation-mode>NONE</validation-mode>
     <properties>
       <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+      <property name="hibernate.show_sql" value="true"/>
     </properties>
   </persistence-unit>
 </persistence>
