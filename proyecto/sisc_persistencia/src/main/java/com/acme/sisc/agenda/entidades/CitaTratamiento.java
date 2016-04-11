@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -60,10 +59,11 @@ public class CitaTratamiento implements Serializable {
     @Column(name = "fecha_generacion")
     @Temporal(TemporalType.DATE)
     private Date fechaGeneracion;
-    @JoinColumn(name = "id_tratamiento", referencedColumnName = "id_tratamiento", insertable = false, updatable = false)
+    @JoinColumn(name = "id_tratamiento", referencedColumnName = "id_tratamiento")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Tratamiento tratamiento;
-    @JoinColumn(name = "id_cita", referencedColumnName = "id", insertable = false, updatable = false)
+    
+    @JoinColumn(name = "id_cita", referencedColumnName = "id_cita")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Cita cita;
     

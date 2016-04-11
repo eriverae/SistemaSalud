@@ -46,7 +46,7 @@ public class CitaExamen implements Serializable {
     @NotNull
     @Column(name = "id")
     private Long id;
-    @JoinColumn(name = "id_cita", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "id_cita", referencedColumnName = "id_cita")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Cita cita;
     @Basic(optional = false)

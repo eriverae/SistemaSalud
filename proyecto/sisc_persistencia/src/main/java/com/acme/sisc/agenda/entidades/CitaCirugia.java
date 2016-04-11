@@ -56,10 +56,12 @@ public class CitaCirugia implements Serializable {
     @Column(name = "fecha_generacion")
     @Temporal(TemporalType.DATE)
     private Date fechaGeneracion;
-    @JoinColumn(name = "id_cita", referencedColumnName = "id", insertable = false, updatable = false)
+    
+    @JoinColumn(name = "id_cita", referencedColumnName = "id_cita")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Cita cita;
-    @JoinColumn(name = "id_cirugia", referencedColumnName = "id_cirugia", insertable = false, updatable = false)
+    
+    @JoinColumn(name = "id_cirugia", referencedColumnName = "id_cirugia")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Cirugia cirugia;
 

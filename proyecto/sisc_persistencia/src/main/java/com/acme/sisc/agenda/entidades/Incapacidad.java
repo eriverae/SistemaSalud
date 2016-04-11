@@ -62,7 +62,7 @@ public class Incapacidad implements Serializable {
     @Column(name = "fecha_generacion")
     @Temporal(TemporalType.DATE)
     private Date fechaGeneracion;
-    @JoinColumn(name = "id_cita", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "id_cita", referencedColumnName = "id_cita")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Cita cita;
 
