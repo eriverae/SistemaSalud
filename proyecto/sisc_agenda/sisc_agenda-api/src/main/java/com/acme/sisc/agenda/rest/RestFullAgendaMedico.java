@@ -16,7 +16,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
 import com.acme.sisc.agenda.shared.IAgendaLocal;
+import java.util.logging.Level;
 import javax.ejb.EJB;
+import javax.ws.rs.POST;
+
+
+import java.util.logging.Logger;
 
 /**
  *
@@ -26,6 +31,9 @@ import javax.ejb.EJB;
 @RequestScoped
 public class RestFullAgendaMedico {
 
+    
+    private final static Logger _log = Logger.getLogger(RestFullAgendaMedico.class.getName()); 
+    
     @Context
     private UriInfo context;
     @EJB
@@ -55,5 +63,14 @@ public class RestFullAgendaMedico {
         }
         
        
+    }
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/insertarAgenda")
+    
+    
+    public String insertarAgenda(String request){
+        _log.log(Level.WARNING," >>> "+ request);
+        return "";
     }
 }
