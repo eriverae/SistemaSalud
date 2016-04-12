@@ -22,27 +22,28 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Jamer
+ * @author Jhon
  */
 @Entity
-@Table(name = "persona_natural_operacion")
+@Table(name = "persona_natural_enfermedad")
 @XmlRootElement
 @NamedQueries({
-  @NamedQuery(name = "PersonaNaturalOperacion.findAll", query = "SELECT p FROM PersonaNaturalOperacion p"),
-  @NamedQuery(name = "PersonaNaturalOperacion.findByIdPaciente", query = "SELECT p FROM PersonaNaturalOperacion p WHERE p.paciente.idPersona = :idPaciente")})
+    @NamedQuery(name = "PersonaNaturalEnfermedad.findAll", query = "SELECT p FROM PersonaNaturalEnfermedad p"),
+    @NamedQuery(name = "PersonaNaturalEnfermedad.findByIdPaciente", query = "SELECT p FROM PersonaNaturalEnfermedad p WHERE p.paciente.idPersona = :idPaciente")})
 
-public class PersonaNaturalOperacion implements Serializable {
+public class PersonaNaturalEnfermedad implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_persona_operacion")
-    private Long idPersonaOperacion;
+    @Column(name = "id_persona_enfermedad")
+    private Long idPersonaEnfermedad;
 
-    @JoinColumn(name = "id_operacion", referencedColumnName = "id_operacion")
+    @JoinColumn(name = "id_enfermedad", referencedColumnName = "id_enfermedad")
     @ManyToOne
-    private Operacion operacion;
-    
+    private Enfermedad enfermedad;
+
     @JoinColumn(name = "id_paciente", referencedColumnName = "id_persona")
     @ManyToOne
     private PersonaNatural paciente;
@@ -54,18 +55,18 @@ public class PersonaNaturalOperacion implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idPersonaOperacion != null ? idPersonaOperacion.hashCode() : 0);
+        hash += (idPersonaEnfermedad != null ? idPersonaEnfermedad.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PersonaNaturalOperacion)) {
+        if (!(object instanceof PersonaNaturalEnfermedad)) {
             return false;
         }
-        PersonaNaturalOperacion other = (PersonaNaturalOperacion) object;
-        if ((this.idPersonaOperacion == null && other.idPersonaOperacion != null) || (this.idPersonaOperacion != null && !this.idPersonaOperacion.equals(other.idPersonaOperacion))) {
+        PersonaNaturalEnfermedad other = (PersonaNaturalEnfermedad) object;
+        if ((this.idPersonaEnfermedad == null && other.idPersonaEnfermedad != null) || (this.idPersonaEnfermedad != null && !this.idPersonaEnfermedad.equals(other.idPersonaEnfermedad))) {
             return false;
         }
         return true;
@@ -73,23 +74,23 @@ public class PersonaNaturalOperacion implements Serializable {
 
     @Override
     public String toString() {
-        return "com.acme.sisc.agenda.entidades.PersonaNaturalOperacion[ personaNaturalOperacionPK=" + idPersonaOperacion + " ]";
+        return "com.acme.sisc.agenda.entidades.PersonaNaturalEnfermedad[ personaNaturalEnfermedadPK=" + idPersonaEnfermedad + " ]";
     }
 
-    public Long getIdPersonaOperacion() {
-        return idPersonaOperacion;
+    public Long getIdPersonaEnfermedad() {
+        return idPersonaEnfermedad;
     }
 
-    public void setIdPersonaOperacion(Long idPersonaOperacion) {
-        this.idPersonaOperacion = idPersonaOperacion;
+    public void setIdPersonaEnfermedad(Long idPersonaEnfermedad) {
+        this.idPersonaEnfermedad = idPersonaEnfermedad;
     }
 
-    public Operacion getOperacion() {
-        return operacion;
+    public Enfermedad getEnfermedad() {
+        return enfermedad;
     }
 
-    public void setOperacion(Operacion operacion) {
-        this.operacion = operacion;
+    public void setEnfermedad(Enfermedad enfermedad) {
+        this.enfermedad = enfermedad;
     }
 
     public PersonaNatural getPaciente() {
@@ -107,4 +108,5 @@ public class PersonaNaturalOperacion implements Serializable {
     public void setVersion(Long version) {
         this.version = version;
     }
+
 }
