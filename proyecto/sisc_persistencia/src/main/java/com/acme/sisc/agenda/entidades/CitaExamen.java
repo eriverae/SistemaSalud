@@ -60,7 +60,7 @@ public class CitaExamen implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "observaciones")
     private String observaciones;
-    @JoinColumn(name = "id_examen", referencedColumnName = "id_examen", insertable = false, updatable = false)
+    @JoinColumn(name = "id_examen", referencedColumnName = "id_examen")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Examen examen;
     

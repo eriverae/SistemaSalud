@@ -148,5 +148,13 @@ public class CitaCirugia implements Serializable {
     public String toString() {
         return "com.acme.sisc.agenda.entidades.CitaCirugia[ id=" + id + " ]";
     }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
     
 }

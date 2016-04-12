@@ -57,7 +57,7 @@ public class CitaMedicamento implements Serializable {
     @Size(min = 1, max = 150)
     @Column(name = "formula")
     private String formula;
-    @JoinColumn(name = "id_medicamento", referencedColumnName = "id_medicamento", insertable = false, updatable = false)
+    @JoinColumn(name = "id_medicamento", referencedColumnName = "id_medicamento")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Medicamento medicamento;
     

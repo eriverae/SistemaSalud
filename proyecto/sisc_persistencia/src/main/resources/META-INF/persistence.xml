@@ -25,16 +25,6 @@
     <class>com.acme.sisc.agenda.entidades.PersonaNaturalOperacion</class>
      
     -->
-    <class>com.acme.sisc.agenda.entidades.Persona</class>
-    <class>com.acme.sisc.agenda.entidades.PersonaNatural</class>
-    <class>com.acme.sisc.agenda.entidades.PersonaJuridica</class>
-    <class>com.acme.sisc.agenda.entidades.PersonaEps</class>
-    <class>com.acme.sisc.agenda.entidades.Alergia</class>
-    <class>com.acme.sisc.agenda.entidades.PersonaNaturalAlergia</class>
-    <class>com.acme.sisc.agenda.entidades.Cita</class>
-    <class>com.acme.sisc.agenda.entidades.Agenda</class>
-    <class>com.acme.sisc.agenda.entidades.Examen</class>
-    <class>com.acme.sisc.agenda.entidades.Operacion</class>
     <!--
     
    
@@ -48,22 +38,33 @@
     <class>com.acme.sisc.agenda.entidades.Medicamento</class>
     
     -->
-    <class>com.acme.sisc.agenda.entidades.TipoPersonaNatural</class>
-    <class>com.acme.sisc.agenda.entidades.CitaExamen</class>
-    <class>com.acme.sisc.agenda.entidades.CitaMedicamento</class>
-    <class>com.acme.sisc.agenda.entidades.Medicamento</class>
-    <class>com.acme.sisc.agenda.entidades.Cirugia</class>
-    <class>com.acme.sisc.agenda.entidades.CitaCirugia</class>
-    <class>com.acme.sisc.agenda.entidades.CitaTratamiento</class>
-    <class>com.acme.sisc.agenda.entidades.Tratamiento</class>
-    <class>com.acme.sisc.agenda.entidades.Incapacidad</class>
     <class>com.acme.sisc.agenda.entidades.Acceso</class>
     <class>com.acme.sisc.agenda.entidades.Accgrup</class>
     <class>com.acme.sisc.agenda.entidades.Accusua</class>
+    <class>com.acme.sisc.agenda.entidades.Agenda</class>
+    <class>com.acme.sisc.agenda.entidades.Alergia</class>
     <class>com.acme.sisc.agenda.entidades.Auditusu</class>
+    <class>com.acme.sisc.agenda.entidades.Cirugia</class>
+    <class>com.acme.sisc.agenda.entidades.Cita</class>
+    <class>com.acme.sisc.agenda.entidades.CitaCirugia</class>
+    <class>com.acme.sisc.agenda.entidades.CitaExamen</class>
+    <class>com.acme.sisc.agenda.entidades.CitaMedicamento</class>
+    <class>com.acme.sisc.agenda.entidades.CitaTratamiento</class>
+    <class>com.acme.sisc.agenda.entidades.Examen</class>
     <class>com.acme.sisc.agenda.entidades.Grupo</class>
     <class>com.acme.sisc.agenda.entidades.Grupusu</class>
+    <class>com.acme.sisc.agenda.entidades.Incapacidad</class>
     <class>com.acme.sisc.agenda.entidades.LogNotifica</class>
+    <class>com.acme.sisc.agenda.entidades.Medicamento</class>
+    <class>com.acme.sisc.agenda.entidades.Operacion</class>
+    <class>com.acme.sisc.agenda.entidades.Persona</class>
+    <class>com.acme.sisc.agenda.entidades.PersonaEps</class>
+    <class>com.acme.sisc.agenda.entidades.PersonaJuridica</class>
+    <class>com.acme.sisc.agenda.entidades.PersonaNatural</class>
+    <class>com.acme.sisc.agenda.entidades.PersonaNaturalAlergia</class>
+    <class>com.acme.sisc.agenda.entidades.PersonaNaturalOperacion</class>
+    <class>com.acme.sisc.agenda.entidades.TipoPersonaNatural</class>
+    <class>com.acme.sisc.agenda.entidades.Tratamiento</class>
     <class>com.acme.sisc.agenda.entidades.Usuario</class>
     <class>com.acme.sisc.agenda.entidades.Usuempr</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>

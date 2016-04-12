@@ -21,6 +21,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -65,6 +66,10 @@ public class Incapacidad implements Serializable {
     @JoinColumn(name = "id_cita", referencedColumnName = "id_cita")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Cita cita;
+    
+    @Version
+    @Column(name = "VERSION")
+    private Long version;
 
     public Incapacidad() {
     }
@@ -78,14 +83,6 @@ public class Incapacidad implements Serializable {
         this.periodo = periodo;
         this.motivo = motivo;
         this.fechaGeneracion = fechaGeneracion;
-    }
-
-    public Long getIdincapacidad() {
-        return idIncapacidad;
-    }
-
-    public void setIdincapacidad(Long idIncapacidad) {
-        this.idIncapacidad = idIncapacidad;
     }
 
     public String getPeriodo() {
@@ -143,6 +140,22 @@ public class Incapacidad implements Serializable {
     @Override
     public String toString() {
         return "com.acme.sisc.agenda.entidades.Incapacidad[ idIncapacidad=" + idIncapacidad + " ]";
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public Long getIdIncapacidad() {
+        return idIncapacidad;
+    }
+
+    public void setIdIncapacidad(Long idIncapacidad) {
+        this.idIncapacidad = idIncapacidad;
     }
     
 }
