@@ -5,6 +5,7 @@
  */
 package com.acme.sisc.sisc_hc.shared;
 
+import com.acme.sisc.agenda.entidades.CitaExamen;
 import com.acme.sisc.agenda.entidades.Examen;
 import java.util.List;
 import javax.ejb.Local;
@@ -17,4 +18,5 @@ import javax.ejb.Local;
 public interface IExamenFacadeLocal {
     Examen find(Object id);
     List<Examen> findAll();   
+    public void addExamenCita(List<CitaExamen> cita_examen);
 }

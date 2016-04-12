@@ -5,8 +5,7 @@
  */
 package com.acme.sisc.sisc_hc.shared;
 
-import com.acme.sisc.agenda.entidades.CitaTratamiento;
-import com.acme.sisc.agenda.entidades.Tratamiento;
+import com.acme.sisc.agenda.entidades.Incapacidad;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -15,8 +14,8 @@ import javax.ejb.Local;
  * @author GABRIEL
  */
 @Local
-public interface ITratamientoFacadeLocal {
-    Tratamiento find(Object id);
-    List<Tratamiento> findAll();
-    void addTratamientoCita(List<CitaTratamiento> listaTratamiento);
+public interface IIncapacidadFacadeLocal {
+    Incapacidad find(Object id);
+    List<Incapacidad> findAll();
+    void addIncapacidad(Object incapacidad);
 }

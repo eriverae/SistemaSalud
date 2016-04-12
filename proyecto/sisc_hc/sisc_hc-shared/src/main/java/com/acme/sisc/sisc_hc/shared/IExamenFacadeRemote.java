@@ -5,6 +5,7 @@
  */
 package com.acme.sisc.sisc_hc.shared;
 
+import com.acme.sisc.agenda.entidades.CitaExamen;
 import com.acme.sisc.agenda.entidades.Examen;
 import java.util.List;
 import javax.ejb.Remote;
@@ -17,4 +18,5 @@ import javax.ejb.Remote;
 public interface IExamenFacadeRemote {
     Examen find(Object id);
     List<Examen> findAll();
+    public void addExamenCita(List<CitaExamen> cita_examen);
 }
