@@ -39,6 +39,6 @@ public class MedicamentoService {
     public String addMedicamentosCita(List<CitaMedicamento> cita_medicamento){
         facadeMedicamento.addMedicamentoCita(cita_medicamento);
         return "{}";
-    }    
+    }
     
 }

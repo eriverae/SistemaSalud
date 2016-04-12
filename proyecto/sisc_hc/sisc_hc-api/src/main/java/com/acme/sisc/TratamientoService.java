@@ -5,6 +5,7 @@
  */
 package com.acme.sisc;
 
+import com.acme.sisc.agenda.entidades.CitaTratamiento;
 import com.acme.sisc.sisc_hc.shared.ITratamientoFacadeLocal;
 import com.acme.sisc.sisc_hc.shared.ITratamientoFacadeRemote;
 import java.util.List;
@@ -19,7 +20,7 @@ import javax.ws.rs.Produces;
  *
  * @author GABRIEL
  */
-@Path("/medicamento/")
+@Path("/tratamiento/")
 public class TratamientoService {
     @EJB
     ITratamientoFacadeRemote facadeTratamiento;
@@ -28,5 +29,13 @@ public class TratamientoService {
     @Produces({"application/json"})
     public List GetTratamientosALL(){
         return facadeTratamiento.findAll();
+    }
+    
+    @POST
+    @Produces({"application/json"})
+    @Consumes({"application/json"})
+    public String addMedicamentosCita(List<CitaTratamiento> cita_tratamiento){
+        facadeTratamiento.addTratamientoCita(cita_tratamiento);
+        return "{}";
     }
 }
