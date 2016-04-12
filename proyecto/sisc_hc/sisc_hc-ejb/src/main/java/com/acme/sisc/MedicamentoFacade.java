@@ -67,15 +67,10 @@ public class MedicamentoFacade implements IMedicamentoFacadeLocal, IMedicamentoF
             for (int i=0; i<listaMedicamentos.size(); i++) {
                 CitaMedicamento obj = listaMedicamentos.get(i);
                 obj.setFechaGenracion(new Date());
-                Medicamento m = facadeMedicamento.find(listaMedicamentos.get(i).getMedicamento().getIdMedicamento());
-                obj.setMedicamento(m);
-                //Cita obj = new Cita();
-                //obj.setId(Long.parseLong("1"));
+                obj.setMedicamento(facadeMedicamento.find(listaMedicamentos.get(i).getMedicamento().getIdMedicamento()));
                 obj.setCita(c);
                 //listaMedicamentos.get(i).setMedicamento(facadeCita.findById(listaMedicamentos.get(i).getCita().getId()));
-                
                 em.persist(obj);
-            
             }
         }catch(Exception e){
             LOGGER.log(Level.SEVERE,"No se encontro cliente {0} ", e);

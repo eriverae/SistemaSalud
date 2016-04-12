@@ -6,9 +6,15 @@
 package com.acme.sisc;
 
 import com.acme.sisc.agenda.entidades.Cirugia;
+import com.acme.sisc.agenda.entidades.Cita;
+import com.acme.sisc.agenda.entidades.CitaCirugia;
 import com.acme.sisc.sisc_hc.shared.ICirugiaFacadeLocal;
 import com.acme.sisc.sisc_hc.shared.ICirugiaFacadeRemote;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,6 +26,11 @@ import javax.persistence.Query;
  */
 @Stateless
 public class CirugiaFacade implements ICirugiaFacadeLocal, ICirugiaFacadeRemote{
+    @EJB
+    ICirugiaFacadeRemote facadeCirugia;
+    
+    private static final Logger LOGGER = Logger.getLogger(MedicamentoFacade.class.getName());
+    
     @PersistenceContext(unitName = "SistemaSaludPU")
     private EntityManager em;
     
@@ -40,6 +51,23 @@ public class CirugiaFacade implements ICirugiaFacadeLocal, ICirugiaFacadeRemote{
     public List<Cirugia> findAll() {
         Query q = em.createQuery("SELECT m FROM Cirugia m");
         return q.getResultList();
+    }
+
+    @Override
+    public void addCirugiaCita(List<CitaCirugia> listaCirugia) {
+        try{
+            Cita c = em.find(Cita.class, new Long("1"));
+            for (int i=0; i<listaCirugia.size(); i++) {
+                CitaCirugia obj = listaCirugia.get(i);
+                obj.setFechaGeneracion(new Date());
+                obj.setCirugia(facadeCirugia.find(listaCirugia.get(i).getCirugia().getIdCirugia()));
+                obj.setCita(c);
+                //listaMedicamentos.get(i).setMedicamento(facadeCita.findById(listaMedicamentos.get(i).getCita().getId()));
+                em.persist(obj);
+            }
+        }catch(Exception e){
+            LOGGER.log(Level.SEVERE,"No se encontro cliente {0} ", e);
+        }
     }
     
 }
