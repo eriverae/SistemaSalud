@@ -5,6 +5,10 @@
  */
 package com.acme.sisc.agenda.shared;
 
+import com.acme.sisc.agenda.entidades.Agenda;
+import com.acme.sisc.agenda.exceptions.AgendaException;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.Remote;
 
 /**
@@ -13,6 +17,8 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface IAgendaRemote {
-    public String consultaAgendaMedico(String idMedico);
-    public String consultarCitasAgendaMedico(String idAgenda,String fechaCita);
+    
+    public List<Agenda>  consultaAgendaMedico(long idMedico,Date fechaInicial,Date fechaFinal) throws AgendaException;
+    public String  consultarCitasAgendaMedico(String idAgenda,String fechaCita)throws AgendaException;
+    public boolean insertarAgenda(long idMedico,long idEps,List<Agenda> agendas)throws AgendaException;
 }

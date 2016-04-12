@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Cita.findById", query = "SELECT c FROM Cita c WHERE c.idCita = :id"),
     @NamedQuery(name = "Cita.findByValor", query = "SELECT c FROM Cita c WHERE c.valor = :valor"),
     @NamedQuery(name = "Cita.findByEstadoPacienteAtendido", query = "SELECT c FROM Cita c WHERE c.estadoPacienteAtendido = :estadoPacienteAtendido"),
-    @NamedQuery(name = "Cita.findByFechaPaciente", query = "SELECT c FROM Cita c WHERE c.fechaPaciente = :fechaPaciente"),
+    @NamedQuery(name = "Cita.findByFechaPaciente", query = "SELECT c FROM Cita c WHERE c.horaInicio = :fechaPaciente"),
     @NamedQuery(name = "Cita.findByHoraInicio", query = "SELECT c FROM Cita c WHERE c.horaInicio = :horaInicio"),
     @NamedQuery(name = "Cita.findByIdAgenda", query = "SELECT c FROM Cita c WHERE c.agenda.idAgenda = :idAgenda")})
 public class Cita implements Serializable {
@@ -52,16 +52,21 @@ public class Cita implements Serializable {
     @Basic(optional = false)
     @Column(name = "estado_paciente_atendido")
     private boolean estadoPacienteAtendido;
+    
     @Basic(optional = false)
-    @Column(name = "fecha_paciente")
-    @Temporal(TemporalType.DATE)
-    private Date fechaPaciente;
     @Column(name = "hora_inicio")
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date horaInicio;
+    
+    @Basic(optional = false)
+    @Column(name = "hora_fin")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date horaFin;
 
+    
     @JoinColumn(name = "id_paciente_eps", referencedColumnName = "id_persona_eps")
-    @ManyToOne(optional = false)
+//    @ManyToOne(optional = false)
+    @ManyToOne()
     private PersonaEps pacienteEps;
 
     @JoinColumn(name = "id_agenda", referencedColumnName = "id_agenda")
@@ -83,7 +88,7 @@ public class Cita implements Serializable {
         this.idCita = id;
         this.valor = valor;
         this.estadoPacienteAtendido = estadoPacienteAtendido;
-        this.fechaPaciente = fechaPaciente;
+        this.horaFin = fechaPaciente;
         this.agenda = agenda;
     }
 
@@ -112,11 +117,11 @@ public class Cita implements Serializable {
     }
 
     public Date getFechaPaciente() {
-        return fechaPaciente;
+        return horaFin;
     }
 
     public void setFechaPaciente(Date fechaPaciente) {
-        this.fechaPaciente = fechaPaciente;
+        this.horaFin = fechaPaciente;
     }
 
     public Date getHoraInicio() {

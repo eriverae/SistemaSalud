@@ -5,6 +5,8 @@
  */
 package com.acme.sisc.agenda.rest;
 
+import com.acme.sisc.agenda.entidades.Agenda;
+import com.acme.sisc.agenda.exceptions.AgendaException;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -16,6 +18,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
 import com.acme.sisc.agenda.shared.IAgendaLocal;
+import com.acme.sisc.agenda.util.AgendaUtil;
+import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import javax.ejb.EJB;
 import javax.ws.rs.POST;
@@ -41,12 +46,32 @@ public class RestFullAgendaMedico {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)    
-    @Path("/consulta")
-    public String consultaAgendaMedico(@DefaultValue("1")
-            @QueryParam("page") String   page) {
-        
-        
-        return agenda.consultaAgendaMedico(page);
+    @Path("/consultaAgenda")
+    public List<Agenda> consultaAgendaMedico(@DefaultValue("0")
+            @QueryParam("idMedico")         long   idMedico,
+            @QueryParam("fechaInicial")     String fechaInicial,
+            @QueryParam("fechaFinal")       String fechaFinal) {
+                
+        try {
+            
+            if(fechaInicial!=null&&!fechaInicial.isEmpty()&&
+                   fechaFinal!=null&&!fechaFinal.isEmpty() ){
+                
+                 return agenda.consultaAgendaMedico(idMedico,
+                    AgendaUtil.parserStringToDateSimpleDateFormat(fechaInicial),
+                    AgendaUtil.parserStringToDateSimpleDateFormat(fechaFinal));
+            }else{
+                 return agenda.consultaAgendaMedico(idMedico,
+                    new Date (),
+                    new Date ());
+            }
+            
+            
+           
+        } catch (AgendaException ex) {
+            _log.log(Level.SEVERE, "RestFullAgendaMedico.consultaAgendaMedico", ex);
+            return null;
+        }
     }
         
      @GET     
@@ -57,7 +82,8 @@ public class RestFullAgendaMedico {
              @QueryParam("fecha") String   fecha) {
         
         if(fecha!=null&&!fecha.isEmpty()&&idAgenda!=null&&!idAgenda.isEmpty()){
-             return agenda.consultarCitasAgendaMedico(idAgenda, fecha);
+            return null;
+//             return agenda.consultarCitasAgendaMedico(idAgenda, fecha);
         }else{
             return "Datos no validos";
         }
@@ -66,9 +92,7 @@ public class RestFullAgendaMedico {
     }
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/insertarAgenda")
-    
-    
+    @Path("/insertarAgenda")    
     public String insertarAgenda(String request){
         _log.log(Level.WARNING," >>> "+ request);
         return "";

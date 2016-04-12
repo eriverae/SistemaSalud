@@ -3,7 +3,7 @@
   <persistence-unit name="SistemaSaludPU" transaction-type="JTA">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <jta-data-source>java:jboss/datasources/siscDatasource</jta-data-source>
-    <!-- Hay 32 entidades, 23 mapeadas -->   
+    <!-- Hay 32 entidades, 23 mapeadas -->
     <class>com.acme.sisc.agenda.entidades.Acceso</class>
     <class>com.acme.sisc.agenda.entidades.Accgrup</class>
     <class>com.acme.sisc.agenda.entidades.Agenda</class>
@@ -25,7 +25,7 @@
     <class>com.acme.sisc.agenda.entidades.PersonaNaturalAlergia</class>
     <class>com.acme.sisc.agenda.entidades.PersonaNaturalEspecialidad</class>
     <class>com.acme.sisc.agenda.entidades.Tratamiento</class>
-    <class>com.acme.sisc.agenda.entidades.Usuario</class>    
+    <class>com.acme.sisc.agenda.entidades.Usuario</class>
     <class>com.acme.sisc.agenda.entidades.Usuempr</class>
     <class>com.acme.sisc.agenda.entidades.Accusua</class>
     <class>com.acme.sisc.agenda.entidades.Cirugia</class>
@@ -40,9 +40,11 @@
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <validation-mode>NONE</validation-mode>
     <properties>
+      <!--**** persistencia PostgreSQL ***-->
       <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+      <!--**** persistencia Mysql ***-->
+      <!--<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>-->
       <property name="hibernate.show_sql" value="true"/>
-      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
 </persistence>

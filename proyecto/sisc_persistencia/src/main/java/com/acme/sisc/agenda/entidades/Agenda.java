@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Agenda.findAll", query = "SELECT a FROM Agenda a"),
-    @NamedQuery(name = "Agenda.findByIdMedico", query = "SELECT a FROM Agenda a WHERE a.medicoEps.idPersonaEps = :idPersonaEps")})
+    @NamedQuery(name = "Agenda.findByIdMedico", query = "SELECT a FROM Agenda a WHERE a.medicoEps.persona.idPersona = :idMedico")})
 public class Agenda implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -72,11 +72,11 @@ public class Agenda implements Serializable {
     private Integer numeroConsultorio;
 
     @Column(name = "hora_bloque_inicio")
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date horaBloqueinicio;
 
     @Column(name = "hora_bloque_fin")
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date horaBloqueFin;
 
     @Size(max = 50)
@@ -226,7 +226,7 @@ public class Agenda implements Serializable {
     public void setVersion(Long version) {
         this.version = version;
     }
-
+    
     public List<Cita> getCitasAgenda() {
         return citasAgenda;
     }
