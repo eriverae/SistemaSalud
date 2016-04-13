@@ -20,3 +20,6 @@
 /proyecto/sisc_hc/sisc_hc-api/target/
 /proyecto/sisc_hc/sisc_hc-ear/target/
 /proyecto/sisc_hc/sisc_hc-shared/target/
+
+#Se excluye el target del proyecto WEB
+/proyecto/sisc_web/target/
