@@ -74,12 +74,12 @@ public class Incapacidad implements Serializable {
     public Incapacidad() {
     }
 
-    public Incapacidad(Long idincapacidad) {
-        this.idIncapacidad = idincapacidad;
+    public Incapacidad(Long idIncapacidad) {
+        this.idIncapacidad = idIncapacidad;
     }
 
-    public Incapacidad(Long idincapacidad, String periodo, String motivo, Date fechaGeneracion) {
-        this.idIncapacidad = idincapacidad;
+    public Incapacidad(Long idIncapacidad, String periodo, String motivo, Date fechaGeneracion) {
+        this.idIncapacidad = idIncapacidad;
         this.periodo = periodo;
         this.motivo = motivo;
         this.fechaGeneracion = fechaGeneracion;

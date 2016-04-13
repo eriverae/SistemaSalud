@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -21,8 +22,8 @@ import javax.persistence.PersistenceContext;
  *
  * @author GABRIEL
  */
+@Stateless
 public class IncapacidadFacade implements IIncapacidadFacadeLocal, IIncapacidadFacadeRemote{
-    
     @EJB
     IIncapacidadFacadeRemote facadeIncapacidad;
     
@@ -52,13 +53,13 @@ public class IncapacidadFacade implements IIncapacidadFacadeLocal, IIncapacidadF
     @Override
     public void addIncapacidad(Object incapacidad) {
         try{
+            facadeIncapacidad.findAll();
             Cita c = em.find(Cita.class, new Long("1"));
             Incapacidad obj = (Incapacidad) incapacidad;
             obj.setFechaGeneracion(new Date());
             obj.setCita(c);
             //listaMedicamentos.get(i).setMedicamento(facadeCita.findById(listaMedicamentos.get(i).getCita().getId()));
             em.persist(obj);
-            em.find(Incapacidad.class, obj);
         }catch(Exception e){
             LOGGER.log(Level.SEVERE,"No se encontro cliente {0} ", e);
         }
