@@ -5,6 +5,7 @@
  */
 package com.acme.sisc;
 
+import com.acme.sisc.agenda.entidades.CitaExamen;
 import com.acme.sisc.sisc_hc.shared.IExamenFacadeLocal;
 import com.acme.sisc.sisc_hc.shared.IExamenFacadeRemote;
 import java.util.List;
@@ -28,5 +29,13 @@ public class ExamenService {
     @Produces({"application/json"})
     public List GetExamensALL(){
         return facadeExamen.findAll();
+    }
+    
+    @POST
+    @Produces({"application/json"})
+    @Consumes({"application/json"})
+    public String addExamenCita(List<CitaExamen> cita_examen){
+        facadeExamen.addExamenCita(cita_examen);
+        return "{}";
     }
 }

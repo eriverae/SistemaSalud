@@ -6,6 +6,7 @@
 package com.acme.sisc.sisc_hc.shared;
 
 import com.acme.sisc.agenda.entidades.Cirugia;
+import com.acme.sisc.agenda.entidades.CitaCirugia;
 import java.util.List;
 import javax.ejb.Remote;
 
@@ -17,4 +18,6 @@ import javax.ejb.Remote;
 public interface ICirugiaFacadeRemote {
     Cirugia find(Object id);
     List<Cirugia> findAll();   
+    public void addCirugiaCita(List<CitaCirugia> cita_cirugia);
+    
 }

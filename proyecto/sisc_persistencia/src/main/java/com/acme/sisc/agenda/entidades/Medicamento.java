@@ -50,8 +50,6 @@ public class Medicamento implements Serializable {
     @Size(min = 1, max = 150)
     @Column(name = "nombre_medicamento")
     private String nombreMedicamento;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "medicamento", fetch = FetchType.LAZY)
-    private List<CitaMedicamento> citaMedicamentoList;
     
     @Version
     @Column(name = "VERSION")
@@ -83,15 +81,6 @@ public class Medicamento implements Serializable {
 
     public void setNombreMedicamento(String nombreMedicamento) {
         this.nombreMedicamento = nombreMedicamento;
-    }
-
-    @XmlTransient
-    public List<CitaMedicamento> getCitaMedicamentoList() {
-        return citaMedicamentoList;
-    }
-
-    public void setCitaMedicamentoList(List<CitaMedicamento> citaMedicamentoList) {
-        this.citaMedicamentoList = citaMedicamentoList;
     }
 
     @Override

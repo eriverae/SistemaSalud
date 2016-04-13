@@ -14,14 +14,17 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Version;
+import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -93,6 +96,14 @@ public class PersonaNatural extends Persona implements Serializable {
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "paciente", fetch = FetchType.LAZY)
   private List<PersonaNaturalAlergia> listaAlergias;
+  
+  @ManyToMany
+  @JoinTable(
+      name="OPERACION_PACIENTE",
+      joinColumns=@JoinColumn(name="PACIENTE_ID", referencedColumnName="ID_PERSONA"),
+      inverseJoinColumns=@JoinColumn(name="OPERACION_ID", referencedColumnName="ID_OPERACION"),
+      uniqueConstraints=@UniqueConstraint(name="OPER_PACIENTE_UNIQUE", columnNames={"PACIENTE_ID","OPERACION_ID"}))
+  private List<Operacion> listaOperacionesPaciente;
 
   public PersonaNatural() {
   }
@@ -238,6 +249,14 @@ public class PersonaNatural extends Persona implements Serializable {
 
   public void setListaAlergias(List<PersonaNaturalAlergia> listaAlergias) {
     this.listaAlergias = listaAlergias;
+  }
+
+  public List<Operacion> getListaOperacionesPaciente() {
+    return listaOperacionesPaciente;
+  }
+
+  public void setListaOperacionesPaciente(List<Operacion> listaOperacionesPaciente) {
+    this.listaOperacionesPaciente = listaOperacionesPaciente;
   }
 
 }

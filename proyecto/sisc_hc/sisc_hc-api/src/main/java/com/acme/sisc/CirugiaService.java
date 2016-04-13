@@ -5,6 +5,7 @@
  */
 package com.acme.sisc;
 
+import com.acme.sisc.agenda.entidades.CitaCirugia;
 import com.acme.sisc.sisc_hc.shared.ICirugiaFacadeLocal;
 import com.acme.sisc.sisc_hc.shared.ICirugiaFacadeRemote;
 import java.util.List;
@@ -28,5 +29,13 @@ public class CirugiaService {
     @Produces({"application/json"})
     public List GetCirugiasALL(){
         return facadeCirugia.findAll();
+    }
+    
+    @POST
+    @Produces({"application/json"})
+    @Consumes({"application/json"})
+    public String addcirugiaCita(List<CitaCirugia> cita_cirugia){
+        facadeCirugia.addCirugiaCita(cita_cirugia);
+        return "{}";
     }
 }

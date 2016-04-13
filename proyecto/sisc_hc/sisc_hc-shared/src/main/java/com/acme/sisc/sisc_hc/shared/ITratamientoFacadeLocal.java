@@ -5,6 +5,7 @@
  */
 package com.acme.sisc.sisc_hc.shared;
 
+import com.acme.sisc.agenda.entidades.CitaTratamiento;
 import com.acme.sisc.agenda.entidades.Tratamiento;
 import java.util.List;
 import javax.ejb.Local;
@@ -16,5 +17,6 @@ import javax.ejb.Local;
 @Local
 public interface ITratamientoFacadeLocal {
     Tratamiento find(Object id);
-    List<Tratamiento> findAll();   
+    List<Tratamiento> findAll();
+    void addTratamientoCita(List<CitaTratamiento> listaTratamiento);
 }

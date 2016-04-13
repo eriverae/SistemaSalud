@@ -3,69 +3,52 @@
   <persistence-unit name="SistemaSaludPU" transaction-type="JTA">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <jta-data-source>java:jboss/datasources/siscDatasource</jta-data-source>
-    <!--
-    <class>com.acme.sisc.agenda.entidades.Accgrup</class>
-    <class>com.acme.sisc.agenda.entidades.Usuempr</class>
-    
-    <class>com.acme.sisc.agenda.entidades.Especialidad</class>
+    <!-- Hay 32 entidades, 23 mapeadas -->
     <class>com.acme.sisc.agenda.entidades.Acceso</class>
-    <class>com.acme.sisc.agenda.entidades.Tratamiento</class>
-    <class>com.acme.sisc.agenda.entidades.Grupusu</class>
-    <class>com.acme.sisc.agenda.entidades.Operacion</class>
-    <class>com.acme.sisc.agenda.entidades.PersonaNaturalEspecialidad</class>
-    <class>com.acme.sisc.agenda.entidades.Grupo</class>
-    <class>com.acme.sisc.agenda.entidades.PersonaNaturalOperacion</class>
-    <class>com.acme.sisc.agenda.entidades.TipoPersonaNatural</class>
-    <class>com.acme.sisc.agenda.entidades.Alergia</class>
+    <class>com.acme.sisc.agenda.entidades.Accgrup</class>
     <class>com.acme.sisc.agenda.entidades.Agenda</class>
-    <class>com.acme.sisc.agenda.entidades.PersonaNaturalAlergia</class>
+    <class>com.acme.sisc.agenda.entidades.Alergia</class>
     <class>com.acme.sisc.agenda.entidades.Auditusu</class>
     <class>com.acme.sisc.agenda.entidades.PersonaNaturalEnfermedad</class>
-    -->
-    <class>com.acme.sisc.agenda.entidades.Persona</class>
-    <class>com.acme.sisc.agenda.entidades.PersonaNatural</class>
-    <class>com.acme.sisc.agenda.entidades.PersonaJuridica</class>
-    <class>com.acme.sisc.agenda.entidades.PersonaEps</class>
-    <class>com.acme.sisc.agenda.entidades.Alergia</class>
-    <class>com.acme.sisc.agenda.entidades.PersonaNaturalAlergia</class>
+    <class>com.acme.sisc.agenda.entidades.PersonaNaturalOperacion</class>
     <class>com.acme.sisc.agenda.entidades.Cita</class>
-    <class>com.acme.sisc.agenda.entidades.Examen</class>
-    <!--
-    
-   
-    <class>com.acme.sisc.agenda.entidades.Incapacidad</class>
-    <class>com.acme.sisc.agenda.entidades.PersonaNaturalBeneficiario</class>
-    <class>com.acme.sisc.agenda.entidades.Usuario</class>
-    <class>com.acme.sisc.agenda.entidades.Cirugia</class>
-    <class>com.acme.sisc.agenda.entidades.LogNotifica</class>
-    <class>com.acme.sisc.agenda.entidades.Enfermedad</class>
-    <class>com.acme.sisc.agenda.entidades.Accusua</class>
-    <class>com.acme.sisc.agenda.entidades.Medicamento</class>
-    
-    -->
-    <class>com.acme.sisc.agenda.entidades.TipoPersonaNatural</class>
     <class>com.acme.sisc.agenda.entidades.CitaExamen</class>
-    <class>com.acme.sisc.agenda.entidades.CitaMedicamento</class>
-    <class>com.acme.sisc.agenda.entidades.Medicamento</class>
-    <class>com.acme.sisc.agenda.entidades.Cirugia</class>
-    <class>com.acme.sisc.agenda.entidades.CitaCirugia</class>
     <class>com.acme.sisc.agenda.entidades.CitaTratamiento</class>
-    <class>com.acme.sisc.agenda.entidades.Tratamiento</class>
-    <class>com.acme.sisc.agenda.entidades.Incapacidad</class>
-    <class>com.acme.sisc.agenda.entidades.Acceso</class>
-    <class>com.acme.sisc.agenda.entidades.Accgrup</class>
-    <class>com.acme.sisc.agenda.entidades.Accusua</class>
-    <class>com.acme.sisc.agenda.entidades.Auditusu</class>
+    <class>com.acme.sisc.agenda.entidades.Examen</class>
     <class>com.acme.sisc.agenda.entidades.Grupo</class>
     <class>com.acme.sisc.agenda.entidades.Grupusu</class>
-    <class>com.acme.sisc.agenda.entidades.LogNotifica</class>
+    <class>com.acme.sisc.agenda.entidades.Operacion</class>
+    <class>com.acme.sisc.agenda.entidades.Persona</class>
+    <class>com.acme.sisc.agenda.entidades.PersonaEps</class>
+    <class>com.acme.sisc.agenda.entidades.PersonaJuridica</class>
+    <class>com.acme.sisc.agenda.entidades.PersonaNatural</class>
+    <class>com.acme.sisc.agenda.entidades.PersonaNaturalAlergia</class>
+    <class>com.acme.sisc.agenda.entidades.PersonaNaturalEspecialidad</class>
+    <class>com.acme.sisc.agenda.entidades.Tratamiento</class>
     <class>com.acme.sisc.agenda.entidades.Usuario</class>
     <class>com.acme.sisc.agenda.entidades.Usuempr</class>
+    <class>com.acme.sisc.agenda.entidades.Accusua</class>
+    <class>com.acme.sisc.agenda.entidades.Cirugia</class>
+    <class>com.acme.sisc.agenda.entidades.CitaMedicamento</class>
+    <class>com.acme.sisc.agenda.entidades.Incapacidad</class>
+    <class>com.acme.sisc.agenda.entidades.LogNotifica</class>
+    <class>com.acme.sisc.agenda.entidades.Medicamento</class>
+    <class>com.acme.sisc.agenda.entidades.TipoPersonaNatural</class>
+    <class>com.acme.sisc.agenda.entidades.CitaCirugia</class>
+    <class>com.acme.sisc.agenda.entidades.Enfermedad</class>
+    <class>com.acme.sisc.agenda.entidades.Especialidad</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <validation-mode>NONE</validation-mode>
     <properties>
+      <!--**** persistencia PostgreSQL ***-->
       <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+<<<<<<< HEAD
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+=======
+      <!--**** persistencia Mysql ***-->
+      <!--<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>-->
+      <property name="hibernate.show_sql" value="true"/>
+>>>>>>> 005a49a9dd9d24e4b147d4232cec7de3f73bccfa
     </properties>
   </persistence-unit>
 </persistence>

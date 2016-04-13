@@ -19,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -49,6 +50,9 @@ public class Tratamiento implements Serializable {
     private String nombreTratamiento;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tratamiento", fetch = FetchType.LAZY)
     private List<CitaTratamiento> citaTratamientoList;
+    @Version
+    @Column(name = "VERSION")
+    private Long version;
 
     public Tratamiento() {
     }
@@ -105,6 +109,14 @@ public class Tratamiento implements Serializable {
 
     public void setCitaTratamientoList(List<CitaTratamiento> citaTratamientoList) {
         this.citaTratamientoList = citaTratamientoList;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
     
 }

@@ -5,6 +5,7 @@
  */
 package com.acme.sisc.sisc_hc.shared;
 
+import com.acme.sisc.agenda.entidades.CitaTratamiento;
 import com.acme.sisc.agenda.entidades.Tratamiento;
 import java.util.List;
 import javax.ejb.Remote;
@@ -17,4 +18,5 @@ import javax.ejb.Remote;
 public interface ITratamientoFacadeRemote {
     Tratamiento find(Object id);
     List<Tratamiento> findAll();
+    void addTratamientoCita(List<CitaTratamiento> listaTratamiento);
 }
