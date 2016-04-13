@@ -24,6 +24,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -222,6 +223,7 @@ public class Usuario implements Serializable {
         return listaAuditores;
     }
 
+    @XmlTransient
     public void setListaAuditores(List<Auditusu> listaAuditores) {
         this.listaAuditores = listaAuditores;
     }

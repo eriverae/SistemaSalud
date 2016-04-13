@@ -75,16 +75,16 @@ public class UsuarioResource {
     }
     
     @GET
-    @Path("{id}")
+    @Path("{usuaUsua}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Usuario consultarUsuario(@PathParam("id") Long id){
+    public Usuario consultarUsuario(@PathParam("usuaUsua") Long id){
         return facadeUsuario.find(id);
 
     }
     
     @DELETE
-    @Path("{id}")
-    public void eliminarUsuario(@PathParam("id") Long id){
+    @Path("{usuaUsua}")
+    public void eliminarUsuario(@PathParam("usuaUsua") Long id){
       LOGGER.log(Level.FINE,"Request para eliminar usuario con id {0}", id);
       facadeUsuario.remove(id);
     }
