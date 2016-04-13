@@ -6,7 +6,6 @@
 package com.acme.sisc.agenda.ejb.facade;
 
 import com.acme.sisc.agenda.constant.WebConstant;
-import com.acme.sisc.agenda.entidades.Agenda;
 import com.acme.sisc.agenda.entidades.PersonaEps;
 import com.acme.sisc.agenda.exceptions.AgendaException;
 import java.util.logging.Level;
@@ -26,6 +25,7 @@ public class FacadeMedicoEps extends AbstractFacade<PersonaEps>{
     
     Logger _log = Logger.getLogger(this.getClass().getName());
 
+    @Override
     protected EntityManager getEntityManager() {
         return em;
     }
