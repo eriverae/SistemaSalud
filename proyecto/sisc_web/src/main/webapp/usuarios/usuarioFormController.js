@@ -6,9 +6,9 @@ app.controller('usuarioFormController', function ($scope, $rootScope, $statePara
   
   $scope.usuario={};
   
-  if (angular.isDefined($stateParams.idUsuario)){
-    console.log('Usuario a modificar, ID = '+ $stateParams.idUsuario);
-    usuarioService.get({id: $stateParams.idUsuario}).$promise.then(
+  if (angular.isDefined($stateParams.usuaUsua)){
+    console.log('Usuario a modificar, ID = '+ $stateParams.usuaUsua);
+    usuarioService.get({usuaUsua: $stateParams.usuaUsua}).$promise.then(
       function (data) {
         $scope.usuario = data;
         //A partir de Angular 1.3, ng-model requiere un objeto de tipo Date valido, no acepta un String
@@ -59,14 +59,21 @@ app.controller('usuarioFormController', function ($scope, $rootScope, $statePara
           bodyText: 'Operación existosa!'
       };
 
-      //modalService.showModal({}, modalOptions).then(function () {
-        //$scope.clearForm();
-        //$state.go('usuarios');
-      //});
+      modalService.showModal({}, modalOptions).then(function () {
+        $scope.clearForm();
+        $state.go('usuarios');
+      });
   });
   
   $scope.cancelar = function(){
     $state.go('usuarios');
+  };
+  
+  $scope.validarContrasena = function(){
+    console.log("contraseña 1: "+$scope.usuario.usuaPass+" contraseña 2: "+$scope.usuario.usuaPass1);
+    
+    return($scope.usuario.usuaPass !== $scope.usuario.usuaPass1);
+
   };
   
 });

@@ -25,8 +25,9 @@ app.controller('usuariosListController', function ($scope, $rootScope,$state ,us
         // Broadcasts an event when a row is selected, to signal the form that it needs to load the row data.
         afterSelectionChange: function (rowItem) {
             if (rowItem.selected) {
-                $rootScope.$broadcast('usuarioSelected', $scope.gridOptions.selectedItems[0].id);
-                console.log('Se emitio evento <usuarioSelected>');
+                $rootScope.$broadcast('modificarUsuario', $scope.gridOptions.selectedItems[0].usuaUsua);
+                console.log('Se emitio evento <modificarUsuario> ');
+                console.log($scope.gridOptions.selectedItems[0].usuaUsua);
             }
         }
     };
@@ -37,13 +38,13 @@ app.controller('usuariosListController', function ($scope, $rootScope,$state ,us
 
     // Refresh the grid, calling the appropriate rest method.
     $scope.refreshGrid = function () {
-        var listClientesArgs = {
-            page: $scope.clientes.currentPage,
+        var listUsuariosArgs = {
+            page: $scope.usuarios.currentPage,
             sortFields: $scope.sortInfo.fields[0],
             sortDirections: $scope.sortInfo.directions[0]
         };
 
-        usuarioService.get(listClientesArgs, function (data) {
+        usuarioService.get(listUsuariosArgs, function (data) {
             $scope.usuarios = data;
         });
     };
@@ -65,8 +66,8 @@ app.controller('usuariosListController', function ($scope, $rootScope,$state ,us
     };
     
     $scope.updateRow = function(row){
-      var idUsuario = row.entity.usuaUsua;
-      $state.go("modificarUsuario", {'usuaUsua':idUsuario});
+      var usuaUsua = row.entity.usuaUsua;
+      $state.go("modificarUsuario", {'usuaUsua':usuaUsua});
     };
 
     // Watch the sortInfo variable. If changes are detected than we need to refresh the grid.

@@ -25,9 +25,9 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
     
     .state('modificarUsuario',{
       url: '/modificarUsuario',
-      templateUrl: 'usuarios/formularioUsuarios.html',
+      templateUrl: 'usuarios/formularioUsuario.html',
       controller: 'usuarioFormController',
-      params : {'idUsuario':null}
+      params : {'usuaUsua':null}
     });
     /*
     $routeProvider
