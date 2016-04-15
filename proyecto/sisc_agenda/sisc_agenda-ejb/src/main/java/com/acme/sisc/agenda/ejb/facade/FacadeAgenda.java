@@ -24,6 +24,7 @@ public class FacadeAgenda  extends  AbstractFacade <Agenda>  {
     
      Logger log = Logger.getLogger(this.getClass().getName());
 
+     @Override
     protected EntityManager getEntityManager() {
         return em;
     }

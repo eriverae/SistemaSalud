@@ -3,9 +3,8 @@
  * and open the template in the editor.
  */
 package com.acme.sisc.agenda.ejb;
+//package com.acme.sisc.agenda;
 
-import com.acme.sisc.agenda.constant.WebConstant;
-import com.acme.sisc.agenda.ejb.facade.AbstractFacade;
 import com.acme.sisc.agenda.ejb.facade.FacadeAgenda;
 import com.acme.sisc.agenda.ejb.facade.FacadeMedicoEps;
 import com.acme.sisc.agenda.entidades.Agenda;
@@ -19,8 +18,6 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /**
  *
