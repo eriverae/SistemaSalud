@@ -15,8 +15,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import java.io.*;
-import org.json.JSONArray;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -29,16 +28,22 @@ public class MedicamentoService {
     
     @GET
     @Produces({"application/json"})
-    public List GetMedicamentosALL(){
-        return facadeMedicamento.findAll();
+    public Response GetMedicamentosALL(){
+        return Response
+            .status(200)
+            .entity(facadeMedicamento.findAll())
+            .build();
     }
 
     @POST
     @Produces({"application/json"})
     @Consumes({"application/json"})
-    public String addMedicamentosCita(List<CitaMedicamento> cita_medicamento){
+    public Response addMedicamentosCita(List<CitaMedicamento> cita_medicamento){
         facadeMedicamento.addMedicamentoCita(cita_medicamento);
-        return "{}";
+        return Response
+            .status(200)
+            .entity("{}")
+            .build();
     }
     
 }

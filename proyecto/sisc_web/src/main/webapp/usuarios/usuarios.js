@@ -25,8 +25,8 @@ app.controller('usuariosListController', function ($scope, $rootScope,$state ,us
         // Broadcasts an event when a row is selected, to signal the form that it needs to load the row data.
         afterSelectionChange: function (rowItem) {
             if (rowItem.selected) {
-                $rootScope.$broadcast('modificarUsuario', $scope.gridOptions.selectedItems[0].usuaUsua);
-                console.log('Se emitio evento <modificarUsuario> ');
+                $rootScope.$broadcast('usuarioSelected', $scope.gridOptions.selectedItems[0].usuaUsua);
+                console.log('Se emitio evento <usuarioSelected> ');
                 console.log($scope.gridOptions.selectedItems[0].usuaUsua);
             }
         }

@@ -9,9 +9,11 @@ import com.acme.sisc.agenda.entidades.Incapacidad;
 import com.acme.sisc.sisc_hc.shared.IIncapacidadFacadeRemote;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -22,13 +24,25 @@ public class IncapacidadService {
     @EJB
     IIncapacidadFacadeRemote facadeIncapacidad;
     
+    @GET
+    @Produces({"application/json"})
+    public Response GetIncapacidadALL(){
+        return Response
+            .status(200)
+            .entity(facadeIncapacidad.findAll())
+            .build();
+    }
+    
     
     @POST
     @Produces({"application/json"})
     @Consumes({"application/json"})
-    public String PostIncapacidad(Incapacidad incapacidad){
+    public Response PostIncapacidad(Incapacidad incapacidad){
         facadeIncapacidad.addIncapacidad(incapacidad);
-        return "{}";
+        return Response
+            .status(200)
+            .entity("{}")
+            .build();
     }
 
 }

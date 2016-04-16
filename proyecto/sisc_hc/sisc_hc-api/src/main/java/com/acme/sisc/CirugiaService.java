@@ -15,6 +15,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -27,15 +28,21 @@ public class CirugiaService {
     
     @GET
     @Produces({"application/json"})
-    public List GetCirugiasALL(){
-        return facadeCirugia.findAll();
+    public Response GetCirugiasALL(){
+        return Response
+            .status(200)
+            .entity(facadeCirugia.findAll())
+            .build();
     }
     
     @POST
     @Produces({"application/json"})
     @Consumes({"application/json"})
-    public String addcirugiaCita(List<CitaCirugia> cita_cirugia){
+    public Response addcirugiaCita(List<CitaCirugia> cita_cirugia){
         facadeCirugia.addCirugiaCita(cita_cirugia);
-        return "{}";
+        return Response
+            .status(200)
+            .entity("{}")
+            .build();
     }
 }

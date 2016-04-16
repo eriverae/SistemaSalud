@@ -15,6 +15,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -27,15 +28,21 @@ public class ExamenService {
     
     @GET
     @Produces({"application/json"})
-    public List GetExamensALL(){
-        return facadeExamen.findAll();
+    public Response GetExamensALL(){
+        return Response
+            .status(200)
+            .entity(facadeExamen.findAll())
+            .build();
     }
     
     @POST
     @Produces({"application/json"})
     @Consumes({"application/json"})
-    public String addExamenCita(List<CitaExamen> cita_examen){
+    public Response addExamenCita(List<CitaExamen> cita_examen){
         facadeExamen.addExamenCita(cita_examen);
-        return "{}";
+        return Response
+            .status(200)
+            .entity("{}")
+            .build();
     }
 }
