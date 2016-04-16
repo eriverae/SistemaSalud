@@ -9,6 +9,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import com.acme.sisc.agenda.entidades.Agenda;
+import com.acme.sisc.agenda.entidades.PersonaEps;
 import com.acme.sisc.agenda.exceptions.AgendaException;
 import java.util.Date;
 
@@ -22,4 +23,5 @@ public interface IAgendaLocal {
     public List<Agenda>  consultaAgendaMedico(long idMedico,Date fechaInicial,Date fechaFinal) throws AgendaException;
     public String  consultarCitasAgendaMedico(String idAgenda,String fechaCita)throws AgendaException;
     public boolean insertarAgenda(long idMedico,long idEps,List<Agenda> agendas)throws AgendaException;
+    public List<PersonaEps> consutarEpsMedico(long idMedico);
 }

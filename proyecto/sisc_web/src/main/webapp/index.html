@@ -9,7 +9,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="lib/dependencies/css/bootstrap.min.css" />
         <link rel="stylesheet" href="lib/dependencies/css/ng-grid.min.css" />
+        <link rel="stylesheet" href="lib/dependencies/css/fullcalendar.css">
         <link rel="stylesheet" type="text/css" href="css/style.css"/>
+        
+        
         <!-- END META SECTION -->
         
         <!-- CSS INCLUDE -->        
@@ -58,6 +61,15 @@
                         </ul>
                        
                     </li>
+                    <div>
+                    <li class="xn-openable" ng-app="calendarDemoApp">
+                        <a href="#"><span class="fa fa-ambulance"></span> <span class="xn-text">Medicos</span></a>
+                        <ul>
+                            <li><a ui-sref="agenda">Agenda</a></li>
+                        </ul>
+                        
+                    </li>
+                    </div>
                         
                     
                 </ul>
@@ -241,6 +253,9 @@
         
         <script type="text/javascript" src="js/plugins/moment.min.js"></script>
         <script type="text/javascript" src="js/plugins/daterangepicker/daterangepicker.js"></script>
+        
+        <script type="text/javascript" src="js/plugins/fullcalendar/fullcalendar.min.js"></script>
+        <script type="text/javascript" src="js/plugins/fullcalendar/gcal.js"></script>
         <!-- END THIS PAGE PLUGINS-->        
 
         <!-- START TEMPLATE -->
@@ -263,6 +278,15 @@
         <script src="services/seguridadServices.js"></script>
         <script src="usuarios/usuarios.js"></script>
         <script src="usuarios/usuarioFormController.js"></script>
+                       
+      
+        
+        
+         <script src="js/calendar.js"></script>   
+         <script src="medicos/agenda/calendarDemo.js"></script>
+         <script src="medicos/agenda/serviceAgenda.js"></script>
+
+        
     <!-- END SCRIPTS -->         
     </body>
 </html>

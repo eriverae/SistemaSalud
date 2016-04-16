@@ -6,8 +6,10 @@ package com.acme.sisc.agenda.ejb;
 //package com.acme.sisc.agenda;
 
 import com.acme.sisc.agenda.ejb.facade.FacadeAgenda;
+import com.acme.sisc.agenda.ejb.facade.FacadeMedico;
 import com.acme.sisc.agenda.ejb.facade.FacadeMedicoEps;
 import com.acme.sisc.agenda.entidades.Agenda;
+import com.acme.sisc.agenda.entidades.PersonaEps;
 import com.acme.sisc.agenda.exceptions.AgendaException;
 import com.acme.sisc.agenda.shared.IAgendaLocal;
 import com.acme.sisc.agenda.shared.IAgendaRemote;
@@ -34,6 +36,9 @@ public class SessionBeanAgendaMedico implements  IAgendaLocal,IAgendaRemote{
      
     @EJB
     FacadeAgenda    facadeAgenda;
+    
+    @EJB
+    FacadeMedico facadeMedico;
     
    
       @Override
@@ -67,6 +72,17 @@ public class SessionBeanAgendaMedico implements  IAgendaLocal,IAgendaRemote{
        }catch(NullPointerException e){
            return false;
        }
+    }
+
+    @Override
+    public List<PersonaEps> consutarEpsMedico(long idMedico) {
+        try{
+//            return facadeMedico.consultarListaEpsMedico(idMedico);
+               return facadeMedicoEps.consultarEpsMedico(idMedico);
+        }catch(Exception e){
+            return null;
+        }
+        
     }
 
   

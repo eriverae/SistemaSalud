@@ -6,6 +6,7 @@
 package com.acme.sisc.agenda.rest;
 
 import com.acme.sisc.agenda.entidades.Agenda;
+import com.acme.sisc.agenda.entidades.PersonaEps;
 import com.acme.sisc.agenda.exceptions.AgendaException;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.DefaultValue;
@@ -32,7 +33,7 @@ import java.util.logging.Logger;
  *
  * @author desarrollador
  */
-@Path("medico")
+@Path("medico/agenda")
 @RequestScoped
 public class RestFullAgendaMedico {
 
@@ -79,7 +80,7 @@ public class RestFullAgendaMedico {
      @Path("/citas")
     public String consultarCitasAgendaMedico(
             @QueryParam("idAgenda") String   idAgenda,
-             @QueryParam("fecha") String   fecha) {
+            @QueryParam("fecha") String   fecha) {
         
         if(fecha!=null&&!fecha.isEmpty()&&idAgenda!=null&&!idAgenda.isEmpty()){
             return null;
@@ -96,5 +97,12 @@ public class RestFullAgendaMedico {
     public String insertarAgenda(String request){
         _log.log(Level.WARNING," >>> "+ request);
         return "";
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)    
+    @Path("/listaEps")
+    public List<PersonaEps> consultarListaEps(@QueryParam("idMedico")  long   idMedico){
+      return   agenda.consutarEpsMedico(idMedico);
     }
 }

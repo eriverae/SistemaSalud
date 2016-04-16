@@ -1,6 +1,6 @@
 'use strict';
 // Declare app level module which depends on views, and components
-var app = angular.module('siscseguridad', ['ui.router','ngResource', 'ui.bootstrap','ngResource','ngGrid','app.utils']);
+var app = angular.module('siscseguridad', ['ui.router','ngResource','ui.calendar', 'ui.bootstrap','ngGrid','app.utils']);
 
 app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlRouterProvider) {
   $urlRouterProvider.otherwise("/home");
@@ -28,6 +28,17 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       templateUrl: 'usuarios/formularioUsuario.html',
       controller: 'usuarioFormController',
       params : {'usuaUsua':null}
-    });
+    })
+    
+     .state('agenda',{
+      url: '/medico/agenda',
+      templateUrl: 'medicos/agenda/agendaMedico.html'
+      
+    })
+        
+     ;
     
 }]);
+
+
+

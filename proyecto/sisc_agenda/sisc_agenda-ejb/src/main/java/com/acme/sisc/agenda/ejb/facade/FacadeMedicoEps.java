@@ -8,6 +8,7 @@ package com.acme.sisc.agenda.ejb.facade;
 import com.acme.sisc.agenda.constant.WebConstant;
 import com.acme.sisc.agenda.entidades.PersonaEps;
 import com.acme.sisc.agenda.exceptions.AgendaException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -55,6 +56,19 @@ public class FacadeMedicoEps extends AbstractFacade<PersonaEps>{
         }catch(NoResultException e){
             _log.log(Level.SEVERE, "error en consultarMedicoEps :",e);
             throw new AgendaException("Error consultando PersonaEps idMedico: "+idMedico+" idEps: "+idEps);
+        }
+    }
+    
+    
+     public List<PersonaEps> consultarEpsMedico(long idMedico) throws AgendaException{
+        try{
+            Query  q = em.createNamedQuery(WebConstant.QUERY_PERSONA_EPS_FIND_LIST_MEDICO_EPS);
+            q.setParameter(WebConstant.QUERY_PARAMETER_ID_MEDICO, idMedico);
+            List<PersonaEps> listEpsMedico=(List<PersonaEps>)q.getResultList();
+            return listEpsMedico;
+        }catch(NoResultException e){
+            _log.log(Level.SEVERE, "error en consultarEpsMedico :",e);
+            throw new AgendaException("Error consultando lista eps medico idMedico: "+idMedico);
         }
     }
     

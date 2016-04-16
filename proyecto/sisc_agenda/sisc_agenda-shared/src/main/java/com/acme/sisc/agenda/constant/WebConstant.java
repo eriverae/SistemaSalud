@@ -20,11 +20,13 @@ public class WebConstant {
     /**
      * Nombre querys
      */
-    public static final String  QUERY_PERSONA_EPS_FIND_MEDICO_EPS   ="PersonaEps.findMedicoEps";
-    public static final String  QUERY_AGENDA_FIND_BY_ID_MEDICO      ="Agenda.findByIdMedico";
+    public static final String  QUERY_PERSONA_EPS_FIND_MEDICO_EPS       ="PersonaEps.findMedicoEps";
+    public static final String  QUERY_AGENDA_FIND_BY_ID_MEDICO          ="Agenda.findByIdMedico";
+    public static final String QUERY_PERSONA_EPS_FIND_LIST_MEDICO_EPS   ="PersonaEps.findListMedicoEps";
     /**
      * Formatos
      */
-    public static String SIMPLE_DATE_FORMAT="dd/MM/yyyy";
+    public static final String SIMPLE_DATE_FORMAT="dd/MM/yyyy";
+    
    
 }

@@ -1,0 +1,116 @@
+<div class="col-md-10 col-md-offset-0">
+    <!-- PAGE TITLE -->
+    <div class="page-title">                    
+        <h2><span class="fa fa-bookmark"></span> Agenda</h2>
+    </div>
+    <!-- END PAGE TITLE -->  
+    <div>
+        <div>
+            <section id="directives-calendar" ng-controller="CalendarCtrl">
+                <div>
+                    <div>
+                        <div class="block">
+                            <div id="validate" role="form" class="form-horizontal">     
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">Fecha de agenda:</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input type="text" id="dp-3" class="form-control" value="06-06-2014" data-date="06-06-2014" 
+                                                       data-date-format="dd-mm-yyyy" data-date-viewmode="years"/>
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">Hora de inicio</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group bootstrap-timepicker">
+                                                <input type="text" class="form-control timepicker24"/>
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">Hora de fin</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group bootstrap-timepicker">
+                                                <input type="text" class="form-control timepicker24"/>
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">Cantidad de minutos por cita:</label>
+                                        <div class="col-md-9    ">
+                                            <input type="text" class="validate[required,custom[integer],min[18],max[120]] form-control"/>
+                                            <span class="help-block">Required, integer, min value = 18, max = 120</span>
+                                        </div>                        
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">Agendar cita en EPS: </label>
+                                        <div class="col-md-9">                                                                                
+                                            <select class="form-control select" data-live-search="true">
+                                                <option ng-repeat="x in listEpsMedico" value="{{x.eps.razonSocial}}"> {{x.eps.razonSocial}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br><br>    
+                                
+                                <!--<div align="center">-->
+                                    <button type="button" class="btn btn-primary" ng-click="addEvent()">
+                                        Agendar espacio
+                                    </button>
+                                <!--</div>-->
+                            </div>
+
+                            <ul>
+                                <li ng-repeat="e in events">
+                                    <div class="alert alert-info">
+                                        <a class="close" ng-click="remove($index)"><i class="icon-remove">x</i></a>
+                                        <b> <input ng-model="e.title"></b> 
+                                        {{e.start| date:"MMM dd yyyy"}} - {{e.end| date:"MMM dd yyyy"}}
+                                    </div>
+                                </li>
+                            </ul>
+                            <!--                        <ul class="unstyled">
+                                                        <select ng-model="listEpsMedico">
+                                                            <option ng-repeat="x in listEpsMedico" value="{{x.eps.razonSocial}}"> {{x.eps.razonSocial}}</option>
+                            
+                                                            
+                                                        </select>
+                                                        
+                                                    </ul>
+                            -->
+
+                        </div>
+
+                        <div class="span8">
+                            <div class="btn-group">
+                                <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar3')">Ver agenda del día</button>
+                                <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar3')">Ver agenda de la semana</button>
+                                <button class="btn btn-success" ng-click="changeView('month', 'myCalendar3')">Ver agenda del mes.</button>
+                            </div>
+
+                            <div class="calendar" ng-model="eventSources2" calendar="myCalendar3" ui-calendar="uiConfig.calendar"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<!--        <script type='text/javascript' src='../../js/plugins/icheck/icheck.min.js'></script>
+        <script type="text/javascript" src="../../js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
+        
+        <script type="text/javascript" src="../../js/plugins/bootstrap/bootstrap-datepicker.js"></script>
+        <script type="text/javascript" src="../../js/plugins/bootstrap/bootstrap-timepicker.min.js"></script>
+        <script type="text/javascript" src="../../js/plugins/bootstrap/bootstrap-colorpicker.js"></script>
+        <script type="text/javascript" src="../../js/plugins/bootstrap/bootstrap-file-input.js"></script>
+        <script type="text/javascript" src="../../js/plugins/bootstrap/bootstrap-select.js"></script>
+        <script type="text/javascript" src="../../js/plugins/tagsinput/jquery.tagsinput.min.js"></script>-->
