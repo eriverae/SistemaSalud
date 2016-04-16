@@ -15,9 +15,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import java.io.*;
 import javax.ws.rs.core.Response;
-import org.json.JSONArray;
 
 /**
  *
@@ -33,11 +31,6 @@ public class MedicamentoService {
     public Response GetMedicamentosALL(){
         return Response
             .status(200)
-            .header("Access-Control-Allow-Origin", "*")
-            .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization, x-requested-with")
-            .header("Access-Control-Allow-Credentials", "true")
-            .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
-            .header("Access-Control-Max-Age", "1209600")
             .entity(facadeMedicamento.findAll())
             .build();
     }
@@ -49,11 +42,6 @@ public class MedicamentoService {
         facadeMedicamento.addMedicamentoCita(cita_medicamento);
         return Response
             .status(200)
-            .header("Access-Control-Allow-Origin", "*")
-            .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization, x-requested-with")
-            .header("Access-Control-Allow-Credentials", "true")
-            .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
-            .header("Access-Control-Max-Age", "1209600")
             .entity("{}")
             .build();
     }

@@ -29,11 +29,6 @@ public class IncapacidadService {
     public Response GetIncapacidadALL(){
         return Response
             .status(200)
-            .header("Access-Control-Allow-Origin", "*")
-            .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization, x-requested-with")
-            .header("Access-Control-Allow-Credentials", "true")
-            .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
-            .header("Access-Control-Max-Age", "1209600")
             .entity(facadeIncapacidad.findAll())
             .build();
     }
@@ -46,11 +41,6 @@ public class IncapacidadService {
         facadeIncapacidad.addIncapacidad(incapacidad);
         return Response
             .status(200)
-            .header("Access-Control-Allow-Origin", "*")
-            .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization, x-requested-with")
-            .header("Access-Control-Allow-Credentials", "true")
-            .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
-            .header("Access-Control-Max-Age", "1209600")
             .entity("{}")
             .build();
     }

@@ -31,11 +31,6 @@ public class TratamientoService {
     public Response GetTratamientosALL(){
         return Response
             .status(200)
-            .header("Access-Control-Allow-Origin", "*")
-            .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization, x-requested-with")
-            .header("Access-Control-Allow-Credentials", "true")
-            .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
-            .header("Access-Control-Max-Age", "1209600")
             .entity(facadeTratamiento.findAll())
             .build();
     }
@@ -47,11 +42,6 @@ public class TratamientoService {
         facadeTratamiento.addTratamientoCita(cita_tratamiento);
         return Response
             .status(200)
-            .header("Access-Control-Allow-Origin", "*")
-            .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization, x-requested-with")
-            .header("Access-Control-Allow-Credentials", "true")
-            .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
-            .header("Access-Control-Max-Age", "1209600")
             .entity("{}")
             .build();
     }
