@@ -42,13 +42,13 @@
       <div class="form-group" ng-class="{'has-error' : usuarioForm.usuaPass1.$invalid && usuarioForm.usuaPass1.$dirty}">
         <label for="usuaPass1">Confirmar Constraseña:</label>
         <!-- Display a check when the field is valid and was modified -->
-        <span ng-class="{'glyphicon glyphicon-ok' : usuarioForm.usuaPass1.$valid && usuarioForm.usuaPass1.$dirty && validarContrasena()}"></span>
+        <span ng-class="{'glyphicon glyphicon-ok' : usuarioForm.usuaPass1.$valid && usuarioForm.usuaPass1.$dirty}"></span>
         <input id="usuaPass1" name="usuaPass1" type="password" class="form-control" maxlength="50"
-               ng-model="usuario.usuaPass1" required ng-minlength="5" ng-maxlength="50" placeholder="Confirmar contraseña"/>
+               ng-model="usuario.usuaPass1" required placeholder="Confirmar contraseña"
+               wj-validation-error="usuario.usuaPass1 != usuario.usuaPass"/>
 
         <!-- Validation messages to be displayed on required, minlength and maxlength -->
-        <p class="help-block" ng-show="usuarioForm.usuaPass1.$error.minlength">Debe tener al menos 5 caracteres.</p>
-        <p class="help-block" ng-show="usuarioForm.usuaPass1.$error.maxlength">La contrasena no debe superar 50 characters.</p>
+        <p class="help-block" ng-show="usuarioForm.usuaPass1.$error.wjValidationError">No coincide la contraseña.</p>
       </div>
       
 
