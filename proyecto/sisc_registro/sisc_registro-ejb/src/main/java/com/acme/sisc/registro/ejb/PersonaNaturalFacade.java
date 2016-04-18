@@ -42,7 +42,7 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         LOGGER.log(Level.FINE,"Consulta persona {0}",  identificacion);
         Query  q = em.createNamedQuery("Persona.findByIdentificacion");
         q.setParameter("tipoIdentificacion", tId);
-        q.setParameter("identificacion", identificacion);
+        q.setParameter("numeroIdentificacion", identificacion);
         try{
            return ((PersonaNatural)q.getSingleResult());
         }catch(NoResultException nre){
@@ -108,16 +108,22 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
 
     @Override
     public void crearPersonaNatural(PersonaNatural personaNatural) throws Exception {
-        LOGGER.info("Inicia crearPersonaNatural(...)");
-       //Se verifica si ya existe
-        PersonaNatural p = findByIdentificacion(personaNatural.getTipoIdentificacion(), personaNatural.getNumeroIdentificacion());
-        if(p!= null){
-            em.lock(p, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
-            LOGGER.warning("Médico "+ personaNatural.getNumeroIdentificacion() + " ya existe !!");
-            throw new Exception("El médico " + personaNatural.getTipoIdentificacion()+ "-" 
-                    + personaNatural.getNumeroIdentificacion() + " ya existe en el sistema");
+        try {
+            LOGGER.info("Inicia crearPersonaNatural(...)");
+           //Se verifica si ya existe
+            PersonaNatural p = findByIdentificacion(personaNatural.getTipoIdentificacion(), personaNatural.getNumeroIdentificacion());
+            if(p!= null){
+                em.lock(p, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
+                LOGGER.warning("Persona natural "+ personaNatural.getNumeroIdentificacion() + " ya existe !!");
+                throw new Exception("La persona natural " + personaNatural.getTipoIdentificacion()+ "-" 
+                        + personaNatural.getNumeroIdentificacion() + " ya existe en el sistema");
+            }
+            em.persist(personaNatural);
+            LOGGER.info("Finaliza crearPersonaNatural(...)");
         }
-        em.persist(personaNatural);
-        LOGGER.info("Finaliza crearPersonaNatural(...)");
+        catch (Exception ex) {
+            LOGGER.log(Level.WARNING,"No se encontró cliente {0}", personaNatural.getTipoIdentificacion() + " " 
+                    + personaNatural.getNumeroIdentificacion() + " Exception: " + ex.getLocalizedMessage());
+        }
     }
 }

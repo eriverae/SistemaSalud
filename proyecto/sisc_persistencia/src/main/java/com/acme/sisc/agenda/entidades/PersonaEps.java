@@ -5,8 +5,6 @@
  */
 package com.acme.sisc.agenda.entidades;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -34,12 +32,10 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author Julio
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "persona_eps")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "PersonaEps.findListMedicoEps", query = "SELECT p FROM PersonaEps p WHERE p.persona.idPersona = :idMedico "),
     @NamedQuery(name = "PersonaEps.findMedicoEps", query = "SELECT p FROM PersonaEps p WHERE p.persona.idPersona = :idMedico AND p.eps.idPersona = :idEps "),
     @NamedQuery(name = "PersonaEps.findAll", query = "SELECT p FROM PersonaEps p"),
     @NamedQuery(name = "PersonaEps.findByIdPersonaEps", query = "SELECT p FROM PersonaEps p WHERE p.idPersonaEps = :idPersonaEps"),
@@ -127,7 +123,7 @@ public class PersonaEps implements Serializable {
         this.eps = eps;
     }
 
-    @JsonIgnore
+    @XmlTransient
     public List<Cita> getListaCitasPaciente() {
         return listaCitasPaciente;
     }
@@ -168,7 +164,7 @@ public class PersonaEps implements Serializable {
     public void setVersion(Long version) {
         this.version = version;
     }
-    @JsonIgnore
+
     public List<Agenda> getListaAgendasMedico() {
         return listaAgendasMedico;
     }
