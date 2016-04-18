@@ -9,7 +9,7 @@
                     <div>
                         <div class="block">
                             <h4>
-                                Ingresar nueva agenda ,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+                                Ingresar nueva agenda
                             </h4>                                
 
                             <div id="validate" role="form" class="form-horizontal">     
@@ -43,48 +43,13 @@
                                     <div class="panel panel-default">
                                         <div class="panel-body">
                                             <div class="form-group">
-                                                <div class="col-md-2">                                    
+                                                <div class="col-md-2" ng-repeat="dia in listaDias">                                    
                                                     <label class="check">
-                                                        <input type="checkbox"  ng-click="colocarDiasAgenda('1', choice)"  ng-model="choice.checked" class="icheckbox"/> 
-                                                        Lunes
+                                                        <input type="checkbox"  ng-click="colocarDiasAgenda(dia, choice,$index)"  ng-model="choice.checked" class="icheckbox"/> 
+                                                        {{dia.dia}}
                                                     </label>
                                                 </div>
-                                                <div class="col-md-2">                                    
-                                                    <label class="check">
-                                                        <input type="checkbox" class="icheckbox"/> 
-                                                        Martes
-                                                    </label>
-                                                </div>
-                                                <div class="col-md-2">                                    
-                                                    <label class="check">
-                                                        <input type="checkbox" class="icheckbox"/> 
-                                                        Miercoles
-                                                    </label>
-                                                </div>
-                                                <div class="col-md-2">                                    
-                                                    <label class="check">
-                                                        <input type="checkbox" class="icheckbox"/> 
-                                                        Jueves
-                                                    </label>
-                                                </div>
-                                                <div class="col-md-2">                                    
-                                                    <label class="check">
-                                                        <input type="checkbox" class="icheckbox"/> 
-                                                        Viernes
-                                                    </label>
-                                                </div>
-                                                <div class="col-md-2">                                    
-                                                    <label class="check">
-                                                        <input type="checkbox" class="icheckbox"/> 
-                                                        Sabado
-                                                    </label>
-                                                </div>
-                                                <div class="col-md-2">                                    
-                                                    <label class="check">
-                                                        <input type="checkbox" class="icheckbox"/> 
-                                                        Domingo
-                                                    </label>
-                                                </div>
+                                         
                                             </div>
                                         </div>
                                     </div>
