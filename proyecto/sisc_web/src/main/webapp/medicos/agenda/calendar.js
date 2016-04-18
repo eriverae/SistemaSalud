@@ -10,7 +10,7 @@
 
 angular.module('ui.calendar', [])
   .constant('uiCalendarConfig', {calendars: {}})
-  .controller('uiCalendarCtrl', ['$scope', 
+  .controller('uiagendaMedicoContoller', ['$scope', 
                                  '$locale', function(
                                   $scope, 
                                   $locale){
@@ -215,7 +215,7 @@ angular.module('ui.calendar', [])
     return {
       restrict: 'A',
       scope: {eventSources:'=ngModel',calendarWatchEvent: '&'},
-      controller: 'uiCalendarCtrl',
+      controller: 'uiagendaMedicoContoller',
       link: function(scope, elm, attrs, controller) {
 
         var sources = scope.eventSources,
