@@ -5,11 +5,9 @@ app.controller('medicosController', function ($scope, $rootScope, $stateParams, 
   
   $scope.medico={};
   
-  //rreedd 29032016:
-  //No deberían modificarse las Personas
-  if (angular.isDefined($stateParams.idMedico)){
-    console.log('Médico a modificar, ID = '+ $stateParams.idMedico);
-    medicoService.get({id: $stateParams.idMedico}).$promise.then(
+  if (angular.isDefined($stateParams.idPersona)){
+    console.log('Médico a modificar, ID = '+ $stateParams.idPersona);
+    medicoService.get({id: $stateParams.idPersona}).$promise.then(
       function (data) {
         $scope.medico = data;
         //A partir de Angular 1.3, ng-model requiere un objeto de tipo Date valido, no acepta un String

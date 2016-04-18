@@ -33,7 +33,7 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       url:'/medicos',
       templateUrl: 'medicos/registroMedicos.html',
       controller: 'medicosController',
-      params : {'idMedico':null}
+      params : {idMedico:null}
     });
     /*
     $routeProvider
