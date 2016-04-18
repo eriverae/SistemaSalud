@@ -6,22 +6,49 @@ var app = angular.module('siscseguridad');
 app.controller('agendaMedicoContoller',
         function ($scope, $compile, $timeout, uiCalendarConfig, $http) {
 
-
-            $scope.listaDias = [
+            $scope.listaDiasApor = [
+                
             ];
-
-
-
+            $scope.listaDias = [
+                {   numeroDia: '1',
+                    dia: 'Lunes',
+                    incluir:false
+                },
+                {   numeroDia: '2',
+                    dia: 'Martes',
+                    incluir:false
+                },
+                {   numeroDia: '3',
+                    dia: 'Miercoles',
+                    incluir:false
+                },
+                {   numeroDia: '4',
+                    dia: 'Jueves',
+                    incluir:false
+                },
+                {   numeroDia: '5',
+                    dia: 'Viernes',
+                    incluir:false
+                },
+                {   numeroDia: '6',
+                    dia: 'Sabado',
+                    incluir:false                    
+                },
+                {   numeroDia: '7',
+                    dia: 'Domingo',
+                    incluir:false
+                }
+            ];
             /* add custom event*/
-            $scope.colocarDiasAgenda = function (numeroDia,dia, choice) {
-                alert('>> ' + dia + ' ' + choice.checked);
+            $scope.colocarDiasAgenda = function (dia, choice,index) {
+                alert('>> ' + dia.numeroDia + ' ' + choice.checked+ index);
                 if (choice.checked) {
-                    $scope.listaDias.push({
-                        numeroDedia: numeroDia,
-                        dia: dia
-                    });
+                   
+                    alert($scope.listaDiasApor[index]);
+//                    $scope.listaDiasApor.objects[index] = dia;
                 }else{
-                    
+                  
+                    $scope.listaDiasApor.objects[index] = dia;
                 }
             };
 
@@ -39,8 +66,7 @@ app.controller('agendaMedicoContoller',
             var data_eps = $http.get('http://localhost:8080/SiscAgenda/api/medico/agenda/listaEps?idMedico=4');
 
             data_eps.then(function (result) {
-                alert(result.data);
-                $scope.listEpsMedico = result.data;
+               $scope.listEpsMedico = result.data;
 
             });
 //    
@@ -144,7 +170,7 @@ app.controller('agendaMedicoContoller',
             };
             /* Change View */
             $scope.renderCalender = function (calendar) {
-                alert("dsfsdfsdfsd");
+              
                 $timeout(function () {
                     if (uiCalendarConfig.calendars[calendar]) {
                         uiCalendarConfig.calendars[calendar].fullCalendar('render');
@@ -173,18 +199,9 @@ app.controller('agendaMedicoContoller',
                     eventRender: $scope.eventRender
                 }
             };
-
-            $scope.changeLang = function () {
-                if ($scope.changeTo === 'Hungarian') {
-                    $scope.uiConfig.calendar.dayNames = ["Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"];
-                    $scope.uiConfig.calendar.dayNamesShort = ["Vas", "Hét", "Kedd", "Sze", "Csüt", "Pén", "Szo"];
-                    $scope.changeTo = 'English';
-                } else {
-                    $scope.uiConfig.calendar.dayNames = ["Lunes", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-                    $scope.uiConfig.calendar.dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-                    $scope.changeTo = 'Hungarian';
-                }
-            };
+            $scope.uiConfig.calendar.dayNames = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
+            $scope.uiConfig.calendar.dayNamesShort = ["Dom", "Lun", "Mar", "Mi", "Jue", "Vi", "Sa"];
+          
             /* event sources array*/
             $scope.eventSources = [$scope.events, $scope.eventSource, $scope.eventsF];
             $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];
