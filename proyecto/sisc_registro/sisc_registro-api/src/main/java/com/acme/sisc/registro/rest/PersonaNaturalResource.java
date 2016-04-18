@@ -7,6 +7,7 @@ package com.acme.sisc.registro.rest;
 
 import com.acme.sisc.agenda.entidades.PersonaNatural;
 import com.acme.sisc.registro.ejb.IPersonaNaturalFacadeLocal;
+import com.acme.sisc.registro.pagination.PaginatedListWrapper;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -38,10 +39,11 @@ public class PersonaNaturalResource {
      */
     public PersonaNaturalResource() {
     }
-/*
+
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public PaginatedListWrapper listClientes(@DefaultValue("1")
+    public PaginatedListWrapper listPersonaNatural(@DefaultValue("1")
                                             @QueryParam("page")
                                             Integer page,
                                              @DefaultValue("id")
@@ -55,30 +57,20 @@ public class PersonaNaturalResource {
         paginatedListWrapper.setSortFields(sortFields);
         paginatedListWrapper.setSortDirections(sortDirections);
         paginatedListWrapper.setPageSize(10);
-        return findClientes(paginatedListWrapper);
+        return findPersonaNatural(paginatedListWrapper);
     }
-
-    private PaginatedListWrapper findClientes(PaginatedListWrapper wrapper) {
-        int totalClientes = facadeCliente.count();
-        wrapper.setTotalResults(totalClientes);
+    
+    private PaginatedListWrapper findPersonaNatural(PaginatedListWrapper wrapper) {
+        int total = facadePersonaNatural.count();
+        wrapper.setTotalResults(total);
         int start = (wrapper.getCurrentPage() - 1) * wrapper.getPageSize();
-        wrapper.setList(facadeCliente.findRange(start,
+        wrapper.setList(facadePersonaNatural.findRange(start,
                 wrapper.getPageSize(),
                 wrapper.getSortFields(),
                 wrapper.getSortDirections()));
         return wrapper;
     }
 
-    @SuppressWarnings("unchecked")
-    private List<Cliente> findClientes(int startPosition, int maxResults, String sortFields, String sortDirections) {
-
-        Query query =
-                entityManager.createQuery("SELECT p FROM Person p ORDER BY p." + sortFields + " " + sortDirections);
-        query.setFirstResult(startPosition);
-        query.setMaxResults(maxResults);
-        return query.getResultList();
-    }
-*/
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)

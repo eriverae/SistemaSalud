@@ -5,8 +5,6 @@
  */
 package com.acme.sisc.agenda.entidades;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -28,13 +26,14 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
-
+import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  *
  * @author Julio
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @DiscriminatorValue("NATURAL")
 @Table(name = "persona_natural")
@@ -95,7 +94,6 @@ public class PersonaNatural extends Persona implements Serializable {
 
   @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY)
   private List<PersonaEps> listaPersonasEps;
-
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "paciente", fetch = FetchType.LAZY)
   private List<PersonaNaturalAlergia> listaAlergias;
@@ -245,6 +243,7 @@ public class PersonaNatural extends Persona implements Serializable {
   public void setRolPersonaNatutal(String rolPersonaNatutal) {
     this.rolPersonaNatutal = rolPersonaNatutal;
   }
+
   @JsonIgnore
   public List<PersonaNaturalAlergia> getListaAlergias() {
     return listaAlergias;
@@ -253,6 +252,7 @@ public class PersonaNatural extends Persona implements Serializable {
   public void setListaAlergias(List<PersonaNaturalAlergia> listaAlergias) {
     this.listaAlergias = listaAlergias;
   }
+
   @JsonIgnore
   public List<Operacion> getListaOperacionesPaciente() {
     return listaOperacionesPaciente;

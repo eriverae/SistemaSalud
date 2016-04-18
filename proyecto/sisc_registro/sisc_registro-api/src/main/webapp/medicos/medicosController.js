@@ -1,8 +1,7 @@
 'use strict';
 var app = angular.module('sisc_registro');
-// Create a controller with name personsFormController to bind to the form section.
-app.controller('medicosController', function ($scope, $rootScope, $stateParams, $state, 
-          medicoService, modalService) {
+
+app.controller('medicosController', function ($scope, $rootScope, $stateParams, $state, medicoService, modalService) {
   
   $scope.medico={};
   
@@ -35,6 +34,10 @@ app.controller('medicosController', function ($scope, $rootScope, $stateParams, 
     {id:'F', label:'Femenino'}
   ];
   
+  $scope.listaRH =[
+    {id:'+', label:'Positivo'},
+    {id:'-', label:'Negativo'}
+  ];
   // Clears the form. Either by clicking the 'Clear' button in the form, or when a successfull save is performed.
   $scope.clearForm = function () {
     $scope.medico = null;
@@ -44,7 +47,7 @@ app.controller('medicosController', function ($scope, $rootScope, $stateParams, 
     $rootScope.$broadcast('clear');
   };
 
-  // Calls the rest method to save a Cliente.
+  // Calls the rest method to save a Medico.
   $scope.updateMedico = function () {
     medicoService.save($scope.medico).$promise.then(
     function () {
@@ -77,12 +80,12 @@ app.controller('medicosController', function ($scope, $rootScope, $stateParams, 
 
       modalService.showModal({}, modalOptions).then(function () {
         $scope.clearForm();
-        $state.go('medicos');
+        $state.go('registroMedicos');
       });
   });
   
   $scope.cancelar = function(){
-    $state.go('medicos');
+    $state.go('registroMedicos');
   };
   
 });
