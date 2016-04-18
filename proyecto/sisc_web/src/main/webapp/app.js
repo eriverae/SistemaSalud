@@ -32,9 +32,16 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
     
      .state('agenda',{
       url: '/medico/agenda',
-      templateUrl: 'medicos/agenda/agendaMedico.html'
+      templateUrl: 'agenda/medicos/agendaMedico.html',
+      controller:'agendaMedicoContoller'
+      
       
     })
+     .state('citasPaciente',{
+      url: '/paciente/citas',
+      templateUrl: 'agenda/pacientes/consultarCitas.html',
+      controller: 'citasController'
+    })    
         
      ;
     
