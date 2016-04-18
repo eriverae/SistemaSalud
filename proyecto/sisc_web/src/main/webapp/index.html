@@ -61,15 +61,24 @@
                         </ul>
                        
                     </li>
-                    <div>
-                    <li class="xn-openable" ng-app="calendarDemoApp">
+
+                    <li class="xn-openable" >
                         <a href="#"><span class="fa fa-ambulance"></span> <span class="xn-text">Medicos</span></a>
                         <ul>
                             <li><a ui-sref="agenda">Agenda</a></li>
                         </ul>
                         
                     </li>
-                    </div>
+                    
+                         <li class="xn-openable" >
+                        <a href="#"><span class="fa fa-ambulance"></span> <span class="xn-text">Pacientes</span></a>
+                        <ul>
+                            <li><a ui-sref="citasPaciente">Citas</a></li>
+                        </ul>
+                        
+                    </li>
+                    
+                    
                         
                     
                 </ul>
@@ -281,11 +290,11 @@
                        
       
         
-        
+        <!-- scrips y controllera Agenda -->  
          <script src="js/calendar.js"></script>   
          <script src="medicos/agenda/calendarDemo.js"></script>
          <script src="medicos/agenda/serviceAgenda.js"></script>
-
+         <script src="agenda/pacientes/controllers/citasController.js"></script>
         
     <!-- END SCRIPTS -->         
     </body>

@@ -35,6 +35,13 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       templateUrl: 'medicos/agenda/agendaMedico.html'
       
     })
+    
+    
+     .state('citasPaciente',{
+      url: '/paciente/citas',
+      templateUrl: 'agenda/pacientes/consultarCitas.html',
+      controller: 'citasController'
+    })    
         
      ;
     

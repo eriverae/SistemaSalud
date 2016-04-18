@@ -23,6 +23,9 @@ public class WebConstant {
     public static final String  QUERY_PERSONA_EPS_FIND_MEDICO_EPS       ="PersonaEps.findMedicoEps";
     public static final String  QUERY_AGENDA_FIND_BY_ID_MEDICO          ="Agenda.findByIdMedico";
     public static final String QUERY_PERSONA_EPS_FIND_LIST_MEDICO_EPS   ="PersonaEps.findListMedicoEps";
+    
+    public static final String QUERY_CITA_FIND_BY_ID_PACIENTE_             ="Cita.findById";
+    
     /**
      * Formatos
      */
