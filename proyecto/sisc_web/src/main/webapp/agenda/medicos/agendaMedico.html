@@ -18,7 +18,7 @@
                                         <label class="col-md-3 control-label">Fecha inicio de agenda:</label>
                                         <div class="col-md-5">
                                             <div class="input-group">
-                                                <input type="text" id="dp-3" class="form-control" value="06-06-2014" data-date="06-06-2014" 
+                                                <input type="text" id="dp-3"  ng-model="nuevaAgenda.fechaInicio"   class="form-control" value="18-03-2016" data-date="18-03-2016" 
                                                        data-date-format="dd-mm-yyyy" data-date-viewmode="years"/>
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                             </div>
@@ -30,7 +30,7 @@
                                         <label class="col-md-3 control-label">Fecha final de agenda:</label>
                                         <div class="col-md-5">
                                             <div class="input-group">
-                                                <input type="text" id="dp-3" class="form-control" value="06-06-2014" data-date="06-06-2014" 
+                                                <input type="text" id="dp-3" class="form-control" ng-model="nuevaAgenda.fechaFinal"  value="22-03-2016" data-date="22-03-2016" 
                                                        data-date-format="dd-mm-yyyy" data-date-viewmode="years"/>
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                             </div>
@@ -43,10 +43,12 @@
                                     <div class="panel panel-default">
                                         <div class="panel-body">
                                             <div class="form-group">
-                                                <div class="col-md-2" ng-repeat="dia in listaDias">                                    
+                                                <div class="col-md-2" ng-repeat="dia in nuevaAgenda.semana.listaDias">                                    
                                                     <label class="check">
-                                                        <input type="checkbox"  ng-click="colocarDiasAgenda(dia, choice,$index)"  ng-model="choice.checked" class="icheckbox"/> 
-                                                        {{dia.dia}}
+                                                        <input type="checkbox"  
+                                                               ng-click="colocarDiasAgenda(dia, choice,$index)"  
+                                                               ng-model="choice.checked" class="icheckbox"/> 
+                                                                    {{dia.dia}}
                                                     </label>
                                                 </div>
                                          
@@ -58,7 +60,7 @@
                                     <label class="col-md-3 control-label">Hora de inicio</label>
                                     <div class="col-md-5">
                                         <div class="input-group bootstrap-timepicker">
-                                            <input type="text" class="form-control timepicker24"/>
+                                            <input type="text"  value="08:00:00" ng-model="nuevaAgenda.horaInicio"    class="form-control timepicker24"/>
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                                         </div>
                                     </div>
@@ -67,7 +69,7 @@
                                     <label class="col-md-3 control-label">Hora de fin</label>
                                     <div class="col-md-5">
                                         <div class="input-group bootstrap-timepicker">
-                                            <input type="text" class="form-control timepicker24"/>
+                                            <input type="text" value="12:00:00" ng-model="nuevaAgenda.horaFinal"   class="form-control timepicker24"/>
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                                         </div>
                                     </div>
@@ -77,15 +79,15 @@
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">Cantidad de minutos por cita:</label>
                                     <div class="col-md-9    ">
-                                        <input type="text" class="validate[required,custom[integer],min[18],max[120]] form-control"/>
+                                        <input type="text"  value="15"  ng-model="nuevaAgenda.cantidadMinutosXCita" />
                                         <span class="help-block">Required, integer, min value = 18, max = 120</span>
                                     </div>                        
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">Agendar cita en EPS: </label>
                                     <div class="col-md-9">                                                                                
-                                        <select class="form-control select" data-live-search="true">
-                                            <option ng-repeat="x in listEpsMedico" value="{{x.eps.razonSocial}}"> {{x.eps.razonSocial}}</option>
+                                        <select class="form-control select" data-live-search="true"  ng-model="nuevaAgenda.idPersonaEps" >
+                                            <option ng-repeat="personaEps in listEpsMedico" value="{{personaEps.idPersonaEps}}"> {{personaEps.eps.razonSocial}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -93,7 +95,10 @@
                                 <br><br>    
 
                                 <!--<div align="center">-->
-                                <button type="button" class="btn btn-primary" ng-click="addEvent()">
+<!--                                <button type="button" class="btn btn-primary" ng-click="addEvent()">
+                                    Agendar espacio
+                                </button>-->
+                                <button type="button" class="btn btn-primary" ng-click="agregarAgenda()">
                                     Agendar espacio
                                 </button>
                                 <!--</div>-->

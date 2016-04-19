@@ -41,4 +41,19 @@ public class AgendaUtil {
             
         }
     }
+    
+    public static String parserDateToString(Date fecha,String format){        
+        try {
+            DateFormat dateFormat = new SimpleDateFormat(format);
+            return  dateFormat.format(fecha);
+        } catch (NullPointerException  ex) {
+           _log.log(Level.SEVERE, "AgendaUtil.parserDateToString", ex);
+            return null;
+            
+        }
+    }
+    
+    public static void main (String args[]){
+        System.out.print(">> "+AgendaUtil.parserDateToString(new Date(), WebConstant.JSON_DATE_FORMAT));
+    }
 }
