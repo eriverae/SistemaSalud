@@ -6,41 +6,49 @@
 package com.acme.sisc.agenda.ejb.facade;
 
 import com.acme.sisc.agenda.constant.WebConstant;
+import com.acme.sisc.agenda.entidades.Agenda;
 import com.acme.sisc.agenda.entidades.Cita;
 import com.acme.sisc.agenda.entidades.PersonaEps;
 import java.util.List;
 import java.util.logging.Logger;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
  * @author BryanCFz-user
  */
-public class FacadeCita extends AbstractFacade<Cita>{
+@Stateless
+public class FacadeCita extends AbstractFacade<Cita> {
 
     Logger _log = Logger.getLogger(this.getClass().getName());
-    
+
     @PersistenceContext(unitName = WebConstant.UNIT_NAME_PERSISTENCE)
     private EntityManager em;
-    
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
-    
-    public FacadeCita(){
+
+    public FacadeCita() {
         super(Cita.class);
     }
-    
-    public List<Cita> CitasDelPaciante(long idPAciente){
-                
-        PersonaEps paciente = em.find(PersonaEps.class, idPAciente);
-        if(paciente!=null && paciente.getListaCitasPaciente()!=null){
-            return paciente.getListaCitasPaciente();
-        } else {
+
+    public List<Cita> CitasDelPaciante(long idPaciente) {
+
+        try {
+            Query q = em.createNamedQuery("Cita.findIdPaciente");
+            q.setParameter("idPaciente", idPaciente);
+            List<Cita> listacitasPaciente = (List<Cita>) q.getResultList();
+            return listacitasPaciente;
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
+
     }
-    
+
 }
