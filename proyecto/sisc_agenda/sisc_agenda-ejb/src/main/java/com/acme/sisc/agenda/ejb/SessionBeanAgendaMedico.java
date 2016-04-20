@@ -5,6 +5,9 @@
 package com.acme.sisc.agenda.ejb;
 //package com.acme.sisc.agenda;
 
+import com.acme.sisc.agenda.dto.ErrorObjSiscAgenda;
+import com.acme.sisc.agenda.dto.GeneralResponse;
+import com.acme.sisc.agenda.dto.RequestCrearAgenda;
 import com.acme.sisc.agenda.ejb.facade.FacadeAgenda;
 import com.acme.sisc.agenda.ejb.facade.FacadeMedico;
 import com.acme.sisc.agenda.ejb.facade.FacadeMedicoEps;
@@ -83,6 +86,17 @@ public class SessionBeanAgendaMedico implements  IAgendaLocal,IAgendaRemote{
             return null;
         }
         
+    }
+
+    @Override
+    public GeneralResponse insertarAgenda(RequestCrearAgenda request) {
+       GeneralResponse response= new GeneralResponse();
+        ErrorObjSiscAgenda error=new ErrorObjSiscAgenda();
+        error.setCodigoError("000");
+        error.setMensajeError("lallala");
+               
+       response.setError(error);
+        return new GeneralResponse();
     }
 
   

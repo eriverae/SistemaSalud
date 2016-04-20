@@ -4,98 +4,114 @@
 var app = angular.module('siscseguridad');
 
 app.controller('agendaMedicoContoller',
-        function ($scope, $compile, $timeout, uiCalendarConfig, $http) {
+        function ($scope, $compile, $timeout, uiCalendarConfig, $http, $stateParams) {
 
-            $scope.listaDiasApor = [
-                
-            ];
-            $scope.listaDias = [
-                {   numeroDia: '1',
-                    dia: 'Lunes',
-                    incluir:false
+            $scope.nuevaAgenda = {
+                fechaInicio: '18-04-2016',
+                fechaFinal: '22-04-2016',
+                semana: {
+                    listaDias: [
+                        {numeroDia: '1', dia: 'Lunes', incluir: false},
+                        {numeroDia: '2', dia: 'Martes', incluir: false},
+                        {numeroDia: '3', dia: 'Miercoles', incluir: false},
+                        {numeroDia: '4', dia: 'Jueves', incluir: false},
+                        {numeroDia: '5', dia: 'Viernes', incluir: false},
+                        {numeroDia: '6', dia: 'Sabado', incluir: false},
+                        {numeroDia: '7', dia: 'Domingo', incluir: false}
+                    ],
+                    numeroDiasSelecionado: 0
                 },
-                {   numeroDia: '2',
-                    dia: 'Martes',
-                    incluir:false
-                },
-                {   numeroDia: '3',
-                    dia: 'Miercoles',
-                    incluir:false
-                },
-                {   numeroDia: '4',
-                    dia: 'Jueves',
-                    incluir:false
-                },
-                {   numeroDia: '5',
-                    dia: 'Viernes',
-                    incluir:false
-                },
-                {   numeroDia: '6',
-                    dia: 'Sabado',
-                    incluir:false                    
-                },
-                {   numeroDia: '7',
-                    dia: 'Domingo',
-                    incluir:false
-                }
-            ];
-            /* add custom event*/
-            $scope.colocarDiasAgenda = function (dia, choice,index) {
-                alert('>> ' + dia.numeroDia + ' ' + choice.checked+ index);
-                if (choice.checked) {
-                   
-                    alert($scope.listaDiasApor[index]);
-//                    $scope.listaDiasApor.objects[index] = dia;
-                }else{
-                  
-                    $scope.listaDiasApor.objects[index] = dia;
-                }
+                horaInicio: '08:00:00',
+                horaFinal: '12:00:00',
+                cantidadMinutosXCita: 15,
+                idPersonaEps: '',
+                especialidadCita: 'MEDICINA GENERAL'
+
             };
 
 
+            $scope.semana = {
+                listaDias: [
+                    {numeroDia: '1', dia: 'Lunes', incluir: false},
+                    {numeroDia: '2', dia: 'Martes', incluir: false},
+                    {numeroDia: '3', dia: 'Miercoles', incluir: false},
+                    {numeroDia: '4', dia: 'Jueves', incluir: false},
+                    {numeroDia: '5', dia: 'Viernes', incluir: false},
+                    {numeroDia: '6', dia: 'Sabado', incluir: false},
+                    {numeroDia: '7', dia: 'Domingo', incluir: false}
+                ],
+                numeroDiasSelecionado: 0
+            };
 
+            /* funcion para validar si se incluye el dia seleccionado en la agenda */
+            $scope.colocarDiasAgenda = function (dia, choice, index) {
+                if (choice.checked) {
+                    dia.incluir = true;
+                    $scope.nuevaAgenda.semana.listaDias[index] = dia;
+                    $scope.nuevaAgenda.semana.numeroDiasSelecionado = $scope.semana.numeroDiasSelecionado + 1;
+                } else {
+                    dia.incluir = false;
+                    $scope.nuevaAgenda.semana.listaDias[index] = dia;
+                    $scope.nuevaAgenda.semana.numeroDiasSelecionado = $scope.semana.numeroDiasSelecionado - 1;
+                }
+
+            };
 
             var date = new Date();
-//    alert('coloue algo');
+
             var d = date.getDate();
             var m = date.getMonth();
             var y = date.getFullYear();
 
+
+
             $scope.listEpsMedico = {};
-
-            var data_eps = $http.get('http://localhost:8080/SiscAgenda/api/medico/agenda/listaEps?idMedico=4');
-
+            /**
+             * Traer lista eps medico
+             */
+            var data_eps = $http.get('/SiscAgenda/api/medico/agenda/' + $stateParams.idMedico + '/listaEps');
             data_eps.then(function (result) {
-               $scope.listEpsMedico = result.data;
-
+                $scope.listEpsMedico = result.data;
             });
-//    
 
 
-//      agendaService.consultarListaEps({oper: "listaEps",idMedico:'4'}).$promise.then(
-//      function (result) {
-//         console.log(result);
-//        $scope.listEpsMedico = result;
-//      },
-//      function () {
-//        // Broadcast the event for a server error.
-//        
-//      });
 
 
-//     agendaService.consultarListaEps({idMedico: "4"}).$promise.then(
-//      function (data) {
-//         alert('>> '+data);
-//        $scope.listEpsMedico = data;
-//        
-//        //A partir de Angular 1.3, ng-model requiere un objeto de tipo Date valido, no acepta un String
-//       
-//      },
-//      function () {
-//        // Broadcast the event for a server error.
-//        alert('nada..');
-//      });
-//    
+            $scope.agregarAgenda = function () {
+                /**
+                 * Validar datos del formulario.
+                 */
+                var validacion = true;
+
+                var configServicePost = {
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8;'
+                    }
+                }
+
+
+                if (validacion) {
+
+                    /**
+                     * Llamar a servicio post par insertar agenda.
+                     */
+                    $http.post('/SiscAgenda/api/medico/agenda/nuevaAgenda',$scope.nuevaAgenda, configServicePost)
+                            .success(function (data, status, headers, config) {
+                                /**
+                                 * Insertar en arreglo de citas
+                                 */
+                        
+                                 alert('>>>> '+data);
+                            })
+                            .error(function (data, status, header, config) {
+                                alert('Error.');
+                            });
+
+                }
+
+            };
+
+
             $scope.changeTo = 'Hungarian';
             /* event source that pulls from google.com */
             $scope.eventSource = {
@@ -113,6 +129,9 @@ app.controller('agendaMedicoContoller',
                 var s = new Date(start).getTime() / 1000;
                 var e = new Date(end).getTime() / 1000;
                 var m = new Date(start).getMonth();
+
+                alert('>> ' + s + ' ' + ' ' + e + ' ' + m);
+
                 var events = [{title: 'Feed Me ' + m, start: s + (50000), end: s + (100000), allDay: false, className: ['customFeed']}];
                 callback(events);
             };
@@ -151,6 +170,8 @@ app.controller('agendaMedicoContoller',
                     sources.push(source);
                 }
             };
+
+
             /* add custom event*/
             $scope.addEvent = function () {
                 $scope.events.push({
@@ -170,7 +191,7 @@ app.controller('agendaMedicoContoller',
             };
             /* Change View */
             $scope.renderCalender = function (calendar) {
-              
+
                 $timeout(function () {
                     if (uiCalendarConfig.calendars[calendar]) {
                         uiCalendarConfig.calendars[calendar].fullCalendar('render');
@@ -201,7 +222,7 @@ app.controller('agendaMedicoContoller',
             };
             $scope.uiConfig.calendar.dayNames = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
             $scope.uiConfig.calendar.dayNamesShort = ["Dom", "Lun", "Mar", "Mi", "Jue", "Vi", "Sa"];
-          
+
             /* event sources array*/
             $scope.eventSources = [$scope.events, $scope.eventSource, $scope.eventsF];
             $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];

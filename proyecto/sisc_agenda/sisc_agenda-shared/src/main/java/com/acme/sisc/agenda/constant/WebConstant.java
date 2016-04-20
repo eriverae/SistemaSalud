@@ -24,12 +24,14 @@ public class WebConstant {
     public static final String  QUERY_AGENDA_FIND_BY_ID_MEDICO          ="Agenda.findByIdMedico";
     public static final String QUERY_PERSONA_EPS_FIND_LIST_MEDICO_EPS   ="PersonaEps.findListMedicoEps";
     
-    public static final String QUERY_CITA_FIND_BY_ID_PACIENTE_             ="Cita.findById";
+    public static final String QUERY_CITA_FIND_BY_ID_PACIENTE_          ="Cita.findById";
     
     /**
      * Formatos
      */
     public static final String SIMPLE_DATE_FORMAT="dd/MM/yyyy";
+    public static final String JSON_DATE_FORMAT="{'\"day\":\"'dd'\",\"month\": \"'MM'\",\"year\":\"'yyyy'\","
+            + "\"hours\":\"'HH'\",\"minutes\":\"'mm'\",\"seconds\":\"'ss'\"}'";
     
    
 }

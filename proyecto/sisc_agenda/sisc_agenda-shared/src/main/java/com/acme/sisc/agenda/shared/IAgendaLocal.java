@@ -11,6 +11,8 @@ import javax.ejb.Local;
 import com.acme.sisc.agenda.entidades.Agenda;
 import com.acme.sisc.agenda.entidades.PersonaEps;
 import com.acme.sisc.agenda.exceptions.AgendaException;
+import com.acme.sisc.agenda.dto.GeneralResponse;
+import com.acme.sisc.agenda.dto.RequestCrearAgenda;
 import java.util.Date;
 
 /**
@@ -19,9 +21,14 @@ import java.util.Date;
  */
 @Local
 public interface IAgendaLocal {
-    
-    public List<Agenda>  consultaAgendaMedico(long idMedico,Date fechaInicial,Date fechaFinal) throws AgendaException;
-    public String  consultarCitasAgendaMedico(String idAgenda,String fechaCita)throws AgendaException;
-    public boolean insertarAgenda(long idMedico,long idEps,List<Agenda> agendas)throws AgendaException;
+
+    public List<Agenda> consultaAgendaMedico(long idMedico, Date fechaInicial, Date fechaFinal) throws AgendaException;
+
+    public String consultarCitasAgendaMedico(String idAgenda, String fechaCita) throws AgendaException;
+
     public List<PersonaEps> consutarEpsMedico(long idMedico);
+
+    public boolean insertarAgenda(long idMedico, long idEps, List<Agenda> agendas) throws AgendaException;
+
+    public GeneralResponse insertarAgenda(RequestCrearAgenda request);
 }

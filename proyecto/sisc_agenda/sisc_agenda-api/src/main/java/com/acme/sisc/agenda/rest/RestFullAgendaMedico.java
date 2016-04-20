@@ -5,6 +5,9 @@
  */
 package com.acme.sisc.agenda.rest;
 
+import com.acme.sisc.agenda.dto.DiaAgenda;
+import com.acme.sisc.agenda.dto.GeneralResponse;
+import com.acme.sisc.agenda.dto.RequestCrearAgenda;
 import com.acme.sisc.agenda.entidades.Agenda;
 import com.acme.sisc.agenda.entidades.PersonaEps;
 import com.acme.sisc.agenda.exceptions.AgendaException;
@@ -28,6 +31,8 @@ import javax.ws.rs.POST;
 
 
 import java.util.logging.Logger;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.PathParam;
 
 /**
  *
@@ -93,16 +98,32 @@ public class RestFullAgendaMedico {
     }
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/insertarAgenda")    
-    public String insertarAgenda(String request){
-        _log.log(Level.WARNING," >>> "+ request);
-        return "";
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/nuevaAgenda")    
+    public GeneralResponse insertarAgenda(RequestCrearAgenda request){
+               
+        
+        
+        _log.log(Level.WARNING," >>> "+ request.getFechaInicio());
+        _log.log(Level.WARNING," >>> "+ request.getFechaFinal());
+        _log.log(Level.WARNING," >>> "+ request.getCantidadMinutosXCita());
+        
+        
+         List<DiaAgenda>  list=request.getSemana().getListaDias();
+        for(DiaAgenda dia:list){
+            _log.log(Level.WARNING," >>> "+ dia.getDia());
+            _log.log(Level.WARNING," >>> "+ dia.isIncluir());
+        }
+        return agenda.insertarAgenda(request);
+        
+        
     }
     
     @GET
+     @Path("/{idMedico}/listaEps")
     @Produces(MediaType.APPLICATION_JSON)    
-    @Path("/listaEps")
-    public List<PersonaEps> consultarListaEps(@QueryParam("idMedico")  long   idMedico){
+   
+    public List<PersonaEps> consultarListaEps(@PathParam("idMedico")  long   idMedico){
       return   agenda.consutarEpsMedico(idMedico);
     }
 }
