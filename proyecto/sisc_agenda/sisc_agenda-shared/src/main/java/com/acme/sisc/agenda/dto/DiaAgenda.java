@@ -13,15 +13,15 @@ import java.io.Serializable;
  */
 public class DiaAgenda implements Serializable{
     
-    private String numeroDia;
+    private int numeroDia;
     private String dia;
     private boolean incluir;
 
-    public String getNumeroDia() {
+    public int getNumeroDia() {
         return numeroDia;
     }
 
-    public void setNumeroDia(String numeroDia) {
+    public void setNumeroDia(int numeroDia) {
         this.numeroDia = numeroDia;
     }
 

@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "cita")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "Cita.findFechaInicioFechaFin", query = "SELECT c FROM Cita c where (c.agenda.medicoEps.persona.idPersona = :idMedico) AND (c.horaInicio >= :horaInicio  AND c.horaFin <= :horaFin)"),
     @NamedQuery(name = "Cita.findAll", query = "SELECT c FROM Cita c"),
     @NamedQuery(name = "Cita.findById", query = "SELECT c FROM Cita c WHERE c.idCita = :id"),
     @NamedQuery(name = "Cita.findByValor", query = "SELECT c FROM Cita c WHERE c.valor = :valor"),
@@ -183,6 +184,14 @@ public class Cita implements Serializable {
 
     public boolean isEstadoPacienteAtendido() {
         return estadoPacienteAtendido;
+    }
+
+    public Date getHoraFin() {
+        return horaFin;
+    }
+
+    public void setHoraFin(Date horaFin) {
+        this.horaFin = horaFin;
     }
 
 }

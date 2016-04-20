@@ -34,7 +34,7 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       url: '/medico/agenda',
       templateUrl: 'agenda/medicos/agendaMedico.html',
       controller:'agendaMedicoContoller',
-      params : {'idMedico':'4'}
+      params : {'idMedico':'5'}
       
       
     })

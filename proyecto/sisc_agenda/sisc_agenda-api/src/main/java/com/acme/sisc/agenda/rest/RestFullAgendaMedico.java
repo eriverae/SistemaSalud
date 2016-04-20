@@ -5,7 +5,6 @@
  */
 package com.acme.sisc.agenda.rest;
 
-import com.acme.sisc.agenda.dto.DiaAgenda;
 import com.acme.sisc.agenda.dto.GeneralResponse;
 import com.acme.sisc.agenda.dto.RequestCrearAgenda;
 import com.acme.sisc.agenda.entidades.Agenda;
@@ -29,7 +28,6 @@ import java.util.logging.Level;
 import javax.ejb.EJB;
 import javax.ws.rs.POST;
 
-
 import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.PathParam;
@@ -42,88 +40,79 @@ import javax.ws.rs.PathParam;
 @RequestScoped
 public class RestFullAgendaMedico {
 
-    
-    private final static Logger _log = Logger.getLogger(RestFullAgendaMedico.class.getName()); 
-    
+    private final static Logger _log = Logger.getLogger(RestFullAgendaMedico.class.getName());
+
     @Context
     private UriInfo context;
     @EJB
     private IAgendaLocal agenda;
-    
+
     @GET
-    @Produces(MediaType.APPLICATION_JSON)    
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/consultaAgenda")
     public List<Agenda> consultaAgendaMedico(@DefaultValue("0")
-            @QueryParam("idMedico")         long   idMedico,
-            @QueryParam("fechaInicial")     String fechaInicial,
-            @QueryParam("fechaFinal")       String fechaFinal) {
-                
+            @QueryParam("idMedico") long idMedico,
+            @QueryParam("fechaInicial") String fechaInicial,
+            @QueryParam("fechaFinal") String fechaFinal) {
+
         try {
-            
-            if(fechaInicial!=null&&!fechaInicial.isEmpty()&&
-                   fechaFinal!=null&&!fechaFinal.isEmpty() ){
-                
-                 return agenda.consultaAgendaMedico(idMedico,
-                    AgendaUtil.parserStringToDateSimpleDateFormat(fechaInicial),
-                    AgendaUtil.parserStringToDateSimpleDateFormat(fechaFinal));
-            }else{
-                 return agenda.consultaAgendaMedico(idMedico,
-                    new Date (),
-                    new Date ());
+
+            if (fechaInicial != null && !fechaInicial.isEmpty()
+                    && fechaFinal != null && !fechaFinal.isEmpty()) {
+
+                return agenda.consultaAgendaMedico(idMedico,
+                        AgendaUtil.parserStringToDateSimpleDateFormat(fechaInicial),
+                        AgendaUtil.parserStringToDateSimpleDateFormat(fechaFinal));
+            } else {
+                return agenda.consultaAgendaMedico(idMedico,
+                        new Date(),
+                        new Date());
             }
-            
-            
-           
+
         } catch (AgendaException ex) {
             _log.log(Level.SEVERE, "RestFullAgendaMedico.consultaAgendaMedico", ex);
             return null;
         }
     }
-        
-     @GET     
-     @Produces(MediaType.APPLICATION_JSON)
-     @Path("/citas")
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/citas")
     public String consultarCitasAgendaMedico(
-            @QueryParam("idAgenda") String   idAgenda,
-            @QueryParam("fecha") String   fecha) {
-        
-        if(fecha!=null&&!fecha.isEmpty()&&idAgenda!=null&&!idAgenda.isEmpty()){
+            @QueryParam("idAgenda") String idAgenda,
+            @QueryParam("fecha") String fecha) {
+
+        if (fecha != null && !fecha.isEmpty() && idAgenda != null && !idAgenda.isEmpty()) {
             return null;
 //             return agenda.consultarCitasAgendaMedico(idAgenda, fecha);
-        }else{
+        } else {
             return "Datos no validos";
         }
-        
-       
+
     }
+    /**
+     * 
+     * @param idMedico
+     * @return 
+     */
+    @GET
+    @Path("/{idMedico}/listaEps")
+    @Produces(MediaType.APPLICATION_JSON)
+
+    public List<PersonaEps> consultarListaEps(@PathParam("idMedico") long idMedico) {
+        return agenda.consutarEpsMedico(idMedico);
+    }
+    
+    /**
+     * 
+     * @param request
+     * @return 
+     */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/nuevaAgenda")    
-    public GeneralResponse insertarAgenda(RequestCrearAgenda request){
-               
-        
-        
-        _log.log(Level.WARNING," >>> "+ request.getFechaInicio());
-        _log.log(Level.WARNING," >>> "+ request.getFechaFinal());
-        _log.log(Level.WARNING," >>> "+ request.getCantidadMinutosXCita());
-        
-        
-         List<DiaAgenda>  list=request.getSemana().getListaDias();
-        for(DiaAgenda dia:list){
-            _log.log(Level.WARNING," >>> "+ dia.getDia());
-            _log.log(Level.WARNING," >>> "+ dia.isIncluir());
-        }
+    @Path("/nuevaAgenda")
+    public GeneralResponse insertarAgenda(RequestCrearAgenda request) {
         return agenda.insertarAgenda(request);
-        
-        
-    }
-    
-    @GET
-     @Path("/{idMedico}/listaEps")
-    @Produces(MediaType.APPLICATION_JSON)    
-   
-    public List<PersonaEps> consultarListaEps(@PathParam("idMedico")  long   idMedico){
-      return   agenda.consutarEpsMedico(idMedico);
     }
 }

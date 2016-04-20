@@ -11,20 +11,21 @@ app.controller('agendaMedicoContoller',
                 fechaFinal: '22-04-2016',
                 semana: {
                     listaDias: [
-                        {numeroDia: '1', dia: 'Lunes', incluir: false},
-                        {numeroDia: '2', dia: 'Martes', incluir: false},
-                        {numeroDia: '3', dia: 'Miercoles', incluir: false},
-                        {numeroDia: '4', dia: 'Jueves', incluir: false},
-                        {numeroDia: '5', dia: 'Viernes', incluir: false},
-                        {numeroDia: '6', dia: 'Sabado', incluir: false},
-                        {numeroDia: '7', dia: 'Domingo', incluir: false}
+                        {numeroDia: 1, dia: 'Lunes', incluir: false},
+                        {numeroDia: 2, dia: 'Martes', incluir: false},
+                        {numeroDia: 3, dia: 'Miercoles', incluir: false},
+                        {numeroDia: 4, dia: 'Jueves', incluir: false},
+                        {numeroDia: 5, dia: 'Viernes', incluir: false},
+                        {numeroDia: 6, dia: 'Sabado', incluir: false},
+                        {numeroDia: 0, dia: 'Domingo', incluir: false}
                     ],
                     numeroDiasSelecionado: 0
                 },
                 horaInicio: '08:00:00',
                 horaFinal: '12:00:00',
                 cantidadMinutosXCita: 15,
-                idPersonaEps: '',
+                idPersonaEps: 0,
+                idMedico:$stateParams.idMedico,
                 especialidadCita: 'MEDICINA GENERAL'
 
             };
@@ -32,13 +33,13 @@ app.controller('agendaMedicoContoller',
 
             $scope.semana = {
                 listaDias: [
-                    {numeroDia: '1', dia: 'Lunes', incluir: false},
-                    {numeroDia: '2', dia: 'Martes', incluir: false},
-                    {numeroDia: '3', dia: 'Miercoles', incluir: false},
-                    {numeroDia: '4', dia: 'Jueves', incluir: false},
-                    {numeroDia: '5', dia: 'Viernes', incluir: false},
-                    {numeroDia: '6', dia: 'Sabado', incluir: false},
-                    {numeroDia: '7', dia: 'Domingo', incluir: false}
+                    {numeroDia: 1, dia: 'Lunes', incluir: false},
+                    {numeroDia: 2, dia: 'Martes', incluir: false},
+                    {numeroDia: 3, dia: 'Miercoles', incluir: false},
+                    {numeroDia: 4, dia: 'Jueves', incluir: false},
+                    {numeroDia: 5, dia: 'Viernes', incluir: false},
+                    {numeroDia: 6, dia: 'Sabado', incluir: false},
+                    {numeroDia: 0, dia: 'Domingo', incluir: false}
                 ],
                 numeroDiasSelecionado: 0
             };
@@ -75,8 +76,6 @@ app.controller('agendaMedicoContoller',
             });
 
 
-
-
             $scope.agregarAgenda = function () {
                 /**
                  * Validar datos del formulario.
@@ -95,13 +94,21 @@ app.controller('agendaMedicoContoller',
                     /**
                      * Llamar a servicio post par insertar agenda.
                      */
-                    $http.post('/SiscAgenda/api/medico/agenda/nuevaAgenda',$scope.nuevaAgenda, configServicePost)
+                    $http.post('/SiscAgenda/api/medico/agenda/nuevaAgenda', $scope.nuevaAgenda, configServicePost)
                             .success(function (data, status, headers, config) {
                                 /**
                                  * Insertar en arreglo de citas
                                  */
-                        
-                                 alert('>>>> '+data);
+                                if (data.codigoRespuesta === "SUCCESS") {
+                                   
+                                    alert('PARECE QUE INSERTO: ');
+                                    /**
+                                     * Mensaje de confirmacion de agenda insertada correctamente.
+                                     */
+
+
+                                }
+
                             })
                             .error(function (data, status, header, config) {
                                 alert('Error.');

@@ -19,8 +19,10 @@ public class RequestCrearAgenda  implements Serializable{
     private String  horaInicio;
     private String  horaFinal;
     private Integer cantidadMinutosXCita;
-    private String idPersonaEps;
-    private String especialidadCita;
+    private Long    idPersonaEps;
+    private Long    idMedico;
+    private String  especialidadCita;
+   
 
     public String getFechaInicio() {
         return fechaInicio;
@@ -70,11 +72,11 @@ public class RequestCrearAgenda  implements Serializable{
         this.cantidadMinutosXCita = cantidadMinutosXCita;
     }
 
-    public String getIdPersonaEps() {
+    public Long getIdPersonaEps() {
         return idPersonaEps;
     }
 
-    public void setIdPersonaEps(String idPersonaEps) {
+    public void setIdPersonaEps(Long idPersonaEps) {
         this.idPersonaEps = idPersonaEps;
     }
 
@@ -85,6 +87,15 @@ public class RequestCrearAgenda  implements Serializable{
     public void setEspecialidadCita(String especialidadCita) {
         this.especialidadCita = especialidadCita;
     }
+
+    public Long getIdMedico() {
+        return idMedico;
+    }
+
+    public void setIdMedico(Long idMedico) {
+        this.idMedico = idMedico;
+    }
+    
     
     
     

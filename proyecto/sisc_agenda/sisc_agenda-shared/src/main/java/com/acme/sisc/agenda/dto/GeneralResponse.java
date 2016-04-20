@@ -13,6 +13,7 @@ import java.io.Serializable;
  */
 public class GeneralResponse implements Serializable {
     
+    private String codigoRespuesta;
     private ErrorObjSiscAgenda error;
     private Object objectResponse;
 
@@ -30,6 +31,14 @@ public class GeneralResponse implements Serializable {
 
     public void setObjectResponse(Object objectResponse) {
         this.objectResponse = objectResponse;
+    }
+
+    public String getCodigoRespuesta() {
+        return codigoRespuesta;
+    }
+
+    public void setCodigoRespuesta(String codigoRespuesta) {
+        this.codigoRespuesta = codigoRespuesta;
     }
     
     

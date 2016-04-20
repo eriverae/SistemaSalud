@@ -58,7 +58,14 @@ public class FacadeMedicoEps extends AbstractFacade<PersonaEps>{
             throw new AgendaException("Error consultando PersonaEps idMedico: "+idMedico+" idEps: "+idEps);
         }
     }
-    
+     public PersonaEps consultarMedicoEpsXId(long idPersonaEps) throws AgendaException{
+        PersonaEps personaEps = em.find(PersonaEps.class, idPersonaEps);
+         if(personaEps!=null){
+            return em.find(PersonaEps.class, idPersonaEps);
+         }else{
+             throw new AgendaException("Error consultando PersonaEps idPersonaEps: "+idPersonaEps);
+         }
+     }
     
      public List<PersonaEps> consultarEpsMedico(long idMedico) throws AgendaException{
         try{
