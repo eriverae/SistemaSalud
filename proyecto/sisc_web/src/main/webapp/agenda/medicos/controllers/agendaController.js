@@ -1,7 +1,7 @@
 /**
  * calendarDemoApp - 0.9.0
  */
-var app = angular.module('siscseguridad');
+var app = angular.module('sisc_web');
 
 app.controller('agendaMedicoContoller',
         function ($scope, $compile, $timeout, uiCalendarConfig, $http, $stateParams) {

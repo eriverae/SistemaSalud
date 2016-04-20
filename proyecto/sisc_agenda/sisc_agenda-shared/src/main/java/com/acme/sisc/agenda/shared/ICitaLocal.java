@@ -6,6 +6,7 @@
 package com.acme.sisc.agenda.shared;
 
 import com.acme.sisc.agenda.entidades.Cita;
+import com.acme.sisc.agenda.exceptions.CitaException;
 import java.util.List;
 import javax.ejb.Remote;
 
@@ -16,5 +17,17 @@ import javax.ejb.Remote;
 
 @Remote
 public interface ICitaLocal {
+
     public List<Cita> listaCitasPaciente(long idPaciente);
+
+    Cita find(Object id);
+
+    void crearCita(Cita cita) throws CitaException;
+
+    Cita modificarCliente(Cita cita);
+
+    void remove(Long id);
+
+    void remove(Cita entity);
+
 }

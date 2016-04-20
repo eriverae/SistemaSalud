@@ -1,5 +1,5 @@
 'use strict';
-var app = angular.module('sisc_registro');
+var app = angular.module('sisc_web');
 
 app.controller('listaMedicosController', function ($scope, $rootScope, $stateParams, $state, personaService, modalService) {
     // Initialize required information: sorting, the first page to show and the grid options.

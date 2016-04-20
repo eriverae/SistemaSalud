@@ -1,4 +1,4 @@
-var app = angular.module('siscseguridad');
+var app = angular.module('sisc_web');
 // Create a controller with name clientesListController to bind to the grid section.
 app.controller('usuariosListController', function ($scope, $rootScope,$state ,usuarioService, modalService) {
     // Initialize required information: sorting, the first page to show and the grid options.

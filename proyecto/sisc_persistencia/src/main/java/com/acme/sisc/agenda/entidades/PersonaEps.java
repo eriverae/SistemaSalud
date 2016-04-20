@@ -5,7 +5,6 @@
  */
 package com.acme.sisc.agenda.entidades;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
@@ -28,16 +27,15 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Julio
  */
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "persona_eps")
-@JsonIgnoreProperties(ignoreUnknown = true)
 @NamedQueries({
     @NamedQuery(name = "PersonaEps.findListMedicoEps", query = "SELECT p FROM PersonaEps p WHERE p.persona.idPersona = :idMedico"),
     @NamedQuery(name = "PersonaEps.findMedicoEps", query = "SELECT p FROM PersonaEps p WHERE p.persona.idPersona = :idMedico AND p.eps.idPersona = :idEps "),
@@ -69,11 +67,12 @@ public class PersonaEps implements Serializable {
     @JoinColumn(name = "id_eps", referencedColumnName = "id_persona")
     @ManyToOne
     private PersonaJuridica eps;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pacienteEps", fetch = FetchType.LAZY)
+//@JsonIgnore
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pacienteEps", fetch = FetchType.LAZY)
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "pacienteEps" ,fetch = FetchType.EAGER)
     private List<Cita> listaCitasPaciente;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "medicoEps", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "medicoEps", fetch = FetchType.EAGER)
     private List<Agenda> listaAgendasMedico;
 
     @Version
@@ -127,7 +126,7 @@ public class PersonaEps implements Serializable {
         this.eps = eps;
     }
 
-    @XmlTransient
+    @JsonIgnore
     public List<Cita> getListaCitasPaciente() {
         return listaCitasPaciente;
     }

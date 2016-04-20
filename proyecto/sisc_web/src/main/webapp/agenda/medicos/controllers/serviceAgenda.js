@@ -1,7 +1,7 @@
 
 'use strict';
 
-var calendarDemoApp = angular.module('siscseguridad');
+var calendarDemoApp = angular.module('sisc_web');
 // Service that provides persons operations
 calendarDemoApp.factory('agendaService', function ($resource) {
     alert('>> ');

@@ -8,7 +8,6 @@ package com.acme.sisc.agenda.ejb;
 import com.acme.sisc.agenda.constant.CodesResponse;
 import com.acme.sisc.agenda.constant.WebConstant;
 import com.acme.sisc.agenda.dto.DiaAgenda;
-import com.acme.sisc.agenda.dto.ErrorObjSiscAgenda;
 import com.acme.sisc.agenda.dto.GeneralResponse;
 import com.acme.sisc.agenda.dto.RequestCrearAgenda;
 import com.acme.sisc.agenda.ejb.facade.FacadeAgenda;

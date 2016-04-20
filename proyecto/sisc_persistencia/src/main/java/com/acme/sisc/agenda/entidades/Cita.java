@@ -5,6 +5,7 @@
  */
 package com.acme.sisc.agenda.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -21,17 +22,19 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
-import javax.xml.bind.annotation.XmlRootElement;
+
 
 /**
  *
  * @author Julio
  */
+
 @Entity
 @Table(name = "cita")
-@XmlRootElement
+@JsonIgnoreProperties(ignoreUnknown = true)
 @NamedQueries({
     @NamedQuery(name = "Cita.findFechaInicioFechaFin", query = "SELECT c FROM Cita c where (c.agenda.medicoEps.persona.idPersona = :idMedico) AND (c.horaInicio >= :horaInicio  AND c.horaFin <= :horaFin)"),
+    @NamedQuery(name = "Cita.findIdPaciente", query = "SELECT c FROM Cita c WHERE c.pacienteEps.persona.idPersona = :idPaciente and c.pacienteEps.fechaFin=null"),
     @NamedQuery(name = "Cita.findAll", query = "SELECT c FROM Cita c"),
     @NamedQuery(name = "Cita.findById", query = "SELECT c FROM Cita c WHERE c.idCita = :id"),
     @NamedQuery(name = "Cita.findByValor", query = "SELECT c FROM Cita c WHERE c.valor = :valor"),
