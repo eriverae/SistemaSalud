@@ -5,8 +5,4 @@ var myModule = angular.module('sisc_registro');
 myModule.factory('personaService', function ($resource) {
     return $resource('/sisc_registro/api/personaNatural/:id');
 });
-myModule.factory('authService', function ($resource) {
-    return $resource('/sisc_registro/api/auth');
-});
-
 
