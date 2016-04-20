@@ -8,10 +8,10 @@
 
   <div>
     <form name="medicoForm" ng-submit="updateMedico()" novalidate>
-      <uib-tabset active="activeForm">
+      <!--<uib-tabset active="activeForm">
         <uib-tab index="0" heading="Datos básicos">
           <ng-form name="nestedForm">
-            <div class="form-group">
+            <div class="form-group"> -->
                 <!-- Datos básicos -->
                 <!-- Nombres -->
                 <div class="form-group" ng-class="{'has-error' : medicoForm.nombres.$invalid && medicoForm.nombres.$dirty}">
@@ -142,12 +142,12 @@
                   <p class="help-block" ng-show="medicoForm.tarjetaProfesional.$error.minlength">Debe tener al menos 3 digitos.</p>
                   <p class="help-block" ng-show="medicoForm.tarjetaProfesional.$error.maxlength">No debe superar los 20 digitos.</p>
                 </div>
-            </div>
+            <!--</div>
           </ng-form>
         </uib-tab>
         <uib-tab index="1" heading="Datos de contacto">
           <ng-form name="nestedForm">
-            <div class="form-group">
+            <div class="form-group">-->
                 <!-- Correo electrónico -->
                 <div class="form-group" ng-class="{'has-error' : medicoForm.correo.$invalid && medicoForm.correo.$dirty}">
                   <label for="correo">Correo electrónico:</label>
@@ -203,10 +203,10 @@
                   <p class="help-block" ng-show="medicoForm.direccion.$error.minlength">Debe tener al menos 3 digitos</p>
                   <p class="help-block" ng-show="medicoForm.direccion.$error.maxlength">No debe superar los 30 digitos</p>
                 </div>
-            </div>
+            <!--</div>
           </ng-form>
         </uib-tab>
-      </uib-tabset>
+      </uib-tabset>-->
         
       <!-- Form buttons. The 'Save' button is only enabled when the form is valid. -->
       <div class="buttons">

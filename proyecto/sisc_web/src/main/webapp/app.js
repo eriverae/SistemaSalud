@@ -1,6 +1,6 @@
 'use strict';
 // Declare app level module which depends on views, and components
-var app = angular.module('siscseguridad', ['ui.router','ngResource','ui.calendar', 'ui.bootstrap','ngGrid','app.utils']);
+var app = angular.module('sisc_web', ['ui.router','ngResource','ui.calendar', 'ui.bootstrap','ngGrid','app.utils']);
 
 app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlRouterProvider) {
   $urlRouterProvider.otherwise("/home");
@@ -45,6 +45,43 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       params : {'idPaciente':'3'}
     })    
         
+    .state('registroMedicos',{
+      url:'/medicos',
+      templateUrl: 'registro/medicos/registroMedicos.html',
+      controller: 'medicosController'
+    })
+     
+    .state('listarMedicos',{
+      url:'/listaMedicos',
+      templateUrl: 'registro/medicos/listaMedicos.html',
+      controller: 'listaMedicosController'
+    })
+  
+    .state('registroPacientes',{
+      url: '/pacientes',
+      templateUrl: 'registro/pacientes/registroPacientes.html',
+      controller: 'pacientesController'
+    })
+      
+    .state('listarPacientes',{
+      url:'/listaPacientes',
+      templateUrl: 'registro/pacientes/listaPacientes.html',
+      controller: 'listaPacientesController'
+    })
+    
+    .state('modificarMedicos',{
+      url:'/medicos',
+      templateUrl: 'registro/medicos/registroMedicos.html',
+      controller: 'medicosController',
+      params : {idPersona:null}
+    })
+    
+    .state('modificarPacientes',{
+      url:'/pacientes',
+      templateUrl: 'registro/pacientes/registroPacientes.html',
+      controller: 'pacientesController',
+      params : {idPersona:null}
+    })
      ;
     
 }]);

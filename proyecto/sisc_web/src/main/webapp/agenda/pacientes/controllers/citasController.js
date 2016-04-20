@@ -5,7 +5,7 @@
  */
 
 //modulo
-var app = angular.module('siscseguridad');
+var app = angular.module('sisc_web');
 
 app.controller('citasController',
         function ($scope, $http, $stateParams) {

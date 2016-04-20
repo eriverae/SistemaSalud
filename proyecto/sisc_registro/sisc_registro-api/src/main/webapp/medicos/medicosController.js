@@ -1,20 +1,22 @@
 'use strict';
 var app = angular.module('sisc_registro');
 
-app.controller('medicosController', function ($scope, $rootScope, $stateParams, $state, medicoService, modalService) {
+app.controller('medicosController', function ($scope, $rootScope, $stateParams, $state, personaService, modalService) {
   
   $scope.medico={};
   
   if (angular.isDefined($stateParams.idPersona)){
     console.log('Médico a modificar, ID = '+ $stateParams.idPersona);
-    medicoService.get({id: $stateParams.idPersona}).$promise.then(
+    personaService.get({id: $stateParams.idPersona}).$promise.then(
       function (data) {
+        console.log('Datos de médico encontrados');
         $scope.medico = data;
         //A partir de Angular 1.3, ng-model requiere un objeto de tipo Date valido, no acepta un String
         $scope.medico.fechaNacimiento = new Date($scope.medico.fechaNacimiento); 
       },
       function () {
-        // Broadcast the event for a server error.
+        console.log('Datos paila :(');
+          // Broadcast the event for a server error.
         $rootScope.$broadcast('error');
       });
   }
@@ -47,7 +49,7 @@ app.controller('medicosController', function ($scope, $rootScope, $stateParams, 
 
   // Calls the rest method to save a Medico.
   $scope.updateMedico = function () {
-    medicoService.save($scope.medico).$promise.then(
+    personaService.save($scope.medico).$promise.then(
     function () {
       // Broadcast the event to refresh the grid.
       $rootScope.$broadcast('refreshGrid');
@@ -65,7 +67,7 @@ app.controller('medicosController', function ($scope, $rootScope, $stateParams, 
   // the appropiate rest service.
   $scope.$on('medicoSelected', function (event, id) {
     console.log('Médico seleccionado, ID = '+ id);
-    $scope.medico = medicoService.get({id: id});
+    $scope.medico = personaService.get({id: id});
   });
   
   $scope.$on('medicoSaved', function(){
