@@ -28,12 +28,18 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       templateUrl: 'pacientes/registroPacientes.html',
       controller: 'pacientesController'
     })
+      
+    .state('listarPacientes',{
+      url:'/listaPacientes',
+      templateUrl: 'pacientes/listaPacientes.html',
+      controller: 'listaPacientesController'
+    })
     
     .state('modificarMedicos',{
       url:'/medicos',
       templateUrl: 'medicos/registroMedicos.html',
       controller: 'medicosController',
-      params : {idMedico:null}
+      params : {idPersona:null}
     });
     /*
     $routeProvider

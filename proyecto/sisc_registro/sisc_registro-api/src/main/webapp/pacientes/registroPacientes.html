@@ -9,98 +9,171 @@
   </div>
 
   <div>
-    <!-- Specify the function to be called on submit and disable HTML5 validation, since we're using Angular validation-->
-    <form class="form-horizontal" name="pacienteForm" ng-submit="updatePaciente()" novalidate>
-      
-      <div class="form-group" ng-class="{'has-error' : pacienteForm.nombres.$invalid && pacienteForm.nombres.$dirty}">
-        <label for="nombres">Nombres:</label>
-        <!-- Display a check when the field is valid and was modified -->
-        <span ng-class="{'glyphicon glyphicon-ok' : pacienteForm.nombres.$valid && pacienteForm.nombres.$dirty}"></span>
+    <form name="pacienteForm" ng-submit="updatePaciente()" novalidate>
+      <uib-tabset active="activeForm">
+        <uib-tab index="0" heading="Datos básicos">
+          <ng-form name="nestedForm">
+            <div class="form-group">
+                <!-- Datos básicos -->
+                <!--Nombres -->
+                <div class="form-group" ng-class="{'has-error' : pacienteForm.nombres.$invalid && pacienteForm.nombres.$dirty}">
+                  <label for="nombres">Nombres:</label>
+                  <!-- Display a check when the field is valid and was modified -->
+                  <span ng-class="{'glyphicon glyphicon-ok' : pacienteForm.nombres.$valid && pacienteForm.nombres.$dirty}"></span>
 
-        <input id="nombres" name="nombres" type="text" class="form-control" maxlength="30"
-               ng-model="paciente.nombre" required ng-minlength="3" ng-maxlength="30" 
-               placeholder="Ingrese sus nombres"/>
+                  <input id="nombres" name="nombres" type="text" class="form-control" maxlength="30"
+                         ng-model="paciente.nombres" required ng-minlength="3" ng-maxlength="30" 
+                         placeholder="Ingrese sus nombres"/>
 
-        <!-- Validation messages to be displayed on required, minlength and maxlength -->
-        <p class="help-block" ng-show="pacienteForm.nombres.$error.minlength">Debe tener al menos 3 digitos.</p>
-        <p class="help-block" ng-show="pacienteForm.nombres.$error.maxlength">No debe superar los 30 digitos</p>
-      </div>
+                  <!-- Validation messages to be displayed on required, minlength and maxlength -->
+                  <p class="help-block" ng-show="pacienteForm.nombres.$error.minlength">Debe tener al menos 3 digitos.</p>
+                  <p class="help-block" ng-show="pacienteForm.nombres.$error.maxlength">No debe superar los 30 digitos</p>
+                </div>
+
+                <!--Apellidos -->
+                <div class="form-group" ng-class="{'has-error' : pacienteForm.apellidos.$invalid && pacienteForm.apellidos.$dirty}">
+                  <label for="apellidos">Apellidos:</label>
+                  <!-- Display a check when the field is valid and was modified -->
+                  <span ng-class="{'glyphicon glyphicon-ok' : pacienteForm.apellidos.$valid && pacienteForm.apellidos.$dirty}"></span>
+                  <input id="apellidos" name="apellidos" type="text" class="form-control" maxlength="30"
+                         ng-model="paciente.apellidos" required ng-minlength="3" ng-maxlength="30"
+                         placeholder="Apellidos"/>
+
+                  <!-- Validation messages to be displayed on required, minlength and maxlength -->
+                  <p class="help-block" ng-show="pacienteForm.apellidos.$error.minlength">Debe tener al menos 3 digitos</p>
+                  <p class="help-block" ng-show="pacienteForm.apellidos.$error.maxlength">No debe superar los 30 digitos</p>
+                </div>
+
+                <!--Tipo ID -->
+                  <div class="form-group" ng-class="{'has-error' : pacienteForm.tipoIdentificacion.$invalid && pacienteForm.tipoIdentificacion.$dirty}">
+                  <label for="IdType">Tipo identificacion:</label>
+                  <!-- Display a check when the field is valid and was modified -->
+                  <span ng-class="{'glyphicon glyphicon-ok' : pacienteForm.tipoIdentificacion.$valid && pacienteForm.tipoIdentificacion.$dirty}"></span>
+                  <select name="tipoIdentificacion" id="tipoIdentificacion" ng-model="paciente.tipoIdentificacion" required>
+                    <option ng-repeat="option in listaTiposIdentificacion" value="{{option.id}}">{{option.name}}</option>
+                  </select>
+                  <!--
+                  <p class="help-block" ng-show="pacienteForm.tipoIdentificacion.$error.required">Seleccione tipo de identificacion.</p>
+                  -->
+                </div>
+
+                <!--Numero Id -->
+                <!-- Display an error if the input is invalid and is dirty (only when someone changes the value) -->
+                <div class="form-group" ng-class="{'has-error' : pacienteForm.identificacion.$invalid && pacienteForm.identificacion.$dirty}">
+                  <label for="identificacion">Identificacion:</label>
+                  <!-- Display a check when the field is valid and was modified -->
+                  <span ng-class="{'glyphicon glyphicon-ok' : pacienteForm.identificacion.$valid && pacienteForm.identificacion.$dirty}"></span>
+
+                  <input id="identificacion" name="identificacion" type="number" class="form-control" maxlength="20"
+                         ng-model="paciente.numeroIdentificacion" required ng-minlength="3" ng-maxlength="20"
+                         placeholder="Ingrese el número de identificación"/>
+
+                  <!-- Validation messages to be displayed on required, minlength and maxlength -->
+                  <p class="help-block" ng-show="pacienteForm.identificacion.$error.minlength">Debe tener al menos 3 digitos.</p>
+                  <p class="help-block" ng-show="pacienteForm.identificacion.$error.maxlength">La identifiacion no debe superar 20 digitos.</p>
+                </div>
+
+                <!--Genero -->
+                <div class="form-group" ng-class="{'has-error' : pacienteForm.genero.$invalid && pacienteForm.genero.$dirty}">
+                  <label for="genero">Genero:</label>
+                  <!-- Display a check when the field is valid and was modified -->
+                  <!--
+                  <span ng-class="{'glyphicon glyphicon-ok' : pacienteForm.gender.$valid && pacienteForm.gender.$dirty}"></span>
+                  -->
+                  <div ng-repeat="item in listaGeneros">
+                    <label class="radio-inline">
+                      <input id="genero" name="genero" type="radio" ng-model="paciente.genero"  value="{{item.id}}"/>{{item.label}}
+                    </label>
+                  </div>
+                  <!-- Validation messages to be displayed on required, minlength and maxlength -->
+                  <p class="help-block" ng-show="pacienteForm.genero.$error.required">Seleccione genero.</p>
+                </div>
+
+                <!--Fecha nacimiento -->
+                <!-- Display an error if the input is invalid and is dirty (only when someone changes the value) -->
+                <div class="form-group" ng-class="{'has-error' : pacienteForm.fechaNacimiento.$invalid && pacienteForm.fechaNacimiento.$dirty}">
+                  <label for="fechaNacimiento">Fecha de nacimiento:</label>
+                  <!-- Display a check when the field is valid and was modified -->
+                  <span ng-class="{'glyphicon glyphicon-ok' : pacienteForm.fechaNacimiento.$valid && pacienteForm.fechaNacimiento.$dirty}"></span>
+
+                  <input id="fechaNacimiento" name="fechaNacimiento" type="date" class="form-control" placeholder="dd/MM/yyyy"
+                         ng-model="paciente.fechaNacimiento"
+                         required ng-minlength="5" ng-maxlength="100"/>
+
+                  <!-- Validation messages to be displayed on required, minlength and maxlength -->
+                  <p class="help-block" ng-show="pacienteForm.fechaNacimiento.$error.required">Ingrese fecha de nacimiento.</p>
+                </div>
+            </div>
+          </ng-form>
+        </uib-tab>
+        <uib-tab index="1" heading="Datos de contacto">
+          <ng-form name="nestedForm">
+            <div class="form-group">
+                <!-- Correo electrónico -->
+                <div class="form-group" ng-class="{'has-error' : pacienteForm.correo.$invalid && pacienteForm.correo.$dirty}">
+                  <label for="correo">Correo electrónico:</label>
+                  <!-- Display a check when the field is valid and was modified -->
+                  <span ng-class="{'glyphicon glyphicon-ok' : pacienteForm.correo.$valid && pacienteForm.correo.$dirty}"></span>
+                  <input id="correo" name="correo" type="text" class="form-control" maxlength="30"
+                         ng-model="paciente.correoElectronico" required ng-minlength="3" ng-maxlength="30"
+                         placeholder="Correo electrónico"/>
+                  <!-- Validation messages to be displayed on required, minlength and maxlength -->
+                  <p class="help-block" ng-show="pacienteForm.correo.$error.minlength">Debe tener al menos 3 digitos</p>
+                  <p class="help-block" ng-show="pacienteForm.correo.$error.maxlength">No debe superar los 30 digitos</p>
+                </div>
+
+                <!-- Teléfono celular -->
+                <div class="form-group" ng-class="{'has-error' : pacienteForm.celular.$invalid && pacienteForm.celular.$dirty}">
+                  <label for="celular">Teléfono celular:</label>
+                  <!-- Display a check when the field is valid and was modified -->
+                  <span ng-class="{'glyphicon glyphicon-ok' : pacienteForm.celular.$valid && pacienteForm.celular.$dirty}"></span>
+
+                  <input id="celular" name="celular" type="number" class="form-control" maxlength="20"
+                         ng-model="paciente.telefonoCelular" required ng-minlength="10" ng-maxlength="20"
+                         placeholder="Teléfono celular"/>
+
+                  <!-- Validation messages to be displayed on required, minlength and maxlength -->
+                  <p class="help-block" ng-show="pacienteForm.celular.$error.minlength">Debe tener al menos 10 digitos.</p>
+                  <p class="help-block" ng-show="pacienteForm.celular.$error.maxlength">No debe superar 20 digitos.</p>
+                </div>
+
+                <!-- Teléfono fijo -->
+                <div class="form-group" ng-class="{'has-error' : pacienteForm.fijo.$invalid && pacienteForm.fijo.$dirty}">
+                  <label for="fijo">Teléfono fijo:</label>
+                  <!-- Display a check when the field is valid and was modified -->
+                  <span ng-class="{'glyphicon glyphicon-ok' : pacienteForm.fijo.$valid && pacienteForm.fijo.$dirty}"></span>
+
+                  <input id="fijo" name="fijo" type="number" class="form-control" maxlength="20"
+                         ng-model="paciente.telefonoFijo" required ng-minlength="5" ng-maxlength="20"
+                         placeholder="Teléfono fijo"/>
+
+                  <!-- Validation messages to be displayed on required, minlength and maxlength -->
+                  <p class="help-block" ng-show="pacienteForm.fijo.$error.minlength">Debe tener al menos 5 digitos.</p>
+                  <p class="help-block" ng-show="pacienteForm.fijo.$error.maxlength">No debe superar 20 digitos.</p>
+                </div>
+                
+                <!-- Dirección -->
+                <div class="form-group" ng-class="{'has-error' : pacienteForm.direccion.$invalid && pacienteForm.direccion.$dirty}">
+                  <label for="direccion">Dirección:</label>
+                  <!-- Display a check when the field is valid and was modified -->
+                  <span ng-class="{'glyphicon glyphicon-ok' : pacienteForm.direccion.$valid && pacienteForm.direccion.$dirty}"></span>
+                  <input id="direccion" name="direccion" type="text" class="form-control" maxlength="30"
+                         ng-model="paciente.direccion" required ng-minlength="3" ng-maxlength="30"
+                         placeholder="Direccion"/>
+                  <!-- Validation messages to be displayed on required, minlength and maxlength -->
+                  <p class="help-block" ng-show="pacienteForm.direccion.$error.minlength">Debe tener al menos 3 digitos</p>
+                  <p class="help-block" ng-show="pacienteForm.direccion.$error.maxlength">No debe superar los 30 digitos</p>
+                </div>
+            </div>
+          </ng-form>
+        </uib-tab>
+      </uib-tabset>
         
-      <div class="form-group" ng-class="{'has-error' : pacienteForm.apellidos.$invalid && pacienteForm.apellidos.$dirty}">
-        <label for="apellidos">Apellidos:</label>
-        <!-- Display a check when the field is valid and was modified -->
-        <span ng-class="{'glyphicon glyphicon-ok' : pacienteForm.apellidos.$valid && pacienteForm.apellidos.$dirty}"></span>
-        <input id="apellidos" name="apellidos" type="text" class="form-control" maxlength="30"
-               ng-model="paciente.apellidos" required ng-minlength="3" ng-maxlength="30"
-               placeholder="Apellidos"/>
-
-        <!-- Validation messages to be displayed on required, minlength and maxlength -->
-        <p class="help-block" ng-show="pacienteForm.apellidos.$error.minlength">Debe tener al menos 3 digitos</p>
-        <p class="help-block" ng-show="pacienteForm.apellidos.$error.maxlength">No debe superar los 30 digitos</p>
-      </div>
-        
-        <div class="form-group" ng-class="{'has-error' : pacienteForm.tipoIdentificacion.$invalid && pacienteForm.tipoIdentificacion.$dirty}">
-        <label for="IdType">Tipo identificacion:</label>
-        <!-- Display a check when the field is valid and was modified -->
-        <span ng-class="{'glyphicon glyphicon-ok' : pacienteForm.tipoIdentificacion.$valid && pacienteForm.tipoIdentificacion.$dirty}"></span>
-        <select name="tipoIdentificacion" id="tipoIdentificacion" ng-model="paciente.tipoIdentificacion" required>
-          <option ng-repeat="option in listaTiposIdentificacion" value="{{option.id}}">{{option.name}}</option>
-        </select>
-        <!--
-        <p class="help-block" ng-show="pacienteForm.tipoIdentificacion.$error.required">Seleccione tipo de identificacion.</p>
-        -->
-      </div>
-      
-      <!-- Display an error if the input is invalid and is dirty (only when someone changes the value) -->
-      <div class="form-group" ng-class="{'has-error' : pacienteForm.identificacion.$invalid && pacienteForm.identificacion.$dirty}">
-        <label for="identificacion">Identificacion:</label>
-        <!-- Display a check when the field is valid and was modified -->
-        <span ng-class="{'glyphicon glyphicon-ok' : pacienteForm.identificacion.$valid && pacienteForm.identificacion.$dirty}"></span>
-
-        <input id="identificacion" name="identificacion" type="number" class="form-control" maxlength="20"
-               ng-model="paciente.identificacion" required ng-minlength="3" ng-maxlength="20"
-               placeholder="Ingrese el número de identificación"/>
-
-        <!-- Validation messages to be displayed on required, minlength and maxlength -->
-        <p class="help-block" ng-show="pacienteForm.identificacion.$error.minlength">Debe tener al menos 3 digitos.</p>
-        <p class="help-block" ng-show="pacienteForm.identificacion.$error.maxlength">La identifiacion no debe superar 20 digitos.</p>
-      </div>
-      
-      <div class="form-group" ng-class="{'has-error' : pacienteForm.genero.$invalid && pacienteForm.genero.$dirty}">
-        <label for="genero">Genero:</label>
-        <!-- Display a check when the field is valid and was modified -->
-        <!--
-        <span ng-class="{'glyphicon glyphicon-ok' : pacienteForm.gender.$valid && pacienteForm.gender.$dirty}"></span>
-        -->
-        <div ng-repeat="item in listaGeneros">
-          <label class="radio-inline">
-            <input id="genero" name="genero" type="radio" ng-model="paciente.genero"  value="{{item.id}}"/>{{item.label}}
-          </label>
-        </div>
-        <!-- Validation messages to be displayed on required, minlength and maxlength -->
-        <p class="help-block" ng-show="pacienteForm.genero.$error.required">Seleccione genero.</p>
-      </div>
-      
-
-      <!-- Display an error if the input is invalid and is dirty (only when someone changes the value) -->
-      <div class="form-group" ng-class="{'has-error' : pacienteForm.fechaNacimiento.$invalid && pacienteForm.fechaNacimiento.$dirty}">
-        <label for="fechaNacimiento">Fecha de nacimiento:</label>
-        <!-- Display a check when the field is valid and was modified -->
-        <span ng-class="{'glyphicon glyphicon-ok' : pacienteForm.fechaNacimiento.$valid && pacienteForm.fechaNacimiento.$dirty}"></span>
-
-        <input id="fechaNacimiento" name="fechaNacimiento" type="date" class="form-control" placeholder="dd/MM/yyyy"
-               ng-model="paciente.fechaNacimiento"
-               required ng-minlength="5" ng-maxlength="100"/>
-
-        <!-- Validation messages to be displayed on required, minlength and maxlength -->
-        <p class="help-block" ng-show="pacienteForm.fechaNacimiento.$error.required">Ingrese fecha de nacimiento.</p>
-      </div>
-
       <!-- Form buttons. The 'Save' button is only enabled when the form is valid. -->
       <div class="buttons">
         <button type="button" class="btn btn-primary" ng-click="cancelar()">Cancelar</button>
         <button type="submit" class="btn btn-primary" ng-disabled="pacienteForm.$invalid">Guardar</button>
       </div>
-    </form>
+    </form>  
   </div>
 </div>

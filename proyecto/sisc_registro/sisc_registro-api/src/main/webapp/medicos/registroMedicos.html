@@ -1,9 +1,7 @@
 <div class="col-md-6 col-md-offset-3">
-  <!-- Verify medico, if there is no id present, that we are Adding a Person -->
   <div ng-if="medico.idPersona == null">
     <h3>Crear nuevo Médico</h3>
   </div>
-  <!-- Otherwise it's an Edit. En lo posible, que nunca se dé esta opción, no se debería poder modificar. -->
   <div ng-if="medico.idPersona != null">
     <h3>Modificar Médico</h3>
   </div>

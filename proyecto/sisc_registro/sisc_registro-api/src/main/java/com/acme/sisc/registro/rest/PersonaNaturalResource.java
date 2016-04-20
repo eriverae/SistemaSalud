@@ -75,6 +75,7 @@ public class PersonaNaturalResource {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public PersonaNatural consultarPersona(@PathParam("id") Long id){
+        LOGGER.log(Level.FINE, "Consultando persona natural con id {0} \n\n\n", id);
         return facadePersonaNatural.find(id);
     }
     
