@@ -5,8 +5,62 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 
-<!--Tabla de citas del paciente -->
+<!--informacion o manual-->
+<div class="page-content-wrap">                
 
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">INFORMACION</h3>                                
+                </div>
+                <div class="panel-body">
+                    <h4>Manual para visualizar una cita:</h4>
+                    <ol>
+                        <li>Click en cualquier fila de una <code>CITA</code></li>
+                        <li>Luego otro click en el boton <code>DESPLEGAR CITA</code></li>
+                    </ol>
+
+                    <div class="form-group">
+                        <button type="button" class="btn btn-info mb-control" data-box="#message-box-sound-2">DESPLEGAR CITA</button>
+                    </div>
+                </div>                                                        
+            </div>
+        </div>
+    </div>
+</div>
+<!--FIN informacion o manual-->
+
+
+
+
+
+<!--mensaje correcto cita seleccionada del paciente-->
+<div class="alert alert-success" role="alert" ng-if="informacionCita != null" >
+    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+    <strong>{{mensajesCita.msn_citaSeleccionada1}}</strong> {{mensajesCita.msn_citaSeleccionada2}} .
+</div>
+<!--FIN mensaje correcto cita seleccionada del paciente-->
+
+    <!--prueba de: mensaje correcto cita seleccionada del paciente-->
+    <div class="alert alert-success" role="alert" ng-if="informacionCita != null" >
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <p ng-if="esconderMensajeCitaSeleccionada">
+            <strong>MUY BIEN</strong> Has seleccionado una cita correctamente .
+        </p>    
+    </div>
+    <!--FIN prueba-->
+
+
+
+
+
+
+
+
+<!--Tabla de citas del paciente -->
 <div class="col-md-12">
     <div class="panel panel-default">
 
@@ -30,7 +84,8 @@ and open the template in the editor.
                         </tr>
                     </thead>
                     <tbody >  
-                        <tr id="trow_1" ng-repeat="cita in listaCitasPaciente" ng-click="mostrarUnaCitaDetallada(cita)"  data-toggle="modal" data-target="#my_popup">
+                        <!--                        <tr id="trow_1" ng-repeat="cita in listaCitasPaciente" ng-click="mostrarUnaCitaDetallada(cita)"  data-toggle="modal" data-target="#my_popup">-->
+                        <tr id="trow_1" ng-repeat="cita in listaCitasPaciente" ng-click="mostrarUnaCitaDetallada(cita)"  data-target="#message-box-sound-2" data-box="#message-box-sound-2"> 
 
                         <td class="text-center">{{cita.idCita}}</td>
                         <td><strong>{{cita.agenda.medicoEps.eps.razonSocial}}</strong></td>
@@ -50,12 +105,19 @@ and open the template in the editor.
         </div>
     </div>                                                
 </div>
+<!--FIN Tabla de citas del paciente-->
 
 
 
 
+<!--*****************************************************************************************************************************************************************************************
+*********************************************************************************************************************************************************************************************
+                                    NO BORRRAR , DEJARLO QUIETOOOOOOOOOOOOOOOOO
+
+muestra debajo de la tabla de lista de citas, una cita seleccionada
+-->
 <!--Informacion completa de cita del paciente-->
-<div class="col-md-4" ng-if="informacionCita != null">
+<!--<div class="col-md-12" ng-if="informacionCita != null">
 
     <div class="panel panel-warning push-up-20">
         <div class="panel-body panel-body-pricing"  >
@@ -72,24 +134,27 @@ and open the template in the editor.
             <button class="btn btn-warning btn-block" ng-click="">Informacion detallada de la cita</button>
         </div>
     </div>
-</div>
+</div>-->
+<!--Fin Informacion completa de cita del paciente-->
+<!--*****************************************************************************************************************************************************************************************
+*********************************************************************************************************************************************************************************************-->
 
-<!--...............................-->
 
 
 
-<!-- Modal -->
-<!--<div class="modal fade" id="popupDetalleCita" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Modal Header</h4>
-            </div>
-            <div class="modal-body">
 
-<!--Informacion completa de cita del paciente- ->
-                <div class="col-md-4" ng-if="informacionCita != null">
+
+
+
+<!-- Message Boxes  : linea 512 en :   ui-alerts-popups.html-->
+<!-- default with sound -->   
+<div class="message-box animated fadeIn" data-sound="fail" id="message-box-sound-2">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-globe"></span> Informacion cita</div>
+            <div class="mb-content">
+                <!--Informacion completa de cita del paciente-->
+                <div class="col-md-12" ng-if="informacionCita != null">
 
                     <div class="panel panel-warning push-up-20">
                         <div class="panel-body panel-body-pricing"  >
@@ -103,35 +168,86 @@ and open the template in the editor.
                             <p class="text-muted">{{informacionCita.pacienteEps.persona.nombres}}</p>
                         </div>
                         <div class="panel-footer"> 
-                            <button class="btn btn-warning btn-block">Informacion detallada de la cita</button>
+                            <button class="btn btn-warning btn-block" ng-click="">ENVIAR CITA (Historia-Clinica)</button>
                         </div>
                     </div>
-                </div>     
-<!--                fin informacion paciente cita- ->
-
+                </div>
+                <!--Fin Informacion completa de cita del paciente-->                  
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <div class="mb-footer">
+                <button class="btn btn-info btn-lg pull-right mb-control-close">CERRAR!</button>
             </div>
         </div>
     </div>
-</div>-->
+</div>    
+<!-- end default with sound -->
+<!-- END Message Boxes -->        
 
 
 
-<!--///////////////////////////////////////////////////////////-->
 
 
 
+<!--********************************************************************************
+********************************************************************************
+********************************************************************************
+********************************************************************************-->
+<!-- START PRELOADS -->
+<audio id="audio-alert" src="audio/alert.mp3" preload="auto"></audio>
+<audio id="audio-fail" src="audio/fail.mp3" preload="auto"></audio>
+<!-- END PRELOADS -->
 
-<div class="panel-body">
-                                    <h4>Sound</h4>
-                                    <p>Add <code>data-sound="alert/fail"</code> to <code>.message-box</code> to play sound on open.</p>
-                                    <div class="form-group">
-                                        <button type="button" class="btn btn-info mb-control" data-box="#message-box-sound-1" data-sound=".message-box">Alert</button>
-                                        <button type="button" class="btn btn-danger mb-control" data-box="#message-box-sound-2" data-sound=".message-box">Fail</button>
-                                    </div>
-</div>
+<!-- START SCRIPTS -->
+<!-- START PLUGINS -->
+<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="js/plugins/jquery/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script>        
+<!-- END PLUGINS -->
+
+<!-- THIS PAGE PLUGINS -->
+<script type='text/javascript' src='js/plugins/icheck/icheck.min.js'></script>
+<script type="text/javascript" src="js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
+
+<script type='text/javascript' src='js/plugins/noty/jquery.noty.js'></script>
+<script type='text/javascript' src='js/plugins/noty/layouts/topCenter.js'></script>
+<script type='text/javascript' src='js/plugins/noty/layouts/topLeft.js'></script>
+<script type='text/javascript' src='js/plugins/noty/layouts/topRight.js'></script>            
+
+<script type='text/javascript' src='js/plugins/noty/themes/default.js'></script>
+<script type="text/javascript">
+                                        function notyConfirm() {
+                                            noty({
+                                                text: 'Do you want to continue?',
+                                                layout: 'topRight',
+                                                buttons: [
+                                                    {addClass: 'btn btn-success btn-clean', text: 'Ok', onClick: function ($noty) {
+                                                            $noty.close();
+                                                            noty({text: 'You clicked "Ok" button', layout: 'topRight', type: 'success'});
+                                                        }
+                                                    },
+                                                    {addClass: 'btn btn-danger btn-clean', text: 'Cancel', onClick: function ($noty) {
+                                                            $noty.close();
+                                                            noty({text: 'You clicked "Cancel" button', layout: 'topRight', type: 'error'});
+                                                        }
+                                                    }
+                                                ]
+                                            })
+                                        }
+</script>
+<!-- END PAGE PLUGINS -->
+
+<!-- START TEMPLATE -->
+<script type="text/javascript" src="js/settings.js"></script>
+
+<script type="text/javascript" src="js/plugins.js"></script>        
+<script type="text/javascript" src="js/actions.js"></script>        
+<!-- END TEMPLATE -->
+<!-- END SCRIPTS -->    
+<!--********************************************************************************
+********************************************************************************
+********************************************************************************
+********************************************************************************-->
+
 
 
 
