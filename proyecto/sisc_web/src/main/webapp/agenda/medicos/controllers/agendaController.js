@@ -5,7 +5,9 @@ var app = angular.module('sisc_web');
 
 app.controller('agendaMedicoContoller',
         function ($scope, $compile, $timeout, uiCalendarConfig, $http, $stateParams) {
-
+            
+            $scope.objErrorNuevaAgenda;
+            
             $scope.nuevaAgenda = {
                 fechaInicio: '18-04-2016',
                 fechaFinal: '22-04-2016',
@@ -106,7 +108,12 @@ app.controller('agendaMedicoContoller',
                                      * Mensaje de confirmacion de agenda insertada correctamente.
                                      */
 
-
+                                }else{
+                                    if (data.codigoRespuesta === "ERROR") {
+                                         alert('Eror: '+data.error.mensajeError);
+                                       $scope.objErrorNuevaAgenda= data.error;
+                                        
+                                    }
                                 }
 
                             })
