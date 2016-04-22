@@ -140,41 +140,47 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
 
                         for (Date fechaCita : listFechasCistas) {
 
-                            List<Cita> listCitasConflicto = facadeCita.validarCitasAgendadasMedico(request.getIdMedico(), fechaHoraInicioCita, fechaHoraFinCita, true, 10);
+                            Date fechaAux = new Date(fechaCita.getTime());
+                            fechaAux.setHours(agenda.getHoraBloqueFin().getHours());
+                            fechaAux.setMinutes(agenda.getHoraBloqueFin().getMinutes());
+                            fechaAux.setSeconds(agenda.getHoraBloqueFin().getSeconds());
 
-                            if (listCitasConflicto != null && listCitasConflicto.size() > 0) {
-                                Date fechaAux = new Date(fechaCita.getTime());
-                                fechaAux.setHours(agenda.getHoraBloqueFin().getHours());
-                                fechaAux.setMinutes(agenda.getHoraBloqueFin().getMinutes());
-                                fechaAux.setSeconds(agenda.getHoraBloqueFin().getSeconds());
+                            while (fechaCita.getTime() < fechaAux.getTime()) {
+                                    _log.log(Level.WARNING, "------------------Aca....................------------------------");
+                                Cita cita = new Cita();
+                                cita.setEstadoPacienteAtendido(false);
+                                cita.setHoraInicio(new Date(fechaCita.getTime()));
+                                fechaCita.setTime(fechaCita.getTime() + (agenda.getTiempoMinutosXCita() * 60000));
+                                cita.setHoraFin(new Date(fechaCita.getTime()));
+                                cita.setFechaPaciente(new Date(fechaCita.getTime()));
+                                cita.setValor(0);
+                                cita.setAgenda(agenda);
 
-                                while (fechaCita.getTime() < fechaAux.getTime()) {
-                                    Cita cita = new Cita();
-                                    cita.setEstadoPacienteAtendido(false);
-                                    cita.setHoraInicio(new Date(fechaCita.getTime()));
+                                List<Cita> listCitasConflicto = facadeCita.validarCitasAgendadasMedico(request.getIdMedico(), fechaCita, fechaHoraFinCita, true, 10);
 
-                                    fechaCita.setTime(fechaCita.getTime() + (agenda.getTiempoMinutosXCita() * 60000));
-                                    cita.setHoraFin(new Date(fechaCita.getTime()));
-                                    cita.setFechaPaciente(new Date(fechaCita.getTime()));
-                                    cita.setValor(0);
-                                    cita.setAgenda(agenda);
+                                if (listCitasConflicto == null) {
                                     citasAgenda.add(cita);
+                                } else {
+                                    response.setCodigoRespuesta(CodesResponse.ERROR.value());
+                                    ErrorObjSiscAgenda error = new ErrorObjSiscAgenda();
+                                    error.setCodigoError("");
+                                    error.setObjError(listCitasConflicto);
+                                    error.setMensajeError(WebConstant.MENSAJE_ERROR_CITA_CONFLICTO_EN_NUEVA_AGENDA);
+                                    response.setError(error);
+                                    _log.log(Level.WARNING, "------------------EN CONFLICTO------------------------");
+                                    break;
+
                                 }
-                            } else {
-                                response.setCodigoRespuesta(CodesResponse.ERROR.value());
-                                ErrorObjSiscAgenda error = new ErrorObjSiscAgenda();
-                                error.setCodigoError("");
-                                error.setObjError(listCitasConflicto);
-                                error.setMensajeError(WebConstant.MENSAJE_ERROR_CITA_CONFLICTO_EN_NUEVA_AGENDA);
-                                response.setError(error);
-                                break;
 
                             }
+
                         }
 
                     }
                 }
-
+                _log.log(Level.WARNING, "----------------------->><dgfdgfdgfdg><<--------------------------------");
+                _log.log(Level.WARNING, "----------------------->" + response.getCodigoRespuesta()
+                        + "<<--------------------------------");
                 if (CodesResponse.SUCCESS.value().equals(response.getCodigoRespuesta())) {
                     agenda.setCitasAgenda(citasAgenda);
                     if (facadeAgenda.insertarAgenda(agenda)) {

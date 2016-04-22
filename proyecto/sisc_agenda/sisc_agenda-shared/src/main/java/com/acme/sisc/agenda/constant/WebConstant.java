@@ -12,9 +12,7 @@ package com.acme.sisc.agenda.constant;
 public class WebConstant {
     
     public static final String UNIT_NAME_PERSISTENCE="SistemaSaludPU";
-    
-
-    
+        
     /**
      * Nombre querys
      */
@@ -24,19 +22,23 @@ public class WebConstant {
         /*Agenda*/
     public static final String QUERY_AGENDA_FIND_BY_ID_MEDICO           ="Agenda.findByIdMedico";    
         /*Cita*/
+
     public static final String QUERY_CITA_FIND_FECHA_INICIO_FECHA_FIN_LIMITADO  ="Cita.findFechaInicioFechaFinLimitado";
     public static final String QUERY_CITA_FIND_FECHA_INICIO_FECHA_FIN           ="Cita.findFechaInicioFechaFin";    
-    public static final String QUERY_CITA_FIND_BY_ID_PACIENTE_                  ="Cita.findById";
-    
+    public static final String QUERY_CITA_FIND_BY_ID_PACIENTE                   ="Cita.findIdPaciente";
+      
     /**
      * Nombre parametros de consultas
      */
+
     public static final String QUERY_PARAMETER_ID_MEDICO        ="idMedico";
     public static final String QUERY_PARAMETER_ID_EPS           ="idEps";
     public static final String QUERY_PARAMETER_HORA_INICIO      ="horaInicio";
     public static final String QUERY_PARAMETER_HORA_FINAL       ="horaFin";;
     public static final String QUERY_PARAMETER_LIMITE_CONSULTA  ="limite";
+    public static final String QUERY_PARAMETER_ID_PACIENTE      ="idPaciente";
     
+ 
     /**
      * Formatos
      */

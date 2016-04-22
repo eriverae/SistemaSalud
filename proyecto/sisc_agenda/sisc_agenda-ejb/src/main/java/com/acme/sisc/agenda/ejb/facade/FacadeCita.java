@@ -38,11 +38,18 @@ public class FacadeCita extends AbstractFacade<Cita> {
         super(Cita.class);
     }
 
+
+    /**
+     * 
+     * @param idPaciente
+     * @return 
+     */
+
     public List<Cita> CitasDelPaciante(long idPaciente) {
 
         try {
-            Query q = em.createNamedQuery("Cita.findIdPaciente");
-            q.setParameter("idPaciente", idPaciente);
+            Query q = em.createNamedQuery(WebConstant.QUERY_CITA_FIND_BY_ID_PACIENTE);
+            q.setParameter(WebConstant.QUERY_PARAMETER_ID_PACIENTE, idPaciente);
             List<Cita> listacitasPaciente = (List<Cita>) q.getResultList();
             return listacitasPaciente;
         } catch (Exception e) {
