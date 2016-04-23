@@ -38,12 +38,14 @@ public class FacadeCita extends AbstractFacade<Cita> {
         super(Cita.class);
     }
 
+
     /**
      * Trae el listado de las citas de un paciente
      *
      * @param idPaciente
      * @return
      */
+
     public List<Cita> CitasDelPaciante(long idPaciente) {
 
         try {
@@ -59,6 +61,7 @@ public class FacadeCita extends AbstractFacade<Cita> {
         }
 
     }
+
 
     public Cita ObtenerLaCita(long idCita) {
         try {
@@ -86,20 +89,29 @@ public class FacadeCita extends AbstractFacade<Cita> {
     }
 
     /**
+    /**
      *
      * @param idMedico
      * @param fechaInicio
      * @param fechaFin
      * @return
      */
-    public List<Cita> validarCitasAgendadasMedico(long idMedico, Date fechaInicio, Date fechaFin) {
+    public List<Cita> validarCitasAgendadasMedico(long idMedico, Date fechaInicio, Date fechaFin, boolean limitar, int limiteRegistos) {
 
         try {
-            Query q = em.createNamedQuery(WebConstant.QUERY_CITA_FIND_FECHA_INICIO_FECHA_FIN);
+            _log.log(Level.WARNING, "CONSULTANDO CITAS DE idMedico: " + idMedico + " FECHA INICIO:" + fechaInicio.toString() + " FECHA FIN:" + fechaFin.toString());
+            Query q;
+            if (limitar) {
+                            
+                q = em.createNamedQuery(WebConstant.QUERY_CITA_FIND_FECHA_INICIO_FECHA_FIN);
+                q.setMaxResults(limiteRegistos);
+            } else {
+                q = em.createNamedQuery(WebConstant.QUERY_CITA_FIND_FECHA_INICIO_FECHA_FIN);
+            }
+
             q.setParameter(WebConstant.QUERY_PARAMETER_ID_MEDICO, idMedico);
             q.setParameter(WebConstant.QUERY_PARAMETER_HORA_INICIO, fechaInicio);
             q.setParameter(WebConstant.QUERY_PARAMETER_HORA_FINAL, fechaFin);
-
             List<Cita> listCitas = (List<Cita>) q.getResultList();
 
             if (listCitas != null && listCitas.size() > 0) {

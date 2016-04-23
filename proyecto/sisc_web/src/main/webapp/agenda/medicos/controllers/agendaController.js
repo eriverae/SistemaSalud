@@ -3,8 +3,17 @@
  */
 var app = angular.module('sisc_web');
 
+app.filter("getFormatofecha", function(){
+   return function(input){
+      // Your logic
+      return new Date(input); 
+   }
+});
+
 app.controller('agendaMedicoContoller',
         function ($scope, $compile, $timeout, uiCalendarConfig, $http, $stateParams) {
+
+            $scope.objErrorNuevaAgenda;
 
             $scope.nuevaAgenda = {
                 fechaInicio: '18-04-2016',
@@ -25,35 +34,22 @@ app.controller('agendaMedicoContoller',
                 horaFinal: '12:00:00',
                 cantidadMinutosXCita: 15,
                 idPersonaEps: 0,
-                idMedico:$stateParams.idMedico,
+                idMedico: $stateParams.idMedico,
                 especialidadCita: 'MEDICINA GENERAL'
 
             };
 
-
-            $scope.semana = {
-                listaDias: [
-                    {numeroDia: 1, dia: 'Lunes', incluir: false},
-                    {numeroDia: 2, dia: 'Martes', incluir: false},
-                    {numeroDia: 3, dia: 'Miercoles', incluir: false},
-                    {numeroDia: 4, dia: 'Jueves', incluir: false},
-                    {numeroDia: 5, dia: 'Viernes', incluir: false},
-                    {numeroDia: 6, dia: 'Sabado', incluir: false},
-                    {numeroDia: 0, dia: 'Domingo', incluir: false}
-                ],
-                numeroDiasSelecionado: 0
-            };
 
             /* funcion para validar si se incluye el dia seleccionado en la agenda */
             $scope.colocarDiasAgenda = function (dia, choice, index) {
                 if (choice.checked) {
                     dia.incluir = true;
                     $scope.nuevaAgenda.semana.listaDias[index] = dia;
-                    $scope.nuevaAgenda.semana.numeroDiasSelecionado = $scope.semana.numeroDiasSelecionado + 1;
+                    $scope.nuevaAgenda.semana.numeroDiasSelecionado = $scope.nuevaAgenda.numeroDiasSelecionado + 1;
                 } else {
                     dia.incluir = false;
                     $scope.nuevaAgenda.semana.listaDias[index] = dia;
-                    $scope.nuevaAgenda.semana.numeroDiasSelecionado = $scope.semana.numeroDiasSelecionado - 1;
+                    $scope.nuevaAgenda.semana.numeroDiasSelecionado = $scope.nuevaAgenda.numeroDiasSelecionado - 1;
                 }
 
             };
@@ -100,13 +96,20 @@ app.controller('agendaMedicoContoller',
                                  * Insertar en arreglo de citas
                                  */
                                 if (data.codigoRespuesta === "SUCCESS") {
-                                   
+
                                     alert('PARECE QUE INSERTO: ');
                                     /**
                                      * Mensaje de confirmacion de agenda insertada correctamente.
                                      */
 
+                                } else {
+                                    if (data.codigoRespuesta === "ERROR") {
+                                                                              
+                                        $scope.objErrorNuevaAgenda = data.error;
+                                        $('#message-box-sound-2').show();
+                                        $('#message-box-sound-2').show();
 
+                                    }
                                 }
 
                             })
