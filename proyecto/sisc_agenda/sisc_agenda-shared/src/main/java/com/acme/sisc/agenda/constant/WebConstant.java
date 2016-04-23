@@ -26,7 +26,7 @@ public class WebConstant {
         /*Cita*/
     public static final String QUERY_CITA_FIND_FECHA_INICIO_FECHA_FIN   ="Cita.findFechaInicioFechaFin";
     public static final String QUERY_CITA_FIND_BY_ID_PACIENTE           ="Cita.findIdPaciente";
-    public static final String QUERY_CITA_FIND_BY_ID_PACIENTE_          ="Cita.findById";
+    public static final String QUERY_CITA_FIND_BY_ID                    ="Cita.findById";
     
     /**
      * Nombre parametros de consultas
@@ -36,6 +36,7 @@ public class WebConstant {
     public static final String QUERY_PARAMETER_HORA_INICIO  ="horaInicio";
     public static final String QUERY_PARAMETER_HORA_FINAL   ="horaFin";
     public static final String QUERY_PARAMETER_ID_PACIENTE  ="idPaciente";
+    public static final String QUERY_PARAMETER_ID_CITA      ="idCita";
     
     
     /**

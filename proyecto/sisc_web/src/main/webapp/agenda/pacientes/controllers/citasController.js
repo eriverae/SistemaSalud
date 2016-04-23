@@ -21,17 +21,18 @@ app.controller('citasController',
             });
 
 
-
+            ////////////////////////////////////////////////////////////////////
             //provicional mientras tanto <esconderMensajeCitaSeleccionada>
             $scope.esconderMensajeCitaSeleccionada = true;
             $scope.mostrarMensajeCitaSeleccionada = function() {
                     $scope.esconderMensajeCitaSeleccionada = !$scope.esconderMensajeCitaSeleccionada;
             }
+            ////////////////////////////////////////////////////////////////////
             
             
             
             $scope.informacionCita = null;
-            //$scope.mensajesCita = {};
+            $scope.mensajesCita = {};
             /**
              * Mostrar una cita detallada, que fue seleccionada por el paciente
              */
@@ -39,12 +40,17 @@ app.controller('citasController',
                 //alert("entro a mostrar una cita mediante un click");
                 $scope.informacionCita = informacionCita;
                 
-//                $scope.mensajesCita = [
-//                    {
-//                        msn_citaSeleccionada1: 'MUY BIEN!!! ',
-//                        msn_citaSeleccionada2 : 'Has seleccionado una cita correctamente'
-//                    }
-//                ];
+                $('#message-box-sound-2').show();
+                $('#audio-fail').get(0).play();
+                
+                $scope.mensajesCita = 
+                    {
+                        msn_citaSeleccionada1: 'MUY BIEN!!! ',
+                        msn_citaSeleccionada2 : 'Has seleccionado una cita correctamente'
+                    };
+                    
+                    
+                
                   
             }
 
