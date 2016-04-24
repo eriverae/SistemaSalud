@@ -94,17 +94,14 @@
 
                                 <br><br>    
 
-                                <!--<div align="center">-->
-                                <!--                                <button type="button" class="btn btn-primary" ng-click="addEvent()">
-                                                                    Agendar espacio
-                                                                </button>-->
+                                <!--addEvent-->
                                 <button type="button" class="btn btn-primary" ng-click="agregarAgenda()">
                                     Agendar espacio
                                 </button>
                                 <!--</div>-->
                             </div>
 
-                            <ul>
+<!--                            <ul>
                                 <li ng-repeat="e in events">
                                     <div class="alert alert-info">
                                         <a class="close" ng-click="remove($index)"><i class="icon-remove">x</i></a>
@@ -112,17 +109,17 @@
                                         {{e.start| date:"MMM dd yyyy"}} - {{e.end| date:"MMM dd yyyy"}}
                                     </div>
                                 </li>
-                            </ul>
+                            </ul>-->
                         </div>
 
                         <div class="span8">
                             <div class="btn-group">
-                                <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar3')">Ver agenda del día</button>
-                                <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar3')">Ver agenda de la semana</button>
-                                <button class="btn btn-success" ng-click="changeView('month', 'myCalendar3')">Ver agenda del mes.</button>
+                                <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar1')">Ver agenda del día</button>
+                                <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar1')">Ver agenda de la semana</button>
+                                <button class="btn btn-success" ng-click="changeView('month', 'myCalendar1')">Ver agenda del mes.</button>
                             </div>
 
-                            <div class="calendar" ng-model="eventSources2" calendar="myCalendar3" ui-calendar="uiConfig.calendar"></div>
+                            <div class="calendar" ng-model="eventSources2" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
 
                         </div>
                     </div>
@@ -154,8 +151,8 @@
     </form>                            
 </div>
 
-<!-- danger with sound -->
-<div ng-if="objErrorNuevaAgenda != null" class="message-box message-box-danger animated fadeIn" data-sound="fail"  id="message-box-sound-2">
+<!-- Mensaje de error -->
+<div class="message-box message-box-danger animated fadeIn" data-sound="fail"  id="message-box-sound-2">
     <div class="mb-container">
         <div class="mb-middle">
             <div class="mb-title"><span class="fa fa-times"></span> Error</div>
@@ -167,13 +164,15 @@
                         <thead>
                             <tr>
                             <th># </th>
+                            <th>Fecha: </th>
                             <th>Horario: </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr id="trow_1" ng-repeat="citaEror in objErrorNuevaAgenda.objError"> 
                             <td>{{citaEror.idCita}}</td>
-                            <td>{{citaEror.horaInicio | getFormatofecha }} {{citaEror.horaFin}}</td>
+                            <td>{{citaEror.horaInicio| getFormatofecha }}</td>
+                            <td>de {{citaEror.horaInicio| getFormatoHora }} a {{citaEror.horaFin| getFormatoHora }}</td>
                             </tr>   
                         </tbody>
                     </table>
@@ -186,7 +185,27 @@
         </div>
     </div>
 </div>
-<!-- end danger with sound -->
+<!-- fin mensaje de error -->
+
+<!-- mensaje de confirmacion -->
+<div class="message-box message-box-success animated fadeIn" id="message-box-success">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-check"></span> Agenda creada</div>
+            <div class="mb-content">
+                <p>{{generalResponse.mensaje}}, agenda creada del {{generalResponse.fechaInicialAgenda| getFormatofecha }} 
+                    al {{generalResponse.fechaFinalAgenda| getFormatofecha }} los dias {{generalResponse.dias}} en el horario de {{generalResponse.fechaInicialAgenda| getFormatoHora }}
+                    a {{generalResponse.fechaFinalAgenda| getFormatoHora }}
+                </p>
+            </div>
+            <div class="mb-footer">
+                <button class="btn btn-default btn-lg pull-right mb-control-close">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- fin mensaje de confirmacion -->
+
 
 
 

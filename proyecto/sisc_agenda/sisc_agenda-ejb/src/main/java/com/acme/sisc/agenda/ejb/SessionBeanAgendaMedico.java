@@ -11,6 +11,7 @@ import com.acme.sisc.agenda.dto.DiaAgenda;
 import com.acme.sisc.agenda.dto.ErrorObjSiscAgenda;
 import com.acme.sisc.agenda.dto.GeneralResponse;
 import com.acme.sisc.agenda.dto.RequestCrearAgenda;
+import com.acme.sisc.agenda.dto.ResponseExitoCrearAgenda;
 import com.acme.sisc.agenda.ejb.facade.FacadeAgenda;
 import com.acme.sisc.agenda.ejb.facade.FacadeCita;
 import com.acme.sisc.agenda.ejb.facade.FacadeMedico;
@@ -146,7 +147,7 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
                             fechaAux.setSeconds(agenda.getHoraBloqueFin().getSeconds());
 
                             while (fechaCita.getTime() < fechaAux.getTime()) {
-                                    _log.log(Level.WARNING, "------------------Aca....................------------------------");
+                                   
                                 Cita cita = new Cita();
                                 cita.setEstadoPacienteAtendido(false);
                                 cita.setHoraInicio(new Date(fechaCita.getTime()));
@@ -167,7 +168,7 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
                                     error.setObjError(listCitasConflicto);
                                     error.setMensajeError(WebConstant.MENSAJE_ERROR_CITA_CONFLICTO_EN_NUEVA_AGENDA);
                                     response.setError(error);
-                                    _log.log(Level.WARNING, "------------------EN CONFLICTO------------------------");
+                                    
                                     break;
 
                                 }
@@ -178,12 +179,20 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
 
                     }
                 }
-                _log.log(Level.WARNING, "----------------------->><dgfdgfdgfdg><<--------------------------------");
-                _log.log(Level.WARNING, "----------------------->" + response.getCodigoRespuesta()
-                        + "<<--------------------------------");
+                                
+                
                 if (CodesResponse.SUCCESS.value().equals(response.getCodigoRespuesta())) {
                     agenda.setCitasAgenda(citasAgenda);
                     if (facadeAgenda.insertarAgenda(agenda)) {
+                        ResponseExitoCrearAgenda exitoInsertarAgenda =new ResponseExitoCrearAgenda();
+                        exitoInsertarAgenda.setMensaje(WebConstant.MENSAJE_AGENDA_CREADA);
+                        exitoInsertarAgenda.setFechaInicialAgenda(new Date(fechaHoraInicioCita.getTime()));
+                        exitoInsertarAgenda.setFechaFinalAgenda(new Date(fechaHoraFinCita.getTime()));
+                        exitoInsertarAgenda.setTotalDeCitasAgendas(citasAgenda.size());
+                        exitoInsertarAgenda.setDias(request.getSemana().getListaDias());
+                        response.setObjectResponse(exitoInsertarAgenda);
+                        
+                        
                         _log.log(Level.WARNING, "AGENDA INSERTADA CORRECTAMENTE: PARA MEDICO "
                                 + agenda.getMedicoEps().getPersona().getIdPersona() + " >> "
                                 + agenda.getMedicoEps().getPersona().getNombres() + " ");

@@ -3,17 +3,30 @@
  */
 var app = angular.module('sisc_web');
 
-app.filter("getFormatofecha", function(){
-   return function(input){
-      // Your logic
-      return new Date(input); 
-   }
+
+
+app.filter("getFormatofecha", function () {
+    return function (input) {
+        var res = new Date(input);
+        return res.getDate() + '-' + (res.getMonth() + 1) + '-' + res.getFullYear();
+
+    }
+});
+
+
+app.filter("getFormatoHora", function () {
+    return function (input) {
+        var res = new Date(input);
+        return res.getHours() + ':' + (res.getMinutes()) + ':' + res.getSeconds();
+
+    }
 });
 
 app.controller('agendaMedicoContoller',
         function ($scope, $compile, $timeout, uiCalendarConfig, $http, $stateParams) {
 
             $scope.objErrorNuevaAgenda;
+            $scope.generalResponse;
 
             $scope.nuevaAgenda = {
                 fechaInicio: '18-04-2016',
@@ -70,7 +83,11 @@ app.controller('agendaMedicoContoller',
             data_eps.then(function (result) {
                 $scope.listEpsMedico = result.data;
             });
-
+            
+            
+             $scope.terminarCreacionNuevaAgenda = function () {
+                 $('#message-box-success').hide();             
+             };
 
             $scope.agregarAgenda = function () {
                 /**
@@ -96,25 +113,24 @@ app.controller('agendaMedicoContoller',
                                  * Insertar en arreglo de citas
                                  */
                                 if (data.codigoRespuesta === "SUCCESS") {
-
-                                    alert('PARECE QUE INSERTO: ');
-                                    /**
+                                     /**
                                      * Mensaje de confirmacion de agenda insertada correctamente.
                                      */
-
+                                    alert(data.objectResponse+'>> '+data.objectResponse.mensaje);
+                                    $scope.generalResponse=data.objectResponse;
+                                    $('#message-box-success').show();
                                 } else {
                                     if (data.codigoRespuesta === "ERROR") {
-                                                                              
                                         $scope.objErrorNuevaAgenda = data.error;
-                                        $('#message-box-sound-2').show();
-                                        $('#message-box-sound-2').show();
+                                        $('#message-box-sound-2').show();                  
+                                       
 
                                     }
                                 }
 
                             })
                             .error(function (data, status, header, config) {
-                                alert('Error.');
+                                
                             });
 
                 }
@@ -140,7 +156,7 @@ app.controller('agendaMedicoContoller',
                 var e = new Date(end).getTime() / 1000;
                 var m = new Date(start).getMonth();
 
-                alert('>> ' + s + ' ' + ' ' + e + ' ' + m);
+//                alert('>> ' + s + ' ' + ' ' + e + ' ' + m);
 
                 var events = [{title: 'Feed Me ' + m, start: s + (50000), end: s + (100000), allDay: false, className: ['customFeed']}];
                 callback(events);
@@ -148,16 +164,19 @@ app.controller('agendaMedicoContoller',
 
             $scope.calEventsExt = {
                 color: '#f00',
-                textColor: 'yellow',
+                textColor: '#f1111',
                 events: [
-                    {type: 'party', title: 'Lunch', start: new Date(y, m, d, 12, 0), end: new Date(y, m, d, 14, 15), allDay: false},
+                    {type: 'party', title: 'my prueba', start: "2016-04-22T08:00:00", end: "2016-04-22T12:00:00", allDay: false,prueba:'hola que haca'},
                     {type: 'party', title: 'Lunch 2', start: new Date(y, m, d, 12, 0), end: new Date(y, m, d, 14, 0), allDay: false},
                     {type: 'party', title: 'Click for Google', start: new Date(y, m, 28), end: new Date(y, m, 29), url: 'http://google.com/'}
                 ]
             };
+            
+            
             /* alert on eventClick */
             $scope.alertOnEventClick = function (date, jsEvent, view) {
-                $scope.alertMessage = (date.title + ' was clicked ');
+                alert('>>> '+date.prueba);
+                
             };
             /* alert on Drop */
             $scope.alertOnDrop = function (event, delta, revertFunc, jsEvent, ui, view) {

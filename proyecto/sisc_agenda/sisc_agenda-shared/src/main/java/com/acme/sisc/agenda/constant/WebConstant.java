@@ -22,7 +22,6 @@ public class WebConstant {
         /*Agenda*/
     public static final String QUERY_AGENDA_FIND_BY_ID_MEDICO           ="Agenda.findByIdMedico";    
         /*Cita*/
-
     public static final String QUERY_CITA_FIND_FECHA_INICIO_FECHA_FIN_LIMITADO  ="Cita.findFechaInicioFechaFinLimitado";
     public static final String QUERY_CITA_FIND_FECHA_INICIO_FECHA_FIN           ="Cita.findFechaInicioFechaFin";    
     public static final String QUERY_CITA_FIND_BY_ID_PACIENTE                   ="Cita.findIdPaciente";
@@ -30,7 +29,6 @@ public class WebConstant {
     /**
      * Nombre parametros de consultas
      */
-
     public static final String QUERY_PARAMETER_ID_MEDICO        ="idMedico";
     public static final String QUERY_PARAMETER_ID_EPS           ="idEps";
     public static final String QUERY_PARAMETER_HORA_INICIO      ="horaInicio";
@@ -51,7 +49,12 @@ public class WebConstant {
     /**
      * Mensajes de error
      */
-    public static final String MENSAJE_ERROR_CITA_CONFLICTO_EN_NUEVA_AGENDA="Existen conflictos al crear citas";
+    public static final String MENSAJE_ERROR_CITA_CONFLICTO_EN_NUEVA_AGENDA="Existen conflictos al crear nueva AGENDA con las siguientes citas";
+    
+    /**
+     * Mensajes de exito
+     */    
+    public static final String MENSAJE_AGENDA_CREADA="La agenda ha sido creada satisfactoriamente";
     
     
     
