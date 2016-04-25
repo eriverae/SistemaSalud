@@ -8,6 +8,7 @@ package com.acme.sisc.agenda.ejb;
 import com.acme.sisc.agenda.constant.CodesResponse;
 import com.acme.sisc.agenda.constant.WebConstant;
 import com.acme.sisc.agenda.dto.DiaAgenda;
+import com.acme.sisc.agenda.dto.ErrorObjSiscAgenda;
 import com.acme.sisc.agenda.dto.GeneralResponse;
 import com.acme.sisc.agenda.dto.RequestCrearAgenda;
 import com.acme.sisc.agenda.ejb.facade.FacadeAgenda;
@@ -101,8 +102,7 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
         GeneralResponse response = new GeneralResponse();
         Agenda agenda;
         List<Cita> citasAgenda;
-        _log.warning(">> "+request.getFechaInicio() + " " + request.getHoraInicio());
-        _log.warning(">> "+request.getFechaFinal() + " " + request.getHoraFinal());
+
         Date fechaHoraInicioCita = AgendaUtil.parserStringToDate(
                 request.getFechaInicio() + " " + request.getHoraInicio(),
                 WebConstant.DATE_FORMAT_CITA);
@@ -112,86 +112,90 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
                 WebConstant.DATE_FORMAT_CITA);
         try {
 
-            List<Cita> listCitasConflicto = facadeCita.validarCitasAgendadasMedico(request.getIdMedico(), fechaHoraInicioCita, fechaHoraFinCita);
+            agenda = new Agenda();
+            agenda.setHoraBloqueinicio(new Date(fechaHoraInicioCita.getTime()));
+            agenda.setHoraBloqueFin(new Date(fechaHoraFinCita.getTime()));
+            citasAgenda = new ArrayList<>();
 
-            if (listCitasConflicto == null) {
-                
-                
-                
-                agenda = new Agenda();
-                
-                
-                agenda.setHoraBloqueinicio(new Date(fechaHoraInicioCita.getTime()));
-                agenda.setHoraBloqueFin(new Date(fechaHoraFinCita.getTime()));
-                
-                citasAgenda = new ArrayList<Cita>();
-                agenda.setCiudad("CIUDAD");
-                agenda.setDireccion("DIRECCION");
-                agenda.setLocalidad("LO CALIDAD ");
-                agenda.setNumeroConsultorio(201);
-                agenda.setTiempoMinutosXCita(request.getCantidadMinutosXCita());
-                agenda.setEstadoDiponible(CodesResponse.AGENDA_DISPONIBLE.value());
-                
-                agenda.setMedicoEps(facadeMedicoEps.consultarMedicoEpsXId(request.getIdPersonaEps()));
-                
-               
-                response.setCodigoRespuesta(CodesResponse.SUCCESS.value());
+            agenda.setCiudad("CIUDAD");
+            agenda.setDireccion("DIRECCION");
+            agenda.setLocalidad("LO CALIDAD ");
+            agenda.setNumeroConsultorio(201);
 
-                if (request.getSemana() != null && request.getSemana().getListaDias() != null) {
-                    _log.log(Level.WARNING," 1");
-                    List<DiaAgenda> diasAgenda = request.getSemana().getListaDias();
-                    for (DiaAgenda dia : diasAgenda) {
-                       
-                        if (dia.isIncluir()) {
-                             _log.log(Level.WARNING," 2");
-                             
-                            List<Date> listFechasCistas = AgendaUtil.devolverFechasXdiaDeLaSemana( new Date(agenda.getHoraBloqueinicio().getTime()), new Date(agenda.getHoraBloqueFin().getTime()), dia.getNumeroDia());
-//
-                            for (Date fechaCita : listFechasCistas) {
-                                
-                                
-                                
-                                Date fechaAux = new Date(fechaCita.getTime());
-                                fechaAux.setHours(fechaHoraFinCita.getHours());
-                                fechaAux.setMinutes(fechaHoraFinCita.getMinutes());
-                                fechaAux.setSeconds(fechaHoraFinCita.getSeconds());
-                                    
-                                
-                                 _log.log(Level.WARNING," 3: "+fechaCita.toString()+" "+fechaAux.toString());
-                                
-                                while (fechaCita.getTime() <= fechaAux.getTime()) {
-                                        Cita cita=new Cita();
-                                        cita.setEstadoPacienteAtendido(false);
-                                        cita.setHoraInicio(fechaCita);
-                                         _log.log(Level.WARNING, "CITA: "+fechaCita.toString()+" "+fechaAux.toString());
-                                        fechaCita.setTime(fechaCita.getTime()+(agenda.getTiempoMinutosXCita()*60000));
-                                        cita.setHoraFin(new Date(fechaCita.getTime()));
-                                        cita.setFechaPaciente(fechaCita);
-                                        cita.setValor(0);
-                                        cita.setAgenda(agenda);
-                                        citasAgenda.add(cita);
-                                       
+            agenda.setTiempoMinutosXCita(request.getCantidadMinutosXCita());
+            agenda.setEstadoDiponible(CodesResponse.AGENDA_DISPONIBLE.value());
+
+            agenda.setMedicoEps(facadeMedicoEps.consultarMedicoEpsXId(request.getIdPersonaEps()));
+
+            response.setCodigoRespuesta(CodesResponse.SUCCESS.value());
+
+            if (request.getSemana() != null && request.getSemana().getListaDias() != null) {
+
+                List<DiaAgenda> diasAgenda = request.getSemana().getListaDias();
+                for (DiaAgenda dia : diasAgenda) {
+
+                    if (dia.isIncluir()) {
+
+                        List<Date> listFechasCistas = AgendaUtil.devolverFechasXdiaDeLaSemana(new Date(agenda.getHoraBloqueinicio().getTime()), new Date(agenda.getHoraBloqueFin().getTime()), dia.getNumeroDia());
+
+                        for (Date fechaCita : listFechasCistas) {
+
+                            Date fechaAux = new Date(fechaCita.getTime());
+                            fechaAux.setHours(agenda.getHoraBloqueFin().getHours());
+                            fechaAux.setMinutes(agenda.getHoraBloqueFin().getMinutes());
+                            fechaAux.setSeconds(agenda.getHoraBloqueFin().getSeconds());
+
+                            while (fechaCita.getTime() < fechaAux.getTime()) {
+                                    _log.log(Level.WARNING, "------------------Aca....................------------------------");
+                                Cita cita = new Cita();
+                                cita.setEstadoPacienteAtendido(false);
+                                cita.setHoraInicio(new Date(fechaCita.getTime()));
+                                fechaCita.setTime(fechaCita.getTime() + (agenda.getTiempoMinutosXCita() * 60000));
+                                cita.setHoraFin(new Date(fechaCita.getTime()));
+                                cita.setFechaPaciente(new Date(fechaCita.getTime()));
+                                cita.setValor(0);
+                                cita.setAgenda(agenda);
+
+                                List<Cita> listCitasConflicto = facadeCita.validarCitasAgendadasMedico(request.getIdMedico(), fechaCita, fechaHoraFinCita, true, 10);
+
+                                if (listCitasConflicto == null) {
+                                    citasAgenda.add(cita);
+                                } else {
+                                    response.setCodigoRespuesta(CodesResponse.ERROR.value());
+                                    ErrorObjSiscAgenda error = new ErrorObjSiscAgenda();
+                                    error.setCodigoError("");
+                                    error.setObjError(listCitasConflicto);
+                                    error.setMensajeError(WebConstant.MENSAJE_ERROR_CITA_CONFLICTO_EN_NUEVA_AGENDA);
+                                    response.setError(error);
+                                    _log.log(Level.WARNING, "------------------EN CONFLICTO------------------------");
+                                    break;
+
                                 }
+
                             }
 
                         }
-                    }
-                    
-                     _log.log(Level.SEVERE, "Antes de insertar:["+ agenda.getHoraBloqueinicio().toString()+" >> "+ agenda.getHoraBloqueFin().toString());
-               agenda.setCitasAgenda(citasAgenda);
-                if(facadeAgenda.insertarAgenda(agenda)){
-                    
-                           _log.log(Level.WARNING,"INSERTO EN BD");
-                 }else{
-                           _log.log(Level.WARNING," no INSERTO EN BD");
-                 }
-             
-                       
-                       
-                }
 
+                    }
+                }
+                _log.log(Level.WARNING, "----------------------->><dgfdgfdgfdg><<--------------------------------");
+                _log.log(Level.WARNING, "----------------------->" + response.getCodigoRespuesta()
+                        + "<<--------------------------------");
+                if (CodesResponse.SUCCESS.value().equals(response.getCodigoRespuesta())) {
+                    agenda.setCitasAgenda(citasAgenda);
+                    if (facadeAgenda.insertarAgenda(agenda)) {
+                        _log.log(Level.WARNING, "AGENDA INSERTADA CORRECTAMENTE: PARA MEDICO "
+                                + agenda.getMedicoEps().getPersona().getIdPersona() + " >> "
+                                + agenda.getMedicoEps().getPersona().getNombres() + " ");
+                    } else {
+                        _log.log(Level.WARNING, "NO SE INSERTO AGENDA : PARA MEDICO "
+                                + agenda.getMedicoEps().getPersona().getIdPersona() + " >> "
+                                + agenda.getMedicoEps().getPersona().getNombres() + " ");
+                    }
+                }
             }
 
+//            }
         } catch (Exception e) {
             response.setCodigoRespuesta(CodesResponse.ERROR.value());
             _log.log(Level.SEVERE, "ERROR EN  SessionBeanAgendaMedico.insertarAgenda", e);

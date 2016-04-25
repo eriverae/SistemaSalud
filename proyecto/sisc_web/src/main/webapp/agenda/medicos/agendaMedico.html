@@ -18,7 +18,7 @@
                                         <label class="col-md-3 control-label">Fecha inicio de agenda:</label>
                                         <div class="col-md-5">
                                             <div class="input-group">
-                                                <input type="text" id="dp-3"  ng-model="nuevaAgenda.fechaInicio"   class="form-control" value="18-03-2016" data-date="18-03-2016" 
+                                                <input type="text" id="dp-3"  ng-model="nuevaAgenda.fechaInicio"   class="form-control datepicker" value="18-03-2016" data-date="18-03-2016" 
                                                        data-date-format="dd-mm-yyyy" data-date-viewmode="years"/>
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                             </div>
@@ -45,13 +45,13 @@
                                             <div class="form-group">
                                                 <div class="col-md-2" ng-repeat="dia in nuevaAgenda.semana.listaDias">                                    
                                                     <label class="check">
-                                                        <input type="checkbox"  
-                                                               ng-click="colocarDiasAgenda(dia, choice,$index)"  
-                                                               ng-model="choice.checked" class="icheckbox"/> 
-                                                                    {{dia.dia}}
+                                                        <input type="checkbox"  id="{{dia.dia}} "
+                                                               ng-click="colocarDiasAgenda(dia, choice, $index)"  
+                                                               ng-model="choice.checked" /> 
+                                                        {{dia.dia}} 
                                                     </label>
                                                 </div>
-                                         
+
                                             </div>
                                         </div>
                                     </div>
@@ -86,7 +86,7 @@
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">Agendar cita en EPS: </label>
                                     <div class="col-md-9">                                                                                
-                                        <select class="form-control select" data-live-search="true"  ng-model="nuevaAgenda.idPersonaEps" >
+                                        <select  ng-model="nuevaAgenda.idPersonaEps" >
                                             <option ng-repeat="personaEps in listEpsMedico" value="{{personaEps.idPersonaEps}}"> {{personaEps.eps.razonSocial}}</option>
                                         </select>
                                     </div>
@@ -95,9 +95,9 @@
                                 <br><br>    
 
                                 <!--<div align="center">-->
-<!--                                <button type="button" class="btn btn-primary" ng-click="addEvent()">
-                                    Agendar espacio
-                                </button>-->
+                                <!--                                <button type="button" class="btn btn-primary" ng-click="addEvent()">
+                                                                    Agendar espacio
+                                                                </button>-->
                                 <button type="button" class="btn btn-primary" ng-click="agregarAgenda()">
                                     Agendar espacio
                                 </button>
@@ -132,12 +132,92 @@
     </div>
 </div>
 
-<!--        <script type='text/javascript' src='../../js/plugins/icheck/icheck.min.js'></script>
-        <script type="text/javascript" src="../../js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
-        
-        <script type="text/javascript" src="../../js/plugins/bootstrap/bootstrap-datepicker.js"></script>
-        <script type="text/javascript" src="../../js/plugins/bootstrap/bootstrap-timepicker.min.js"></script>
-        <script type="text/javascript" src="../../js/plugins/bootstrap/bootstrap-colorpicker.js"></script>
-        <script type="text/javascript" src="../../js/plugins/bootstrap/bootstrap-file-input.js"></script>
-        <script type="text/javascript" src="../../js/plugins/bootstrap/bootstrap-select.js"></script>
-        <script type="text/javascript" src="../../js/plugins/tagsinput/jquery.tagsinput.min.js"></script>-->
+
+
+
+
+<div class="col-md-5">
+    <h4>Vertical Form Sample</h4>
+    <form role="form">
+        <div class="form-group">
+            <label>Email address</label>
+            <input type="email" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Email address</label>
+            <input type="email" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Email address</label>
+            <input type="email" class="form-control">
+        </div>                                    
+    </form>                            
+</div>
+
+<!-- danger with sound -->
+<div ng-if="objErrorNuevaAgenda != null" class="message-box message-box-danger animated fadeIn" data-sound="fail"  id="message-box-sound-2">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-times"></span> Error</div>
+            <div class="mb-content">
+                <p>
+                    {{objErrorNuevaAgenda.mensajeError}}<br>
+                <div style="overflow-y: scroll; height: 100px;    padding-top:10px">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                            <th># </th>
+                            <th>Horario: </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="trow_1" ng-repeat="citaEror in objErrorNuevaAgenda.objError"> 
+                            <td>{{citaEror.idCita}}</td>
+                            <td>{{citaEror.horaInicio | getFormatofecha }} {{citaEror.horaFin}}</td>
+                            </tr>   
+                        </tbody>
+                    </table>
+                </div>    
+                </p>                    
+            </div>
+            <div class="mb-footer">
+                <button class="btn btn-default btn-lg pull-right mb-control-close" onClick=" $('#message-box-sound-2').hide()">Error</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end danger with sound -->
+
+
+
+<!-- START PRELOADS -->
+<audio id="audio-alert" src="audio/alert.mp3" preload="auto"></audio>
+<audio id="audio-fail" src="audio/fail.mp3" preload="auto"></audio>
+<!-- END PRELOADS -->             
+
+<!-- START SCRIPTS -->
+<!-- START PLUGINS -->
+<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="js/plugins/jquery/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script>                
+<!-- END PLUGINS -->
+
+<!-- THIS PAGE PLUGINS -->
+<script type='text/javascript' src='js/plugins/icheck/icheck.min.js'></script>
+<script type="text/javascript" src="js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
+
+<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-timepicker.min.js"></script>
+<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-colorpicker.js"></script>
+<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-file-input.js"></script>
+<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-select.js"></script>
+<script type="text/javascript" src="js/plugins/tagsinput/jquery.tagsinput.min.js"></script>
+<!-- END THIS PAGE PLUGINS -->       
+
+<!-- START TEMPLATE -->
+<script type="text/javascript" src="js/settings.js"></script>
+
+<script type="text/javascript" src="js/plugins.js"></script>        
+<script type="text/javascript" src="js/actions.js"></script>        
+<!-- END TEMPLATE -->
+<!-- END SCRIPTS -->  
