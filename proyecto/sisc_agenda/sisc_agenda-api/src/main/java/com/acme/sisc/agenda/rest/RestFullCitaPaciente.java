@@ -54,16 +54,22 @@ public class RestFullCitaPaciente {
         return facadeCita.listaCitasPaciente(idPaciente);
     }
 
-    @DELETE
-    @Path("{id}")
-    public void eliminarUnaCitaDePaciente(@PathParam("id") Long id) {
-        logi.log(Level.FINE, "Request para eliminar cita del paciente con id {0}", id);
-        facadeCita.remove(id);
-    }
+    /*@GET
+    @Path("{cita}")
+    public void cancelarUnaCitaDePaciente(@PathParam("cita") Cita cita) {
+        logi.log(Level.FINE, "Request para eliminar cita del paciente con id {0}", cita.getIdCita());
+        
+        //ojo mandar el objeto   "cita"
+        facadeCita.cancelarCita_porPaciente(cita);
+    }*/
 
     
-    //Crear y Modificar una Cita 
-    @POST
+    /**
+     * Crear y Modificar una Cita
+     * @param cita
+     * @return 
+     */ 
+/*    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response guardarCitaPaciente(Cita cita) {
 
@@ -89,6 +95,6 @@ public class RestFullCitaPaciente {
             facadeCita.modificarCliente(cita);
         }
         return Response.ok().build();
-    }
+    }*/
 
 }

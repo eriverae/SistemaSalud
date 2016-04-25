@@ -1,3 +1,11 @@
+<style>
+    
+    .fc-row fc-week fc-widget-content{
+        height: 300px !important;
+    }
+    
+</style>
+
 <div class="col-md-10 col-md-offset-0">
     <div class="page-title">                    
         <h2><span class="fa fa-bookmark"></span> Agenda</h2>
@@ -101,27 +109,43 @@
                                 <!--</div>-->
                             </div>
 
-<!--                            <ul>
-                                <li ng-repeat="e in events">
-                                    <div class="alert alert-info">
-                                        <a class="close" ng-click="remove($index)"><i class="icon-remove">x</i></a>
-                                        <b> <input ng-model="e.title"></b> 
-                                        {{e.start| date:"MMM dd yyyy"}} - {{e.end| date:"MMM dd yyyy"}}
+                            <!--                            <ul>
+                                                            <li ng-repeat="e in events">
+                                                                <div class="alert alert-info">
+                                                                    <a class="close" ng-click="remove($index)"><i class="icon-remove">x</i></a>
+                                                                    <b> <input ng-model="e.title"></b> 
+                                                                    {{e.start| date:"MMM dd yyyy"}} - {{e.end| date:"MMM dd yyyy"}}
+                                                                </div>
+                                                            </li>
+                                                        </ul>-->
+                        </div>
+
+
+                        <div class="panel panel-default tabs">                            
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li ng-click="changeView('agendaDay', 'myCalendar1')"   ><a role="tab" data-toggle="tab">Ver agenda del día</a></li>
+                                <li ng-click="changeView('agendaWeek', 'myCalendar1')"  ><a  role="tab" data-toggle="tab">Ver agenda de la semana</a></li>
+                                <li ng-click="changeView('month', 'myCalendar1')"       class="active"><a  role="tab" data-toggle="tab">Ver agenda del mes</a></li>
+                            </ul>
+                            <div class="panel-body tab-content">
+                                <div class="tab-pane active" id="tab-first">
+                                    <div class="col-md-12">
+                                        <div class="calendar" ng-model="eventSources2" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
                                     </div>
-                                </li>
-                            </ul>-->
-                        </div>
-
-                        <div class="span8">
-                            <div class="btn-group">
-                                <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar1')">Ver agenda del día</button>
-                                <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar1')">Ver agenda de la semana</button>
-                                <button class="btn btn-success" ng-click="changeView('month', 'myCalendar1')">Ver agenda del mes.</button>
+                                </div>
                             </div>
-
-                            <div class="calendar" ng-model="eventSources2" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
-
                         </div>
+
+                        <!--                        <div class="span8">
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar1')">Ver agenda del día</button>
+                                                        <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar1')">Ver agenda de la semana</button>
+                                                        <button class="btn btn-success" ng-click="changeView('month', 'myCalendar1')">Ver agenda del mes.</button>
+                                                    </div>
+                        
+                                                    <div class="calendar" ng-model="eventSources2" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
+                        
+                                                </div>-->
                     </div>
                 </div>
             </section>

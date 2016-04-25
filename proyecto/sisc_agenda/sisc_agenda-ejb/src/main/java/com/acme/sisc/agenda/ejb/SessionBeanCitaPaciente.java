@@ -28,8 +28,8 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
 
     Logger logger = Logger.getLogger(this.getClass().getName());
 
-    @PersistenceContext(unitName = WebConstant.UNIT_NAME_PERSISTENCE)
-    private EntityManager em;
+    
+//    private EntityManager em;
 
     @EJB
     FacadeCita facadeCita;
@@ -43,10 +43,33 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
             return null;
         }
     }
+    
+    @Override
+    public Cita find(Long id) {
+        return facadeCita.ObtenerLaCita(id);
+    }    
+    
+    @Override
+    public void cancelarCita_porPaciente(Cita cita) {
+        logger.log(Level.INFO, "El paciente cancela la cita: {0}", cita);
+        facadeCita.PacienteCancelaSuCita(cita);
+    }
+    
+     
+    
+  
+    
 
+//    public Cita modificarCliente(Cita cita) {
+//        logger.log(Level.FINE, "Modificando la cita : {0} - del Paciente: {1}", new Object[]{cita.getIdCita(), cita.getPacienteEps().getPersona().getNombres()});
+//        cita = em.merge(cita);
+//        return cita;
+//    }       
+
+    
     @Override
     public void remove(Long id) {
-        logger.log(Level.FINE, "Eliminar cliente con id {0}", id);
+        logger.log(Level.FINE, "Eliminar cita con id {0}", id);
         Cita cita = this.find(id);
         if (cita != null) {
             remove(cita);
@@ -56,19 +79,18 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
         }
     }
 
+    
+    
+    
+    //en facade remove y crearCita
     @Override
     public void remove(Cita entity) {
-        em.remove(entity);
-    }
+        //em.remove(entity);
+    } 
 
-    @Override
-    public Cita find(Object id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
+    /*@Override
     public void crearCita(Cita cita) throws CitaException {
-        /*LOGGER.info("Inicia crearCita(...)");
+        LOGGER.info("Inicia crearCita(...)");
         //Se verifica si el paciente ya existe;
         Cita cita = ;      //findByIdentificacion(cliente.getTipoIdentificacion(), cliente.getIdentificacion());
         if (cita != null) {
@@ -79,14 +101,9 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
 
         }
         em.persist(cita);
-        LOGGER.info("Finaliza crearCita(...)");*/
-    }
+        LOGGER.info("Finaliza crearCita(...)");
+    }*/
 
-    @Override
-    public Cita modificarCliente(Cita cita) {
-        logger.log(Level.FINE, "Modificando la cita : {0} - del Paciente: {1}", new Object[]{cita.getIdCita(), cita.getPacienteEps().getPersona().getNombres()});
-        cita = em.merge(cita);
-        return cita;
-    }
+
 
 }

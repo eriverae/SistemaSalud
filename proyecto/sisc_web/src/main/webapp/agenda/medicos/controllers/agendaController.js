@@ -163,11 +163,11 @@ app.controller('agendaMedicoContoller',
             };
 
             $scope.calEventsExt = {
-                color: '#f00',
+               
                 textColor: '#f1111',
                 events: [
-                    {type: 'party', title: 'my prueba', start: "2016-04-22T08:00:00", end: "2016-04-22T12:00:00", allDay: false,prueba:'hola que haca'},
-                    {type: 'party', title: 'Lunch 2', start: new Date(y, m, d, 12, 0), end: new Date(y, m, d, 14, 0), allDay: false},
+                    {type: 'party', title: 'my prueba', start: "2016-04-22T08:00:00", end: "2016-04-22T12:00:00", allDay: false,prueba:'hola que haca', color: '#f03333',},
+                    {type: 'party', title: 'Lunch 2', start: new Date(y, m, d, 12, 0), end: new Date(y, m, d, 14, 0), allDay: false, color:'#1caf9a'},
                     {type: 'party', title: 'Click for Google', start: new Date(y, m, 28), end: new Date(y, m, 29), url: 'http://google.com/'}
                 ]
             };

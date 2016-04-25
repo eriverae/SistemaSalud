@@ -40,9 +40,10 @@ public class FacadeCita extends AbstractFacade<Cita> {
 
 
     /**
-     * 
+     * Trae el listado de las citas de un paciente
+     *
      * @param idPaciente
-     * @return 
+     * @return
      */
 
     public List<Cita> CitasDelPaciante(long idPaciente) {
@@ -50,7 +51,9 @@ public class FacadeCita extends AbstractFacade<Cita> {
         try {
             Query q = em.createNamedQuery(WebConstant.QUERY_CITA_FIND_BY_ID_PACIENTE);
             q.setParameter(WebConstant.QUERY_PARAMETER_ID_PACIENTE, idPaciente);
+            //q.setMaxResults(5); //quitar "//" para filtrar por cantidad reultado
             List<Cita> listacitasPaciente = (List<Cita>) q.getResultList();
+            _log.log(Level.WARNING, "ULTIMO REGISTRO LISTA-CITAS-PACIENTE, id= {0}", listacitasPaciente.get( (listacitasPaciente.size()-1)).getIdCita() ); 
             return listacitasPaciente;
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,6 +62,33 @@ public class FacadeCita extends AbstractFacade<Cita> {
 
     }
 
+
+    public Cita ObtenerLaCita(long idCita) {
+        try {
+            Query q = em.createNamedQuery(WebConstant.QUERY_CITA_FIND_BY_ID);
+            q.setParameter(WebConstant.QUERY_PARAMETER_ID_CITA, idCita);
+            Cita cita = (Cita) q.getSingleResult();
+            return cita;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * pacient cancela su cita mediante un click y aquio cambiamos el estado a cancelado en su cita cancelada
+     * @param cita 
+     */
+    public void PacienteCancelaSuCita(Cita cita) {
+        try {
+            cita.setEstadoCita("CANCELADA");
+            cita = em.merge(cita);
+        } catch (Exception e) {
+
+        }
+
+    }
+
+    /**
     /**
      *
      * @param idMedico

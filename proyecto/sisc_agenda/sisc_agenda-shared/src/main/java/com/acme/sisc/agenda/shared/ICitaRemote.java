@@ -19,15 +19,18 @@ import javax.ejb.Local;
 public interface ICitaRemote {
     
     public List<Cita> listaCitasPaciente(long idPaciente);
+    
+    public void cancelarCita_porPaciente(Cita cita);
+       
+    public Cita find(Long id);
 
-    Cita find(Object id);
-
-    void crearCita(Cita cita) throws CitaException;
-
-    Cita modificarCliente(Cita cita);
+    
+    
+    
+    //void crearCita(Cita cita) throws CitaException;
 
     void remove(Long id);
 
     void remove(Cita entity);
-    
+
 }
