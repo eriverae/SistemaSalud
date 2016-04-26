@@ -36,7 +36,6 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       controller:'agendaMedicoContoller',
       params : {'idMedico':'5'}
       
-      
     })
      .state('citasPaciente',{
       url: '/paciente/citas',
@@ -82,6 +81,37 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       controller: 'pacientesController',
       params : {idPersona:null}
     })
+
+    // hc
+    .state('asignarmedicamento',{
+      url:'/historia/asignar-medicamento',
+      templateUrl: 'historia/asignarmedicamento.html',
+      controller: 'medicamentoController'
+    })
+    .state('asignarTratamiento',{
+      url:'/historia/asignar-tratamiento',
+      templateUrl: 'historia/asignarTratamiento.html',
+      controller: 'tratamientoController'
+    })
+
+    .state('asignarincapacidad',{
+      url:'/historia/asignar-incapacidad',
+      templateUrl: 'historia/asignarincapacidad.html',
+      controller: 'incapacidadController'
+    })
+
+    .state('asignarexamen',{
+      url:'/historia/asignar-examen',
+      templateUrl: 'historia/asignarexamen.html',
+      controller: 'examenController'
+    })
+
+    .state('asignarCirugia',{
+      url:'/historia/asignar-cirugia',
+      templateUrl: 'historia/asignarCirugia.html',
+      controller: 'cirugiaController'
+    })
+    // fin hc
      ;
     
 }]);
