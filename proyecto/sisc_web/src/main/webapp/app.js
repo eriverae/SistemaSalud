@@ -82,6 +82,13 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       controller: 'pacientesController',
       params : {idPersona:null}
     })
+    
+    .state('registroBeneficiarios',{
+      url: '/beneficiario',
+      templateUrl: 'registro/beneficiario/registroBeneficiarios.html',
+      controller: 'beneficiariosController'
+    })
+    
      ;
     
 }]);

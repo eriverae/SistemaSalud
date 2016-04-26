@@ -1,0 +1,121 @@
+<div class="panel panel-default">
+    <form name="BeneficiarioForm" ng-submit="updateBeneficiario()" novalidate>
+        <div class="panel-body">
+
+            <!--Trae por consulta el Numero de Identificacion, el nombre y apellido del cotizante. 
+            ESTOS CAMPOS NO SON MODIFICABLES deberian ser de tipo LABEL-->
+            <!--Numero Id Cotizante -->
+            <div class="form-group" ng-class="{'has-error' : BeneficiarioForm.identificacionCotizante.$invalid && BeneficiarioForm.identificacionCotizante.$dirty}">
+                <label for="identificacionCotizante">Identificacion:</label>
+                <!-- Display a check when the field is valid and was modified -->
+                <span ng-class="{'glyphicon glyphicon-ok' : BeneficiarioForm.identificacionCotizante.$valid && BeneficiarioForm.identificacionCotizante.$dirty}"></span>
+
+                <input id="identificacionCotizante" name="identificacionCotizante" type="number" class="form-control" maxlength="20"
+                       ng-model="cotizante.idCotizante" required ng-minlength="3" ng-maxlength="20"
+                       placeholder="número de identificación"/>
+            </div>
+
+            <!-- Nombres -->
+            <div class="form-group" ng-class="{'has-error' : BeneficiarioForm.nombresCotizante.$invalid && BeneficiarioForm.nombresCotizante.$dirty}">
+                <label for="nombresCotizante">Nombres:</label>
+                <!-- Display a check when the field is valid and was modified -->
+                <span ng-class="{'glyphicon glyphicon-ok' : BeneficiarioForm.nombresCotizante.$valid && BeneficiarioForm.nombresCotizante.$dirty}"></span>
+                
+                <input id="nombres" name="nombresCotizante" type="text" class="form-control" maxlength="30"
+                       ng-model="cotizante.nombresCotizante" required ng-minlength="3" ng-maxlength="30"
+                       placeholder="Nombres"/>
+            </div>
+
+            <!-- Apellidos -->
+            <div class="form-group" ng-class="{'has-error' : BeneficiarioForm.apellidosCotizante.$invalid && BeneficiarioForm.apellidosCotizante.$dirty}">
+                <label for="apellidosCotizante">Apellidos:</label>
+                <!-- Display a check when the field is valid and was modified -->
+                <span ng-class="{'glyphicon glyphicon-ok' : BeneficiarioForm.apellidosCotizante.$valid && BeneficiarioForm.apellidosCotizante.$dirty}"></span>
+                <input id="apellidos" name="apellidosCotizante" type="text" class="form-control" maxlength="30"
+                       ng-model="cotizante.apellidosCotizante" required ng-minlength="3" ng-maxlength="30"
+                       placeholder="Apellidos"/>
+            </div>
+
+            <!--Filtro -->
+            <div class="panel-heading">
+                <div class="col-xs-4">
+                    <label for="filtro">Filtrar por Numero Identificacion:</label>
+                    <input type="text" id="filtro"
+                           data-ng-model="searchText"
+                           data-ng-change="searchTextChanged()"
+                           />
+                </div>  
+                <a ui-sref="registroPacientes"><span class="glyphicon glyphicon-plus"></span>Agregar Beneficiario</a>
+            </div>
+
+            <!--Se consulta la identificacion del beneficiario, sino existe se direcciona a crear nueva persona natural
+            si existe trae el Numero de Identificacion, el nombre y apellido del beneficiario 
+            ESTOS CAMPOS NO SON MODIFICABLES deberian ser de tipo LABEL-->
+            <!--Numero Id Beneficiario -->
+            <div class="form-group" ng-class="{'has-error' : BeneficiarioForm.identificacionBeneficiario.$invalid && BeneficiarioForm.identificacionBeneficiario.$dirty}">
+                <label for="identificacionBeneficiario">Identificacion:</label>
+                <!-- Display a check when the field is valid and was modified -->
+                <span ng-class="{'glyphicon glyphicon-ok' : BeneficiarioForm.identificacionBeneficiario.$valid && BeneficiarioForm.identificacionBeneficiario.$dirty}"></span>
+
+                <input id="identificacionCotizante" name="identificacionBeneficiario" type="number" class="form-control" maxlength="20"
+                       ng-model="beneficiario.idBeneficiario" required ng-minlength="3" ng-maxlength="20"
+                       placeholder="número de identificación"/>
+            </div>
+
+            <!-- Nombres -->
+            <div class="form-group" ng-class="{'has-error' : BeneficiarioForm.nombresBeneficiario.$invalid && BeneficiarioForm.nombresBeneficiario.$dirty}">
+                <label for="nombresBeneficiario">Nombres:</label>
+                <!-- Display a check when the field is valid and was modified -->
+                <span ng-class="{'glyphicon glyphicon-ok' : BeneficiarioForm.nombresBeneficiario.$valid && BeneficiarioForm.nombresBeneficiario.$dirty}"></span>
+                <input id="nombres" name="nombresBeneficiario" type="text" class="form-control" maxlength="30"
+                       ng-model="beneficiario.nombresBeneficiario" required ng-minlength="3" ng-maxlength="30"
+                       placeholder="Nombres"/>
+            </div>
+
+            <!-- Apellidos -->
+            <div class="form-group" ng-class="{'has-error' : BeneficiarioForm.apellidosBeneficiario.$invalid && BeneficiarioForm.apellidosBeneficiario.$dirty}">
+                <label for="apellidosBeneficiario">Apellidos:</label>
+                <!-- Display a check when the field is valid and was modified -->
+                <span ng-class="{'glyphicon glyphicon-ok' : BeneficiarioForm.apellidosBeneficiario.$valid && BeneficiarioForm.apellidosBeneficiario.$dirty}"></span>
+                <input id="apellidos" name="apellidosBeneficiario" type="text" class="form-control" maxlength="30"
+                       ng-model="beneficiario.apellidosBeneficiario" required ng-minlength="3" ng-maxlength="30"
+                       placeholder="Apellidos"/>
+            </div>
+
+            <!--Parentezco-->
+            <div class="form-group" ng-class="{'has-error' : BeneficiarioForm.parentezco.$invalid && BeneficiarioForm.parentezco.$dirty}">
+                <label for="parentezco">Parentezco</label>
+                <!-- Display a check when the field is valid and was modified -->
+                <span ng-class="{'glyphicon glyphicon-ok' : BeneficiarioForm.parentezco.$valid && BeneficiarioForm.parentezco.$dirty}"></span>
+                <select name="parentezco" id="parentezco" ng-model="beneficiario.parentezco" required>
+                    <option ng-repeat="option in listaTiposParentezco" value="{{option.id}}">{{option.name}}</option>
+                </select>
+                <!--
+                <p class="help-block" ng-show="BeneficiarioForm.IdType.$error.required">Seleccione tipo de parentezco</p>
+                -->
+            </div>
+
+            <!--Si al consultar el cliente tiene beneficiarios asociados debe listarlos - CRUD-->
+            <div class="grid">
+                <div>
+                    <h3>Lista de Beneficiarios</h3>
+                </div>
+                <!-- Binds the grid component to be displayed. -->
+                <div class="gridStyle" ng-grid="gridOptions"></div>
+
+                <!--  Bind the pagination component to be displayed. -->
+                <pagination direction-links="true" boundary-links="true"
+                            total-items="beneficiarios.totalResults" items-per-page="beneficiarios.pageSize"
+                            ng-model="usuarios.currentPage" ng-change="refreshGrid()">
+                </pagination>
+            </div>
+
+        </div>
+        <!--Boton guardar solo se lleva el ID del cotizante, ID del beneficiario y Parentezco -->
+        <!-- Form buttons. The 'Save' button is only enabled when the form is valid. -->
+      <div class="buttons">
+        <button type="button" class="btn btn-primary" ng-click="cancelar()">Cancelar</button>
+        <button type="submit" class="btn btn-primary" ng-disabled="BeneficiarioForm.$invalid">Guardar</button>
+      </div>
+    </form>    
+</div>
