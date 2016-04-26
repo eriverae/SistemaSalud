@@ -48,7 +48,10 @@ app.controller('agendaMedicoContoller',
                 cantidadMinutosXCita: 15,
                 idPersonaEps: 0,
                 idMedico: $stateParams.idMedico,
-                especialidadCita: 'MEDICINA GENERAL'
+                ciudad: 'Bogota',
+                localidad: 'Kennedy',
+                direccion:'Calle falsa 123',
+                consultorio:101
 
             };
 
