@@ -6,6 +6,8 @@
 package com.acme.sisc.sisc_hc.shared;
 
 import com.acme.sisc.agenda.entidades.Incapacidad;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -18,4 +20,5 @@ public interface IIncapacidadFacadeLocal {
     Incapacidad find(Object id);
     List<Incapacidad> findAll();
     void addIncapacidad(Object incapacidad);
+    ArrayList<HashMap> findByCita(Long idcita);
 }

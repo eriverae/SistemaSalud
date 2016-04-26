@@ -8,6 +8,7 @@ package com.acme.sisc;
 import com.acme.sisc.agenda.entidades.CitaTratamiento;
 import com.acme.sisc.sisc_hc.shared.ITratamientoFacadeLocal;
 import com.acme.sisc.sisc_hc.shared.ITratamientoFacadeRemote;
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -15,6 +16,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 /**
@@ -28,11 +30,21 @@ public class TratamientoService {
     
     @GET
     @Produces({"application/json"})
-    public Response GetTratamientosALL(){
-        return Response
+    public Response GetTratamientosALL(@QueryParam("idcita") String idcita){
+        if (idcita == null){
+            return Response
             .status(200)
             .entity(facadeTratamiento.findAll())
             .build();
+        }
+        else{
+            HashMap m = new HashMap();
+            m.put("data", facadeTratamiento.findByCita(Long.parseLong(idcita)));
+            return Response
+            .status(200)
+            .entity(m)
+            .build();
+        }
     }
     
     @POST

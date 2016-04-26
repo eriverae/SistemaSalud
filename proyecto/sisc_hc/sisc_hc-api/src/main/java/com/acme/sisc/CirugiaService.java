@@ -8,13 +8,16 @@ package com.acme.sisc;
 import com.acme.sisc.agenda.entidades.CitaCirugia;
 import com.acme.sisc.sisc_hc.shared.ICirugiaFacadeLocal;
 import com.acme.sisc.sisc_hc.shared.ICirugiaFacadeRemote;
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 /**
@@ -28,13 +31,23 @@ public class CirugiaService {
     
     @GET
     @Produces({"application/json"})
-    public Response GetCirugiasALL(){
-        return Response
+    public Response GetCirugiasALL(@QueryParam("idcita") String idcita){
+        if (idcita == null){
+            return Response
             .status(200)
             .entity(facadeCirugia.findAll())
             .build();
+        }
+        else{
+            HashMap m = new HashMap();
+            m.put("data", facadeCirugia.findByCita(Long.parseLong(idcita)));
+            return Response
+            .status(200)
+            .entity(m)
+            .build();
+        }
     }
-    
+
     @POST
     @Produces({"application/json"})
     @Consumes({"application/json"})
