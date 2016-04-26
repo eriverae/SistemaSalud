@@ -6,14 +6,15 @@
 package com.acme.sisc;
 
 import com.acme.sisc.agenda.entidades.Cita;
-import com.acme.sisc.agenda.entidades.CitaMedicamento;
 import com.acme.sisc.agenda.entidades.CitaTratamiento;
 import com.acme.sisc.agenda.entidades.Tratamiento;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import com.acme.sisc.sisc_hc.shared.ITratamientoFacadeLocal;
 import com.acme.sisc.sisc_hc.shared.ITratamientoFacadeRemote;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import javax.ejb.EJB;
@@ -70,6 +71,24 @@ public class TratamientoFacade implements ITratamientoFacadeLocal, ITratamientoF
         }catch(Exception e){
             LOGGER.log(Level.SEVERE,"No se encontro cliente {0} ", e);
         }
+    }
+    
+    @Override
+    public ArrayList<HashMap> findByCita(Long idcita) {
+        Query q = em.createQuery("SELECT cm FROM CitaTratamiento cm WHERE cm.cita.idCita="+idcita);
+        List<CitaTratamiento>lista = q.getResultList();
+
+        ArrayList<HashMap> js= new ArrayList<HashMap>();
+
+        for (int i = 0; i<lista.size();i++ ){
+            HashMap m = new HashMap();
+            m.put("idcita", lista.get(i).getCita().getIdCita());
+            m.put("idtratamiento", lista.get(i).getTratamiento().getIdTratamiento());
+            m.put("fechageneracion", lista.get(i).getFechaGeneracion());
+            m.put("observaciones", lista.get(i).getObservaciones());
+            js.add(m);
+        }
+        return js;
     }
     
 }

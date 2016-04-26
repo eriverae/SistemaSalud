@@ -7,6 +7,8 @@ package com.acme.sisc.seguridad;
 
 import com.acme.sisc.agenda.entidades.Usuario;
 import com.acme.sisc.seguridad.exceptions.SeguridadException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,6 +49,15 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
             throw new SeguridadException("El usuario " +usuario.getUsuaEmail() +" ya existe en el sistema");
         }
         
+        String contrasenaEncriptada = "";
+        
+        try {
+            contrasenaEncriptada = encriptar(usuario.getUsuaPass());
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(UsuarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        usuario.setUsuaPass(contrasenaEncriptada);
         usuario.setUsuaBlock(true);
         usuario.setUsuaConta(0);
         usuario.setUsuaEsta("Activo");
@@ -69,6 +80,17 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
             LOGGER.log(Level.WARNING,"No se encontro usuario {0}", email);
             return null;
         }
+    }
+    
+    public String encriptar(String password) throws NoSuchAlgorithmException{
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(password.getBytes());
+        byte[] digest = md.digest();
+        StringBuffer sb = new StringBuffer();
+        for (byte b : digest) {
+                sb.append(String.format("%02x", b & 0xff));
+        }
+        return sb.toString();
     }
 
     @Override

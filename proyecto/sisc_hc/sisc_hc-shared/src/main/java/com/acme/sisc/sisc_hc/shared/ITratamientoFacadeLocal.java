@@ -7,6 +7,8 @@ package com.acme.sisc.sisc_hc.shared;
 
 import com.acme.sisc.agenda.entidades.CitaTratamiento;
 import com.acme.sisc.agenda.entidades.Tratamiento;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -19,4 +21,5 @@ public interface ITratamientoFacadeLocal {
     Tratamiento find(Object id);
     List<Tratamiento> findAll();
     void addTratamientoCita(List<CitaTratamiento> listaTratamiento);
+    ArrayList<HashMap> findByCita(Long idcita);
 }

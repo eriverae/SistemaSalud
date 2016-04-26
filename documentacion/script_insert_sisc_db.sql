@@ -58,12 +58,79 @@ INSERT INTO agenda (ciudad, direccion, estado_diponible, hora_bloque_inicio, hor
 /**
 	insertar cita
 */
+--ALTER TABLE cita ADD COLUMN estado_cita varchar(20);
+
+select * from cita;
+
+select id_cita, hora_fin from cita
+order by hora_fin desc;
  
+
 INSERT INTO cita (id_cita, estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
 VALUES		 (100, FALSE, now(), now(), 2500, 2, 4);
 
 INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
 VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
+
+
+--
+INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
+VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
+
+INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
+VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
+
+INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
+VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
+
+INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
+VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
+
+INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
+VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
+
+INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
+VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
+
+INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
+VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
+
+INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
+VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
+
+INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
+VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
+
+INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
+VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
+
+INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
+VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
+
+INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
+VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
+
+INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
+VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

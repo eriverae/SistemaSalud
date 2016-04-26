@@ -1,143 +1,208 @@
-<div class="col-md-10 col-md-offset-0">
-    <div class="page-title">                    
-        <h2><span class="fa fa-bookmark"></span> Agenda</h2>
-    </div>    
-    <div>
-        <div>
-            <section id="directives-calendar">
-                <div>
-                    <div>
-                        <div class="block">
-                            <h4>
-                                Ingresar nueva agenda
-                            </h4>                                
+<!--TITULO-->
+<div class="page-title">                    
+    <h2><span class="fa fa-bookmark"></span> Agenda</h2>
+</div>   
+<!--CALENDARIO DE AGENDA--> 
+<div class="col-md-11">
+    <div class="panel panel-default tabs">                            
+        <ul class="nav nav-tabs" role="tablist">
+            <li ng-click="changeView('month', 'myCalendar1')"       class="active"><a  role="tab" data-toggle="tab">Ver agenda del mes</a></li>
+            <li ng-click="changeView('agendaWeek', 'myCalendar1')"  ><a  role="tab" data-toggle="tab">Ver agenda de la semana</a></li>
+            <li ng-click="changeView('agendaDay', 'myCalendar1')"   ><a role="tab" data-toggle="tab">Ver agenda del día</a></li>
 
-                            <div id="validate" role="form" class="form-horizontal">     
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label">Fecha inicio de agenda:</label>
-                                        <div class="col-md-5">
-                                            <div class="input-group">
-                                                <input type="text" id="dp-3"  ng-model="nuevaAgenda.fechaInicio"   class="form-control" value="18-03-2016" data-date="18-03-2016" 
-                                                       data-date-format="dd-mm-yyyy" data-date-viewmode="years"/>
-                                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label">Fecha final de agenda:</label>
-                                        <div class="col-md-5">
-                                            <div class="input-group">
-                                                <input type="text" id="dp-3" class="form-control" ng-model="nuevaAgenda.fechaFinal"  value="22-03-2016" data-date="22-03-2016" 
-                                                       data-date-format="dd-mm-yyyy" data-date-viewmode="years"/>
-                                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                            </div>
-                                        </div>
-                                    </div> 
-                                </div>
+        </ul>
+        <div class="panel-body tab-content">
+            <div class="tab-pane active" id="tab-first">
+                <div class="col-md-12">
+                    <div class="calendar" ng-model="eventSources2" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
+                </div>
+            </div>
+        </div>
+    </div>  
 
-                                <div class="form-group">
-                                    <label class="col-md-5">Aplicar horario para los siguientes dias</label>
-                                    <div class="panel panel-default">
-                                        <div class="panel-body">
-                                            <div class="form-group">
-                                                <div class="col-md-2" ng-repeat="dia in nuevaAgenda.semana.listaDias">                                    
-                                                    <label class="check">
-                                                        <input type="checkbox"  
-                                                               ng-click="colocarDiasAgenda(dia, choice,$index)"  
-                                                               ng-model="choice.checked" class="icheckbox"/> 
-                                                                    {{dia.dia}}
-                                                    </label>
-                                                </div>
-                                         
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label">Hora de inicio</label>
-                                    <div class="col-md-5">
-                                        <div class="input-group bootstrap-timepicker">
-                                            <input type="text"  value="08:00:00" ng-model="nuevaAgenda.horaInicio"    class="form-control timepicker24"/>
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label">Hora de fin</label>
-                                    <div class="col-md-5">
-                                        <div class="input-group bootstrap-timepicker">
-                                            <input type="text" value="12:00:00" ng-model="nuevaAgenda.horaFinal"   class="form-control timepicker24"/>
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label">Cantidad de minutos por cita:</label>
-                                    <div class="col-md-9    ">
-                                        <input type="text"  value="15"  ng-model="nuevaAgenda.cantidadMinutosXCita" />
-                                        <span class="help-block">Required, integer, min value = 18, max = 120</span>
-                                    </div>                        
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label">Agendar cita en EPS: </label>
-                                    <div class="col-md-9">                                                                                
-                                        <select class="form-control select" data-live-search="true"  ng-model="nuevaAgenda.idPersonaEps" >
-                                            <option ng-repeat="personaEps in listEpsMedico" value="{{personaEps.idPersonaEps}}"> {{personaEps.eps.razonSocial}}</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <br><br>    
-
-                                <!--<div align="center">-->
-<!--                                <button type="button" class="btn btn-primary" ng-click="addEvent()">
-                                    Agendar espacio
-                                </button>-->
-                                <button type="button" class="btn btn-primary" ng-click="agregarAgenda()">
-                                    Agendar espacio
-                                </button>
-                                <!--</div>-->
-                            </div>
-
-                            <ul>
-                                <li ng-repeat="e in events">
-                                    <div class="alert alert-info">
-                                        <a class="close" ng-click="remove($index)"><i class="icon-remove">x</i></a>
-                                        <b> <input ng-model="e.title"></b> 
-                                        {{e.start| date:"MMM dd yyyy"}} - {{e.end| date:"MMM dd yyyy"}}
-                                    </div>
-                                </li>
-                            </ul>
+</div>
+<!-- FORMULARIO NUEVA AGENDA-->
+<div class="col-md-12">
+    <h4>Ingresar nueva agenda</h4>
+    <div class="col-md-5">
+        <div class="form-group">
+            <label>Fecha inicio de agenda:</label>
+            <div class="input-group">
+                <input type="hidden"  class="form-control datepicker">
+                <input type="text" id="dp-3"  ng-model="nuevaAgenda.fechaInicio"   class="form-control"  
+                       data-date-format="dd-mm-yyyy" data-date-viewmode="years"/>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Hora de inicio</label>
+            <div class="input-group bootstrap-timepicker">
+                <input type="text"  value="08:00:00" ng-model="nuevaAgenda.horaInicio"    class="form-control timepicker24"/>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">       
+        <div class="form-group">
+            <label>Fecha final de agenda:</label>
+            <div class="input-group">
+                <input type="text" id="dp-3"  ng-model="nuevaAgenda.fechaFinal"   class="form-control"  
+                       data-date-format="dd-mm-yyyy" data-date-viewmode="years"/>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Hora de fin</label>          
+            <div class="input-group bootstrap-timepicker">
+                <input type="text" value="12:00:00" ng-model="nuevaAgenda.horaFinal"   class="form-control timepicker24"/>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-10">
+        <br>
+        <div class="form-group">
+            <label>Aplicar horario para los siguientes dias</label>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-md-2" ng-repeat="dia in nuevaAgenda.semana.listaDias">                                    
+                            <label class="check">
+                                <input type="checkbox"  id="{{dia.dia}} "
+                                       ng-click="colocarDiasAgenda(dia, choice, $index)"  
+                                       ng-model="choice.checked" /> 
+                                {{dia.dia}} 
+                            </label>
                         </div>
 
-                        <div class="span8">
-                            <div class="btn-group">
-                                <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar3')">Ver agenda del día</button>
-                                <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar3')">Ver agenda de la semana</button>
-                                <button class="btn btn-success" ng-click="changeView('month', 'myCalendar3')">Ver agenda del mes.</button>
-                            </div>
-
-                            <div class="calendar" ng-model="eventSources2" calendar="myCalendar3" ui-calendar="uiConfig.calendar"></div>
-
-                        </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="form-group">
+            <label>Cantidad de minutos por cita:</label>           
+            <input type="text"  ng-model="nuevaAgenda.cantidadMinutosXCita"  class="form-control" />   
+        </div>
+        <div class="form-group">
+            <label>Ciudad:</label>           
+            <input type="text"  ng-model="nuevaAgenda.ciudad"  class="form-control" />   
+        </div>
+        <div class="form-group">
+            <label>Direccion:</label>           
+            <input type="text"  ng-model="nuevaAgenda.direccion"  class="form-control" />   
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="form-group">
+            <label >Agendar cita en EPS: </label>
+            <select  ng-model="nuevaAgenda.idPersonaEps"  class="form-control">
+                <option ng-repeat="personaEps in listEpsMedico" value="{{personaEps.idPersonaEps}}"> {{personaEps.eps.razonSocial}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Localidad:</label>           
+            <input type="text"  ng-model="nuevaAgenda.localidad"  class="form-control" />   
+        </div>
+        <div class="form-group">
+            <label>Consultorio:</label>           
+            <input type="text"  ng-model="nuevaAgenda.consultorio"  class="form-control" />   
+        </div>
+    </div>
+
+
+    <div class="col-md-10" align="center">
+        <br><br>
+        <button type="button" class="btn btn-primary" ng-click="agregarAgenda()">
+            Agendar espacio
+        </button>
+    </div>
+</div>
+<!--MENSAJES DE ERROR Y CONFRMACION--> 
+<!-- Mensaje de error -->
+<div class="message-box message-box-danger animated fadeIn" data-sound="fail"  id="message-box-sound-2">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-times"></span> Error</div>
+            <div class="mb-content">
+                <p>
+                    {{objErrorNuevaAgenda.mensajeError}}<br>
+                <div style="overflow-y: scroll; height: 100px;    padding-top:10px">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                            <th># </th>
+                            <th>Fecha: </th>
+                            <th>Horario: </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="trow_1" ng-repeat="citaEror in objErrorNuevaAgenda.objError"> 
+                            <td>{{citaEror.idCita}}</td>
+                            <td>{{citaEror.horaInicio| getFormatofecha }}</td>
+                            <td>de {{citaEror.horaInicio| getFormatoHora }} a {{citaEror.horaFin| getFormatoHora }}</td>
+                            </tr>   
+                        </tbody>
+                    </table>
+                </div>    
+                </p>                    
+            </div>
+            <div class="mb-footer">
+                <button class="btn btn-default btn-lg pull-right mb-control-close" onClick=" $('#message-box-sound-2').hide()">Error</button>
+            </div>
         </div>
     </div>
 </div>
+<!-- fin mensaje de error -->
 
-<!--        <script type='text/javascript' src='../../js/plugins/icheck/icheck.min.js'></script>
-        <script type="text/javascript" src="../../js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
-        
-        <script type="text/javascript" src="../../js/plugins/bootstrap/bootstrap-datepicker.js"></script>
-        <script type="text/javascript" src="../../js/plugins/bootstrap/bootstrap-timepicker.min.js"></script>
-        <script type="text/javascript" src="../../js/plugins/bootstrap/bootstrap-colorpicker.js"></script>
-        <script type="text/javascript" src="../../js/plugins/bootstrap/bootstrap-file-input.js"></script>
-        <script type="text/javascript" src="../../js/plugins/bootstrap/bootstrap-select.js"></script>
-        <script type="text/javascript" src="../../js/plugins/tagsinput/jquery.tagsinput.min.js"></script>-->
+<!-- mensaje de confirmacion -->
+<div class="message-box message-box-success animated fadeIn" id="message-box-success">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-check"></span> Agenda creada</div>
+            <div class="mb-content">
+                <p>{{generalResponse.mensaje}}, agenda creada del {{generalResponse.fechaInicialAgenda| getFormatofecha }} 
+                    al {{generalResponse.fechaFinalAgenda| getFormatofecha }} los dias {{generalResponse.dias}} en el horario de {{generalResponse.fechaInicialAgenda| getFormatoHora }}
+                    a {{generalResponse.fechaFinalAgenda| getFormatoHora }}
+                </p>
+            </div>
+            <div class="mb-footer">
+                <button class="btn btn-default btn-lg pull-right mb-control-close">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- fin mensaje de confirmacion -->
+
+<!-- START PRELOADS -->
+<audio id="audio-alert" src="audio/alert.mp3" preload="auto"></audio>
+<audio id="audio-fail" src="audio/fail.mp3" preload="auto"></audio>
+<!-- END PRELOADS -->             
+
+<!-- START SCRIPTS -->
+<!-- START PLUGINS -->
+<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="js/plugins/jquery/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script>                
+<!-- END PLUGINS -->
+
+<!-- THIS PAGE PLUGINS -->
+<script type='text/javascript' src='js/plugins/icheck/icheck.min.js'></script>
+<script type="text/javascript" src="js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
+
+<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-timepicker.min.js"></script>
+<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-colorpicker.js"></script>
+<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-file-input.js"></script>
+<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-select.js"></script>
+<script type="text/javascript" src="js/plugins/tagsinput/jquery.tagsinput.min.js"></script>
+<!-- END THIS PAGE PLUGINS -->       
+
+<!-- START TEMPLATE -->
+<script type="text/javascript" src="js/settings.js"></script>
+
+<script type="text/javascript" src="js/plugins.js"></script>        
+<script type="text/javascript" src="js/actions.js"></script>        
+<!-- END TEMPLATE -->
+<!-- END SCRIPTS -->  

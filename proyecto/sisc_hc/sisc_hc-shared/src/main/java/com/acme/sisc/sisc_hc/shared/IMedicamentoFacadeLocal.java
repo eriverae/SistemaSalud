@@ -7,6 +7,8 @@ package com.acme.sisc.sisc_hc.shared;
 
 import com.acme.sisc.agenda.entidades.CitaMedicamento;
 import com.acme.sisc.agenda.entidades.Medicamento;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Local;
 import org.json.*;
@@ -20,4 +22,5 @@ public interface IMedicamentoFacadeLocal {
     Medicamento find(Object id);
     List<Medicamento> findAll();
     void addMedicamentoCita(List<CitaMedicamento> listaMedicamentos);
+    ArrayList<HashMap> findByCita(Long idcita);
 }

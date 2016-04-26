@@ -8,11 +8,11 @@ package com.acme.sisc;
 import com.acme.sisc.agenda.entidades.Cita;
 import com.acme.sisc.agenda.entidades.CitaMedicamento;
 import com.acme.sisc.agenda.entidades.Medicamento;
-import com.acme.sisc.agenda.entidades.Persona;
-import com.acme.sisc.agenda.entidades.PersonaEps;
 import com.acme.sisc.sisc_hc.shared.IMedicamentoFacadeLocal;
 import com.acme.sisc.sisc_hc.shared.IMedicamentoFacadeRemote;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,8 +23,6 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  *
@@ -76,4 +74,23 @@ public class MedicamentoFacade implements IMedicamentoFacadeLocal, IMedicamentoF
             LOGGER.log(Level.SEVERE,"No se encontro cliente {0} ", e);
         }
     }
+    
+    @Override
+    public ArrayList<HashMap> findByCita(Long idcita) {
+        Query q = em.createQuery("SELECT cm FROM CitaMedicamento cm WHERE cm.cita.idCita="+idcita);
+        List<CitaMedicamento>lista = q.getResultList();
+
+        ArrayList<HashMap> js= new ArrayList<HashMap>();
+
+        for (int i = 0; i<lista.size();i++ ){
+            HashMap m = new HashMap();
+            m.put("idcita", lista.get(i).getCita().getIdCita());
+            m.put("idmedicamento", lista.get(i).getMedicamento().getIdMedicamento());
+            m.put("fechageneracion", lista.get(i).getFechaGenracion());
+            m.put("formula", lista.get(i).getFormula());
+            js.add(m);
+        }
+        return js;
+    }
+    
 }
