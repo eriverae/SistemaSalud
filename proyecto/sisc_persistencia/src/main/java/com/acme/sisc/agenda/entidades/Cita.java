@@ -5,6 +5,7 @@
  */
 package com.acme.sisc.agenda.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -21,16 +22,22 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 
 /**
  *
  * @author Julio
  */
+
 @Entity
 @Table(name = "cita")
-@XmlRootElement
+@JsonIgnoreProperties(ignoreUnknown = true)
 @NamedQueries({
+    @NamedQuery(name = "Cita.findFechaInicioFechaFin", query = "SELECT c FROM Cita c where (c.agenda.medicoEps.persona.idPersona = :idMedico) AND (c.horaInicio >= :horaInicio  AND c.horaFin <= :horaFin)"),
+    //@NamedQuery(name = "Cita.findIdPaciente", query = "SELECT c FROM Cita c WHERE c.pacienteEps.persona.idPersona = :idPaciente and c.pacienteEps.fechaFin=null"),
+    @NamedQuery(name = "Cita.findIdPaciente", query = "SELECT c FROM Cita c WHERE c.pacienteEps.persona.idPersona = :idPaciente and c.pacienteEps.fechaFin=null ORDER BY c.horaFin DESC"),
     @NamedQuery(name = "Cita.findAll", query = "SELECT c FROM Cita c"),
     @NamedQuery(name = "Cita.findById", query = "SELECT c FROM Cita c WHERE c.idCita = :id"),
     @NamedQuery(name = "Cita.findByValor", query = "SELECT c FROM Cita c WHERE c.valor = :valor"),
@@ -62,11 +69,19 @@ public class Cita implements Serializable {
     @Column(name = "hora_fin")
     @Temporal(TemporalType.TIMESTAMP)
     private Date horaFin;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
+    @Column(name = "estado_cita")
+    private String estadoCita;  
+    
+    
 
     
     @JoinColumn(name = "id_paciente_eps", referencedColumnName = "id_persona_eps")
-//    @ManyToOne(optional = false)
-    @ManyToOne()
+    @ManyToOne(optional = false)
+//    @ManyToOne()
     private PersonaEps pacienteEps;
 
     @JoinColumn(name = "id_agenda", referencedColumnName = "id_agenda")
@@ -84,12 +99,13 @@ public class Cita implements Serializable {
         this.idCita = id;
     }
 
-    public Cita(Long id, double valor, boolean estadoPacienteAtendido, Date fechaPaciente, Agenda agenda) {
+    public Cita(Long id, double valor, boolean estadoPacienteAtendido, Date fechaPaciente, Agenda agenda, String estadoCita) {
         this.idCita = id;
         this.valor = valor;
         this.estadoPacienteAtendido = estadoPacienteAtendido;
         this.horaFin = fechaPaciente;
         this.agenda = agenda;
+       this.estadoCita = estadoCita;
     }
 
     public Long getIdCita() {
@@ -184,5 +200,23 @@ public class Cita implements Serializable {
     public boolean isEstadoPacienteAtendido() {
         return estadoPacienteAtendido;
     }
+
+    public Date getHoraFin() {
+        return horaFin;
+    }
+
+    public void setHoraFin(Date horaFin) {
+        this.horaFin = horaFin;
+    }
+
+    public String getEstadoCita() {
+        return estadoCita;
+    }
+
+    public void setEstadoCita(String estadoCita) {
+        this.estadoCita = estadoCita;
+    }
+
+    
 
 }

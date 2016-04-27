@@ -1,0 +1,28 @@
+<select  id="s2" name="s2" onfocus="recargarS2()" ng-cell-input ng-class="'colt' + $index" ng-model="COL_FIELD" ng-input="COL_FIELD" data-placeholder="-- Select One --">
+
+
+</select>
+
+
+
+
+
+ <script type="text/javascript">
+
+function recargarS2(){   
+	 $('#s2').html('<option value="">Cargando...aguarde</option>'); 
+	 $.ajax({ 
+	 	url: 'http://127.0.0.1:8080/hc/api/medicamento/',
+	 	dataType : 'json',
+	 	success: function(resp){ 
+	 		$.each(resp, function(id,value){
+			$("#s2").append('<option value="'+value.idMedicamento+'">'+value.nombreMedicamento+'</option>');
+	    });
+	 	} 
+	 }); 
+	} 
+
+
+
+ </script>
+ 

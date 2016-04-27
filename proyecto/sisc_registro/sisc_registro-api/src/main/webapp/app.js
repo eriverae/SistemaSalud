@@ -12,24 +12,43 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
     })
       
     .state('registroMedicos',{
-      url:'/personaNatural',
+      url:'/medicos',
       templateUrl: 'medicos/registroMedicos.html',
       controller: 'medicosController'
     })
+      
+    .state('listarMedicos',{
+      url:'/listaMedicos',
+      templateUrl: 'medicos/listaMedicos.html',
+      controller: 'listaMedicosController'
+    })
   
     .state('registroPacientes',{
-      url: '/personaNatural',
+      url: '/pacientes',
       templateUrl: 'pacientes/registroPacientes.html',
       controller: 'pacientesController'
+    })
+      
+    .state('listarPacientes',{
+      url:'/listaPacientes',
+      templateUrl: 'pacientes/listaPacientes.html',
+      controller: 'listaPacientesController'
+    })
+    
+    .state('modificarMedicos',{
+      url:'/medicos',
+      templateUrl: 'medicos/registroMedicos.html',
+      controller: 'medicosController',
+      params : {idPersona:null}
+    })
+    
+    .state('modificarPacientes',{
+      url:'/pacientes',
+      templateUrl: 'pacientes/registroPacientes.html',
+      controller: 'pacientesController',
+      params : {idPersona:null}
     });
     /*
-    .state('modificarCliente',{
-      url: '/modificarCliente',
-      templateUrl: 'clientes/formularioCliente.html',
-      controller: 'clienteFormController',
-      params : {'idCliente':null}
-    });
-    
     $routeProvider
     .when('/clientes', {
         templateUrl : 'clientes/clientes.html',

@@ -1,5 +1,5 @@
 'use strict';
-var app = angular.module('siscseguridad');
+var app = angular.module('sisc_web');
 // Create a controller with name personsFormController to bind to the form section.
 app.controller('usuarioFormController', function ($scope, $rootScope, $stateParams, $state, 
           usuarioService,modalService) {

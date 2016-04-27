@@ -8,7 +8,7 @@
   </parent>
 
     <groupId>com.acme.sisc</groupId>
-    <artifactId>sisc_registro.ejb</artifactId>
+    <artifactId>sisc_registro-ejb</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>ejb</packaging>
 
@@ -23,8 +23,8 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>sisc_persistencia</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
+            <version>1.0-SNAPSHOT</version>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>

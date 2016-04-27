@@ -10,7 +10,9 @@ import com.acme.sisc.agenda.entidades.Cita;
 import com.acme.sisc.agenda.entidades.CitaCirugia;
 import com.acme.sisc.sisc_hc.shared.ICirugiaFacadeLocal;
 import com.acme.sisc.sisc_hc.shared.ICirugiaFacadeRemote;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -68,6 +70,25 @@ public class CirugiaFacade implements ICirugiaFacadeLocal, ICirugiaFacadeRemote{
         }catch(Exception e){
             LOGGER.log(Level.SEVERE,"No se encontro cliente {0} ", e);
         }
+    }
+    
+    @Override
+    public ArrayList<HashMap> findByCita(Long idcita) {
+        Query q = em.createQuery("SELECT cc FROM CitaCirugia cc WHERE cc.cita.idCita="+idcita);
+        List<CitaCirugia>lista = q.getResultList();
+
+        ArrayList<HashMap> js= new ArrayList<HashMap>();
+
+        for (int i = 0; i<lista.size();i++ ){
+            HashMap m = new HashMap();
+            m.put("idcita", lista.get(i).getCita().getIdCita());
+            m.put("idcirugia", lista.get(i).getCirugia().getIdCirugia());
+            m.put("fechageneracion", lista.get(i).getFechaGeneracion());
+            m.put("observaciones", lista.get(i).getObservaciones());
+            m.put("detalles", lista.get(i).getDetalles());
+            js.add(m);
+        }
+        return js;
     }
     
 }

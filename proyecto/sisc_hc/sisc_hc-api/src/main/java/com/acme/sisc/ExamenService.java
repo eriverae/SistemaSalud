@@ -8,6 +8,7 @@ package com.acme.sisc;
 import com.acme.sisc.agenda.entidades.CitaExamen;
 import com.acme.sisc.sisc_hc.shared.IExamenFacadeLocal;
 import com.acme.sisc.sisc_hc.shared.IExamenFacadeRemote;
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -15,6 +16,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 /**
@@ -28,11 +30,21 @@ public class ExamenService {
     
     @GET
     @Produces({"application/json"})
-    public Response GetExamensALL(){
-        return Response
+    public Response GetExamensALL(@QueryParam("idcita") String idcita){
+        if (idcita == null){
+            return Response
             .status(200)
             .entity(facadeExamen.findAll())
             .build();
+        }
+        else{
+            HashMap m = new HashMap();
+            m.put("data", facadeExamen.findByCita(Long.parseLong(idcita)));
+            return Response
+            .status(200)
+            .entity(m)
+            .build();
+        }
     }
     
     @POST

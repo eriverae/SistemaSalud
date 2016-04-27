@@ -5,6 +5,8 @@
  */
 package com.acme.sisc.agenda.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -35,7 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "agenda")
-@XmlRootElement
+@JsonIgnoreProperties(ignoreUnknown = true)
 @NamedQueries({
     @NamedQuery(name = "Agenda.findAll", query = "SELECT a FROM Agenda a"),
     @NamedQuery(name = "Agenda.findByIdMedico", query = "SELECT a FROM Agenda a WHERE a.medicoEps.persona.idPersona = :idMedico")})
@@ -226,7 +228,7 @@ public class Agenda implements Serializable {
     public void setVersion(Long version) {
         this.version = version;
     }
-    
+    @JsonIgnore
     public List<Cita> getCitasAgenda() {
         return citasAgenda;
     }

@@ -42,9 +42,8 @@
     <properties>
       <!--**** persistencia PostgreSQL ***-->
       <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
-      <!--<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
-      <!--**** persistencia Mysql ***-->
-      <!--<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>-->
+      <!--**** persistencia Mysql ***
+      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>-->
       <property name="hibernate.show_sql" value="true"/>
     </properties>
   </persistence-unit>

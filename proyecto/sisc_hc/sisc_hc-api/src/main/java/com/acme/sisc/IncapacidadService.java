@@ -7,12 +7,14 @@ package com.acme.sisc;
 
 import com.acme.sisc.agenda.entidades.Incapacidad;
 import com.acme.sisc.sisc_hc.shared.IIncapacidadFacadeRemote;
+import java.util.HashMap;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 /**
@@ -26,11 +28,21 @@ public class IncapacidadService {
     
     @GET
     @Produces({"application/json"})
-    public Response GetIncapacidadALL(){
-        return Response
+    public Response GetIncapacidadALL(@QueryParam("idcita") String idcita){
+        if (idcita == null){
+            return Response
             .status(200)
             .entity(facadeIncapacidad.findAll())
             .build();
+        }
+        else{
+            HashMap m = new HashMap();
+            m.put("data", facadeIncapacidad.findByCita(Long.parseLong(idcita)));
+            return Response
+            .status(200)
+            .entity(m)
+            .build();
+        }
     }
     
     

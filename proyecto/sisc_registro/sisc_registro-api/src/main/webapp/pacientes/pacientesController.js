@@ -2,13 +2,13 @@
 var app = angular.module('sisc_registro');
 // Create a controller with name personsFormController to bind to the form section.
 app.controller('pacientesController', function ($scope, $rootScope, $stateParams, $state, 
-          pacienteService,modalService) {
+          personaService,modalService) {
   
   $scope.paciente={};
   
-  if (angular.isDefined($stateParams.idPaciente)){
-    console.log('Paciente a modificar, ID = '+ $stateParams.idPaciente);
-    pacienteService.get({id: $stateParams.idPaciente}).$promise.then(
+  if (angular.isDefined($stateParams.idPersona)){
+    console.log('Paciente a modificar, ID = '+ $stateParams.idPersona);
+    personaService.get({id: $stateParams.idPersona}).$promise.then(
       function (data) {
         $scope.paciente = data;
         //A partir de Angular 1.3, ng-model requiere un objeto de tipo Date valido, no acepta un String
@@ -44,7 +44,7 @@ app.controller('pacientesController', function ($scope, $rootScope, $stateParams
 
   // Calls the rest method to save a Paciente.
   $scope.updatePaciente = function () {
-    pacienteService.save($scope.paciente).$promise.then(
+    personaService.save($scope.paciente).$promise.then(
     function () {
       // Broadcast the event to refresh the grid.
       $rootScope.$broadcast('refreshGrid');
@@ -62,7 +62,7 @@ app.controller('pacientesController', function ($scope, $rootScope, $stateParams
   // the appropiate rest service.
   $scope.$on('pacienteSelected', function (event, id) {
     console.log('Paciente seleccionado, ID = '+ id);
-    $scope.paciente = pacienteService.get({id: id});
+    $scope.paciente = personaService.get({id: id});
   });
   
   $scope.$on('pacienteSaved', function(){
@@ -75,12 +75,12 @@ app.controller('pacientesController', function ($scope, $rootScope, $stateParams
 
       modalService.showModal({}, modalOptions).then(function () {
         $scope.clearForm();
-        $state.go('pacientes');
+        $state.go('registroPacientes');
       });
   });
   
   $scope.cancelar = function(){
-    $state.go('pacientes');
+    $state.go('registroPacientes');
   };
   
 });

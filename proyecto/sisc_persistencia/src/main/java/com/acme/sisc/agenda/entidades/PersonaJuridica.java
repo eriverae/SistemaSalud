@@ -19,12 +19,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
-
 /**
  *
  * @author jamer
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
+//@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @DiscriminatorValue("JURIDICA")
 @Table(name = "persona_juridica")
