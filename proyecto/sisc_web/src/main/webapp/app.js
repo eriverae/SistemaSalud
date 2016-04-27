@@ -30,10 +30,16 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       params : {'usuaUsua':null}
     })
     
-     .state('agenda',{
+    .state('agenda',{
       url: '/medico/agenda',
       templateUrl: 'medicos/agenda/agendaMedico.html'
       
+    })
+    
+    .state('seguridad',{
+      url:'/seguridad',
+      templateUrl: 'seguridad/login.html',
+      controller: 'loginFormController'
     })
         
      ;
