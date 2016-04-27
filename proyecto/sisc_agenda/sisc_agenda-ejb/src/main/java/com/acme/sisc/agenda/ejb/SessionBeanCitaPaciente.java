@@ -8,14 +8,18 @@ package com.acme.sisc.agenda.ejb;
 import com.acme.sisc.agenda.constant.WebConstant;
 import com.acme.sisc.agenda.ejb.facade.FacadeCita;
 import com.acme.sisc.agenda.entidades.Cita;
-import com.acme.sisc.agenda.exceptions.CitaException;
 import com.acme.sisc.agenda.shared.ICitaLocal;
 import com.acme.sisc.agenda.shared.ICitaRemote;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.ejb.Stateful;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.faces.bean.ViewScoped;  // se mantiene vivo para todas las peticiones
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -24,12 +28,18 @@ import javax.persistence.PersistenceContext;
  * @author BryanCFz-user
  */
 @Stateless
+//@Stateful(mappedName = "cita_paciente")
 public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
 
     Logger logger = Logger.getLogger(this.getClass().getName());
 
-    
-//    private EntityManager em;
+    @PersistenceContext(unitName = WebConstant.UNIT_NAME_PERSISTENCE)
+    private EntityManager em;
+
+    //@Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 
     @EJB
     FacadeCita facadeCita;
@@ -43,30 +53,12 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
             return null;
         }
     }
-    
+
     @Override
     public Cita find(Long id) {
         return facadeCita.ObtenerLaCita(id);
-    }    
-    
-    @Override
-    public void cancelarCita_porPaciente(Cita cita) {
-        logger.log(Level.INFO, "El paciente cancela la cita: {0}", cita);
-        facadeCita.PacienteCancelaSuCita(cita);
     }
-    
-     
-    
-  
-    
 
-//    public Cita modificarCliente(Cita cita) {
-//        logger.log(Level.FINE, "Modificando la cita : {0} - del Paciente: {1}", new Object[]{cita.getIdCita(), cita.getPacienteEps().getPersona().getNombres()});
-//        cita = em.merge(cita);
-//        return cita;
-//    }       
-
-    
     @Override
     public void remove(Long id) {
         logger.log(Level.FINE, "Eliminar cita con id {0}", id);
@@ -79,14 +71,11 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
         }
     }
 
-    
-    
-    
     //en facade remove y crearCita
     @Override
     public void remove(Cita entity) {
         //em.remove(entity);
-    } 
+    }
 
     /*@Override
     public void crearCita(Cita cita) throws CitaException {
@@ -104,6 +93,47 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
         LOGGER.info("Finaliza crearCita(...)");
     }*/
 
+    
 
+    @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
+    @Override
+    public boolean cancelarCita(Cita cita) {
+        
+        logger.log(Level.WARNING, "\n\nSESION-BEAN-CITA-PACIENTE\n El paciente cancela la cita: {0}", cita.getIdCita() + "\n Estado de la cita actual = {1}" + cita.getEstadoCita());
+        //facadeCita.PacienteCancelaSuCita(cita);
+        
+        
+
+        //probando ya que el anterior s eme pierde el objeto al enviarlo
+//            em.flush();
+            cita = em.find(Cita.class, Long.valueOf(cita.getIdCita()) );
+            em.flush();
+            
+            logger.log(Level.WARNING, "estadoCita anterior :  "+ cita.getEstadoCita());
+            cita.setEstadoCita("CANCELADA");
+            logger.log(Level.WARNING, "estadoCita modificado :  "+ cita.getEstadoCita());
+            
+
+
+//            em.merge(cita);
+//                em.flush();
+                
+                
+//            em.merge(cita.getAgenda());
+//                em.flush();   
+//                
+//            em.merge(cita.getPacienteEps());
+//                em.flush();                
+      
+
+                
+                
+                
+            return true;
+
+    }
+
+
+    
 
 }

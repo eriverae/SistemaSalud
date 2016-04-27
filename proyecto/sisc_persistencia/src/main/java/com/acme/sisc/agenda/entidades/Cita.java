@@ -75,11 +75,13 @@ public class Cita implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "estado_cita")
     private String estadoCita;  
+    
+    
 
     
     @JoinColumn(name = "id_paciente_eps", referencedColumnName = "id_persona_eps")
-//    @ManyToOne(optional = false)
-    @ManyToOne()
+    @ManyToOne(optional = false)
+//    @ManyToOne()
     private PersonaEps pacienteEps;
 
     @JoinColumn(name = "id_agenda", referencedColumnName = "id_agenda")
@@ -214,5 +216,7 @@ public class Cita implements Serializable {
     public void setEstadoCita(String estadoCita) {
         this.estadoCita = estadoCita;
     }
+
+    
 
 }

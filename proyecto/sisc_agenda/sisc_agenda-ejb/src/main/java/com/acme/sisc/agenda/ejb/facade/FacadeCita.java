@@ -11,7 +11,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.Stateful;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -21,7 +24,7 @@ import javax.persistence.Query;
  *
  * @author BryanCFz-user
  */
-@Stateless
+@Stateful
 public class FacadeCita extends AbstractFacade<Cita> {
 
     Logger _log = Logger.getLogger(this.getClass().getName());
@@ -51,7 +54,12 @@ public class FacadeCita extends AbstractFacade<Cita> {
         try {
             Query q = em.createNamedQuery(WebConstant.QUERY_CITA_FIND_BY_ID_PACIENTE);
             q.setParameter(WebConstant.QUERY_PARAMETER_ID_PACIENTE, idPaciente);
-            //q.setMaxResults(5); //quitar "//" para filtrar por cantidad reultado
+            
+//            q.setFirstResult(1);
+//            q.setMaxResults(5); //filtrar por cantidad resultado
+            
+            
+            
             List<Cita> listacitasPaciente = (List<Cita>) q.getResultList();
             _log.log(Level.WARNING, "ULTIMO REGISTRO LISTA-CITAS-PACIENTE, id= {0}", listacitasPaciente.get( (listacitasPaciente.size()-1)).getIdCita() ); 
             return listacitasPaciente;
@@ -78,15 +86,69 @@ public class FacadeCita extends AbstractFacade<Cita> {
      * pacient cancela su cita mediante un click y aquio cambiamos el estado a cancelado en su cita cancelada
      * @param cita 
      */
+    //@TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void PacienteCancelaSuCita(Cita cita) {
+        
+        if (cita != null)
+          _log.log(Level.WARNING, "\n\n OBJETO CITA CON DATOS INVISIBLES ...  ");
+        else
+            _log.log(Level.WARNING, "el objeto cita es NULO");
+        
         try {
+             _log.log(Level.WARNING, "1. No se encontro una cita, seeleccionada por el paciente ++++++++++++++++: ", cita.getIdCita());
             cita.setEstadoCita("CANCELADA");
-            cita = em.merge(cita);
+            
+            em.persist(cita);
+//            em.merge(cita);
+            em.flush();
+            
         } catch (Exception e) {
-
+            _log.log(Level.WARNING, "No se encontro una cita, seeleccionada por el paciente ++++++++++++++++: ", cita.getIdCita());
+            
         }
 
     }
+    
+    
+    
+    
+    
+//    public void PacienteCancelaSuCita(Long idCita) {
+//        
+//        
+//        try {
+//             _log.log(Level.WARNING, "1. No se encontro una cita, seeleccionada por el paciente ++++++++++++++++ ", idCita);
+//            Cita cita = em.find(Cita.class, idCita); 
+//            
+//            cita.setEstadoCita("CANCELADO");
+//            em.merge(cita);
+//            em.flush();
+//            
+//        } catch (Exception e) {
+//            _log.log(Level.WARNING, "No se encontro una cita, seeleccionada por el paciente ++++++++++++++++ ", idCita);
+//            
+//        }
+//
+//    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     /**
     /**
