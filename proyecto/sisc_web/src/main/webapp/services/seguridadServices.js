@@ -9,3 +9,7 @@ myModule.factory('usuarioService', function ($resource) {
 myModule.factory('seguridadService', function ($resource) {
     return $resource('/sisc_seguridad/api/seguridad/:seguridad');
 });
+
+myModule.factory('accesoService', function ($resource) {
+    return $resource('/sisc_seguridad/api/accesos/:acceAcce');
+});
