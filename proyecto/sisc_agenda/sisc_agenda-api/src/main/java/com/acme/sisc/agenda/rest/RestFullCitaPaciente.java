@@ -43,7 +43,6 @@ public class RestFullCitaPaciente {
     @Path("/{idPaciente}/listaCitas")
     public List<Cita> CitasDePaciente(
             @PathParam("idPaciente") Long idPaciente) {
-
         return facadeCita.listaCitasPaciente(idPaciente);
     }
 
@@ -55,6 +54,15 @@ public class RestFullCitaPaciente {
         logi.log(Level.WARNING,  "Request para cancelar la Cita con id {0}", cita.getIdCita());
         facadeCita.cancelarCita(cita); 
         return false;
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{idCita}/consultarCita")
+    public Cita consultarCitaId(
+            @PathParam("idCita") Long idCita) {
+        logi.log(Level.WARNING, "Obtener la cita segun su id: " + idCita);
+        return facadeCita.find(idCita);
     }
     
 

@@ -48,7 +48,6 @@ public class FacadeCita extends AbstractFacade<Cita> {
      * @param idPaciente
      * @return
      */
-
     public List<Cita> CitasDelPaciante(long idPaciente) {
 
         try {
@@ -70,14 +69,24 @@ public class FacadeCita extends AbstractFacade<Cita> {
 
     }
 
-
-    public Cita ObtenerLaCita(long idCita) {
+    
+    /**
+     * Retorna una cita, siempre y cuando el id este en la base de datos. 
+     * De lo contrario retorna NULL
+     * @param idCita
+     * @return 
+     */
+    public Cita ObtenerLaCita(Long idCita) {
+        _log.log(Level.WARNING, "empezar consulta query con = "+ idCita);
         try {
             Query q = em.createNamedQuery(WebConstant.QUERY_CITA_FIND_BY_ID);
             q.setParameter(WebConstant.QUERY_PARAMETER_ID_CITA, idCita);
             Cita cita = (Cita) q.getSingleResult();
+            
+            _log.log(Level.WARNING, "ENCONTRADA OBJETO CITA = "+ cita.getIdCita());
             return cita;
         } catch (Exception e) {
+            _log.log(Level.WARNING, "NO ENCUENTRO NADA .. LO SIENTO :(");
             return null;
         }
     }
@@ -87,26 +96,27 @@ public class FacadeCita extends AbstractFacade<Cita> {
      * @param cita 
      */
     //@TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void PacienteCancelaSuCita(Cita cita) {
+    public boolean PacienteCancelaSuCita(Cita cita) {
         
         if (cita != null)
           _log.log(Level.WARNING, "\n\n OBJETO CITA CON DATOS INVISIBLES ...  ");
         else
             _log.log(Level.WARNING, "el objeto cita es NULO");
         
+        
         try {
-             _log.log(Level.WARNING, "1. No se encontro una cita, seeleccionada por el paciente ++++++++++++++++: ", cita.getIdCita());
+             _log.log(Level.WARNING, "1. CITA ID: {0}", cita.getIdCita());
             cita.setEstadoCita("CANCELADA");
             
-            em.persist(cita);
-//            em.merge(cita);
+            em.merge(cita);
             em.flush();
+            return true;
             
         } catch (Exception e) {
-            _log.log(Level.WARNING, "No se encontro una cita, seeleccionada por el paciente ++++++++++++++++: ", cita.getIdCita());
+            _log.log(Level.WARNING, "NO EXISTE CITA SELECCIONADA POR PACIENTE ");
+            return false;
             
         }
-
     }
     
     

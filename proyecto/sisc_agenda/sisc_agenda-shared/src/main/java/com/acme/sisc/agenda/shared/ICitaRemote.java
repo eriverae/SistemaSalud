@@ -9,6 +9,7 @@ import com.acme.sisc.agenda.entidades.Cita;
 import com.acme.sisc.agenda.exceptions.CitaException;
 import java.util.List;
 import javax.ejb.Local;
+import javax.ejb.Remote;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
@@ -17,7 +18,7 @@ import javax.ejb.TransactionAttributeType;
  * @author BryanCFz-user
  */
 
-@Local
+@Remote
 public interface ICitaRemote {
     
     public List<Cita> listaCitasPaciente(long idPaciente);

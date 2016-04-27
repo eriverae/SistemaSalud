@@ -43,7 +43,13 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
 
     @EJB
     FacadeCita facadeCita;
-
+    
+    
+    /**
+     * 
+     * @param idPaciente
+     * @return 
+     */
     @Override
     public List<Cita> listaCitasPaciente(long idPaciente) {
         try {
@@ -53,9 +59,16 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
             return null;
         }
     }
-
+    
+    
+    /**
+     * Hace llamado al facadeCita para buscar una cita por el id
+     * @param id
+     * @return 
+     */
     @Override
     public Cita find(Long id) {
+        logger.log(Level.WARNING, "llamando a facadeCita id = "+ id);
         return facadeCita.ObtenerLaCita(id);
     }
 
@@ -70,12 +83,35 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
             logger.log(Level.INFO, "La cita con id de paciente {} no existe", id);
         }
     }
-
-    //en facade remove y crearCita
+    
+    
+    /**
+     * 
+     * @param entity 
+     */
     @Override
     public void remove(Cita entity) {
         //em.remove(entity);
     }
+
+    
+    /**
+     * 
+     * @param cita
+     * @return 
+     */
+    @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
+    @Override
+    public boolean cancelarCita(Cita cita) {
+        
+        logger.log(Level.WARNING, "\n\nSESION-BEAN-CITA-PACIENTE\n El paciente cancela la cita: {0}", cita.getIdCita() + "\n Estado de la cita actual = {1}" + cita.getEstadoCita());
+        return facadeCita.PacienteCancelaSuCita(cita);
+    }
+
+
+    
+
+}
 
     /*@Override
     public void crearCita(Cita cita) throws CitaException {
@@ -92,48 +128,3 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
         em.persist(cita);
         LOGGER.info("Finaliza crearCita(...)");
     }*/
-
-    
-
-    @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
-    @Override
-    public boolean cancelarCita(Cita cita) {
-        
-        logger.log(Level.WARNING, "\n\nSESION-BEAN-CITA-PACIENTE\n El paciente cancela la cita: {0}", cita.getIdCita() + "\n Estado de la cita actual = {1}" + cita.getEstadoCita());
-        //facadeCita.PacienteCancelaSuCita(cita);
-        
-        
-
-        //probando ya que el anterior s eme pierde el objeto al enviarlo
-//            em.flush();
-            cita = em.find(Cita.class, Long.valueOf(cita.getIdCita()) );
-            em.flush();
-            
-            logger.log(Level.WARNING, "estadoCita anterior :  "+ cita.getEstadoCita());
-            cita.setEstadoCita("CANCELADA");
-            logger.log(Level.WARNING, "estadoCita modificado :  "+ cita.getEstadoCita());
-            
-
-
-//            em.merge(cita);
-//                em.flush();
-                
-                
-//            em.merge(cita.getAgenda());
-//                em.flush();   
-//                
-//            em.merge(cita.getPacienteEps());
-//                em.flush();                
-      
-
-                
-                
-                
-            return true;
-
-    }
-
-
-    
-
-}
