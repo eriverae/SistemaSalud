@@ -77,7 +77,6 @@ public class FacadeCita extends AbstractFacade<Cita> {
      * @return 
      */
     public Cita ObtenerLaCita(Long idCita) {
-        _log.log(Level.WARNING, "empezar consulta query con = "+ idCita);
         try {
             Query q = em.createNamedQuery(WebConstant.QUERY_CITA_FIND_BY_ID);
             q.setParameter(WebConstant.QUERY_PARAMETER_ID_CITA, idCita);
@@ -97,15 +96,8 @@ public class FacadeCita extends AbstractFacade<Cita> {
      */
     //@TransactionAttribute(TransactionAttributeType.REQUIRED)
     public boolean PacienteCancelaSuCita(Cita cita) {
-        
-        if (cita != null)
-          _log.log(Level.WARNING, "\n\n OBJETO CITA CON DATOS INVISIBLES ...  ");
-        else
-            _log.log(Level.WARNING, "el objeto cita es NULO");
-        
-        
         try {
-             _log.log(Level.WARNING, "1. CITA ID: {0}", cita.getIdCita());
+             _log.log(Level.WARNING, "1. CITA ID: "+ cita.getIdCita() + "\n");
             cita.setEstadoCita("CANCELADA");
             
             em.merge(cita);
@@ -113,54 +105,13 @@ public class FacadeCita extends AbstractFacade<Cita> {
             return true;
             
         } catch (Exception e) {
-            _log.log(Level.WARNING, "NO EXISTE CITA SELECCIONADA POR PACIENTE ");
+            _log.log(Level.WARNING, "NO SE PUEDE CANCELAR LA CITA ");
             return false;
             
         }
     }
     
-    
-    
-    
-    
-//    public void PacienteCancelaSuCita(Long idCita) {
-//        
-//        
-//        try {
-//             _log.log(Level.WARNING, "1. No se encontro una cita, seeleccionada por el paciente ++++++++++++++++ ", idCita);
-//            Cita cita = em.find(Cita.class, idCita); 
-//            
-//            cita.setEstadoCita("CANCELADO");
-//            em.merge(cita);
-//            em.flush();
-//            
-//        } catch (Exception e) {
-//            _log.log(Level.WARNING, "No se encontro una cita, seeleccionada por el paciente ++++++++++++++++ ", idCita);
-//            
-//        }
-//
-//    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
-    /**
     /**
      *
      * @param idMedico

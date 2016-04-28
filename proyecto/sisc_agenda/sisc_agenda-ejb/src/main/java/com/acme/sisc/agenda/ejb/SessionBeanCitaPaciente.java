@@ -91,7 +91,7 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
      */
     @Override
     public void remove(Cita entity) {
-        //em.remove(entity);
+        em.remove(entity);
     }
 
     
@@ -104,7 +104,7 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
     @Override
     public boolean cancelarCita(Cita cita) {
         
-        logger.log(Level.WARNING, "\n\nSESION-BEAN-CITA-PACIENTE\n El paciente cancela la cita: {0}", cita.getIdCita() + "\n Estado de la cita actual = {1}" + cita.getEstadoCita());
+        logger.log(Level.WARNING, "\n\nSESION-BEAN-CITA-PACIENTE\n El paciente cancela la cita: "+ cita.getIdCita() + "\n Estado de la cita actual = " + cita.getEstadoCita());
         return facadeCita.PacienteCancelaSuCita(cita);
     }
 
