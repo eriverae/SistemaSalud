@@ -58,65 +58,32 @@ INSERT INTO agenda (ciudad, direccion, estado_diponible, hora_bloque_inicio, hor
 /**
 	insertar cita
 */
+--https://saforas.wordpress.com/2009/11/12/postgresql-fechas-y-horas/
+--http://stackoverflow.com/questions/16837280/get-interval-in-milliseconds
 --ALTER TABLE cita ADD COLUMN estado_cita varchar(20);
+ALTER TABLE cita ADD COLUMN id_cita_referencia text;
+--DELETE FROM cita;
 
 select * from cita;
 
+
 select id_cita, hora_fin from cita
-order by hora_fin desc;
+	order by hora_fin desc
+LIMIT 5 OFFSET 1
  
 
-INSERT INTO cita (id_cita, estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
-VALUES		 (100, FALSE, now(), now(), 2500, 2, 4);
-
-INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
-VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
+--////
+INSERT INTO cita (estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps, estado_cita)
+VALUES		 (FALSE, (now() + interval '15 minutes 15 milliseconds'), now(), 2500, 2, 4, 'APARTADA');
 
 
---
-INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
-VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
-
-INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
-VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
-
-INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
-VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
-
-INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
-VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
-
-INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
-VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
-
-INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
-VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
-
-INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
-VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
-
-INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
-VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
-
-INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
-VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
-
-INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
-VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
-
-INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
-VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
-
-INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
-VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
-
-INSERT INTO cita ( estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps)
-VALUES		 ( FALSE, now(), now(), 2500, 2, 4);
+		--id_cita serial
+INSERT INTO cita (id_cita, estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps, estado_cita)
+VALUES		 (1, FALSE, (now() + interval '15 minutes 15 milliseconds'), now(), 2500, 2, 4, 'APARTADA');
+--////
 
 
-
-
-
+SELECT ('c-' || id_cita) AS citaconca, id_cita FROM cita
 
 
 

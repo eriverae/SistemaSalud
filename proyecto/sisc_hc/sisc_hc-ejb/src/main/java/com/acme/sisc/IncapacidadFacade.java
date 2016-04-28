@@ -9,7 +9,9 @@ import com.acme.sisc.agenda.entidades.Cita;
 import com.acme.sisc.agenda.entidades.Incapacidad;
 import com.acme.sisc.sisc_hc.shared.IIncapacidadFacadeLocal;
 import com.acme.sisc.sisc_hc.shared.IIncapacidadFacadeRemote;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,6 +67,25 @@ public class IncapacidadFacade implements IIncapacidadFacadeLocal, IIncapacidadF
         }catch(Exception e){
             LOGGER.log(Level.SEVERE,"No se encontro cliente {0} ", e);
         }
+    }
+    
+    @Override
+    public ArrayList<HashMap> findByCita(Long idcita) {
+        Query q = em.createQuery("SELECT i FROM Incapacidad i WHERE i.cita.idCita="+idcita);
+        List<Incapacidad>lista = q.getResultList();
+
+        ArrayList<HashMap> js= new ArrayList<HashMap>();
+
+        for (int i = 0; i<lista.size();i++ ){
+            HashMap m = new HashMap();
+            m.put("idcita", lista.get(i).getCita().getIdCita());
+            m.put("idtratamiento", lista.get(i).getIdIncapacidad());
+            m.put("fechageneracion", lista.get(i).getFechaGeneracion());
+            m.put("motivo", lista.get(i).getMotivo());
+            m.put("periodo", lista.get(i).getPeriodo());
+            js.add(m);
+        }
+        return js;
     }
     
 }

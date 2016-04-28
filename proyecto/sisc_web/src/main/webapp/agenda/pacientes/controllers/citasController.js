@@ -7,18 +7,35 @@
 //modulo
 var app = angular.module('sisc_web');
 
+app.filter("getFormatofecha", function () {
+    return function (input) {
+        var res = new Date(input);
+        return res.getDate() + '-' + (res.getMonth() + 1) + '-' + res.getFullYear();
+
+    }
+});
+app.filter("getFormatoHora", function () {
+    return function (input) {
+        var res = new Date(input);
+        return res.getHours() + ':' + (res.getMinutes()) + ':' + res.getSeconds();
+
+    }
+});
+
+
 app.controller('citasController',
         function ($scope, $http, $stateParams) {
 
-
+            ////////////////////////////////////////////////////////////////////
             $scope.listaCitasPaciente = {};
             /**
-             * Traer lista de las citas del paciente
+             *  Traer la lista de citas de un paciente
              */
             var data_citasPaciente = $http.get('/SiscAgenda/api/paciente/' + $stateParams.idPaciente + '/listaCitas');
             data_citasPaciente.then(function (result) {
                 $scope.listaCitasPaciente = result.data;
             });
+            ////////////////////////////////////////////////////////////////////
 
 
             ////////////////////////////////////////////////////////////////////
@@ -30,7 +47,7 @@ app.controller('citasController',
             ////////////////////////////////////////////////////////////////////
             
             
-            
+            ////////////////////////////////////////////////////////////////////
             $scope.informacionCita = null;
             $scope.mensajesCita = {};
             /**
@@ -47,13 +64,30 @@ app.controller('citasController',
                     {
                         msn_citaSeleccionada1: 'MUY BIEN!!! ',
                         msn_citaSeleccionada2 : 'Has seleccionado una cita correctamente'
-                    };
-                    
-                    
-                
-                  
+                    };                  
             }
-
+            ////////////////////////////////////////////////////////////////////
+            
+            $scope.cancelarCita = function(cita){
+                /**
+                 * Cancelar la cita seleccionada por un paciente.
+                 */
+                var configServicePost = {
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8;'
+                    }
+                }
+                
+                $http.post('/SiscAgenda/api/paciente/cancelarCita',    cita, configServicePost)
+                .success(function (data, status, headers, config) {
+                    alert("cita cancelada");
+                    
+                })
+                .error(function (data, status, header, config) {
+                    alert("ERROR: no se pudo cancelar la cita"); 
+                    
+                });
+            };
 
 
 });

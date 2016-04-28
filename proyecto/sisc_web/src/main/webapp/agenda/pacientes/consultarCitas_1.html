@@ -1,0 +1,362 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<!--mensaje correcto cita seleccionada del paciente-->
+<div class="alert alert-success" role="alert" ng-if="informacionCita != null" >
+    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+    <strong>{{mensajesCita.msn_citaSeleccionada1}}</strong> {{mensajesCita.msn_citaSeleccionada2}} .
+</div>
+<!--FIN mensaje correcto cita seleccionada del paciente-->
+
+
+
+<!--OTRA FORMA: mensaje correcto cita seleccionada del paciente-->
+<!--    <div class="alert alert-success" role="alert" ng-if="informacionCita != null" >
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <p ng-if="esconderMensajeCitaSeleccionada">
+            <strong>MUY BIEN</strong> Has seleccionado una cita correctamente .
+        </p>    
+    </div>-->
+<!--OTRA FORMA: mensaje correcto cita seleccionada del paciente-->
+
+
+
+
+
+<!--Tabla de citas del paciente -->
+<!--NO BORRRAR , DEJARLO QUIETOOOOOOOOOOOOOOOOO-->
+
+<!--<div class="col-md-12">
+    <div class="panel panel-default">
+
+        <div class="panel-heading ui-draggable-handle">
+            <h3 class="panel-title">Listado de citas del paciente</h3>
+        </div>
+
+        <div class="panel-body panel-body-table">
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-actions">
+                    <thead>
+                        <tr>
+                        <th width="50">IdCita</th>
+                        <th>Nombre Eps</th>
+                        <th width="300">Direccion</th>
+                        <th width="150">Fecha</th>
+                        <th width="450">Anotaciones</th>
+                        <th width="150">Estado</th>
+                        <th width="150">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody >  
+                        <tr id="trow_1" ng-repeat="cita in listaCitasPaciente" ng-click="mostrarUnaCitaDetallada(cita)"  data-target="#message-box-sound-2" data-box="#message-box-sound-2"> 
+                        <td class="text-center">{{cita.idCita}}</td>
+                        <td><strong>{{cita.agenda.medicoEps.eps.razonSocial}}</strong></td>
+                        <td><strong>{{cita.agenda.direccion}}</strong></td>
+                        <td>{{cita.horaInicio}}</td>
+                        <td>descripcion (QUEMADA-HTML) donde el medico colocara si asistio, recomendaciones .. etc.</td>
+                        <td><span class="label label-warning">PENDIENTE</span> quemada</td>
+                        <td>
+                        <button class="btn btn-danger btn-rounded btn-sm" onclick="delete_row('trow_1');"> CANCELAR <span class="fa fa-times"></span></button>                        
+                        </td>
+                        </tr> 
+                    </tbody>
+                </table>
+            </div>                                
+        </div>
+    </div>                                                
+</div>-->
+<!--FIN Tabla de citas del paciente-->
+
+
+
+
+<!--*****************************************************************************************************************************************************************************************
+*********************************************************************************************************************************************************************************************
+                                    NO BORRRAR , DEJARLO QUIETOOOOOOOOOOOOOOOOO
+
+muestra debajo de la tabla de lista de citas, una cita seleccionada
+-->
+<!--Informacion completa de cita del paciente-->
+<!--<div class="col-md-12" ng-if="informacionCita != null">
+
+    <div class="panel panel-warning push-up-20">
+        <div class="panel-body panel-body-pricing"  >
+            <h2>#CITA:  {{informacionCita.idCita}}<br><small>({{informacionCita.agenda.localidad}} - {{informacionCita.agenda.ciudad}} - {{informacionCita.agenda.direccion}})</small></h2>    
+
+            <p><span class="fa fa-caret-right"></span> DOCTOR: {{informacionCita.agenda.medicoEps.persona.nombres}} - #Consultorio: {{informacionCita.agenda.numeroConsultorio}}</p>
+            <p><span class="fa fa-caret-right"></span> FECHA Y HORA: {{informacionCita.horaInicio}}</p>
+            <p><span class="fa fa-caret-right"></span> EPS: {{informacionCita.pacienteEps.eps.razonSocial}}</p>
+            <p><span class="fa fa-caret-right"></span> ...</p>
+
+            <p class="text-muted">{{informacionCita.pacienteEps.persona.nombres}}</p>
+        </div>
+        <div class="panel-footer"> 
+            <button class="btn btn-warning btn-block" ng-click="">Informacion detallada de la cita</button>
+        </div>
+    </div>
+</div>-->
+<!--Fin Informacion completa de cita del paciente-->
+<!--*****************************************************************************************************************************************************************************************
+*********************************************************************************************************************************************************************************************-->
+
+
+
+
+<!-- popups-->
+<!-- default with sound -->   
+<div class="message-box animated fadeIn" data-sound="fail" id="message-box-sound-2">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-globe"></span> Informacion cita</div>
+            <div class="mb-content">
+                <!--Informacion completa de cita del paciente-->
+                <div class="col-md-12" ng-if="informacionCita != null">
+
+                    <div class="panel panel-warning push-up-20">
+                        <div class="panel-body panel-body-pricing"  >
+                            <h2>#CITA:  {{informacionCita.idCita}}<br><small>({{informacionCita.agenda.localidad}} - {{informacionCita.agenda.ciudad}} - {{informacionCita.agenda.direccion}})</small></h2>    
+
+                            <p><span class="fa fa-caret-right"></span> DOCTOR: {{informacionCita.agenda.medicoEps.persona.nombres}} - #Consultorio: {{informacionCita.agenda.numeroConsultorio}}</p>
+                            <p><span class="fa fa-caret-right"></span> FECHA Y HORA: {{informacionCita.horaInicio}}</p>
+                            <p><span class="fa fa-caret-right"></span> EPS: {{informacionCita.pacienteEps.eps.razonSocial}}</p>
+                            <p><span class="fa fa-caret-right"></span> ...</p>
+
+                            <p class="text-muted">{{informacionCita.pacienteEps.persona.nombres}}</p>
+                        </div>
+                        <div class="panel-footer"> 
+                            <button class="btn btn-warning btn-block" ng-click="">ENVIAR CITA (Historia-Clinica)</button>
+                        </div>
+                    </div>
+                </div>
+                <!--Fin Informacion completa de cita del paciente-->                  
+            </div>
+            <div class="mb-footer">
+                <button class="btn btn-info btn-lg pull-right mb-control-close" onClick="$('#message-box-sound-2').hide();">CERRAR!</button>
+            </div>
+        </div>
+    </div>
+</div>    
+<!-- end default with sound -->
+<!-- END Message Boxes -->        
+<!--///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////-->
+
+<!--ULTIMO QUE ME MUESTRA TODAS LAS CITAS :  ESTA FUINCIONAL-->
+<!--<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+
+             START DATATABLE EXPORT 
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">DataTable Export</h3>
+                    <div class="pull-right">
+                        <button class="btn btn-danger toggle" data-toggle="exportTable"><i class="fa fa-bars"></i> Export Data</button>
+                    </div>
+                </div>
+                <div class="panel-body" id="exportTable" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="list-group border-bottom">                                               
+                                <a href="#" class="list-group-item" onClick ="$('#customers').tableExport({type: 'json', escape: 'false'});"><img src='img/icons/json.png' width="24"/> JSON</a>                                
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="list-group border-bottom">
+                                <a href="#" class="list-group-item" onClick ="$('#customers').tableExport({type: 'json', escape: 'false', ignoreColumn: '[2,3]'});"><img src='img/icons/json.png' width="24"/> JSON (ignoreColumn)</a>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="list-group border-bottom">
+                                <a href="#" class="list-group-item" onClick ="$('#customers').tableExport({type: 'txt', escape: 'false'});"><img src='img/icons/txt.png' width="24"/> TXT</a>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="list-group border-bottom">
+                                <a href="#" class="list-group-item" onClick ="$('#customers').tableExport({type: 'excel', escape: 'false'});"><img src='img/icons/xls.png' width="24"/> XLS</a>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="list-group border-bottom">
+                                <a href="#" class="list-group-item" onClick ="$('#customers').tableExport({type: 'pdf', escape: 'false'});"><img src='img/icons/pdf.png' width="24"/> PDF</a>
+                            </div>
+                        </div>
+                    </div>                               
+                </div>
+                <div class="panel-body">
+                    <table id="customers" class="table datatable">
+                        <thead>
+                            <tr>
+                            <th width="50">IdCita</th>
+                            <th>Nombre Eps</th>
+                            <th width="300">Direccion</th>
+                            <th width="150">Fecha</th>
+                            <th width="450">Anotaciones</th>
+                            <th width="150">Estado</th>
+                            <th width="150">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="trow_1" ng-repeat="cita in listaCitasPaciente" ng-click="mostrarUnaCitaDetallada(cita)"  data-target="#message-box-sound-2" data-box="#message-box-sound-2"> 
+                            <td class="text-center">{{cita.idCita}}</td>
+                            <td><strong>{{cita.agenda.medicoEps.eps.razonSocial}}</strong></td>
+                            <td><strong>{{cita.agenda.direccion}}</strong></td>
+                            <td>{{cita.horaInicio}}</td>
+                            <td>descripcion (QUEMADA-HTML) donde el medico colocara si asistio, recomendaciones .. etc.</td>
+                            <td><span class="label label-warning">PENDIENTE</span> quemada</td>
+                            <td>
+                            <button class="btn btn-danger btn-rounded btn-sm" onclick="delete_row('trow_1');"> CANCELAR <span class="fa fa-times"></span></button>                        
+                            </td>
+                            </tr>
+                        </tbody>
+                    </table>                                    
+
+                </div>
+            </div>
+             END DATATABLE EXPORT                             
+        </div>
+    </div>
+</div>  -->
+
+
+<!--ejemplo-->
+<a href="http://localhost:8080/sisc_web/table-export.html#">ejemplo</a>  <br><br>
+<!--------------------------------------------------------------------------------------------------------------->
+
+
+
+<div class="panel-body">
+    <div id="customers2_wrapper" class="dataTables_wrapper no-footer">
+        <div class="dataTables_length" id="customers2_length">
+            <label>Show PAILA <select name="customers2_length" aria-controls="customers2" class="form-control">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+            </select> entries</label>
+        </div>
+    <div id="customers2_filter" class="dataTables_filter"><label>Search PAILA:<input type="search" class="form-control " placeholder="" aria-controls="customers2"></label></div>
+
+
+        <table id="customers2" class="table datatable dataTable no-footer" role="grid" aria-describedby="customers2_info">
+            <thead>
+                <tr role="row">
+                <th class="sorting_asc" tabindex="0" aria-controls="customers2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column ascending" style="width: 309px;">Name</th><th class="sorting" tabindex="0" aria-controls="customers2" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 473px;">Position</th><th class="sorting" tabindex="0" aria-controls="customers2" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 240px;">Office</th><th class="sorting" tabindex="0" aria-controls="customers2" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 118px;">Age</th><th class="sorting" tabindex="0" aria-controls="customers2" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 208px;">Start date</th><th class="sorting" tabindex="0" aria-controls="customers2" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 198px;">Salary</th>
+                </tr>
+            </thead>
+            <tbody>                                          
+                class="odd"  ..  class="even"
+                <tr role="row" class="odd">
+                    <td class="sorting_1">Airi Satou</td>
+                    <td>Accountant</td>
+                    <td>Tokyo</td>
+                    <td>33</td>
+                    <td>2008/11/28</td>
+                    <td>$162,700</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <div class="dataTables_info" id="customers2_info" role="status" aria-live="polite">
+            Showing 1 to 10 of 57 entries
+        </div>
+        <div class="dataTables_paginate paging_simple_numbers" id="customers2_paginate">
+            <a class="paginate_button previous disabled" aria-controls="customers2" data-dt-idx="0" tabindex="0" id="customers2_previous">Previous</a>
+            <span>
+                <a class="paginate_button current" aria-controls="customers2" data-dt-idx="1" tabindex="0">1</a>
+                <a class="paginate_button " aria-controls="customers2" data-dt-idx="2" tabindex="0">2</a>
+                <a class="paginate_button " aria-controls="customers2" data-dt-idx="3" tabindex="0">3</a>
+                <a class="paginate_button " aria-controls="customers2" data-dt-idx="4" tabindex="0">4</a>
+                <a class="paginate_button " aria-controls="customers2" data-dt-idx="5" tabindex="0">5</a>
+                <a class="paginate_button " aria-controls="customers2" data-dt-idx="6" tabindex="0">6</a>
+            </span>
+                <a class="paginate_button next" aria-controls="customers2" data-dt-idx="7" tabindex="0" id="customers2_next">Next</a>
+        </div>
+</div>   
+
+
+
+<!--<div class="panel-body">
+    <table id="customers2" class="table datatable dataTable no-footer" role="grid" aria-describedby="customers2_info">
+        <thead>
+            <tr">
+            <th width="50">IdCita</th>
+            <th>Nombre Eps</th>
+            <th width="300">Direccion</th>
+            <th width="150">Fecha</th>
+            <th width="450">Anotaciones</th>
+            <th width="150">Estado</th>
+            <th width="150">Acciones</th>
+            </tr>            
+        </thead>
+        <tbody>                                          
+            <tr tr role="row" class="odd" id="trow_1" ng-repeat="cita in listaCitasPaciente" ng-click="mostrarUnaCitaDetallada(cita)"  data-target="#message-box-sound-2" data-box="#message-box-sound-2"> 
+            <td class="text-center sorting_1">{{cita.idCita}}</td>
+            <td><strong>{{cita.agenda.medicoEps.eps.razonSocial}}</strong></td>
+            <td><strong>{{cita.agenda.direccion}}</strong></td>
+            <td>{{cita.horaInicio}}</td>
+            <td>descripcion (QUEMADA-HTML) donde el medico colocara si asistio, recomendaciones .. etc.</td>
+            <td><span class="label label-warning">PENDIENTE</span> quemada</td>
+            <td>
+            <button class="btn btn-danger btn-rounded btn-sm" onclick="delete_row('trow_1');"> CANCELAR <span class="fa fa-times"></span></button>                        
+            </td>
+            </tr>                
+        </tbody>
+    </table>
+</div>   -->
+
+
+
+
+
+
+
+
+<!--********************************************************************************
+********************************************************************************
+********************************************************************************
+********************************************************************************-->
+<!-- START PRELOADS -->
+<audio id="audio-alert" src="audio/alert.mp3" preload="auto"></audio>
+<audio id="audio-fail" src="audio/fail.mp3" preload="auto"></audio>
+<!-- END PRELOADS -->                      
+
+<!-- START SCRIPTS -->
+<!-- START PLUGINS -->
+<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="js/plugins/jquery/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script>        
+<!-- END PLUGINS -->
+
+<!-- START THIS PAGE PLUGINS-->        
+<script type='text/javascript' src='js/plugins/icheck/icheck.min.js'></script>
+<script type="text/javascript" src="js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
+
+<script type="text/javascript" src="js/plugins/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="js/plugins/tableexport/tableExport.js"></script>
+<script type="text/javascript" src="js/plugins/tableexport/jquery.base64.js"></script>
+<script type="text/javascript" src="js/plugins/tableexport/html2canvas.js"></script>
+<script type="text/javascript" src="js/plugins/tableexport/jspdf/libs/sprintf.js"></script>
+<script type="text/javascript" src="js/plugins/tableexport/jspdf/jspdf.js"></script>
+<script type="text/javascript" src="js/plugins/tableexport/jspdf/libs/base64.js"></script>        
+<!-- END THIS PAGE PLUGINS-->  
+
+<!-- START TEMPLATE -->
+<script type="text/javascript" src="js/settings.js"></script>
+
+<script type="text/javascript" src="js/plugins.js"></script>        
+<script type="text/javascript" src="js/actions.js"></script>        
+<!-- END TEMPLATE -->
+<!-- END SCRIPTS -->  
+<!--********************************************************************************
+********************************************************************************
+********************************************************************************
+********************************************************************************-->
+

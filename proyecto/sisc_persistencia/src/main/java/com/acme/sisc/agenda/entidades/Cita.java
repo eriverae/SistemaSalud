@@ -39,7 +39,7 @@ import javax.validation.constraints.Size;
     //@NamedQuery(name = "Cita.findIdPaciente", query = "SELECT c FROM Cita c WHERE c.pacienteEps.persona.idPersona = :idPaciente and c.pacienteEps.fechaFin=null"),
     @NamedQuery(name = "Cita.findIdPaciente", query = "SELECT c FROM Cita c WHERE c.pacienteEps.persona.idPersona = :idPaciente and c.pacienteEps.fechaFin=null ORDER BY c.horaFin DESC"),
     @NamedQuery(name = "Cita.findAll", query = "SELECT c FROM Cita c"),
-    @NamedQuery(name = "Cita.findById", query = "SELECT c FROM Cita c WHERE c.idCita = :id"),
+    @NamedQuery(name = "Cita.findById", query = "SELECT c FROM Cita c WHERE c.idCita = :idCita"),
     @NamedQuery(name = "Cita.findByValor", query = "SELECT c FROM Cita c WHERE c.valor = :valor"),
     @NamedQuery(name = "Cita.findByEstadoPacienteAtendido", query = "SELECT c FROM Cita c WHERE c.estadoPacienteAtendido = :estadoPacienteAtendido"),
     @NamedQuery(name = "Cita.findByFechaPaciente", query = "SELECT c FROM Cita c WHERE c.horaInicio = :fechaPaciente"),
@@ -75,6 +75,8 @@ public class Cita implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "estado_cita")
     private String estadoCita;  
+    
+    
 
     
     @JoinColumn(name = "id_paciente_eps", referencedColumnName = "id_persona_eps")
@@ -214,5 +216,7 @@ public class Cita implements Serializable {
     public void setEstadoCita(String estadoCita) {
         this.estadoCita = estadoCita;
     }
+
+    
 
 }

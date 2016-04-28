@@ -129,7 +129,7 @@ app.controller('agendaMedicoContoller',
 
                                         var obj = result.data;
                                         if (obj.existeAgenda) {
-                                            alert('aca estoy');
+                                            
                                             $.each(obj.events, function (k, v) {
                                                 $scope.calEventsExt.events.push(v);
                                             });
@@ -205,7 +205,7 @@ app.controller('agendaMedicoContoller',
 
             /* alert on eventClick */
             $scope.alertOnEventClick = function (date, jsEvent, view) {
-                alert('>>> ' + date.prueba);
+                alert('ID CITA: ' + date.idCita);
 
             };
             /* alert on Drop */

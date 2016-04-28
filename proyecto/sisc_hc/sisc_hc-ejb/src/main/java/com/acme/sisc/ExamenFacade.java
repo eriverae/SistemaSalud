@@ -7,11 +7,12 @@ package com.acme.sisc;
 
 import com.acme.sisc.agenda.entidades.Cita;
 import com.acme.sisc.agenda.entidades.CitaExamen;
-import com.acme.sisc.agenda.entidades.CitaMedicamento;
 import com.acme.sisc.agenda.entidades.Examen;
 import com.acme.sisc.sisc_hc.shared.IExamenFacadeLocal;
 import com.acme.sisc.sisc_hc.shared.IExamenFacadeRemote;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -69,6 +70,25 @@ public class ExamenFacade implements IExamenFacadeLocal, IExamenFacadeRemote{
         }catch(Exception e){
             LOGGER.log(Level.SEVERE,"No se encontro cliente {0} ", e);
         }
+    }
+    
+    @Override
+    public ArrayList<HashMap> findByCita(Long idcita) {
+        Query q = em.createQuery("SELECT ce FROM CitaExamen ce WHERE ce.cita.idCita="+idcita);
+        List<CitaExamen>lista = q.getResultList();
+
+        ArrayList<HashMap> js= new ArrayList<HashMap>();
+
+        for (int i = 0; i<lista.size();i++ ){
+            HashMap m = new HashMap();
+            m.put("idcita", lista.get(i).getCita().getIdCita());
+            m.put("idexamen", lista.get(i).getExamen().getIdExamen());
+            m.put("fechageneracion", lista.get(i).getFechaGeneracion());
+            m.put("observaciones", lista.get(i).getObservaciones());
+            m.put("detalles", lista.get(i).getDetalles());
+            js.add(m);
+        }
+        return js;
     }
     
 }

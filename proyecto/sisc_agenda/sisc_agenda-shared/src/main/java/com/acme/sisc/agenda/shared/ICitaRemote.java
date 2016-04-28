@@ -9,19 +9,23 @@ import com.acme.sisc.agenda.entidades.Cita;
 import com.acme.sisc.agenda.exceptions.CitaException;
 import java.util.List;
 import javax.ejb.Local;
+import javax.ejb.Remote;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 
 /**
  *
  * @author BryanCFz-user
  */
 
-@Local
+@Remote
 public interface ICitaRemote {
     
     public List<Cita> listaCitasPaciente(long idPaciente);
     
-    public void cancelarCita_porPaciente(Cita cita);
-       
+    @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
+    public boolean cancelarCita(Cita cita);
+    
     public Cita find(Long id);
 
     
