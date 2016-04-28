@@ -39,6 +39,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "agenda")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @NamedQueries({
+    @NamedQuery(name = "Agenda.findFechas", query = "SELECT a FROM Agenda a  WHERE a.medicoEps.persona.idPersona = :idMedico AND (a.horaBloqueinicio >= :horaInicio  AND a.horaBloqueFin <= :horaFin) "),
     @NamedQuery(name = "Agenda.findAll", query = "SELECT a FROM Agenda a"),
     @NamedQuery(name = "Agenda.findByIdMedico", query = "SELECT a FROM Agenda a WHERE a.medicoEps.persona.idPersona = :idMedico")})
 public class Agenda implements Serializable {

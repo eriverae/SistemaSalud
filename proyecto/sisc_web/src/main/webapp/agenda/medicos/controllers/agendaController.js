@@ -45,13 +45,13 @@ app.controller('agendaMedicoContoller',
                 },
                 horaInicio: '08:00:00',
                 horaFinal: '12:00:00',
-                cantidadMinutosXCita: 15,
+                cantidadMinutosXCita: 60,
                 idPersonaEps: 0,
                 idMedico: $stateParams.idMedico,
                 ciudad: 'Bogota',
                 localidad: 'Kennedy',
-                direccion:'Calle falsa 123',
-                consultorio:101
+                direccion: 'Calle falsa 123',
+                consultorio: 101
 
             };
 
@@ -86,11 +86,11 @@ app.controller('agendaMedicoContoller',
             data_eps.then(function (result) {
                 $scope.listEpsMedico = result.data;
             });
-            
-            
-             $scope.terminarCreacionNuevaAgenda = function () {
-                 $('#message-box-success').hide();             
-             };
+
+
+            $scope.terminarCreacionNuevaAgenda = function () {
+                $('#message-box-success').hide();
+            };
 
             $scope.agregarAgenda = function () {
                 /**
@@ -116,24 +116,41 @@ app.controller('agendaMedicoContoller',
                                  * Insertar en arreglo de citas
                                  */
                                 if (data.codigoRespuesta === "SUCCESS") {
-                                     /**
+                                    /**
                                      * Mensaje de confirmacion de agenda insertada correctamente.
                                      */
-                                    alert(data.objectResponse+'>> '+data.objectResponse.mensaje);
-                                    $scope.generalResponse=data.objectResponse;
+
+                                    $scope.generalResponse = data.objectResponse;
                                     $('#message-box-success').show();
+                                     $scope.calEventsExt.events=[];
+                                    var utilRest1 = $http.get('/SiscAgenda/api/medico/agenda/' + $stateParams.idMedico);
+
+                                    utilRest1.then(function (result) {
+
+                                        var obj = result.data;
+                                        if (obj.existeAgenda) {
+                                            alert('aca estoy');
+                                            $.each(obj.events, function (k, v) {
+                                                $scope.calEventsExt.events.push(v);
+                                            });
+                                        }
+
+                                    });
+
+
+                                    
                                 } else {
                                     if (data.codigoRespuesta === "ERROR") {
                                         $scope.objErrorNuevaAgenda = data.error;
-                                        $('#message-box-sound-2').show();                  
-                                       
+                                        $('#message-box-sound-2').show();
+
 
                                     }
                                 }
 
                             })
                             .error(function (data, status, header, config) {
-                                
+
                             });
 
                 }
@@ -165,21 +182,31 @@ app.controller('agendaMedicoContoller',
                 callback(events);
             };
 
+            var utilRest = $http.get('/SiscAgenda/api/medico/agenda/' + $stateParams.idMedico);
+
+            utilRest.then(function (result) {
+
+                var obj = result.data;
+                if (obj.existeAgenda) {
+                    $.each(obj.events, function (k, v) {
+                        $scope.calEventsExt.events.push(v);
+                    });
+                }
+
+            });
+
+
+
             $scope.calEventsExt = {
-               
                 textColor: '#f1111',
-                events: [
-                    {type: 'party', title: 'my prueba', start: "2016-04-22T08:00:00", end: "2016-04-22T12:00:00", allDay: false,prueba:'hola que haca', color: '#f03333',},
-                    {type: 'party', title: 'Lunch 2', start: new Date(y, m, d, 12, 0), end: new Date(y, m, d, 14, 0), allDay: false, color:'#1caf9a'},
-                    {type: 'party', title: 'Click for Google', start: new Date(y, m, 28), end: new Date(y, m, 29), url: 'http://google.com/'}
-                ]
+                events: []
             };
-            
-            
+
+
             /* alert on eventClick */
             $scope.alertOnEventClick = function (date, jsEvent, view) {
-                alert('>>> '+date.prueba);
-                
+                alert('>>> ' + date.prueba);
+
             };
             /* alert on Drop */
             $scope.alertOnDrop = function (event, delta, revertFunc, jsEvent, ui, view) {

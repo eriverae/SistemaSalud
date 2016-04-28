@@ -7,6 +7,7 @@ package com.acme.sisc.agenda.ejb.facade;
 
 import com.acme.sisc.agenda.constant.WebConstant;
 import com.acme.sisc.agenda.entidades.Agenda;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,7 +48,7 @@ public class FacadeAgenda  extends  AbstractFacade <Agenda>  {
         }
         
     }
-    public List<Agenda> consultarAgendasMedico(long idMedico){
+    public List<Agenda> consultarAgendasMedico(long idMedico,Date fechaInicial,Date fechaFinal){
        try{
             Query  q = em.createNamedQuery(WebConstant.QUERY_AGENDA_FIND_BY_ID_MEDICO);
             q.setParameter(WebConstant.QUERY_PARAMETER_ID_MEDICO, idMedico);
@@ -59,4 +60,6 @@ public class FacadeAgenda  extends  AbstractFacade <Agenda>  {
         }
       
     }
+    
+    
 }

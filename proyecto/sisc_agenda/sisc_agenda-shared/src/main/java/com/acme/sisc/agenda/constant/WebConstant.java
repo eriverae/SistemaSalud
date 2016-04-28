@@ -46,6 +46,7 @@ public class WebConstant {
      * Formatos
      */
     public static final String SIMPLE_DATE_FORMAT="dd-MM-yyyy";
+    public static final String DATE_FORMAT_CITA_JSON="yyyy'-'MM'-'dd'T'HH':'mm':'ss";
     public static final String DATE_FORMAT_CITA="dd-MM-yyyy HH':'mm':'ss";
     public static final String JSON_DATE_FORMAT="{'\"day\":\"'dd'\",\"month\": \"'MM'\",\"year\":\"'yyyy'\","
             + "\"hours\":\"'HH'\",\"minutes\":\"'mm'\",\"seconds\":\"'ss'\"}'";
@@ -60,6 +61,15 @@ public class WebConstant {
      * Mensajes de exito
      */    
     public static final String MENSAJE_AGENDA_CREADA="La agenda ha sido creada satisfactoriamente";
+    
+    /**
+     * Estados CITA
+     */
+    public static final String ESTADO_CITA_DISPONIBLE="DISPONIBLE";
+    public static final String COLOR_CITA="#E04B4A";
+    public static final String COLOR_2_CITA="#005580";
+    public static final String COLOR_CITA_DISPONIBLE="#5cb85c";
+   
     
     
     
