@@ -6,10 +6,13 @@
 package com.acme.sisc;
 
 import com.acme.sisc.agenda.entidades.CitaTratamiento;
+import com.acme.sisc.sisc_hc.exceptions.CustomException;
 import com.acme.sisc.sisc_hc.shared.ITratamientoFacadeLocal;
 import com.acme.sisc.sisc_hc.shared.ITratamientoFacadeRemote;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -25,36 +28,48 @@ import javax.ws.rs.core.Response;
  */
 @Path("/tratamiento/")
 public class TratamientoService {
+    private final static Logger log = Logger.getLogger(CirugiaService.class.getName());
+    
     @EJB
     ITratamientoFacadeRemote facadeTratamiento;
     
     @GET
     @Produces({"application/json"})
-    public Response GetTratamientosALL(@QueryParam("idcita") String idcita){
-        if (idcita == null){
-            return Response
-            .status(200)
-            .entity(facadeTratamiento.findAll())
-            .build();
-        }
-        else{
-            HashMap m = new HashMap();
-            m.put("data", facadeTratamiento.findByCita(Long.parseLong(idcita)));
-            return Response
-            .status(200)
-            .entity(m)
-            .build();
+    public Response GetTratamientosALL(@QueryParam("idcita") String idcita) throws CustomException{
+        try{
+            if (idcita == null){
+                return Response
+                .status(200)
+                .entity(facadeTratamiento.findAll())
+                .build();
+            }
+            else{
+                HashMap m = new HashMap();
+                m.put("data", facadeTratamiento.findByCita(Long.parseLong(idcita)));
+                return Response
+                .status(200)
+                .entity(m)
+                .build();
+            }
+        }catch(Exception ex){
+            log.log(Level.SEVERE, "TratamientoService->GetTratamientosALL... ", ex);
+            throw new CustomException(503, "Error accediendo a los datos del tratamiento ... ");
         }
     }
     
     @POST
     @Produces({"application/json"})
     @Consumes({"application/json"})
-    public Response addMedicamentosCita(List<CitaTratamiento> cita_tratamiento){
-        facadeTratamiento.addTratamientoCita(cita_tratamiento);
-        return Response
-            .status(200)
-            .entity("{}")
-            .build();
+    public Response addMedicamentosCita(List<CitaTratamiento> cita_tratamiento) throws CustomException{
+        try{
+            facadeTratamiento.addTratamientoCita(cita_tratamiento);
+            return Response
+                .status(200)
+                .entity("{}")
+                .build();
+        }catch(Exception ex){
+            log.log(Level.SEVERE, "TratamientoService->addMedicamentosCita... ", ex);
+            throw new CustomException(503, "Error adicionando los datos del tratamiento... ");
+        }
     }
 }
