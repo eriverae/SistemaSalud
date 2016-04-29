@@ -6,11 +6,10 @@
 package com.acme.sisc;
 
 import com.acme.sisc.agenda.entidades.Incapacidad;
-import com.acme.sisc.sisc_hc.exceptions.CustomException;
+import com.acme.sisc.common.exceptions.CustomException;
+import com.acme.sisc.common.exceptions.CustomRunTimeException;
 import com.acme.sisc.sisc_hc.shared.IIncapacidadFacadeRemote;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -26,14 +25,14 @@ import javax.ws.rs.core.Response;
  */
 @Path("/incapacidad/")
 public class IncapacidadService {
-    private final static Logger log = Logger.getLogger(CirugiaService.class.getName());
     
     @EJB
     IIncapacidadFacadeRemote facadeIncapacidad;
     
     @GET
     @Produces({"application/json"})
-    public Response GetIncapacidadALL(@QueryParam("idcita") String idcita) throws CustomException{
+    public Response GetIncapacidadALL(@QueryParam("idcita") String idcita) 
+            throws CustomException, CustomRunTimeException{
         try{
             if (idcita == null){
                 return Response
@@ -50,8 +49,7 @@ public class IncapacidadService {
                 .build();
             }
         }catch(Exception ex){
-            log.log(Level.SEVERE, "IncapacidadService->GetIncapacidadALL... ", ex);
-            throw new CustomException(503, "Error accediendo los datos de la incapacidad... ");
+            throw new CustomException(Response.Status.BAD_REQUEST.getStatusCode(), 503, "Error accediendo los datos de la incapacidad... ");
         }
     }
     
@@ -59,7 +57,8 @@ public class IncapacidadService {
     @POST
     @Produces({"application/json"})
     @Consumes({"application/json"})
-    public Response PostIncapacidad(Incapacidad incapacidad) throws CustomException{
+    public Response PostIncapacidad(Incapacidad incapacidad) throws 
+            CustomException, CustomRunTimeException{
         try{
             facadeIncapacidad.addIncapacidad(incapacidad);
             return Response
@@ -67,8 +66,7 @@ public class IncapacidadService {
                 .entity("{}")
                 .build();
         }catch(Exception ex){
-            log.log(Level.SEVERE, "IncapacidadService->PostIncapacidad... ", ex);
-            throw new CustomException(503, "Error adicionando los datos de la incapacidad... ");
+            throw new CustomException(Response.Status.BAD_REQUEST.getStatusCode(), 503, "Error adicionando los datos de la incapacidad... ");
         }
     }
 }

@@ -6,13 +6,12 @@
 package com.acme.sisc;
 
 import com.acme.sisc.agenda.entidades.CitaMedicamento;
-import com.acme.sisc.sisc_hc.exceptions.CustomException;
+import com.acme.sisc.common.exceptions.CustomException;
+import com.acme.sisc.common.exceptions.CustomRunTimeException;
 import com.acme.sisc.sisc_hc.shared.IMedicamentoFacadeLocal;
 import com.acme.sisc.sisc_hc.shared.IMedicamentoFacadeRemote;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -28,14 +27,14 @@ import javax.ws.rs.core.Response;
  */
 @Path("/medicamento/")
 public class MedicamentoService {
-    private final static Logger log = Logger.getLogger(CirugiaService.class.getName());
     
     @EJB
     IMedicamentoFacadeRemote facadeMedicamento;
     
     @GET
     @Produces({"application/json"})
-    public Response GetMedicamentosALL(@QueryParam("idcita") String idcita) throws CustomException{
+    public Response GetMedicamentosALL(@QueryParam("idcita") String idcita) 
+            throws CustomException, CustomRunTimeException{
         try{
             if (idcita == null){
                 return Response
@@ -52,15 +51,15 @@ public class MedicamentoService {
                 .build();
             }
         }catch(Exception ex){
-            log.log(Level.SEVERE, "MedicamentoService->GetMedicamentosALL... ", ex);
-            throw new CustomException(503, "Error accediendo a los datos del medicamento... ");
+            throw new CustomException(Response.Status.BAD_REQUEST.getStatusCode(), 503, "Error accediendo a los datos del medicamento... ");
         }
     }
 
     @POST
     @Produces({"application/json"})
     @Consumes({"application/json"})
-    public Response addMedicamentosCita(List<CitaMedicamento> cita_medicamento) throws CustomException{
+    public Response addMedicamentosCita(List<CitaMedicamento> cita_medicamento) 
+            throws CustomException, CustomRunTimeException{
         try{
             facadeMedicamento.addMedicamentoCita(cita_medicamento);
             return Response
@@ -68,8 +67,7 @@ public class MedicamentoService {
                 .entity("{}")
                 .build();
         }catch(Exception ex){
-            log.log(Level.SEVERE, "MedicamentoService->addMedicamentosCita... ", ex);
-            throw new CustomException(503, "Error adicionando los datos del medicamento... ");
+            throw new CustomException(Response.Status.BAD_REQUEST.getStatusCode(), 503, "Error adicionando los datos del medicamento... ");
         }
     }
     
