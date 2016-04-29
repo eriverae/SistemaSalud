@@ -1,4 +1,4 @@
-package com.acme.sisc.sisc_hc.errorhandling;
+package com.acme.sisc.common.errorhandling;
 
 
 import javax.ws.rs.NotFoundException;

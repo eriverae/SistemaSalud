@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acme.sisc.sisc_hc.exceptions;
+package com.acme.sisc.common.exceptions;
 
 /**
  *
@@ -11,14 +11,16 @@ package com.acme.sisc.sisc_hc.exceptions;
  */
 public class CustomException extends Exception{
     private int errorCode;
+    private int status;
 
     public CustomException(String mensaje) {
         super(mensaje);
     }
 
-    public CustomException(int errorCode, String msg) {
+    public CustomException(int status, int errorCode, String msg) {
         super(msg);
         this.errorCode = errorCode;
+        this.status = status;
     }
 
     public int getErrorCode() {
@@ -27,5 +29,13 @@ public class CustomException extends Exception{
 
     public void setErrorCode(int errorCode) {
         this.errorCode = errorCode;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }
