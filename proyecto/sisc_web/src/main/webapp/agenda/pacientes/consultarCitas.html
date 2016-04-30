@@ -24,88 +24,11 @@ and open the template in the editor.
 <!--OTRA FORMA: mensaje correcto cita seleccionada del paciente-->
 
 
-
-
-
-<!--Tabla de citas del paciente -->
-<!--NO BORRRAR , DEJARLO QUIETOOOOOOOOOOOOOOOOO-->
-
-<!--<div class="col-md-12">
-    <div class="panel panel-default">
-
-        <div class="panel-heading ui-draggable-handle">
-            <h3 class="panel-title">Listado de citas del paciente</h3>
-        </div>
-
-        <div class="panel-body panel-body-table">
-
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped table-actions">
-                    <thead>
-                        <tr>
-                        <th width="50">IdCita</th>
-                        <th>Nombre Eps</th>
-                        <th width="300">Direccion</th>
-                        <th width="150">Fecha</th>
-                        <th width="450">Anotaciones</th>
-                        <th width="150">Estado</th>
-                        <th width="150">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody >  
-                        <tr id="trow_1" ng-repeat="cita in listaCitasPaciente" ng-click="mostrarUnaCitaDetallada(cita)"  data-target="#message-box-sound-2" data-box="#message-box-sound-2"> 
-                        <td class="text-center">{{cita.idCita}}</td>
-                        <td><strong>{{cita.agenda.medicoEps.eps.razonSocial}}</strong></td>
-                        <td><strong>{{cita.agenda.direccion}}</strong></td>
-                        <td>{{cita.horaInicio}}</td>
-                        <td>descripcion (QUEMADA-HTML) donde el medico colocara si asistio, recomendaciones .. etc.</td>
-                        <td><span class="label label-warning">PENDIENTE</span> quemada</td>
-                        <td>
-                        <button class="btn btn-danger btn-rounded btn-sm" onclick="delete_row('trow_1');"> CANCELAR <span class="fa fa-times"></span></button>                        
-                        </td>
-                        </tr> 
-                    </tbody>
-                </table>
-            </div>                                
-        </div>
-    </div>                                                
-</div>-->
-<!--FIN Tabla de citas del paciente-->
-
-
-
-
-<!--*****************************************************************************************************************************************************************************************
-*********************************************************************************************************************************************************************************************
-                                    NO BORRRAR , DEJARLO QUIETOOOOOOOOOOOOOOOOO
-
-muestra debajo de la tabla de lista de citas, una cita seleccionada
--->
-<!--Informacion completa de cita del paciente-->
-<!--<div class="col-md-12" ng-if="informacionCita != null">
-
-    <div class="panel panel-warning push-up-20">
-        <div class="panel-body panel-body-pricing"  >
-            <h2>#CITA:  {{informacionCita.idCita}}<br><small>({{informacionCita.agenda.localidad}} - {{informacionCita.agenda.ciudad}} - {{informacionCita.agenda.direccion}})</small></h2>    
-
-            <p><span class="fa fa-caret-right"></span> DOCTOR: {{informacionCita.agenda.medicoEps.persona.nombres}} - #Consultorio: {{informacionCita.agenda.numeroConsultorio}}</p>
-            <p><span class="fa fa-caret-right"></span> FECHA Y HORA: {{informacionCita.horaInicio}}</p>
-            <p><span class="fa fa-caret-right"></span> EPS: {{informacionCita.pacienteEps.eps.razonSocial}}</p>
-            <p><span class="fa fa-caret-right"></span> ...</p>
-
-            <p class="text-muted">{{informacionCita.pacienteEps.persona.nombres}}</p>
-        </div>
-        <div class="panel-footer"> 
-            <button class="btn btn-warning btn-block" ng-click="">Informacion detallada de la cita</button>
-        </div>
-    </div>
-</div>-->
-<!--Fin Informacion completa de cita del paciente-->
-<!--*****************************************************************************************************************************************************************************************
-*********************************************************************************************************************************************************************************************-->
-
-
-
+<!--mensaje de confirmacion de si esta seguro-->
+<div class="noty_message" style="font-size: 11px; line-height: 14px; text-align: left; padding: 8px 10px 9px; width: auto; position: relative;">
+    <span class="noty_text">Esta seguro que desea cancelar?</span>
+</div>
+<!--FIN mensaje de confirmacion de si esta seguro-->
 
 <!-- popups-->
 <!-- default with sound -->   
@@ -129,7 +52,7 @@ muestra debajo de la tabla de lista de citas, una cita seleccionada
                             <p class="text-muted">{{informacionCita.pacienteEps.persona.nombres}}</p>
                         </div>
                         <div class="panel-footer"> 
-                            <button class="btn btn-warning btn-block" ng-click="">ENVIAR CITA (Historia-Clinica)</button>
+                            <button class="btn btn-warning btn-block" ng-click=""></button>
                         </div>
                     </div>
                 </div>
@@ -147,12 +70,14 @@ muestra debajo de la tabla de lista de citas, una cita seleccionada
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////-->
 
+
+
 <!--ULTIMO QUE ME MUESTRA TODAS LAS CITAS :  ESTA FUINCIONAL-->
 <div class="page-content-wrap">
     <div class="row">
         <div class="col-md-12">
 
-             <!--START DATATABLE EXPORT--> 
+            <!--START DATATABLE EXPORT--> 
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">DataTable Export</h3>
@@ -160,58 +85,42 @@ muestra debajo de la tabla de lista de citas, una cita seleccionada
                         <button class="btn btn-danger toggle" data-toggle="exportTable"><i class="fa fa-bars"></i> Export Data</button>
                     </div>
                 </div>
-                <div class="panel-body" id="exportTable" style="display: none;">
+                <div class="panel-body" id="exportTable" >
                     <div class="row">
-                        <div class="col-md-3">
-                            <div class="list-group border-bottom">                                               
-                                <a href="#" class="list-group-item" onClick ="$('#customers2').tableExport({type: 'json', escape: 'false'});"><img src='img/icons/json.png' width="24"/> JSON</a>                                
+                        <div class="col-md-2">
+                            <div class="list-group border-bottom">
+                                <a href="#" class="list-group-item" onClick ="$('#customers').tableExport({type: 'excel', escape: 'false'});"><img src='img/icons/xls.png' width="24"/> XLS</a>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="list-group border-bottom">
-                                <a href="#" class="list-group-item" onClick ="$('#customers2').tableExport({type: 'json', escape: 'false', ignoreColumn: '[2,3]'});"><img src='img/icons/json.png' width="24"/> JSON (ignoreColumn)</a>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="list-group border-bottom">
-                                <a href="#" class="list-group-item" onClick ="$('#customers2').tableExport({type: 'txt', escape: 'false'});"><img src='img/icons/txt.png' width="24"/> TXT</a>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="list-group border-bottom">
-                                <a href="#" class="list-group-item" onClick ="$('#customers2').tableExport({type: 'excel', escape: 'false'});"><img src='img/icons/xls.png' width="24"/> XLS</a>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="list-group border-bottom">
-                                <a href="#" class="list-group-item" onClick ="$('#customers2').tableExport({type: 'pdf', escape: 'false'});"><img src='img/icons/pdf.png' width="24"/> PDF</a>
+                                <a href="#" class="list-group-item" onClick ="$('#customers').tableExport({type: 'pdf', escape: 'false'});"><img src='img/icons/pdf.png' width="24"/> PDF</a>
                             </div>
                         </div>
                     </div>                               
                 </div>
                 <div class="panel-body">
-                    <table id="customers2" class="table datatable">
+                    <table id="customers" class="table datatable">
                         <thead>
-                            <tr>
-                            <th width="50">IdCita</th>
+                            <tr role="row">
+                            <th>IdCita</th>
                             <th>Nombre Eps</th>
-                            <th width="300">Direccion</th>
-                            <th width="150">Fecha</th>
-                            <th width="450">Anotaciones</th>
-                            <th width="150">Estado</th>
-                            <th width="150">Acciones</th>
+                            <th>Direccion</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr id="trow_1" ng-repeat="cita in listaCitasPaciente" ng-click="mostrarUnaCitaDetallada(cita)"  data-target="#message-box-sound-2" data-box="#message-box-sound-2"> 
+                                                                                                                       <!--data-target="#message-box-sound-2" data-box="#message-box-sound-2"-->
+                            <tr id="trow_1" ng-repeat="cita in listaCitasPaciente" ng-click="mostrarUnaCitaDetallada(cita)"  > 
                             <td class="text-center">{{cita.idCita}}</td>
                             <td><strong>{{cita.agenda.medicoEps.eps.razonSocial}}</strong></td>
                             <td><strong>{{cita.agenda.direccion}}</strong></td>
-                            <td>{{cita.horaInicio | getFormatofecha}}</td>
-                            <td>descripcion (QUEMADA-HTML) donde el medico colocara si asistio, recomendaciones .. etc.</td>
-                            <td><span class="label label-warning">PENDIENTE</span> quemada</td>
+                            <td>{{cita.horaInicio| getFormatofecha}} {{cita.horaInicio| getFormatoHora}}</td>
+                            <td><span class="label label-warning">{{cita.estadoCita}}</span></td>
                             <td>
-                            <button class="btn btn-danger btn-rounded btn-sm" onclick="delete_row('trow_1');"  ng-click="cancelarCita(cita)"> CANCELAR <span class="fa fa-times"></span></button>                        
+                            <button id="message-box-warning" class="btn btn-danger btn-rounded btn-sm"  ng-click="cancelarCita(cita)"> CANCELAR <span class="fa fa-times"></span></button>                        
                             </td>
                             </tr>
                         </tbody>
@@ -219,17 +128,14 @@ muestra debajo de la tabla de lista de citas, una cita seleccionada
 
                 </div>
             </div>
-             <!--END DATATABLE EXPORT-->                             
+            <!--END DATATABLE EXPORT-->                             
         </div>
     </div>
 </div>  
 
 
 <!--ejemplo-->
-<a href="http://localhost:8080/sisc_web/table-export.html#">ejemplo</a>  <br><br>
-<!--------------------------------------------------------------------------------------------------------------->
-
-
+<a href="http://localhost:8080/sisc_web/table-export.html#">ejemplo</a>  <br><br>                
 
 
 <!--********************************************************************************
@@ -272,4 +178,3 @@ muestra debajo de la tabla de lista de citas, una cita seleccionada
 ********************************************************************************
 ********************************************************************************
 ********************************************************************************-->
-

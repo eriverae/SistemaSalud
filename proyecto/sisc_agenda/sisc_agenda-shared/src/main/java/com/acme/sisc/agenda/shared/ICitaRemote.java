@@ -24,7 +24,7 @@ public interface ICitaRemote {
     public List<Cita> listaCitasPaciente(long idPaciente);
     
     @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
-    public boolean cancelarCita(Cita cita);
+    public String cancelarCita(Cita cita);
     
     public Cita find(Long id);
 

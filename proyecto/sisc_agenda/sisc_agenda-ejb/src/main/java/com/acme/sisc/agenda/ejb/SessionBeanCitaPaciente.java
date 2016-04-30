@@ -102,7 +102,7 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
      */
     @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
     @Override
-    public boolean cancelarCita(Cita cita) {
+    public String cancelarCita(Cita cita) {
         
         logger.log(Level.WARNING, "\n\nSESION-BEAN-CITA-PACIENTE\n El paciente cancela la cita: "+ cita.getIdCita() + "\n Estado de la cita actual = " + cita.getEstadoCita());
         return facadeCita.PacienteCancelaSuCita(cita);

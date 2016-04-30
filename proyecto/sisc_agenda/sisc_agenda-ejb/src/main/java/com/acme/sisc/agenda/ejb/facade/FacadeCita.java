@@ -95,18 +95,18 @@ public class FacadeCita extends AbstractFacade<Cita> {
      * @param cita 
      */
     //@TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public boolean PacienteCancelaSuCita(Cita cita) {
+    public String PacienteCancelaSuCita(Cita cita) {
         try {
              _log.log(Level.WARNING, "1. CITA ID: "+ cita.getIdCita() + "\n");
             cita.setEstadoCita("CANCELADA");
             
             em.merge(cita);
             em.flush();
-            return true;
+            return "CITA CANCELADA.. ";
             
         } catch (Exception e) {
             _log.log(Level.WARNING, "NO SE PUEDE CANCELAR LA CITA ");
-            return false;
+            return "NO SE PUEDE CANCELAR LA CITA ";
             
         }
     }
