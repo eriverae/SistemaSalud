@@ -1,0 +1,165 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+
+header,nav,section,article,footer,figure{
+	display:block;
+}
+.limpiar{
+	clear:both;
+}
+nav{
+	height: 400px;
+}
+body{
+	
+	margin:23px 0;
+}
+p{
+	font-family:Arial, Helvetica, sans-serif;background-color: #00ff00;
+
+	font-size:12px;
+	color:#000;
+	margin:6px;
+}
+h1{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:18px;
+	color:#000;
+	margin:6px;
+}
+.textopie{
+	color:#FFF;
+	text-align:center;
+}
+a.enlacecpw{
+	color:#0CB8F2;
+	background-color: #00ff00;
+	text-decoration:none;
+}
+.titulos-internos{
+	font-family:"Times New Roman", Times, serif;
+	font-size:72px;
+	color:#999999;
+	border-bottom:9px #00C6F7 solid;
+	display:block;
+}
+
+/*---- Maquetacion -----*/
+#contenedor{
+	height: 100%;
+	margin-top: 0px;
+	background-color: black;
+	width:100%;
+	margin:25 auto;
+}
+
+#menu{
+	height:150px;
+	margin-top:135px;
+	padding-left:79px;
+}
+#piepagina{
+	height:112px;
+	margin-top:15px;
+}
+/*---- Menu principal -----*/
+#menu ul{
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+#menu li a{
+	/*Tamaño de los cuadritos*/
+	width:260px;
+	height:260px;
+	display:block;
+	background-color: #FACC2E;
+	border-radius:10px;
+	float:left;
+	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size:25px;
+	color:#FFF;
+	text-align:center;
+	text-decoration:none;
+	margin-right:23px;
+	margin-top: 20px;
+	margin-bottom: 23px;
+	margin-left: 20px;
+	padding-top:180px;
+	position:relative;
+	resize: both;
+	overflow: auto;
+	min-width: 50px; /*suggest a min-width & min-height*/
+	min-height: 50px;
+}
+#menu li a:hover{
+transform: scale(1.2);
+}
+#menu li a #icono1{
+	width:160px;
+	height:180px;
+	display:block;
+	position:absolute;
+	left:50px;
+	top:50px;
+}
+#menu li a:hover #icono1{
+	
+}
+#menu li a #icono2{
+	width:160px;
+	height:59px;
+	display:block;
+	position:absolute;
+	left:50px;
+	top:50px;	
+}
+#menu li a:hover #icono2{
+
+}
+#menu li a #icono3{
+	width:160px;
+	height:59px;
+	display:block;
+	position:absolute;
+	left:50px;
+	top:50px;
+}
+#menu li a:hover #icono3{
+	
+}
+#menu li a #icono4{
+	width:160px;
+	height:59px;
+	display:block;
+	position:absolute;
+	left:50px;
+	top:50px;
+}
+#menu li a:hover #icono4{
+	
+}
+#menu li a #icono5{
+	width:160px;
+	height:59px;
+	display:block;
+	position:absolute;
+	left:50px;
+	top:50px;
+}
+#menu li a:hover #icono5{
+	
+}
+#menu li a #icono6{
+	width:160px;
+	height:59px;
+	display:block;
+	position:absolute;
+	left:50px;
+	top:50px;
+}
+#menu li a:hover #icono6{
+	
+}

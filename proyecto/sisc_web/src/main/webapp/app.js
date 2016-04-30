@@ -116,6 +116,12 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
     
 
     // hc
+
+    .state('menuhc',{
+       url:'/menuhc',
+       templateUrl: 'historia/menuhc.html',
+      // controller: 'loginFormController'
+    })
     .state('asignarmedicamento',{
       url:'/historia/asignar-medicamento',
       templateUrl: 'historia/asignarmedicamento.html',
