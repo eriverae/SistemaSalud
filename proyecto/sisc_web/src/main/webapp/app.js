@@ -35,6 +35,25 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       controller: 'accesoFormController',
       params : {'acceAcce':null}
     })
+    
+    .state('grupos',{
+      url:'/grupos',
+      templateUrl: 'grupos/grupos.html',
+      controller: 'gruposListController'
+    })
+  
+    .state('crearGrupo',{
+      url: '/crearGrupo',
+      templateUrl: 'grupos/formularioGrupo.html',
+      controller: 'grupoFormController'
+    })
+    
+    .state('modificarGrupo',{
+      url: '/modificarGrupo',
+      templateUrl: 'grupos/formularioGrupo.html',
+      controller: 'grupoFormController',
+      params : {'grupGrup':null}
+    })
       
     .state('usuarios',{
       url:'/usuarios',
