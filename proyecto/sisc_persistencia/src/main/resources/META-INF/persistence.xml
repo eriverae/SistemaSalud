@@ -18,7 +18,6 @@
     <class>com.acme.sisc.agenda.entidades.Grupo</class>
     <class>com.acme.sisc.agenda.entidades.Grupusu</class>
     <class>com.acme.sisc.agenda.entidades.Operacion</class>
-    <class>com.acme.sisc.agenda.entidades.Persona</class>
     <class>com.acme.sisc.agenda.entidades.PersonaEps</class>
     <class>com.acme.sisc.agenda.entidades.PersonaJuridica</class>
     <class>com.acme.sisc.agenda.entidades.PersonaNatural</class>
@@ -37,13 +36,13 @@
     <class>com.acme.sisc.agenda.entidades.Enfermedad</class>
     <class>com.acme.sisc.agenda.entidades.Especialidad</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
-    <validation-mode>NONE</validation-mode>
     <properties>
       <!--**** persistencia PostgreSQL ***-->
       <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
       <!--**** persistencia Mysql ***-->
       <!--<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>-->
       <property name="hibernate.show_sql" value="true"/>
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
 </persistence>
