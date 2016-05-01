@@ -38,6 +38,19 @@
         <p class="help-block" ng-show="accesoForm.acceDesc.$error.maxlength">La descripcion no debe superar 200 characters.</p>
       </div>
       
+      <!-- URL -->
+      <div class="form-group" ng-class="{'has-error' : accesoForm.acceURL.$invalid && accesoForm.acceURL.$dirty}">
+        <label for="acceURL">URL:</label>
+        <!-- Display a check when the field is valid and was modified -->
+        <span ng-class="{'glyphicon glyphicon-ok' : accesoForm.acceURL.$valid && accesoForm.acceURL.$dirty}"></span>
+        <input id="acceURL" name="acceURL" type="text" class="form-control" maxlength="200"
+               ng-model="acceso.acceURL" required ng-minlength="5" ng-maxlength="200" placeholder="Ingrese URL valida"/>
+
+        <!-- Validation messages to be displayed on required, minlength and maxlength -->
+        <p class="help-block" ng-show="accesoForm.acceURL.$error.minlength">Debe tener al menos 5 caracteres.</p>
+        <p class="help-block" ng-show="accesoForm.acceURL.$error.maxlength">La URL no debe superar 200 characters.</p>
+      </div>
+      
 
       <!-- Form buttons. The 'Save' button is only enabled when the form is valid. -->
       <div class="buttons">

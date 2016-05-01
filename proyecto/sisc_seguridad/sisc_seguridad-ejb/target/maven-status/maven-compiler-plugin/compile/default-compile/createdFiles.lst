@@ -1,3 +1,4 @@
 com\acme\sisc\seguridad\UsuarioFacade.class
+com\acme\sisc\seguridad\GrupoFacade.class
 com\acme\sisc\seguridad\AccesoFacade.class
 com\acme\sisc\NewSessionBean.class

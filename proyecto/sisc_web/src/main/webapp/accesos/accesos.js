@@ -15,6 +15,7 @@ app.controller('accesosListController', function ($scope, $rootScope,$state ,acc
             { field: 'acceAcce', displayName: 'Id'},
             { field: 'acceNombre', displayName: 'Nombre acceso' },
             { field: 'acceDesc', displayName: 'Descripcion acceso'},
+            { field: 'acceURL', displayName: 'URL acceso'},
             { field: '', width: 80, 
                 cellTemplate: '<span class="glyphicon glyphicon-trash remove" ng-click="deleteRow(row)"></span>'+
                 '<span class="glyphicon glyphicon-edit modify" ng-click="updateRow(row)"></span>' }
