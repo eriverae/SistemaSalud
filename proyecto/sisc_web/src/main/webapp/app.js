@@ -78,14 +78,14 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       url: '/medico/agenda',
       templateUrl: 'agenda/medicos/agendaMedico.html',
       controller:'agendaMedicoContoller',
-      params : {'idMedico':'5'}
+      params : {'idMedico':'1'}
       
     })
      .state('citasPaciente',{
       url: '/paciente/lcitas',
       templateUrl: 'agenda/pacientes/consultarCitas.html',
       controller: 'citasController',
-      params : {'idPaciente':'3'}
+      params : {'idPaciente':'2'}
     })    
         
     .state('registroMedicos',{

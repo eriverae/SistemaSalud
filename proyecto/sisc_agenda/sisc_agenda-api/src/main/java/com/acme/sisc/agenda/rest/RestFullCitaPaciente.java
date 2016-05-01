@@ -50,10 +50,9 @@ public class RestFullCitaPaciente {
     @Path("/cancelarCita")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public boolean cancelarUnaCitaDePaciente(Cita cita) {
+    public String cancelarUnaCitaDePaciente(Cita cita) {
         logi.log(Level.WARNING,  "Request para cancelar la Cita con id {0}", cita.getIdCita());
-        facadeCita.cancelarCita(cita); 
-        return false;
+        return facadeCita.cancelarCita(cita); 
     }
     
     @GET

@@ -36,8 +36,8 @@ import javax.validation.constraints.Size;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @NamedQueries({
     @NamedQuery(name = "Cita.findFechaInicioFechaFin", query = "SELECT c FROM Cita c where (c.agenda.medicoEps.persona.idPersona = :idMedico) AND (c.horaInicio >= :horaInicio  AND c.horaFin <= :horaFin)"),
-    //@NamedQuery(name = "Cita.findIdPaciente", query = "SELECT c FROM Cita c WHERE c.pacienteEps.persona.idPersona = :idPaciente and c.pacienteEps.fechaFin=null"),
-    @NamedQuery(name = "Cita.findIdPaciente", query = "SELECT c FROM Cita c WHERE c.pacienteEps.persona.idPersona = :idPaciente and c.pacienteEps.fechaFin=null ORDER BY c.horaFin DESC"),
+    //@NamedQuery(name = "Cita.findIdPaciente", query = "SELECT c FROM Cita c WHERE c.pacienteEps.persona.idPersona = :idPaciente and c.pacienteEps.fechaFin=null and c.estadoCita<>'CANCELADA' ORDER BY c.horaFin DESC"),
+    @NamedQuery(name = "Cita.findIdPaciente", query = "SELECT c FROM Cita c WHERE c.pacienteEps.persona.idPersona = :idPaciente and c.pacienteEps.fechaFin=null and c.estadoCita<>'CANCELADE1' ORDER BY c.horaFin DESC"),
     @NamedQuery(name = "Cita.findAll", query = "SELECT c FROM Cita c"),
     @NamedQuery(name = "Cita.findById", query = "SELECT c FROM Cita c WHERE c.idCita = :idCita"),
     @NamedQuery(name = "Cita.findByValor", query = "SELECT c FROM Cita c WHERE c.valor = :valor"),
