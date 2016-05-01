@@ -13,7 +13,7 @@ import java.util.List;
  * @author Roberto Cortez
  */
 @XmlRootElement
-public class PaginatedListWrapper implements Serializable {
+public class PaginatedListWrapperPN implements Serializable {
     private Integer currentPage;
     private Integer pageSize;
     private Integer totalResults;

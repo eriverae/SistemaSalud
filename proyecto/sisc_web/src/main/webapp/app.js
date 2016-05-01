@@ -87,7 +87,8 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       controller: 'citasController',
       params : {'idPaciente':'2'}
     })    
-        
+    
+    // Registro    
     .state('registroMedicos',{
       url:'/medicos',
       templateUrl: 'registro/medicos/registroMedicos.html',
@@ -99,7 +100,15 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       templateUrl: 'registro/medicos/listaMedicos.html',
       controller: 'listaMedicosController'
     })
-  
+    
+    .state('modificarMedicos',{
+      url:'/medicos',
+      templateUrl: 'registro/medicos/registroMedicos.html',
+      controller: 'medicosController',
+      params : {idPersona:null}
+    })
+    
+    
     .state('registroPacientes',{
       url: '/pacientes',
       templateUrl: 'registro/pacientes/registroPacientes.html',
@@ -111,14 +120,7 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       templateUrl: 'registro/pacientes/listaPacientes.html',
       controller: 'listaPacientesController'
     })
-    
-    .state('modificarMedicos',{
-      url:'/medicos',
-      templateUrl: 'registro/medicos/registroMedicos.html',
-      controller: 'medicosController',
-      params : {idPersona:null}
-    })
-    
+
     .state('modificarPacientes',{
       url:'/pacientes',
       templateUrl: 'registro/pacientes/registroPacientes.html',
@@ -133,6 +135,39 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       controller: 'beneficiariosController'
     })
     
+    .state('listarBeneficiarios',{
+      url:'/listaBeneficiarios',
+      templateUrl: 'registro/beneficiario/listaBeneficiarios.html',
+      controller: 'listaBeneficiariosController'
+    })
+
+    .state('modificarBeneficiarios',{
+      url:'/ModificacionBeneficiarios',
+      templateUrl: 'registro/beneficiario/registroBeneficiarios.html',
+      controller: 'pacientesController',
+      params : {idPersona:null}
+    })
+    
+   
+    .state('registroEps',{
+      url: '/RegistroEPS',
+      templateUrl: 'registro/eps/registroEps.html',
+      controller: 'epsController'
+    })
+      
+    .state('listarEps',{
+      url:'/listaEPS',
+      templateUrl: 'registro/eps/listaEps.html',
+      controller: 'listaEpsController'
+    })
+
+    .state('modificarEps',{
+      url:'/ModificarEPS',
+      templateUrl: 'registro/eps/registroEps.html',
+      controller: 'epsController',
+      params : {idPersona:null}
+    })
+
 
     // hc
 
@@ -170,7 +205,7 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       controller: 'cirugiaController'
     })
 
-     ;
+    ;
     
 }]);
 
