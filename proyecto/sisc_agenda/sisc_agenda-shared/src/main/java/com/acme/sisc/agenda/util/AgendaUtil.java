@@ -89,24 +89,21 @@ public class AgendaUtil {
             return null;
         }
     }
-
+    
+    public static List<Date> fechasInicioFinMes(){
+        List<Date> listFechas=new ArrayList<Date>();
+        listFechas.add(AgendaUtil.parserStringToDateSimpleDateFormat(
+                AgendaUtil.parserDateToString(new Date(), "'01-'MM-yyyy")));        
+        listFechas.add(new Date(listFechas.get(0).getTime()+(2678400000l)));
+        return listFechas;
+    }
+    
     public static void main(String args[]) {
-//        
-//        long aux= AgendaUtil.parserStringToDate("19-04-2016 08:00:00", WebConstant.DATE_FORMAT_CITA).getTime()+
-//                ()
-//                   
-//        
-//        System.out.println(">> "+new Date(aux).toString());
+        
+        for(Date fecha:AgendaUtil.fechasInicioFinMes()){
+            System.out.println(">> "+fecha.toString());
+        }
 
-            Date fe=new Date();
-            
-             System.out.println(">> "+fe.toString());
-            
-            fe.setHours(23);
-            fe.setMinutes(0);
-            fe.setSeconds(0);
-            
-             System.out.println(">> "+fe.toString());
        
     }
 }

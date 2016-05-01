@@ -10,6 +10,50 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       url: '/home',
       templateUrl: 'home.html'
     })
+    
+    .state('seguridad',{
+       url:'/seguridad',
+       templateUrl: 'seguridad/login.html',
+       controller: 'loginFormController'
+    })
+    
+    .state('accesos',{
+      url:'/accesos',
+      templateUrl: 'accesos/accesos.html',
+      controller: 'accesosListController'
+    })
+  
+    .state('crearAcceso',{
+      url: '/crearAcceso',
+      templateUrl: 'accesos/formularioAcceso.html',
+      controller: 'accesoFormController'
+    })
+    
+    .state('modificarAcceso',{
+      url: '/modificarAcceso',
+      templateUrl: 'accesos/formularioAcceso.html',
+      controller: 'accesoFormController',
+      params : {'acceAcce':null}
+    })
+    
+    .state('grupos',{
+      url:'/grupos',
+      templateUrl: 'grupos/grupos.html',
+      controller: 'gruposListController'
+    })
+  
+    .state('crearGrupo',{
+      url: '/crearGrupo',
+      templateUrl: 'grupos/formularioGrupo.html',
+      controller: 'grupoFormController'
+    })
+    
+    .state('modificarGrupo',{
+      url: '/modificarGrupo',
+      templateUrl: 'grupos/formularioGrupo.html',
+      controller: 'grupoFormController',
+      params : {'grupGrup':null}
+    })
       
     .state('usuarios',{
       url:'/usuarios',
@@ -30,18 +74,18 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       params : {'usuaUsua':null}
     })
     
-     .state('agenda',{
+    .state('agenda',{
       url: '/medico/agenda',
       templateUrl: 'agenda/medicos/agendaMedico.html',
       controller:'agendaMedicoContoller',
-      params : {'idMedico':'5'}
+      params : {'idMedico':'1'}
       
     })
      .state('citasPaciente',{
-      url: '/paciente/citas',
+      url: '/paciente/lcitas',
       templateUrl: 'agenda/pacientes/consultarCitas.html',
       controller: 'citasController',
-      params : {'idPaciente':'3'}
+      params : {'idPaciente':'2'}
     })    
     
     // Registro    
@@ -126,6 +170,12 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
 
 
     // hc
+
+    .state('menuhc',{
+       url:'/menuhc',
+       templateUrl: 'historia/menuhc.html',
+      // controller: 'loginFormController'
+    })
     .state('asignarmedicamento',{
       url:'/historia/asignar-medicamento',
       templateUrl: 'historia/asignarmedicamento.html',
@@ -158,6 +208,4 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
     ;
     
 }]);
-
-
 

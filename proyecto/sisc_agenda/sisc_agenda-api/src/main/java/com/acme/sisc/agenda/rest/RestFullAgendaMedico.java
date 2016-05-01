@@ -7,6 +7,7 @@ package com.acme.sisc.agenda.rest;
 
 import com.acme.sisc.agenda.dto.GeneralResponse;
 import com.acme.sisc.agenda.dto.RequestCrearAgenda;
+import com.acme.sisc.agenda.dto.ResponseAgendaMedico;
 import com.acme.sisc.agenda.entidades.Agenda;
 import com.acme.sisc.agenda.entidades.PersonaEps;
 import com.acme.sisc.agenda.exceptions.AgendaException;
@@ -47,51 +48,27 @@ public class RestFullAgendaMedico {
     @EJB
     private IAgendaLocal agenda;
 
+    
+    /**
+     * Rest que retorna objeto con una descripcion de las citas 
+     * @param idMedico
+     * @return 
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/consultaAgenda")
-    public List<Agenda> consultaAgendaMedico(@DefaultValue("0")
-            @QueryParam("idMedico") long idMedico,
-            @QueryParam("fechaInicial") String fechaInicial,
-            @QueryParam("fechaFinal") String fechaFinal) {
+    @Path("/{idMedico}")
+    public ResponseAgendaMedico consultaAgendaMedico(@PathParam("idMedico") Long idMedico) {
 
         try {
-
-            if (fechaInicial != null && !fechaInicial.isEmpty()
-                    && fechaFinal != null && !fechaFinal.isEmpty()) {
-
-                return agenda.consultaAgendaMedico(idMedico,
-                        AgendaUtil.parserStringToDateSimpleDateFormat(fechaInicial),
-                        AgendaUtil.parserStringToDateSimpleDateFormat(fechaFinal));
-            } else {
-                return agenda.consultaAgendaMedico(idMedico,
-                        new Date(),
-                        new Date());
-            }
-
-        } catch (AgendaException ex) {
+          return  agenda.consultarAgendaMesMedico(idMedico);
+        } catch (Exception ex) {
             _log.log(Level.SEVERE, "RestFullAgendaMedico.consultaAgendaMedico", ex);
             return null;
         }
     }
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/citas")
-    public String consultarCitasAgendaMedico(
-            @QueryParam("idAgenda") String idAgenda,
-            @QueryParam("fecha") String fecha) {
-
-        if (fecha != null && !fecha.isEmpty() && idAgenda != null && !idAgenda.isEmpty()) {
-            return null;
-//             return agenda.consultarCitasAgendaMedico(idAgenda, fecha);
-        } else {
-            return "Datos no validos";
-        }
-
-    }
     /**
-     * 
+     * Servicio REST que consulta lista de eps de un medico
      * @param idMedico
      * @return 
      */
@@ -104,7 +81,7 @@ public class RestFullAgendaMedico {
     }
     
     /**
-     * 
+     * Servicio Rest que crea una nueva agenda.
      * @param request
      * @return 
      */

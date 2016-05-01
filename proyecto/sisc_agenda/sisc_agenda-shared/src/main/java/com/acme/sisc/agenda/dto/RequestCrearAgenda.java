@@ -22,7 +22,11 @@ public class RequestCrearAgenda  implements Serializable{
     private Long    idPersonaEps;
     private Long    idMedico;
     private String  especialidadCita;
-   
+    private String ciudad;
+    private String localidad;
+    private String direccion;
+    private int consultorio;   
+    
 
     public String getFechaInicio() {
         return fechaInicio;
@@ -94,6 +98,38 @@ public class RequestCrearAgenda  implements Serializable{
 
     public void setIdMedico(Long idMedico) {
         this.idMedico = idMedico;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public String getLocalidad() {
+        return localidad;
+    }
+
+    public void setLocalidad(String localidad) {
+        this.localidad = localidad;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public int getConsultorio() {
+        return consultorio;
+    }
+
+    public void setConsultorio(int consultorio) {
+        this.consultorio = consultorio;
     }
     
     

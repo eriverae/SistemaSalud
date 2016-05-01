@@ -57,18 +57,14 @@ public class CirugiaFacade implements ICirugiaFacadeLocal, ICirugiaFacadeRemote{
 
     @Override
     public void addCirugiaCita(List<CitaCirugia> listaCirugia) {
-        try{
-            Cita c = em.find(Cita.class, new Long("1"));
-            for (int i=0; i<listaCirugia.size(); i++) {
-                CitaCirugia obj = listaCirugia.get(i);
-                obj.setFechaGeneracion(new Date());
-                obj.setCirugia(facadeCirugia.find(listaCirugia.get(i).getCirugia().getIdCirugia()));
-                obj.setCita(c);
-                //listaMedicamentos.get(i).setMedicamento(facadeCita.findById(listaMedicamentos.get(i).getCita().getId()));
-                em.persist(obj);
-            }
-        }catch(Exception e){
-            LOGGER.log(Level.SEVERE,"No se encontro cliente {0} ", e);
+        Cita c = em.find(Cita.class, new Long("1"));
+        for (int i=0; i<listaCirugia.size(); i++) {
+            CitaCirugia obj = listaCirugia.get(i);
+            obj.setFechaGeneracion(new Date());
+            obj.setCirugia(facadeCirugia.find(listaCirugia.get(i).getCirugia().getIdCirugia()));
+            obj.setCita(c);
+            //listaMedicamentos.get(i).setMedicamento(facadeCita.findById(listaMedicamentos.get(i).getCita().getId()));
+            em.persist(obj);
         }
     }
     

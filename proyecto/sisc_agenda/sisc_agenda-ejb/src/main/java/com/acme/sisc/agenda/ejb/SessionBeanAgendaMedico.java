@@ -9,8 +9,10 @@ import com.acme.sisc.agenda.constant.CodesResponse;
 import com.acme.sisc.agenda.constant.WebConstant;
 import com.acme.sisc.agenda.dto.DiaAgenda;
 import com.acme.sisc.agenda.dto.ErrorObjSiscAgenda;
+import com.acme.sisc.agenda.dto.EventoCalendarioAgenda;
 import com.acme.sisc.agenda.dto.GeneralResponse;
 import com.acme.sisc.agenda.dto.RequestCrearAgenda;
+import com.acme.sisc.agenda.dto.ResponseAgendaMedico;
 import com.acme.sisc.agenda.dto.ResponseExitoCrearAgenda;
 import com.acme.sisc.agenda.ejb.facade.FacadeAgenda;
 import com.acme.sisc.agenda.ejb.facade.FacadeCita;
@@ -39,36 +41,37 @@ import javax.ejb.LocalBean;
 @Stateless
 @LocalBean
 public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
-
+    
     Logger _log = Logger.getLogger(this.getClass().getName());
-
+    
     @EJB
     FacadeMedicoEps facadeMedicoEps;
-
+    
     @EJB
     FacadeAgenda facadeAgenda;
-
+    
     @EJB
     FacadeMedico facadeMedico;
-
+    
     @EJB
     FacadeCita facadeCita;
-
+    
     @Override
     public List<Agenda> consultaAgendaMedico(long idMedico, Date fechaInicial, Date fechaFinal) throws AgendaException {
         try {
             _log.log(Level.INFO, "CONSULTADO AGENDA: " + idMedico);
-            return facadeAgenda.consultarAgendasMedico(idMedico);
+            
+            return null;
         } catch (NullPointerException e) {
             return null;
         }
     }
-
+    
     @Override
     public String consultarCitasAgendaMedico(String idAgenda, String fechaCita) throws AgendaException {
         return "consultando citas de medico: " + idAgenda + " fechaCita: " + fechaCita;
     }
-
+    
     @Override
     public boolean insertarAgenda(long idMedico, long idEps, List<Agenda> agendas) throws AgendaException {
         try {
@@ -86,7 +89,7 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
             return false;
         }
     }
-
+    
     @Override
     public List<PersonaEps> consutarEpsMedico(long idMedico) {
         try {
@@ -94,60 +97,60 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
         } catch (Exception e) {
             return null;
         }
-
+        
     }
-
+    
     @Override
     public GeneralResponse insertarAgenda(RequestCrearAgenda request) {
-
+        
         GeneralResponse response = new GeneralResponse();
         Agenda agenda;
         List<Cita> citasAgenda;
-
+        
         Date fechaHoraInicioCita = AgendaUtil.parserStringToDate(
                 request.getFechaInicio() + " " + request.getHoraInicio(),
                 WebConstant.DATE_FORMAT_CITA);
-
+        
         Date fechaHoraFinCita = AgendaUtil.parserStringToDate(
                 request.getFechaFinal() + " " + request.getHoraFinal(),
                 WebConstant.DATE_FORMAT_CITA);
         try {
-
+            
             agenda = new Agenda();
             agenda.setHoraBloqueinicio(new Date(fechaHoraInicioCita.getTime()));
             agenda.setHoraBloqueFin(new Date(fechaHoraFinCita.getTime()));
             citasAgenda = new ArrayList<>();
-
-            agenda.setCiudad("CIUDAD");
-            agenda.setDireccion("DIRECCION");
-            agenda.setLocalidad("LO CALIDAD ");
-            agenda.setNumeroConsultorio(201);
-
+            
+            agenda.setCiudad(request.getCiudad());
+            agenda.setDireccion(request.getDireccion());
+            agenda.setLocalidad(request.getLocalidad());
+            agenda.setNumeroConsultorio(request.getConsultorio());
+            
             agenda.setTiempoMinutosXCita(request.getCantidadMinutosXCita());
             agenda.setEstadoDiponible(CodesResponse.AGENDA_DISPONIBLE.value());
-
+            
             agenda.setMedicoEps(facadeMedicoEps.consultarMedicoEpsXId(request.getIdPersonaEps()));
-
+            
             response.setCodigoRespuesta(CodesResponse.SUCCESS.value());
-
+            
             if (request.getSemana() != null && request.getSemana().getListaDias() != null) {
-
+                
                 List<DiaAgenda> diasAgenda = request.getSemana().getListaDias();
                 for (DiaAgenda dia : diasAgenda) {
-
+                    
                     if (dia.isIncluir()) {
-
+                        
                         List<Date> listFechasCistas = AgendaUtil.devolverFechasXdiaDeLaSemana(new Date(agenda.getHoraBloqueinicio().getTime()), new Date(agenda.getHoraBloqueFin().getTime()), dia.getNumeroDia());
-
+                        
                         for (Date fechaCita : listFechasCistas) {
-
+                            
                             Date fechaAux = new Date(fechaCita.getTime());
                             fechaAux.setHours(agenda.getHoraBloqueFin().getHours());
                             fechaAux.setMinutes(agenda.getHoraBloqueFin().getMinutes());
                             fechaAux.setSeconds(agenda.getHoraBloqueFin().getSeconds());
-
+                            
                             while (fechaCita.getTime() < fechaAux.getTime()) {
-                                   
+                                
                                 Cita cita = new Cita();
                                 cita.setEstadoPacienteAtendido(false);
                                 cita.setHoraInicio(new Date(fechaCita.getTime()));
@@ -155,10 +158,11 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
                                 cita.setHoraFin(new Date(fechaCita.getTime()));
                                 cita.setFechaPaciente(new Date(fechaCita.getTime()));
                                 cita.setValor(0);
+                                cita.setEstadoCita(WebConstant.ESTADO_CITA_DISPONIBLE);
                                 cita.setAgenda(agenda);
-
-                                List<Cita> listCitasConflicto = facadeCita.validarCitasAgendadasMedico(request.getIdMedico(), fechaCita, fechaHoraFinCita, true, 10);
-
+                                
+                                List<Cita> listCitasConflicto = facadeCita.validarCitasAgendadasMedico(request.getIdMedico(), cita.getHoraInicio(), cita.getHoraFin(), true, 10);
+                                
                                 if (listCitasConflicto == null) {
                                     citasAgenda.add(cita);
                                 } else {
@@ -170,28 +174,26 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
                                     response.setError(error);
                                     
                                     break;
-
+                                    
                                 }
-
+                                
                             }
-
+                            
                         }
-
+                        
                     }
                 }
-                                
                 
                 if (CodesResponse.SUCCESS.value().equals(response.getCodigoRespuesta())) {
                     agenda.setCitasAgenda(citasAgenda);
                     if (facadeAgenda.insertarAgenda(agenda)) {
-                        ResponseExitoCrearAgenda exitoInsertarAgenda =new ResponseExitoCrearAgenda();
+                        ResponseExitoCrearAgenda exitoInsertarAgenda = new ResponseExitoCrearAgenda();
                         exitoInsertarAgenda.setMensaje(WebConstant.MENSAJE_AGENDA_CREADA);
                         exitoInsertarAgenda.setFechaInicialAgenda(new Date(fechaHoraInicioCita.getTime()));
                         exitoInsertarAgenda.setFechaFinalAgenda(new Date(fechaHoraFinCita.getTime()));
                         exitoInsertarAgenda.setTotalDeCitasAgendas(citasAgenda.size());
                         exitoInsertarAgenda.setDias(request.getSemana().getListaDias());
                         response.setObjectResponse(exitoInsertarAgenda);
-                        
                         
                         _log.log(Level.WARNING, "AGENDA INSERTADA CORRECTAMENTE: PARA MEDICO "
                                 + agenda.getMedicoEps().getPersona().getIdPersona() + " >> "
@@ -208,9 +210,49 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
         } catch (Exception e) {
             response.setCodigoRespuesta(CodesResponse.ERROR.value());
             _log.log(Level.SEVERE, "ERROR EN  SessionBeanAgendaMedico.insertarAgenda", e);
-
+            
         }
         return response;
     }
-
+    
+    @Override
+    public ResponseAgendaMedico consultarAgendaMesMedico(long idMedico) {
+        ResponseAgendaMedico response = new ResponseAgendaMedico();
+        try {
+            
+            List<Date> fechas = AgendaUtil.fechasInicioFinMes();
+            List<Agenda> listAgenda = facadeAgenda.consultarAgendasMedico(idMedico, fechas.get(0), fechas.get(1));
+            
+        int i=1;
+        if(listAgenda!=null&&listAgenda.size()>0){
+            response.setExisteAgenda(true);
+            
+            for(Agenda agenda:listAgenda){
+                for(Cita cita:agenda.getCitasAgenda()){
+                    EventoCalendarioAgenda eventoCita=new EventoCalendarioAgenda();
+                    eventoCita.setAllDay(false);                    
+//                    eventoCita.setColor(cita.getEstadoCita().equalsIgnoreCase(WebConstant.ESTADO_CITA_DISPONIBLE)?
+//                            WebConstant.COLOR_CITA_DISPONIBLE:WebConstant.COLOR_CITA);                     
+                    eventoCita.setColor(i % 2==0?WebConstant.COLOR_CITA_DISPONIBLE:WebConstant.COLOR_2_CITA);     
+                    eventoCita.setTitle("CITA #"+cita.getIdCita());
+                    eventoCita.setStart(AgendaUtil.parserDateToString(cita.getHoraInicio(), WebConstant.DATE_FORMAT_CITA_JSON));
+                    eventoCita.setEnd(AgendaUtil.parserDateToString(cita.getHoraFin(), WebConstant.DATE_FORMAT_CITA_JSON));                    
+                    eventoCita.setDescripcion("Descripcion ");
+                    eventoCita.setIdCita(cita.getIdCita());
+                    response.getEvents().add(eventoCita);
+                }
+                i++;
+            }
+            
+        }
+            return response;
+        } catch (Exception e) {
+            _log.log(Level.SEVERE, "SessionBeanAgendaMedico.consultarAgendaMesMedico",e);
+            return response;
+            
+        }
+        
+       
+    }
+    
 }

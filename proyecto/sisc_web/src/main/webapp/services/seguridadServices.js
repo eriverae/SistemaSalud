@@ -6,5 +6,14 @@ myModule.factory('usuarioService', function ($resource) {
     return $resource('/sisc_seguridad/api/usuarios/:usuaUsua');
 });
 
+myModule.factory('seguridadService', function ($resource) {
+    return $resource('/sisc_seguridad/api/seguridad/:seguridad');
+});
 
+myModule.factory('accesoService', function ($resource) {
+    return $resource('/sisc_seguridad/api/accesos/:acceAcce');
+});
 
+myModule.factory('grupoService', function ($resource) {
+    return $resource('/sisc_seguridad/api/grupos/:grupGrup');
+});

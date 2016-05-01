@@ -9,6 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="lib/dependencies/css/bootstrap.min.css" />
         <link rel="stylesheet" href="lib/dependencies/css/ng-grid.min.css" />
+        <link href="css/estilomenuhc.css" rel="stylesheet" type="text/css">
         <!--<link rel="stylesheet" href="lib/dependencies/css/fullcalendar.css">-->
         <!--<link rel="stylesheet" type="text/css" href="css/style.css"/>-->
         <!-- CSS INCLUDE -->        
@@ -47,12 +48,33 @@
                     <li class="xn-title">Menu</li>
                     <li class="active">
                         <a href="index.html"><span class="fa fa-desktop"></span> <span class="xn-text">Home</span></a>                        
-                    </li>                    
+                    </li>
+
+                     <li><a class="fa fa-ambulance" ui-sref="menuhc" >    Datos de Cita</a></li>
+
                     <li class="xn-openable">
                         <a href="#"><span class="fa fa-users"></span> <span class="xn-text">Usuarios</span></a>
                         <ul>
                             <li><a ui-sref="usuarios">Listar usuarios</a></li>
                             <li><a ui-sref="crearUsuario">Crear usuario</a></li>
+
+                        </ul>
+
+                    </li>
+                    <li class="xn-openable">
+                        <a href="#"><span class="fa fa-users"></span> <span class="xn-text">Perfiles</span></a>
+                        <ul>
+                            <li><a ui-sref="grupos">Listar perfiles</a></li>
+                            <li><a ui-sref="crearGrupo">Crear perfil</a></li>
+
+                        </ul>
+
+                    </li>
+                    <li class="xn-openable">
+                        <a href="#"><span class="fa fa-users"></span> <span class="xn-text">Accesos</span></a>
+                        <ul>
+                            <li><a ui-sref="accesos">Listar accesos</a></li>
+                            <li><a ui-sref="crearAcceso">Crear acceso</a></li>
 
                         </ul>
 
@@ -305,7 +327,10 @@
     <script src="services/seguridadServices.js"></script>
     <script src="usuarios/usuarios.js"></script>
     <script src="usuarios/usuarioFormController.js"></script>
-
+    <script src="accesos/accesos.js"></script>
+    <script src="accesos/accesoFormController.js"></script>
+    <script src="grupos/grupos.js"></script>
+    <script src="grupos/grupoFormController.js"></script>
 
 
     <!-- scrips y controllers Agenda y Cita -->  

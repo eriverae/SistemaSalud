@@ -6,6 +6,8 @@
 package com.acme.sisc;
 
 import com.acme.sisc.agenda.entidades.Incapacidad;
+import com.acme.sisc.common.exceptions.CustomException;
+import com.acme.sisc.common.exceptions.CustomRunTimeException;
 import com.acme.sisc.sisc_hc.shared.IIncapacidadFacadeRemote;
 import java.util.HashMap;
 import javax.ejb.EJB;
@@ -23,25 +25,31 @@ import javax.ws.rs.core.Response;
  */
 @Path("/incapacidad/")
 public class IncapacidadService {
+    
     @EJB
     IIncapacidadFacadeRemote facadeIncapacidad;
     
     @GET
     @Produces({"application/json"})
-    public Response GetIncapacidadALL(@QueryParam("idcita") String idcita){
-        if (idcita == null){
-            return Response
-            .status(200)
-            .entity(facadeIncapacidad.findAll())
-            .build();
-        }
-        else{
-            HashMap m = new HashMap();
-            m.put("data", facadeIncapacidad.findByCita(Long.parseLong(idcita)));
-            return Response
-            .status(200)
-            .entity(m)
-            .build();
+    public Response GetIncapacidadALL(@QueryParam("idcita") String idcita) 
+            throws CustomException, CustomRunTimeException{
+        try{
+            if (idcita == null){
+                return Response
+                .status(200)
+                .entity(facadeIncapacidad.findAll())
+                .build();
+            }
+            else{
+                HashMap m = new HashMap();
+                m.put("data", facadeIncapacidad.findByCita(Long.parseLong(idcita)));
+                return Response
+                .status(200)
+                .entity(m)
+                .build();
+            }
+        }catch(Exception ex){
+            throw new CustomException(Response.Status.BAD_REQUEST.getStatusCode(), 503, "Error accediendo los datos de la incapacidad... ");
         }
     }
     
@@ -49,12 +57,16 @@ public class IncapacidadService {
     @POST
     @Produces({"application/json"})
     @Consumes({"application/json"})
-    public Response PostIncapacidad(Incapacidad incapacidad){
-        facadeIncapacidad.addIncapacidad(incapacidad);
-        return Response
-            .status(200)
-            .entity("{}")
-            .build();
+    public Response PostIncapacidad(Incapacidad incapacidad) throws 
+            CustomException, CustomRunTimeException{
+        try{
+            facadeIncapacidad.addIncapacidad(incapacidad);
+            return Response
+                .status(200)
+                .entity("{}")
+                .build();
+        }catch(Exception ex){
+            throw new CustomException(Response.Status.BAD_REQUEST.getStatusCode(), 503, "Error adicionando los datos de la incapacidad... ");
+        }
     }
-
 }
