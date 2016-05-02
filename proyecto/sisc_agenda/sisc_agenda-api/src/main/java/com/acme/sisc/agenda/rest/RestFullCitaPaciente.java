@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -32,7 +31,7 @@ public class RestFullCitaPaciente {
 
     private final static Logger logi = Logger.getLogger(RestFullAgendaMedico.class.getName());
 
-        @Context
+    @Context
     private UriInfo context;
     
     @EJB

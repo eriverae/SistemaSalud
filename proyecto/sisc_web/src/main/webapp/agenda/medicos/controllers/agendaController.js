@@ -122,14 +122,14 @@ app.controller('agendaMedicoContoller',
 
                                     $scope.generalResponse = data.objectResponse;
                                     $('#message-box-success').show();
-                                     $scope.calEventsExt.events=[];
+                                    $scope.calEventsExt.events = [];
                                     var utilRest1 = $http.get('/SiscAgenda/api/medico/agenda/' + $stateParams.idMedico);
 
                                     utilRest1.then(function (result) {
 
                                         var obj = result.data;
                                         if (obj.existeAgenda) {
-                                            
+
                                             $.each(obj.events, function (k, v) {
                                                 $scope.calEventsExt.events.push(v);
                                             });
@@ -138,7 +138,7 @@ app.controller('agendaMedicoContoller',
                                     });
 
 
-                                    
+
                                 } else {
                                     if (data.codigoRespuesta === "ERROR") {
                                         $scope.objErrorNuevaAgenda = data.error;
@@ -205,7 +205,13 @@ app.controller('agendaMedicoContoller',
 
             /* alert on eventClick */
             $scope.alertOnEventClick = function (date, jsEvent, view) {
-                alert('ID CITA: ' + date.idCita);
+
+                
+                var utilRest = $http.get('/SiscAgenda/api/paciente/'+ date.idCita+"/consultarCita");
+                utilRest.then(function (result) {
+                    var obj = result.data;
+                    alert('ID CITA: DESDE REST:  ' + obj.idCita);
+                })
 
             };
             /* alert on Drop */
