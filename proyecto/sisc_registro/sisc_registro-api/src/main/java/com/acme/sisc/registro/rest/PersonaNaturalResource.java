@@ -7,7 +7,7 @@ package com.acme.sisc.registro.rest;
 
 import com.acme.sisc.agenda.entidades.PersonaNatural;
 import com.acme.sisc.registro.ejb.IPersonaNaturalFacadeLocal;
-import com.acme.sisc.registro.pagination.PaginatedListWrapper;
+import com.acme.sisc.registro.pagination.PaginatedListWrapperPN;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -43,7 +43,7 @@ public class PersonaNaturalResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public PaginatedListWrapper listPersonaNatural(@DefaultValue("1")
+    public PaginatedListWrapperPN listPersonaNatural(@DefaultValue("1")
                                             @QueryParam("page")
                                             Integer page,
                                              @DefaultValue("id")
@@ -52,7 +52,7 @@ public class PersonaNaturalResource {
                                              @DefaultValue("asc")
                                             @QueryParam("sortDirections")
                                             String sortDirections) {
-        PaginatedListWrapper paginatedListWrapper = new PaginatedListWrapper();
+        PaginatedListWrapperPN paginatedListWrapper = new PaginatedListWrapperPN();
         paginatedListWrapper.setCurrentPage(page);
         paginatedListWrapper.setSortFields(sortFields);
         paginatedListWrapper.setSortDirections(sortDirections);
@@ -60,7 +60,7 @@ public class PersonaNaturalResource {
         return findPersonaNatural(paginatedListWrapper);
     }
     
-    private PaginatedListWrapper findPersonaNatural(PaginatedListWrapper wrapper) {
+    private PaginatedListWrapperPN findPersonaNatural(PaginatedListWrapperPN wrapper) {
         int total = facadePersonaNatural.count();
         wrapper.setTotalResults(total);
         int start = (wrapper.getCurrentPage() - 1) * wrapper.getPageSize();

@@ -25,7 +25,7 @@ app.controller('medicosController', function ($scope, $rootScope, $stateParams, 
   $scope.listaTiposIdentificacion = [
       {id: 'CC', name: 'Cedula'},
       {id: 'TI', name: 'T. Identidad'},
-      {id: 'NIT', name: 'NIT'}
+      {id: 'RC', name: 'Registro Civil'}
     ];
     
   //TODO Reemplazar por consulta de items asociados a la enumeracion en Java
