@@ -11,12 +11,6 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       templateUrl: 'home.html'
     })
     
-    .state('seguridad',{
-       url:'/seguridad',
-       templateUrl: 'seguridad/login.html',
-       controller: 'loginFormController'
-    })
-    
     .state('accesos',{
       url:'/accesos',
       templateUrl: 'seguridad/accesos/accesos.html',
@@ -203,6 +197,12 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       url:'/historia/asignar-cirugia',
       templateUrl: 'historia/asignarCirugia.html',
       controller: 'cirugiaController'
+    })
+    
+    .state('login',{
+      url: '/login',
+      templateUrl: 'login.html',
+      controller: 'loginFormController'
     })
 
     ;

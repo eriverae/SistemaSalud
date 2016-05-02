@@ -5,15 +5,12 @@
  */
 package com.acme.sisc.seguridad.rest;
 
-import com.acme.sisc.agenda.entidades.Grupo;
 import com.acme.sisc.agenda.entidades.PersonaNatural;
-import com.acme.sisc.agenda.entidades.Usuario;
 import com.acme.sisc.seguridad.GrupoFacadeLocal;
 import com.acme.sisc.seguridad.ProxyAutenticador;
 import com.acme.sisc.seguridad.Utils.JWTUtils;
 import com.acme.sisc.seguridad.dto.Credenciales;
 import com.acme.sisc.seguridad.dto.RespuestaAutenticacion;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
