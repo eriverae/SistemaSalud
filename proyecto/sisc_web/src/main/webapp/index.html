@@ -53,7 +53,7 @@
                      <li><a class="fa fa-ambulance" ui-sref="menuhc" >    Datos de Cita</a></li>
 
                     <li class="xn-openable">
-                        <a href="#"><span class="fa fa-users"></span> <span class="xn-text">Usuarios</span></a>
+                        <a href="#"><span class="fa fa-user"></span> <span class="xn-text">Usuarios</span></a>
                         <ul>
                             <li><a ui-sref="usuarios">Listar usuarios</a></li>
                             <li><a ui-sref="crearUsuario">Crear usuario</a></li>
@@ -71,7 +71,7 @@
 
                     </li>
                     <li class="xn-openable">
-                        <a href="#"><span class="fa fa-users"></span> <span class="xn-text">Accesos</span></a>
+                        <a href="#"><span class="glyphicon glyphicon-log-in"></span> <span class="xn-text">Accesos</span></a>
                         <ul>
                             <li><a ui-sref="accesos">Listar accesos</a></li>
                             <li><a ui-sref="crearAcceso">Crear acceso</a></li>
@@ -81,13 +81,13 @@
                     </li>
                     <!--MENU PARA AGENDA MEDICOS Y PACIENTES-->
                     <li class="xn-openable" >
-                        <a href="#"><span class="fa fa-ambulance"></span> <span class="xn-text">Medicos</span></a>
+                        <a href="#"><span class="fa fa-user-md"></span> <span class="xn-text">Medicos</span></a>
                         <ul>
                             <li><a ui-sref="agenda">Agenda</a></li>
                         </ul>
                     </li>
                     <li class="xn-openable" >
-                        <a href="#"><span class="fa fa-ambulance"></span> <span class="xn-text">Pacientes</span></a>
+                        <a href="#"><span class="fa fa-wheelchair"></span> <span class="xn-text">Pacientes</span></a>
                         <ul>
                             <li><a ui-sref="citasPaciente">Citas</a></li>
                             <li><a ui-sref="registroCitaPaciente">Registro de la cita</a></li>
@@ -97,7 +97,7 @@
 
                     <!-- REGISTRO -->
                     <li class="xn-openable">
-                        <a href="#"><span class="fa fa-users"></span> <span class="xn-text">Registro</span></a>
+                        <a href="#"><span class="fa fa-archive"></span> <span class="xn-text">Registro</span></a>
                         <ul>
                             <li><a ui-sref="registroMedicos">Registrar Médicos</a></li>
                             <li><a ui-sref="listarMedicos">Listar Médicos</a></li>
@@ -325,12 +325,12 @@
     <script src="app.js"></script>
     <script src="utils/utils.js"></script>
     <script src="services/seguridadServices.js"></script>
-    <script src="usuarios/usuarios.js"></script>
-    <script src="usuarios/usuarioFormController.js"></script>
-    <script src="accesos/accesos.js"></script>
-    <script src="accesos/accesoFormController.js"></script>
-    <script src="grupos/grupos.js"></script>
-    <script src="grupos/grupoFormController.js"></script>
+    <script src="seguridad/usuarios/usuarios.js"></script>
+    <script src="seguridad/usuarios/usuarioFormController.js"></script>
+    <script src="seguridad/accesos/accesos.js"></script>
+    <script src="seguridad/accesos/accesoFormController.js"></script>
+    <script src="seguridad/grupos/grupos.js"></script>
+    <script src="seguridad/grupos/grupoFormController.js"></script>
 
 
     <!-- scrips y controllers Agenda y Cita -->  
