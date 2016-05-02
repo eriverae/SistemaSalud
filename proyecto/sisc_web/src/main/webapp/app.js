@@ -75,7 +75,7 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       params : {'idMedico':'1'}
       
     })
-     .state('citasPaciente',{
+    .state('citasPaciente',{
       url: '/paciente/lcitas',
       templateUrl: 'agenda/pacientes/consultarCitas.html',
       controller: 'citasController',
@@ -101,8 +101,7 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       controller: 'medicosController',
       params : {idPersona:null}
     })
-    
-    
+
     .state('registroPacientes',{
       url: '/pacientes',
       templateUrl: 'registro/pacientes/registroPacientes.html',
@@ -122,7 +121,6 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       params : {idPersona:null}
     })
 
-    
     .state('registroBeneficiarios',{
       url: '/beneficiario',
       templateUrl: 'registro/beneficiario/registroBeneficiarios.html',

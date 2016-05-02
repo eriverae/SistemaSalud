@@ -1,22 +1,22 @@
 'use strict';
 var app = angular.module('sisc_web');
 
-app.controller('listaMedicosController', function ($scope, $rootScope, $stateParams, $state, personaService, modalService) {
+app.controller('listaEpsController', function ($scope, $rootScope, $stateParams, $state, epsService, modalService) {
     // Initialize required information: sorting, the first page to show and the grid options.
     $scope.sortInfo = {fields: ['id'], directions: ['asc']};
-    $scope.medicos = {currentPage: 1};
+    $scope.eps = {currentPage: 1};
     $scope.searchText = null;
 
     $scope.gridOptions = {
-        data: 'medicos.list',
+        data: 'eps.list',
         useExternalSorting: true,
         sortInfo: $scope.sortInfo,
 
         columnDefs: [
             { field: 'idPersona', displayName: 'Id'},
-            { field: 'nombres', displayName: 'Nombre'},
-            { field: 'apellidos', displayName: 'Apellidos' },
-            { field: 'numeroIdentificacion', displayName: 'Numero Identificacion'},
+            { field: 'razonSocial', displayName: 'Razon Social'},
+            { field: 'fechaConstitucion', displayName: 'Fecha Constitucion' },
+            { field: 'representanteLegal', displayName: 'Representante Legal'},
             { field: '', width: 80, 
                 cellTemplate: '<span class="glyphicon glyphicon-trash remove" ng-click="deleteRow(row)"></span>'+
                 '<span class="glyphicon glyphicon-edit modify" ng-click="updateRow(row)"></span>' }
@@ -27,8 +27,8 @@ app.controller('listaMedicosController', function ($scope, $rootScope, $statePar
         // Broadcasts an event when a row is selected, to signal the form that it needs to load the row data.
         afterSelectionChange: function (rowItem) {
             if (rowItem.selected) {
-                $rootScope.$broadcast('medicoSelected', $scope.gridOptions.selectedItems[0].idPersona);
-                console.log('Se emitio evento <medicoSelected>');
+                $rootScope.$broadcast('epsSelected', $scope.gridOptions.selectedItems[0].idPersona);
+                console.log('Se emitio evento <epsSelected>');
             }
         }
     };
@@ -39,43 +39,42 @@ app.controller('listaMedicosController', function ($scope, $rootScope, $statePar
 
     // Refresh the grid, calling the appropriate rest method.
     $scope.refreshGrid = function () {
-        var listMedicosArgs = {
-            page: $scope.medicos.currentPage,
+        var listEpsArgs = {
+            page: $scope.eps.currentPage,
             sortFields: $scope.sortInfo.fields[0],
             sortDirections: $scope.sortInfo.directions[0]
         };
 
-        personaService.get(listMedicosArgs, function (data) {
-            $scope.medicos = data;
+        epsService.get(listEpsArgs, function (data) {
+            $scope.eps = data;
         });
     };
 
     // Broadcast an event when an element in the grid is deleted. No real deletion is perfomed at this point.
     $scope.deleteRow = function (row) {
-      var m = row.entity.nombres + " " + row.entity.apellidos;
+      var m = row.entity.razonSocial + " " + row.entity.fechaConstitucion;
       var modalOptions = {
           closeButtonText: 'Cancelar',
-          actionButtonText: 'Eliminar Medico',
+          actionButtonText: 'Eliminar EPS',
           headerText: 'Eliminar ' + m,
-          bodyText: '¿Esta seguro de eliminar este medico?'
+          bodyText: '¿Esta seguro de eliminar esta EPS?'
       };
 
       modalService.showModal({}, modalOptions).then(function (result) {
-        $rootScope.$broadcast('deleteMedico', row.entity.idPersona);
+        $rootScope.$broadcast('deleteEps', row.entity.idPersona);
       });
-      
     };
     
     $scope.updateRow = function(row){
       var idP = row.entity.idPersona;
-      console.log('Modificar persona: ' & idP);
-      $state.go("modificarMedicos", {'idPersona': idP});
+      console.log('Modificar EPS: ' & idP);
+      $state.go("modificarEps", {'idPersona': idP});
     };
     
     // Watch the sortInfo variable. If changes are detected than we need to refresh the grid.
     // This also works for the first page access, since we assign the initial sorting in the initialize section.
     $scope.$watch('sortInfo', function () {
-        $scope.medicos = {currentPage: 1};
+        $scope.eps = {currentPage: 1};
         $scope.refreshGrid();
     }, true);
 
@@ -97,21 +96,21 @@ app.controller('listaMedicosController', function ($scope, $rootScope, $statePar
         $scope.gridOptions.selectAll(false);
     });
     
-    $scope.$on('medicoSelected', function (event, id) {
-        console.log("Ejecuta medicoselected " & id);
-        $scope.medico = personaService.get({id: id});
+    $scope.$on('epsSelected', function (event, id) {
+        console.log("Ejecuta epselected " & id);
+        $scope.eps = epsService.get({id: id});
     });
     
     // Picks us the event broadcasted when the person is deleted from the grid and perform the actual person delete by
     // calling the appropiate rest service.
-    $scope.$on('deleteMedico', function (event, id) {
-      console.log('Evento eliminar medico:' + id);
-      personaService.delete({id: id}).$promise.then(
+    $scope.$on('deleteEps', function (event, id) {
+      console.log('Evento eliminar EPS:' + id);
+      epsService.delete({id: id}).$promise.then(
           function () {
               // Broadcast the event to refresh the grid.
               $rootScope.$broadcast('refreshGrid');
               // Broadcast the event to display a delete message.
-              $rootScope.$broadcast('medicoDeleted');
+              $rootScope.$broadcast('epsDeleted');
               //$scope.clearForm();
           },
           function () {
@@ -124,14 +123,14 @@ app.controller('listaMedicosController', function ($scope, $rootScope, $statePar
 // Create a controller with name alertMessagesController to bind to the feedback messages section.
 app.controller('alertMessagesController', function ($scope) {
     // Picks up the event to display a saved message.
-    $scope.$on('medicoSaved', function () {
+    $scope.$on('epsSaved', function () {
         $scope.alerts = [
             { type: 'success', msg: 'Record saved successfully!' }
         ];
     });
 
     // Picks up the event to display a deleted message.
-    $scope.$on('medicoDeleted', function () {
+    $scope.$on('epsDeleted', function () {
         $scope.alerts = [
             { type: 'success', msg: 'Record deleted successfully!' }
         ];
