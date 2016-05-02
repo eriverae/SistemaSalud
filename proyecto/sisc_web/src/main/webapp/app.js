@@ -89,6 +89,12 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
     })    
     
     // Registro    
+    .state('registroPersonaNatural',{
+      url:'/personaNatural',
+      templateUrl: 'registro/registroPersonaNatural.html',
+      controller: 'personaNaturalController'
+    })   
+    
     .state('registroMedicos',{
       url:'/medicos',
       templateUrl: 'registro/medicos/registroMedicos.html',
