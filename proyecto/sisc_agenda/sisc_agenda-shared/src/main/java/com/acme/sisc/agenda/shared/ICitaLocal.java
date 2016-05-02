@@ -26,6 +26,9 @@ public interface ICitaLocal {
     @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
     public String cancelarCita(Cita cita);
     
+    @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
+    public String cancelarCita1(Long idCita);    
+    
     public Cita find(Long id);
 
     

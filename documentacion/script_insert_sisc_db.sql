@@ -61,7 +61,7 @@ INSERT INTO agenda (ciudad, direccion, estado_diponible, hora_bloque_inicio, hor
 --https://saforas.wordpress.com/2009/11/12/postgresql-fechas-y-horas/
 --http://stackoverflow.com/questions/16837280/get-interval-in-milliseconds
 --ALTER TABLE cita ADD COLUMN estado_cita varchar(20);
-ALTER TABLE cita ADD COLUMN id_cita_referencia text;
+ALTER TABLE cita ADD COLUMN observaciones text;
 --DELETE FROM cita;
 
 select * from cita;
@@ -87,7 +87,7 @@ SELECT ('c-' || id_cita) AS citaconca, id_cita FROM cita
 
 
 
-
+UPDATE cita SET estado_cita = 'APARTADA' WHERE estado_cita = 'CANCELADA';
 
 
 
