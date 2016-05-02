@@ -17,3 +17,7 @@ myModule.factory('accesoService', function ($resource) {
 myModule.factory('grupoService', function ($resource) {
     return $resource('/sisc_seguridad/api/grupos/:grupGrup');
 });
+
+myModule.factory('loginService', function ($resource) {
+    return $resource('/sisc_seguridad/api/seguridad/');
+});
