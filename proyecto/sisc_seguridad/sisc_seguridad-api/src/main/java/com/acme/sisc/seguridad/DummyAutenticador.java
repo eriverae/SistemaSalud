@@ -12,6 +12,7 @@ package com.acme.sisc.seguridad;
 public class DummyAutenticador implements IAutenticador {
 
     
+    @Override
     public boolean autenticar(String usuario, String password) {
         return true;
     }

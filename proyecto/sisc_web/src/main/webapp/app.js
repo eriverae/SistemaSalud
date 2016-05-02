@@ -19,57 +19,57 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
     
     .state('accesos',{
       url:'/accesos',
-      templateUrl: 'accesos/accesos.html',
+      templateUrl: 'seguridad/accesos/accesos.html',
       controller: 'accesosListController'
     })
   
     .state('crearAcceso',{
       url: '/crearAcceso',
-      templateUrl: 'accesos/formularioAcceso.html',
+      templateUrl: 'seguridad/accesos/formularioAcceso.html',
       controller: 'accesoFormController'
     })
     
     .state('modificarAcceso',{
       url: '/modificarAcceso',
-      templateUrl: 'accesos/formularioAcceso.html',
+      templateUrl: 'seguridad/accesos/formularioAcceso.html',
       controller: 'accesoFormController',
       params : {'acceAcce':null}
     })
     
     .state('grupos',{
       url:'/grupos',
-      templateUrl: 'grupos/grupos.html',
+      templateUrl: 'seguridad/grupos/grupos.html',
       controller: 'gruposListController'
     })
   
     .state('crearGrupo',{
       url: '/crearGrupo',
-      templateUrl: 'grupos/formularioGrupo.html',
+      templateUrl: 'seguridad/grupos/formularioGrupo.html',
       controller: 'grupoFormController'
     })
     
     .state('modificarGrupo',{
       url: '/modificarGrupo',
-      templateUrl: 'grupos/formularioGrupo.html',
+      templateUrl: 'seguridad/grupos/formularioGrupo.html',
       controller: 'grupoFormController',
       params : {'grupGrup':null}
     })
       
     .state('usuarios',{
       url:'/usuarios',
-      templateUrl: 'usuarios/usuarios.html',
+      templateUrl: 'seguridad/usuarios/usuarios.html',
       controller: 'usuariosListController'
     })
   
     .state('crearUsuario',{
       url: '/crearUsuario',
-      templateUrl: 'usuarios/formularioUsuario.html',
+      templateUrl: 'seguridad/usuarios/formularioUsuario.html',
       controller: 'usuarioFormController'
     })
     
     .state('modificarUsuario',{
       url: '/modificarUsuario',
-      templateUrl: 'usuarios/formularioUsuario.html',
+      templateUrl: 'seguridad/usuarios/formularioUsuario.html',
       controller: 'usuarioFormController',
       params : {'usuaUsua':null}
     })
@@ -81,7 +81,7 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       params : {'idMedico':'1'}
       
     })
-     .state('citasPaciente',{
+    .state('citasPaciente',{
       url: '/paciente/lcitas',
       templateUrl: 'agenda/pacientes/consultarCitas.html',
       controller: 'citasController',
@@ -107,8 +107,7 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       controller: 'medicosController',
       params : {idPersona:null}
     })
-    
-    
+
     .state('registroPacientes',{
       url: '/pacientes',
       templateUrl: 'registro/pacientes/registroPacientes.html',
@@ -128,7 +127,6 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       params : {idPersona:null}
     })
 
-    
     .state('registroBeneficiarios',{
       url: '/beneficiario',
       templateUrl: 'registro/beneficiario/registroBeneficiarios.html',

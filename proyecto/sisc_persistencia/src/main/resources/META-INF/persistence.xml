@@ -18,7 +18,6 @@
     <class>com.acme.sisc.agenda.entidades.Grupo</class>
     <class>com.acme.sisc.agenda.entidades.Grupusu</class>
     <class>com.acme.sisc.agenda.entidades.Operacion</class>
-    <class>com.acme.sisc.agenda.entidades.Persona</class>
     <class>com.acme.sisc.agenda.entidades.PersonaEps</class>
     <class>com.acme.sisc.agenda.entidades.PersonaJuridica</class>
     <class>com.acme.sisc.agenda.entidades.PersonaNatural</class>

@@ -7,12 +7,13 @@
                    data-ng-change="searchTextChanged()"
                    />
         </div>  
-        <a ui-sref="registroMedicos"><span class="glyphicon glyphicon-plus"></span> Nuevo Médico</a>
+        <a ui-sref="registroEps"><span class="glyphicon glyphicon-plus"></span> Nueva EPS</a>
     </div>
+    
     <div class="panel-body">
         <div class="grid">
             <div>
-                <h3>Lista de médicos</h3>
+                <h3>Lista de EPS's</h3>
             </div>
             <!-- Binds the grid component to be displayed. -->
             <div class="gridStyle" ng-grid="gridOptions"></div>
@@ -24,13 +25,5 @@
             </pagination>
         </div>
     </div>
-    <!--div>
-        <form name="testForm" ng-submit="Autenticar()" novalidate>
-            Form buttons. The 'Save' button is only enabled when the form is valid. 
-            <div class="buttons">
-              <button type="button" class="btn btn-primary" ng-click="cancelar()">Cancelar</button>
-              <button type="submit" class="btn btn-primary">Ingresar</button>
-            </div>
-        </form>
-    </div-->
+    
 </div>

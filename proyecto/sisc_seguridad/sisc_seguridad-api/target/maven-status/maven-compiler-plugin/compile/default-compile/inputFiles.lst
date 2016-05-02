@@ -3,11 +3,11 @@ C:\Users\Julio\Documents\SistemaSalud\proyecto\sisc_seguridad\sisc_seguridad-api
 C:\Users\Julio\Documents\SistemaSalud\proyecto\sisc_seguridad\sisc_seguridad-api\src\main\java\com\acme\sisc\seguridad\pagination\PaginatedListWrapperGrupo.java
 C:\Users\Julio\Documents\SistemaSalud\proyecto\sisc_seguridad\sisc_seguridad-api\src\main\java\com\acme\sisc\seguridad\ProxyAutenticador.java
 C:\Users\Julio\Documents\SistemaSalud\proyecto\sisc_seguridad\sisc_seguridad-api\src\main\java\com\acme\sisc\seguridad\rest\AuthResource.java
+C:\Users\Julio\Documents\SistemaSalud\proyecto\sisc_seguridad\sisc_seguridad-api\src\main\java\com\acme\sisc\seguridad\auth\BaseDatosAutenticador.java
 C:\Users\Julio\Documents\SistemaSalud\proyecto\sisc_seguridad\sisc_seguridad-api\src\main\java\com\acme\sisc\seguridad\pagination\PaginatedListWrapperAcceso.java
 C:\Users\Julio\Documents\SistemaSalud\proyecto\sisc_seguridad\sisc_seguridad-api\src\main\java\com\acme\sisc\seguridad\DummyAutenticador.java
 C:\Users\Julio\Documents\SistemaSalud\proyecto\sisc_seguridad\sisc_seguridad-api\src\main\java\com\acme\sisc\seguridad\IAutenticador.java
 C:\Users\Julio\Documents\SistemaSalud\proyecto\sisc_seguridad\sisc_seguridad-api\src\main\java\com\acme\sisc\seguridad\rest\UsuarioResource.java
-C:\Users\Julio\Documents\SistemaSalud\proyecto\sisc_seguridad\sisc_seguridad-api\src\main\java\com\acme\sisc\seguridad\JWTAutenticador.java
 C:\Users\Julio\Documents\SistemaSalud\proyecto\sisc_seguridad\sisc_seguridad-api\src\main\java\com\acme\sisc\seguridad\rest\SeguridadResource.java
 C:\Users\Julio\Documents\SistemaSalud\proyecto\sisc_seguridad\sisc_seguridad-api\src\main\java\com\acme\sisc\seguridad\rest\ApplicationConfig.java
 C:\Users\Julio\Documents\SistemaSalud\proyecto\sisc_seguridad\sisc_seguridad-api\src\main\java\com\acme\sisc\seguridad\dto\Credenciales.java
