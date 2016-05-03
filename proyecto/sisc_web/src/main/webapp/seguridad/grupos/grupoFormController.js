@@ -19,6 +19,14 @@ app.controller('grupoFormController', function ($scope, $rootScope, $stateParams
       });
   }
   
+    $scope.listaTiposGrupo = [
+      {id: 'Medico', name: 'Médico'},
+      {id: 'Paciente', name: 'Paciente'},
+      {id: 'EPS', name: 'EPS'},
+      {id: 'Administrador', name: 'Administrador'},
+      {id: 'Auditor', name: 'Auditor'}
+    ];
+  
   // Clears the form. Either by clicking the 'Clear' button in the form, or when a successfull save is performed.
   $scope.clearForm = function () {
     $scope.grupo = null;
