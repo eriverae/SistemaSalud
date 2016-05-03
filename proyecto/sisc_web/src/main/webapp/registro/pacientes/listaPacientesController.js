@@ -19,7 +19,8 @@ app.controller('listaPacientesController', function ($scope, $rootScope, $stateP
             { field: 'numeroIdentificacion', displayName: 'Numero Identificacion'},
             { field: '', width: 80, 
                 cellTemplate: '<span class="glyphicon glyphicon-trash remove" ng-click="deleteRow(row)"></span>'+
-                '<span class="glyphicon glyphicon-edit modify" ng-click="updateRow(row)"></span>' }
+                '<span class="glyphicon glyphicon-edit modify" ng-click="updateRow(row)"></span>' +
+                '<span class="fa fa-sitemap" ng-click="beneficiarios(row)"></span>' }
         ],
 
         multiSelect: false,
@@ -69,7 +70,12 @@ app.controller('listaPacientesController', function ($scope, $rootScope, $stateP
     $scope.updateRow = function(row){
       var idP = row.entity.idPersona;
       console.log('Modificar persona: ' & idP);
-      $state.go("modificarPacientes", {idPaciente: idP});
+      $state.go("modificarPacientes", {idPersona: idP});
+    };
+    
+    $scope.beneficiarios = function(row){
+      var idP = row.entity.idPersona;
+      $state.go("registroBeneficiarios", {idPersona: idP});
     };
     
     $scope.autenticar = function () {

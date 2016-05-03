@@ -11,7 +11,7 @@
                 <span ng-class="{'glyphicon glyphicon-ok' : BeneficiarioForm.identificacionCotizante.$valid && BeneficiarioForm.identificacionCotizante.$dirty}"></span>
 
                 <input id="identificacionCotizante" name="identificacionCotizante" type="number" class="form-control" maxlength="20"
-                       ng-model="cotizante.idCotizante" required ng-minlength="3" ng-maxlength="20"
+                       ng-model="cotizante.numeroIdentificacion" required ng-minlength="3" ng-maxlength="20"
                        placeholder="número de identificación"/>
             </div>
 
@@ -22,7 +22,7 @@
                 <span ng-class="{'glyphicon glyphicon-ok' : BeneficiarioForm.nombresCotizante.$valid && BeneficiarioForm.nombresCotizante.$dirty}"></span>
                 
                 <input id="nombres" name="nombresCotizante" type="text" class="form-control" maxlength="30"
-                       ng-model="cotizante.nombresCotizante" required ng-minlength="3" ng-maxlength="30"
+                       ng-model="cotizante.nombres" required ng-minlength="3" ng-maxlength="30"
                        placeholder="Nombres"/>
             </div>
 
@@ -32,7 +32,7 @@
                 <!-- Display a check when the field is valid and was modified -->
                 <span ng-class="{'glyphicon glyphicon-ok' : BeneficiarioForm.apellidosCotizante.$valid && BeneficiarioForm.apellidosCotizante.$dirty}"></span>
                 <input id="apellidos" name="apellidosCotizante" type="text" class="form-control" maxlength="30"
-                       ng-model="cotizante.apellidosCotizante" required ng-minlength="3" ng-maxlength="30"
+                       ng-model="cotizante.apellidos" required ng-minlength="3" ng-maxlength="30"
                        placeholder="Apellidos"/>
             </div>
 

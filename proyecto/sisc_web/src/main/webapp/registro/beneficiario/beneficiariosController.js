@@ -3,16 +3,16 @@ var app = angular.module('sisc_web');
 
 app.controller('beneficiariosController', function ($scope, $rootScope, $stateParams, $state, personaService, modalService) {
 
-    $scope.beneficiario = {};
+    $scope.cotizante = {};
 
     if (angular.isDefined($stateParams.idPersona)) {
         console.log('Beneficiario a..., ID = ' + $stateParams.idPersona);
         personaService.get({id: $stateParams.idPersona}).$promise.then(
                 function (data) {
                     console.log('Datos de beneficiarios encontrados');
-                    $scope.beneficiario = data;
+                    $scope.cotizante = data;
                     //A partir de Angular 1.3, ng-model requiere un objeto de tipo Date valido, no acepta un String
-                    $scope.beneficiario.fechaNacimiento = new Date($scope.beneficiario.fechaNacimiento);
+                    $scope.cotizante.fechaNacimiento = new Date($scope.cotizante.fechaNacimiento);
                 },
                 function () {
                     console.log('Datos paila :(');
@@ -30,10 +30,8 @@ app.controller('beneficiariosController', function ($scope, $rootScope, $statePa
         
     ];
 
-
-
     $scope.updateBeneficiario = function () {
-        personaService.save($scope.beneficiario).$promise.then(
+        personaService.save($scope.cotizante).$promise.then(
                 function () {
                     // Broadcast the event to refresh the grid.
                     $rootScope.$broadcast('refreshGrid');
