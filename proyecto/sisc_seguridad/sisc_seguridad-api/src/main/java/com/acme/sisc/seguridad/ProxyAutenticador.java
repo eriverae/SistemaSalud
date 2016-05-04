@@ -28,7 +28,7 @@ public class ProxyAutenticador implements IAutenticador {
             
             String valor = rb.getString("clase_autenticador");
             
-            LOGGER.log(Level.FINEST,"Clase Instanciada" + valor);
+            LOGGER.log(Level.FINEST, "Clase Instanciada{0}", valor);
             
             proxy = (IAutenticador) Class.forName(valor).newInstance();
         } catch (ClassNotFoundException ex) {
@@ -41,15 +41,14 @@ public class ProxyAutenticador implements IAutenticador {
         if (instance == null) {
             try {
                 instance = new ProxyAutenticador();
-            } catch (InstantiationException ex) {
-                Logger.getLogger(ProxyAutenticador.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
+            } catch (InstantiationException | IllegalAccessException ex) {
                 Logger.getLogger(ProxyAutenticador.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return instance;
     }
 
+    @Override
     public boolean autenticar(String usuario, String password) {
         return (proxy.autenticar(usuario, password));
     }

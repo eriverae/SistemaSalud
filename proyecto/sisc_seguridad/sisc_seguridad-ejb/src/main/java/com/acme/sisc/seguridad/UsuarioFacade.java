@@ -16,7 +16,6 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
-import javax.persistence.LockModeType;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -149,5 +148,18 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-    
+
+    @Override
+    public boolean autenticar(String usuario, String password) {
+        try {
+            Query q = em.createNamedQuery("Usuario.findByEmail");
+            q.setParameter("email", usuario);
+            Usuario u = (Usuario) q.getSingleResult();
+            String pwdEncry = encriptar(password);
+            return u.getUsuaPass().indexOf(pwdEncry) == 0;
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(UsuarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 }

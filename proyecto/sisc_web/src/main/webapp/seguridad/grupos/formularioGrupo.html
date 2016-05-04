@@ -1,0 +1,64 @@
+<div class="col-md-6 col-md-offset-3">
+    <!-- Verify person, if there is no id present, that we are Adding a Person -->
+    <div ng-if="grupo.grupGrup == null">
+        <h3>Crear nuevo Grupo</h3>
+    </div>
+    <!-- Otherwise it's an Edit -->
+    <div ng-if="grupo.grupGrup != null">
+        <h3>Modificar Grupo</h3>
+    </div>
+
+    <div>
+        <!-- Specify the function to be called on submit and disable HTML5 validation, since we're using Angular validation-->
+        <form class="form-horizontal" name="grupoForm" ng-submit="updateGrupo()" novalidate>
+
+            <!-- Nombre Grupo-->
+            <!--
+            <div class="form-group" ng-class="{'has-error' : grupoForm.grupNombr.$invalid && grupoForm.grupNombr.$dirty}">
+              <label for="grupNombr">Nombre Grupo:</label>
+            <!-- Display a check when the field is valid and was modified 
+            <span ng-class="{'glyphicon glyphicon-ok' : grupoForm.grupNombr.$valid && grupoForm.grupNombr.$dirty}"></span>
+            <input id="grupNombr" name="grupNombr" type="text" class="form-control" maxlength="50"
+                   ng-model="grupo.grupNombr" required ng-minlength="2" ng-maxlength="50" placeholder="Ingrese un nombre de grupo valido"/>
+    
+            <!-- Validation messages to be displayed on required, minlength and maxlength 
+            <p class="help-block" ng-show="grupoForm.grupNombr.$error.minlength">Debe tener al menos 2 caracteres.</p>
+            <p class="help-block" ng-show="grupoForm.grupNombr.$error.maxlength">El nombre de grupo no debe superar 50 characters.</p>
+          </div> 
+            -->
+
+            <!-- Nombre Grupo -->
+            <div class="form-group" ng-class="{'has-error' : grupoForm.grupNombr.$invalid && grupoForm.grupNombr.$dirty}">
+                <label for="grupNombr">Nombre Grupo:</label>
+                <!-- Display a check when the field is valid and was modified -->
+                <span ng-class="{'glyphicon glyphicon-ok' : grupoForm.grupNombr.$valid && grupoForm.grupNombr.$dirty}"></span>
+                <select name="grupNombr" id="grupNombr" ng-model="grupo.grupNombr" required>
+                    <option ng-repeat="option in listaTiposGrupo" value="{{option.id}}">{{option.name}}</option>
+                </select>
+                <!--
+                <p class="help-block" ng-show="clienteForm.IdType.$error.required">Nombre Grupo.</p>
+                -->
+            </div>
+
+            <!-- Descripcion -->
+            <div class="form-group" ng-class="{'has-error' : grupoForm.grupDescri.$invalid && grupoForm.grupDescri.$dirty}">
+                <label for="grupDescri">Descripción grupo:</label>
+                <!-- Display a check when the field is valid and was modified -->
+                <span ng-class="{'glyphicon glyphicon-ok' : grupoForm.grupDescri.$valid && grupoForm.grupDescri.$dirty}"></span>
+                <input id="grupDescri" name="grupDescri" type="text" class="form-control" maxlength="200"
+                       ng-model="grupo.grupDescri" required ng-minlength="5" ng-maxlength="200" placeholder="Ingrese una descripcion valida"/>
+
+                <!-- Validation messages to be displayed on required, minlength and maxlength -->
+                <p class="help-block" ng-show="grupoForm.grupDescri.$error.minlength">Debe tener al menos 5 caracteres.</p>
+                <p class="help-block" ng-show="grupoForm.grupDescri.$error.maxlength">La descripcion no debe superar 200 characters.</p>
+            </div>
+
+
+            <!-- Form buttons. The 'Save' button is only enabled when the form is valid. -->
+            <div class="buttons">
+                <button type="button" class="btn btn-primary" ng-click="cancelar()">Cancelar</button>
+                <button type="submit" class="btn btn-primary" ng-disabled="grupoForm.$invalid">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>

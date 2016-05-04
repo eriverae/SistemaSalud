@@ -5,12 +5,12 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 
-<!--mensaje correcto cita seleccionada del paciente-->
+<!--mensajes de operaciones de la cita-->
 <div class="alert alert-success" role="alert" ng-if="informacionCita != null" >
     <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
     <strong>{{mensajesCita.msn_citaSeleccionada1}}</strong> {{mensajesCita.msn_citaSeleccionada2}} .
 </div>
-<!--FIN mensaje correcto cita seleccionada del paciente-->
+<!--FIN mensajes de operaciones de la cita-->
 
 
 
@@ -24,11 +24,6 @@ and open the template in the editor.
 <!--OTRA FORMA: mensaje correcto cita seleccionada del paciente-->
 
 
-<!--mensaje de confirmacion de si esta seguro-->
-<div class="noty_message" style="font-size: 11px; line-height: 14px; text-align: left; padding: 8px 10px 9px; width: auto; position: relative;">
-    <span class="noty_text">Esta seguro que desea cancelar?</span>
-</div>
-<!--FIN mensaje de confirmacion de si esta seguro-->
 
 <!-- popups-->
 <!-- default with sound -->   
@@ -102,7 +97,7 @@ and open the template in the editor.
                 <div class="panel-body">
                     <table id="customers" class="table datatable">
                         <thead>
-                            <tr role="row">
+                            <tr>
                             <th>IdCita</th>
                             <th>Nombre Eps</th>
                             <th>Direccion</th>
@@ -113,14 +108,14 @@ and open the template in the editor.
                         </thead>
                         <tbody>
                                                                                                                        <!--data-target="#message-box-sound-2" data-box="#message-box-sound-2"-->
-                            <tr id="trow_1" ng-repeat="cita in listaCitasPaciente" ng-click="mostrarUnaCitaDetallada(cita)"  > 
-                            <td class="text-center">{{cita.idCita}}</td>
-                            <td><strong>{{cita.agenda.medicoEps.eps.razonSocial}}</strong></td>
-                            <td><strong>{{cita.agenda.direccion}}</strong></td>
-                            <td>{{cita.horaInicio| getFormatofecha}} {{cita.horaInicio| getFormatoHora}}</td>
-                            <td><span class="label label-warning">{{cita.estadoCita}}</span></td>
+                            <tr id="trow_1" ng-repeat="cita in listaCitasPaciente"  > 
+                            <td class="text-center" ng-click="mostrarUnaCitaDetallada(cita)">{{cita.idCita}}</td>
+                            <td ng-click="mostrarUnaCitaDetallada(cita)"><strong>{{cita.agenda.medicoEps.eps.razonSocial}}</strong></td>
+                            <td ng-click="mostrarUnaCitaDetallada(cita)"><strong>{{cita.agenda.direccion}}</strong></td>
+                            <td ng-click="mostrarUnaCitaDetallada(cita)">{{cita.horaInicio| getFormatofecha}} {{cita.horaInicio| getFormatoHora}}</td>
+                            <td ng-click="mostrarUnaCitaDetallada(cita)"><span class="label label-warning">{{cita.estadoCita}}</span></td>
                             <td>
-                            <button id="message-box-warning" class="btn btn-danger btn-rounded btn-sm"  ng-click="cancelarCita(cita)"> CANCELAR <span class="fa fa-times"></span></button>                        
+                            <button class="btn btn-danger btn-rounded btn-sm" ng-click="confirmacionCancelarCita($index, cita)"> CANCELAR <span class="fa fa-times"></span></button>                        
                             </td>
                             </tr>
                         </tbody>
@@ -133,9 +128,30 @@ and open the template in the editor.
     </div>
 </div>  
 
+ <!-- MESSAGE BOX-->
+        <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
+            <div class="mb-container">
+                <div class="mb-middle">
+                    <div class="mb-title"><span class="fa fa-sign-out"></span> Cancelar <strong>Cita</strong> ?</div>
+                    <div class="mb-content">
+                        <p>¿Esta seguro de cancelar su cita?</p>                    
+                        <p>presiona NO para cancelar. SI para cancelar esta cita</p>
+                    </div>
+                    <div class="mb-footer">
+                        <div class="pull-right">
+                            <a class="btn btn-success btn-lg" ng-click="cancelarCita()">Yes</a>
+                            <button class="btn btn-default btn-lg mb-control-close" ng-click="confirmacionNOCancelarCita()">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END MESSAGE BOX-->
+
 
 <!--ejemplo-->
-<a href="http://localhost:8080/sisc_web/table-export.html#">ejemplo</a>  <br><br>                
+<a href="http://localhost:8080/sisc_web/table-export.html#">ejemplo</a>  <br><br>   
+
 
 
 <!--********************************************************************************

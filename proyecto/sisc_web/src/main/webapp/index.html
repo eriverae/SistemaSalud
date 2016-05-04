@@ -12,12 +12,9 @@
         <link href="css/estilomenuhc.css" rel="stylesheet" type="text/css">
         <!--<link rel="stylesheet" href="lib/dependencies/css/fullcalendar.css">-->
         <!--<link rel="stylesheet" type="text/css" href="css/style.css"/>-->
-
-
-        <!-- END META SECTION -->
-
         <!-- CSS INCLUDE -->        
         <link rel="stylesheet" type="text/css" id="theme" href="css/theme-default.css"/>
+        <link rel="icon" href="favicon.ico" type="image/x-icon" />
         <!-- EOF CSS INCLUDE -->                                    
     </head>
     <body>
@@ -29,7 +26,7 @@
                 <!-- START X-NAVIGATION -->
                 <ul class="x-navigation">
                     <li class="xn-logo">
-                        <a href="index.html">SiSC Admin</a>
+                        <a href="index.html">SISC ADMIN</a>
                         <a href="#" class="x-navigation-control"></a>
                     </li>
                     <li class="xn-profile">
@@ -57,16 +54,26 @@
                      <li><a class="fa fa-ambulance" ui-sref="menuhc" >    Datos de Cita</a></li>
 
                     <li class="xn-openable">
-                        <a href="#"><span class="fa fa-users"></span> <span class="xn-text">Usuarios</span></a>
+                        <a href="#"><span class="fa fa-user"></span> <span class="xn-text">Usuarios</span></a>
                         <ul>
                             <li><a ui-sref="usuarios">Listar usuarios</a></li>
                             <li><a ui-sref="crearUsuario">Crear usuario</a></li>
+                            <li><a ui-sref="login">Login</a></li>
 
                         </ul>
 
                     </li>
                     <li class="xn-openable">
-                        <a href="#"><span class="fa fa-users"></span> <span class="xn-text">Accesos</span></a>
+                        <a href="#"><span class="fa fa-users"></span> <span class="xn-text">Perfiles</span></a>
+                        <ul>
+                            <li><a ui-sref="grupos">Listar perfiles</a></li>
+                            <li><a ui-sref="crearGrupo">Crear perfil</a></li>
+
+                        </ul>
+
+                    </li>
+                    <li class="xn-openable">
+                        <a href="#"><span class="glyphicon glyphicon-log-in"></span> <span class="xn-text">Accesos</span></a>
                         <ul>
                             <li><a ui-sref="accesos">Listar accesos</a></li>
                             <li><a ui-sref="crearAcceso">Crear acceso</a></li>
@@ -74,39 +81,38 @@
                         </ul>
 
                     </li>
-                    <!--MENU PARA AGENDA MEDICOS Y PACINETES-->
+                    <!--MENU PARA AGENDA MEDICOS Y PACIENTES-->
                     <li class="xn-openable" >
-                        <a href="#"><span class="fa fa-ambulance"></span> <span class="xn-text">Medicos</span></a>
+                        <a href="#"><span class="fa fa-user-md"></span> <span class="xn-text">Medicos</span></a>
                         <ul>
                             <li><a ui-sref="agenda">Agenda</a></li>
                         </ul>
                     </li>
                     <li class="xn-openable" >
-                        <a href="#"><span class="fa fa-ambulance"></span> <span class="xn-text">Pacientes</span></a>
+                        <a href="#"><span class="fa fa-wheelchair"></span> <span class="xn-text">Pacientes</span></a>
                         <ul>
                             <li><a ui-sref="citasPaciente">Citas</a></li>
                             <li><a ui-sref="registroCitaPaciente">Registro de la cita</a></li>
                         </ul>
                     </li>
+                 <!--FIN PARA AGENDA MEDICOS Y PACINETES-->
 
-                    <!--FIN PARA AGENDA MEDICOS Y PACINETES-->
-
-                     <!--FIN PARA AGENDA MEDICOS Y PACINETES-->
-                     
-                    <!-- Registro -->
+                    <!-- REGISTRO -->
                     <li class="xn-openable">
-                        <a href="#"><span class="fa fa-users"></span> <span class="xn-text">Registro</span></a>
+                        <a href="#"><span class="fa fa-archive"></span> <span class="xn-text">Registro</span></a>
                         <ul>
+                            <li><a ui-sref="registroPersonaNatural">Registrar personas naturales</a></li>
                             <li><a ui-sref="registroMedicos">Registrar Médicos</a></li>
                             <li><a ui-sref="listarMedicos">Listar Médicos</a></li>
                             <li><a ui-sref="registroPacientes">Registrar Pacientes</a></li>
                             <li><a ui-sref="listarPacientes">Listar Pacientes</a></li>
                             <li><a ui-sref="registroBeneficiarios">Registrar Beneficiarios</a></li>
+                            <li><a ui-sref="listarBeneficiarios">Listar Beneficiarios</a></li>
+                            <li><a ui-sref="registroEps">Registrar EPS</a></li>
+                            <li><a ui-sref="listarEps">Listar EPS</a></li>
                         </ul>
                     </li>                     
-                    <!-- /Registro -->
-
-
+                    <!-- /REGISTRO -->
                     <!-- hc -->
                     <li class="xn-openable">
                         <a href="#"><span class="fa fa-stethoscope"></span> <span class="xn-text">Historia Clinica</span></a>
@@ -119,8 +125,6 @@
                         </ul>
                     </li>
                     <!-- /hc --> 
-
-
                 </ul>
                 <!-- END X-NAVIGATION -->
             </div>
@@ -251,8 +255,7 @@
             <!-- END PAGE CONTENT WRAPPER -->                                
         </div>            
         <!-- END PAGE CONTENT -->
-    </div>
-    <!-- END PAGE CONTAINER -->
+        <!-- END PAGE CONTAINER -->
 
     <!-- MESSAGE BOX-->
     <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
@@ -318,6 +321,7 @@
     <script src="lib/dependencies/angular/angular.js"></script>
     <script src="lib/dependencies/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="lib/dependencies/angular-resource.min.js"></script>
+    <script src="lib/dependencies/angular-route/angular-route.min.js"></script>
     <script src="lib/dependencies/ng-grid-2.0.11.min.js"></script>
     <script src="lib/dependencies/ui-bootstrap-tpls.min.js"></script>
 
@@ -325,10 +329,12 @@
     <script src="app.js"></script>
     <script src="utils/utils.js"></script>
     <script src="services/seguridadServices.js"></script>
-    <script src="usuarios/usuarios.js"></script>
-    <script src="usuarios/usuarioFormController.js"></script>
-    <script src="accesos/accesos.js"></script>
-    <script src="accesos/accesoFormController.js"></script>
+    <script src="seguridad/usuarios/usuarios.js"></script>
+    <script src="seguridad/usuarios/usuarioFormController.js"></script>
+    <script src="seguridad/accesos/accesos.js"></script>
+    <script src="seguridad/accesos/accesoFormController.js"></script>
+    <script src="seguridad/grupos/grupos.js"></script>
+    <script src="seguridad/grupos/grupoFormController.js"></script>
 
 
     <!-- scrips y controllers Agenda y Cita -->  
@@ -338,11 +344,16 @@
     <script src="agenda/pacientes/controllers/citasController.js"></script>
 
     <!-- Controladores de Registro -->
+    <script src="registro/personaNaturalController.js"></script>
     <script src="registro/medicos/medicosController.js"></script>
     <script src="registro/medicos/listaMedicosController.js"></script>
     <script src="registro/pacientes/pacientesController.js"></script>
     <script src="registro/pacientes/listaPacientesController.js"></script>
     <script src="registro/beneficiario/beneficiariosController.js"></script>
+    <script src="registro/beneficiario/beneficiariosController.js"></script>
+    <script src="registro/eps/epsController.js"></script>
+    <script src="registro/eps/listaEpsController.js"></script>
+    <!-- aqui tengo dudas -->
     <script src="services/registroServices.js"></script>
 
     <!-- END SCRIPTS -->
@@ -355,6 +366,7 @@
     <script src="historia/cirugiaController.js"></script>
     <script src="services/hcServices.js"></script>
     <!-- END SCRIPTS -->
+    <script src="loginFormController.js"></script>
 
 </body>
 </html>

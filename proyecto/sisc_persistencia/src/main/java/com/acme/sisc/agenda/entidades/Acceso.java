@@ -46,6 +46,17 @@ public class Acceso implements Serializable {
     @Basic(optional = false)
     @Column(name = "acce_esta")
     private String acceEsta;
+    @Basic(optional = false)
+    @Column(name = "acce_url")
+    private String acceURL;
+
+    public Acceso(Long acceAcce, String acceNombre, String acceDesc, String acceEsta, String acceURL) {
+        this.acceAcce = acceAcce;
+        this.acceNombre = acceNombre;
+        this.acceDesc = acceDesc;
+        this.acceEsta = acceEsta;
+        this.acceURL = acceURL;
+    }
     
     @Version
     @Column(name = "VERSION")
@@ -56,13 +67,6 @@ public class Acceso implements Serializable {
 
     public Acceso(Long acceAcce) {
         this.acceAcce = acceAcce;
-    }
-
-    public Acceso(Long acceAcce, String acceNombre, String acceDesc, String acceEsta) {
-        this.acceAcce = acceAcce;
-        this.acceNombre = acceNombre;
-        this.acceDesc = acceDesc;
-        this.acceEsta = acceEsta;
     }
 
     public Long getAcceAcce() {
@@ -134,6 +138,14 @@ public class Acceso implements Serializable {
      */
     public void setVersion(Long version) {
       this.version = version;
+    }
+
+    public String getAcceURL() {
+        return acceURL;
+    }
+
+    public void setAcceURL(String acceURL) {
+        this.acceURL = acceURL;
     }
     
 }

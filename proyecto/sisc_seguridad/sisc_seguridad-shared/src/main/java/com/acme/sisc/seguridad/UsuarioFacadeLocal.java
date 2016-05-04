@@ -34,4 +34,6 @@ public interface UsuarioFacadeLocal {
 
     int count();
 
+    boolean autenticar(String usuario, String password);
+
 }

@@ -107,6 +107,13 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
         logger.log(Level.WARNING, "\n\nSESION-BEAN-CITA-PACIENTE\n El paciente cancela la cita: "+ cita.getIdCita() + "\n Estado de la cita actual = " + cita.getEstadoCita());
         return facadeCita.PacienteCancelaSuCita(cita);
     }
+    
+    @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
+    @Override
+    public String cancelarCita1(Long idCita) {
+        logger.log(Level.WARNING, "\n\nSESION-BEAN-CITA-PACIENTE\n El paciente cancela la cita: "+ idCita);
+        return facadeCita.PacienteCancelaSuCita(idCita);
+    }
 
 
     
