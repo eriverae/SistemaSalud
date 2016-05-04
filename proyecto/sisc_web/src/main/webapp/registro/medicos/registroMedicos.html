@@ -120,7 +120,7 @@
                   <!-- Display a check when the field is valid and was modified -->
                   <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.dateBirth.$valid && medicoForm.dateBirth.$dirty}"></span>
 
-                  <input id="dateBirth" name="dateBirth" type="date" class="form-control" placeholder="dd/MM/yyyy"
+                  <input id="dateBirth" name="dateBirth" type="text" class="form-control datepicker" placeholder="dd/MM/yyyy"
                          ng-model="medico.fechaNacimiento"
                          required ng-minlength="5" ng-maxlength="100"/>
 
