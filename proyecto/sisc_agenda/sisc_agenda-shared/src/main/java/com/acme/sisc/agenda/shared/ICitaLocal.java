@@ -5,6 +5,7 @@
  */
 package com.acme.sisc.agenda.shared;
 
+import com.acme.sisc.agenda.dto.GeneralResponse;
 import com.acme.sisc.agenda.entidades.Cita;
 import com.acme.sisc.agenda.exceptions.CitaException;
 import java.util.List;
@@ -27,7 +28,7 @@ public interface ICitaLocal {
     public String cancelarCita(Cita cita);
     
     @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
-    public String cancelarCita1(Long idCita);    
+    public GeneralResponse cancelarCita1(Long idCita);    
     
     public Cita find(Long id);
 

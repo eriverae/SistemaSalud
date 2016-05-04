@@ -5,7 +5,11 @@
  */
 package com.acme.sisc.agenda.ejb.facade;
 
+import com.acme.sisc.agenda.constant.CodesResponse;
 import com.acme.sisc.agenda.constant.WebConstant;
+import com.acme.sisc.agenda.dto.ErrorObjSiscAgenda;
+import com.acme.sisc.agenda.dto.GeneralResponse;
+import com.acme.sisc.agenda.dto.RespuestaCita;
 import com.acme.sisc.agenda.entidades.Cita;
 import java.util.Date;
 import java.util.List;
@@ -119,12 +123,14 @@ public class FacadeCita extends AbstractFacade<Cita> {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public String PacienteCancelaSuCita(Long idCita) {
+    public GeneralResponse PacienteCancelaSuCita(Long idCita) {
+
+        GeneralResponse response = new GeneralResponse();
 
         JSONObject json = new JSONObject();
         JSONArray citaArreglo = new JSONArray();
         JSONObject cita;
-        
+
         try {
             _log.log(Level.WARNING, "1. CITA ID: " + idCita + "\n");
 
@@ -132,26 +138,35 @@ public class FacadeCita extends AbstractFacade<Cita> {
             q.setParameter(1, "CANCELADA");
             q.setParameter(2, idCita);
             int resultado = q.executeUpdate();
-            //return "CITA CANCELADA.. ";
 
             /*ejemplo funcional*/
             //http://stackoverflow.com/questions/6154845/returning-json-response-from-servlet-to-javascript-jsp-page
             //return "{\"idCita\":18}";
+//            cita = new JSONObject();
+//            cita.put("idCita", idCita);
+//            citaArreglo.put(cita);
+//            json.put("citaArreglo", citaArreglo);
+//            
+//            String jsonString = json.toString();
+//            _log.log(Level.INFO, "JSON-String= " + jsonString + "\n");
+//            return (json.toString());
             
-            cita = new JSONObject();
-            cita.put("idCita", idCita);
-            citaArreglo.put(cita);
-            json.put("citaArreglo", citaArreglo);
-            
-            String jsonString = json.toString();
-            _log.log(Level.INFO, "JSON-String= " + jsonString + "\n");
-            return (json.toString());
-            
+            RespuestaCita respuestas = new RespuestaCita();
+            respuestas.setEstador(WebConstant.ESTADO_CITA_CANCELADA);
+            respuestas.setMensajer("Su cita se ha cancelado correctamente");
+            response.setObjectResponse(respuestas);
+            response.setCodigoRespuesta(CodesResponse.SUCCESS.value());
+
         } catch (Exception e) {
             _log.log(Level.WARNING, "NO SE PUEDE CANCELAR LA CITA ");
-            return "NO SE PUEDE CANCELAR LA CITA ";
-
+            response.setCodigoRespuesta(CodesResponse.ERROR.value());
+            ErrorObjSiscAgenda error = new ErrorObjSiscAgenda();
+            error.setCodigoError("");
+            error.setObjError(idCita);
+            error.setMensajeError("NO SE PUEDE CANCELAR LA CITA");
+            response.setError(error);
         }
+        return response;
     }
 
     /////////////////////////////

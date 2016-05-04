@@ -5,6 +5,7 @@
  */
 package com.acme.sisc.agenda.rest;
 
+import com.acme.sisc.agenda.dto.GeneralResponse;
 import com.acme.sisc.agenda.entidades.Cita;
 import com.acme.sisc.agenda.shared.ICitaLocal;
 import java.util.List;
@@ -58,7 +59,7 @@ public class RestFullCitaPaciente {
     @POST
     @Path("/{idCita}/cancelarCita")
     @Produces(MediaType.APPLICATION_JSON)
-    public String cancelarUnaCitaDePaciente(
+    public GeneralResponse cancelarUnaCitaDePaciente(
             @PathParam("idCita") String idCita
     ){
         logi.log(Level.WARNING,  "Request para cancelar la Cita con id {0}",idCita);

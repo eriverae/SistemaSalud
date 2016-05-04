@@ -26,7 +26,8 @@ app.filter("getFormatoHora", function () {
 app.controller('citasController',
         function ($scope, $http, $stateParams, $rootScope) {
 
-
+            $scope.objErrorCancelarCita;
+            $scope.generalResponse;
 
 
 
@@ -126,36 +127,43 @@ app.controller('citasController',
                     //$http.post('/SiscAgenda/api/paciente/cancelarCita', idCita, configServicePost)
                     $http.post('/SiscAgenda/api/paciente/' + idCita + '/cancelarCita', configServicePost)
                             .success(function (data, status, headers, config) {
-
-                                $('#mb-signout').hide();
-                                $scope.mensajesCita =
-                                        {
-                                            msn_citaSeleccionada1: 'MUY BIEN!!! ',
-                                            msn_citaSeleccionada2: 'Has cancelado una cita correctamente'
-                                        };
-                                //$scope.loadData();       
-//                                $scope.loadData = function () {
-//                                    $http.get('/SiscAgenda/api/paciente/').success(function (data) {
-//                                        $scope.listaCitasPaciente = data;
-//                                    });
-//                                };
+                                if (data.codigoRespuesta === "SUCCESS") {
+                                    console.log("codigo respuesta === SUCCES");
+                                    $('#mb-signout').hide();
+                                    
+                                    $scope.generalResponse = data.objectResponse;
+                                    $('#message-box-success').show();
+//                                    $scope.mensajesCita =
+//                                            {
+//                                                msn_citaSeleccionada1: 'MUY BIEN!!! ',
+//                                                msn_citaSeleccionada2: 'Has cancelado una cita correctamente'
+//                                            };
+                                } else {
+                                    if (data.codigoRespuesta === "ERROR") {
+                                        console.log("codigo respuesta === ERROR");
+                                        $('#mb-signout').hide();
+                                        
+                                        $scope.objErrorCancelarCita = data.error;
+                                        $('#message-box-sound-2').show();
+                                    }
+                                }
 
                             })
                             .error(function (data, status, header, config) {
+                                $('#mb-signout').hide();
+                                console.log(" .error(function (data, status, header, config) ");
                                 //$('#message-box-warning').show();
                                 alert("ERROR: Noo se puede cancelar la cita...");
-
-
-//                                var actualiza = data_citasPaciente;
-//                                $scope.reloadRoute = function () {
-//                                    $route.reload();
-//                                }
 
 
                             });
                 } else {
                     console.log("problemas ... ELSE");
                 }
+            };
+            
+            $scope.cerrarCancelarCita = function () {
+                $('#message-box-success').hide();
             };
 
             /**

@@ -66,6 +66,7 @@ public class WebConstant {
      * Estados CITA
      */
     public static final String ESTADO_CITA_DISPONIBLE="DISPONIBLE";
+    public static final String ESTADO_CITA_CANCELADA="CANCELADA";
     public static final String COLOR_CITA="#E04B4A";
     public static final String COLOR_2_CITA="#005580";
     public static final String COLOR_CITA_DISPONIBLE="#5cb85c";
