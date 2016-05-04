@@ -6,6 +6,7 @@
 package com.acme.sisc.agenda.ejb;
 
 import com.acme.sisc.agenda.constant.WebConstant;
+import com.acme.sisc.agenda.dto.GeneralResponse;
 import com.acme.sisc.agenda.ejb.facade.FacadeCita;
 import com.acme.sisc.agenda.entidades.Cita;
 import com.acme.sisc.agenda.shared.ICitaLocal;
@@ -110,7 +111,7 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
     
     @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
     @Override
-    public String cancelarCita1(Long idCita) {
+    public GeneralResponse cancelarCita1(Long idCita) {
         logger.log(Level.WARNING, "\n\nSESION-BEAN-CITA-PACIENTE\n El paciente cancela la cita: "+ idCita);
         return facadeCita.PacienteCancelaSuCita(idCita);
     }
