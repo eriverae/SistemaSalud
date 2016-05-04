@@ -32,6 +32,12 @@ public interface IPersonaNaturalFacadeLocal{
     @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
     PersonaNatural findByIdentificacion(TipoIdentificacion tId, long identificacion);
 
+    @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
+    PersonaNatural findByNumeroIdentificacion(long identificacion);
+
+    @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
+    PersonaNatural findByEmail(String email);
+
     List<PersonaNatural> findRange(int startPosition, int maxResults, String sortFields, String sortDirections);
 
     PersonaNatural modificarPersonaNatural(PersonaNatural personaNatural);

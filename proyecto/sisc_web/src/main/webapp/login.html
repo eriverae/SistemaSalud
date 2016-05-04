@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" class="body-full-height">
+    <head>        
+        <!-- META SECTION -->
+        <title>Inicio de sesión de SISC</title>            
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        
+        <link rel="icon" href="favicon.ico" type="image/x-icon" />
+        <!-- END META SECTION -->
+        
+        <!-- CSS INCLUDE -->        
+        <link rel="stylesheet" type="text/css" id="theme" href="css/theme-default.css"/>
+        <!-- EOF CSS INCLUDE -->                                    
+    </head>
+    <body>
+        
+        <div class="login-container">
+        
+            <div class="login-box animated fadeInDown">
+                <div class="login-logo"></div>
+                <div class="login-body">
+                    <div class="login-title"><strong>Bienvenido</strong>, Por favor inicie sesión</div>
+                    <form class="form-horizontal" name="credencialesForm" ng-submit="hacerLogin()" novalidate>
+      
+                        <!-- Correo electronico-->
+                        <div class="form-group" ng-class="{'has-error' : credencialesForm.usuario.$invalid && credencialesForm.usuario.$dirty}">
+                          <label for="usuaEmail">Correo electronico:</label>
+                          <!-- Display a check when the field is valid and was modified -->
+                          <span ng-class="{'glyphicon glyphicon-ok' : credencialesForm.usuario.$valid && credencialesForm.usuario.$dirty}"></span>
+                          <input id="usuaEmail" name="usuaEmail" type="email" class="form-control" maxlength="50"
+                                 ng-model="credenciales.usuario" required ng-minlength="2" ng-maxlength="50" placeholder="Ingrese un correo valido"/>
+
+                          <!-- Validation messages to be displayed on required, minlength and maxlength -->
+                          <p class="help-block" ng-show="credencialesForm.usuario.$error.minlength">Debe tener al menos 2 caracteres.</p>
+                          <p class="help-block" ng-show="credencialesForm.usuario.$error.maxlength">El correo no debe superar 50 characters.</p>
+                        </div>  
+
+                        <!-- Password -->
+                        <div class="form-group" ng-class="{'has-error' : credencialesForm.password.$invalid && credencialesForm.password.$dirty}">
+                          <label for="usuaPass">Constraseña:</label>
+                          <!-- Display a check when the field is valid and was modified -->
+                          <span ng-class="{'glyphicon glyphicon-ok' : credencialesForm.password.$valid && credencialesForm.password.$dirty}"></span>
+                          <input id="usuaPass" name="usuaPass" type="password" class="form-control" maxlength="50"
+                                 ng-model="credenciales.password" required ng-minlength="5" ng-maxlength="50" placeholder="Ingrese una contrasena valida"/>
+
+                          <!-- Validation messages to be displayed on required, minlength and maxlength -->
+                          <p class="help-block" ng-show="credencialesForm.password.$error.minlength">Debe tener al menos 5 caracteres.</p>
+                          <p class="help-block" ng-show="credencialesForm.password.$error.maxlength">La contrasena no debe superar 50 characters.</p>
+                        </div>
+
+                        <!-- Form buttons. The 'Save' button is only enabled when the form is valid. -->
+                        <div class="buttons">
+                            <button type="button" class="btn btn-primary" ng-click="clearForm()">Cancelar</button>
+                          <button type="submit" class="btn btn-primary" ng-disabled="credencialesForm.$invalid">Iniciar Sesión</button>
+                        </div>
+                      </form>
+                </div>
+                <div class="login-footer">
+                    <div class="pull-left">
+                        &copy; 2016 Sistema Integrado de Salud de Colombia
+                    </div>
+                    <div class="pull-right">
+                        <a href="#">Acerca de ...</a> |
+                        <a href="#">Contáctenos</a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </body>
+</html>
+
+
+
+
+
+

@@ -44,9 +44,9 @@ public class Grupusu implements Serializable {
     @Column(name = "VERSION")
     private Long version;
 
-    @JoinColumn(name = "acce_acce", referencedColumnName = "acce_acce")
+    @JoinColumn(name = "grup_grup", referencedColumnName = "grup_grup")
     @ManyToOne
-    private Acceso acceso;
+    private Grupo grupo;
     
     @JoinColumn(name = "usua_usua", referencedColumnName = "usua_usua")
     @ManyToOne
@@ -98,12 +98,12 @@ public class Grupusu implements Serializable {
         this.version = version;
     }
 
-    public Acceso getAcceso() {
-        return acceso;
+    public Grupo getGrupo() {
+        return grupo;
     }
 
-    public void setAcceso(Acceso acceso) {
-        this.acceso = acceso;
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
     }
 
     public Usuario getUsuario() {

@@ -13,3 +13,11 @@ myModule.factory('seguridadService', function ($resource) {
 myModule.factory('accesoService', function ($resource) {
     return $resource('/sisc_seguridad/api/accesos/:acceAcce');
 });
+
+myModule.factory('grupoService', function ($resource) {
+    return $resource('/sisc_seguridad/api/grupos/:grupGrup');
+});
+
+myModule.factory('loginService', function ($resource) {
+    return $resource('/sisc_seguridad/api/seguridad/');
+});

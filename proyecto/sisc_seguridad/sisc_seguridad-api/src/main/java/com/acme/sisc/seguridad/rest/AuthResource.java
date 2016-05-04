@@ -20,6 +20,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.impl.crypto.MacProvider;
 import java.security.Key;
+import org.jose4j.keys.HmacKey;
 
 /**
  * REST Web Service
@@ -63,7 +64,7 @@ public class AuthResource {
     }
 
     public static void main(String aaa[]) {
-        Key key = MacProvider.generateKey();
+//        Key key = MacProvider.generateKey();
 //        key = new Key() {
 //            @Override
 //            public String getAlgorithm() {
@@ -80,8 +81,8 @@ public class AuthResource {
 //                return "".getBytes();
 //            }
 //        };
+        Key key = new HmacKey("MyKey123456789".getBytes());
         System.out.println(key);
-//        Key key = new HmacKey("MyKey123456789".getBytes());
 //        Key key = MacProvider.generateKey(SignatureAlgorithm.NONE, random)
 
         String s = Jwts.builder().setSubject("Joe").signWith(SignatureAlgorithm.HS512, key).compact();

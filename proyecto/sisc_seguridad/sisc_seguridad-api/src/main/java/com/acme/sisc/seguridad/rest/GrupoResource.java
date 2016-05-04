@@ -1,0 +1,107 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.acme.sisc.seguridad.rest;
+
+import com.acme.sisc.agenda.entidades.Grupo;
+import com.acme.sisc.seguridad.GrupoFacadeLocal;
+import com.acme.sisc.seguridad.pagination.PaginatedListWrapperGrupo;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriInfo;
+
+/**
+ *
+ * @author rm-rf
+ */
+@Path("grupos")
+@RequestScoped
+public class GrupoResource {
+    
+    private static final Logger LOGGER = Logger.getLogger(AccesoResource.class.getName());
+    
+    @Context
+    private UriInfo context;
+    
+    @EJB
+    GrupoFacadeLocal facadeGrupo;
+
+    public GrupoResource() {
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public PaginatedListWrapperGrupo listAccesos(@DefaultValue("1")
+                                            @QueryParam("page")
+                                            Integer page,
+                                             @DefaultValue("id")
+                                            @QueryParam("sortFields")
+                                            String sortFields,
+                                             @DefaultValue("asc")
+                                            @QueryParam("sortDirections")
+                                            String sortDirections) {
+        PaginatedListWrapperGrupo paginatedListWrapper = new PaginatedListWrapperGrupo();
+        paginatedListWrapper.setCurrentPage(page);
+        paginatedListWrapper.setSortFields(sortFields);
+        paginatedListWrapper.setSortDirections(sortDirections);
+        paginatedListWrapper.setPageSize(10);
+        return findAccesos(paginatedListWrapper);
+    }
+    
+    private PaginatedListWrapperGrupo findAccesos(PaginatedListWrapperGrupo wrapper) {
+        int totalAccesos = facadeGrupo.count();
+        wrapper.setTotalResults(totalAccesos);
+        int start = (wrapper.getCurrentPage() - 1) * wrapper.getPageSize();
+        wrapper.setList(facadeGrupo.findRange(start,
+                wrapper.getPageSize(),
+                wrapper.getSortFields(),
+                wrapper.getSortDirections()));
+        return wrapper;
+    }
+    
+    @GET
+    @Path("{acceAcce}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Grupo consultarAcceso(@PathParam("grupGrup") Long id){
+        return facadeGrupo.find(id);
+
+    }
+    
+    @DELETE
+    @Path("{acceAcce}")
+    public void eliminarGrupo(@PathParam("acceAcce") Long id){
+      LOGGER.log(Level.FINE,"Request para eliminar acceso con id {0}", id);
+      facadeGrupo.remove(id);
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void guardarAcceso(Grupo grupo) {
+      try {
+        if (grupo.getGrupGrup() == null){
+          facadeGrupo.crearGrupo(grupo);
+        }else{
+          facadeGrupo.modificarGrupo(grupo);
+        }
+      }catch (Exception e){
+          //TODO Definir manejo
+          LOGGER.log(Level.SEVERE, "Houston, estamos en problemas ...", e);
+      }
+    }
+    
+}

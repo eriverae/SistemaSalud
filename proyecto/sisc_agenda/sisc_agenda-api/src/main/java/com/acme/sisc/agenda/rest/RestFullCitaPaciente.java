@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -32,7 +30,7 @@ public class RestFullCitaPaciente {
 
     private final static Logger logi = Logger.getLogger(RestFullAgendaMedico.class.getName());
 
-        @Context
+    @Context
     private UriInfo context;
     
     @EJB
@@ -46,15 +44,27 @@ public class RestFullCitaPaciente {
         return facadeCita.listaCitasPaciente(idPaciente);
     }
 
+    //ORIGINAL
+//    @POST
+//    @Path("/cancelarCita")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public String cancelarUnaCitaDePaciente(Cita cita) {
+//        logi.log(Level.WARNING,  "Request para cancelar la Cita con id {0}", cita.getIdCita());
+//        return facadeCita.cancelarCita(cita); 
+//    }
+    
+    
     @POST
-    @Path("/cancelarCita")
+    @Path("/{idCita}/cancelarCita")
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public boolean cancelarUnaCitaDePaciente(Cita cita) {
-        logi.log(Level.WARNING,  "Request para cancelar la Cita con id {0}", cita.getIdCita());
-        facadeCita.cancelarCita(cita); 
-        return false;
-    }
+    public String cancelarUnaCitaDePaciente(
+            @PathParam("idCita") String idCita
+    ){
+        logi.log(Level.WARNING,  "Request para cancelar la Cita con id {0}",idCita);
+        Long idCitaA = Long.valueOf(idCita);        
+        return facadeCita.cancelarCita1(idCitaA); 
+    }    
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)

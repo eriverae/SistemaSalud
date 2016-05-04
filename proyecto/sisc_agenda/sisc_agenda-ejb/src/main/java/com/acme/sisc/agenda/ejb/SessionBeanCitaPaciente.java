@@ -91,7 +91,7 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
      */
     @Override
     public void remove(Cita entity) {
-        //em.remove(entity);
+        em.remove(entity);
     }
 
     
@@ -102,12 +102,41 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
      */
     @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
     @Override
-    public boolean cancelarCita(Cita cita) {
+    public String cancelarCita(Cita cita) {
         
-        logger.log(Level.WARNING, "\n\nSESION-BEAN-CITA-PACIENTE\n El paciente cancela la cita: {0}", cita.getIdCita() + "\n Estado de la cita actual = {1}" + cita.getEstadoCita());
+        logger.log(Level.WARNING, "\n\nSESION-BEAN-CITA-PACIENTE\n El paciente cancela la cita: "+ cita.getIdCita() + "\n Estado de la cita actual = " + cita.getEstadoCita());
         return facadeCita.PacienteCancelaSuCita(cita);
     }
+    
+    @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
+    @Override
+    public String cancelarCita1(Long idCita) {
+        logger.log(Level.WARNING, "\n\nSESION-BEAN-CITA-PACIENTE\n El paciente cancela la cita: "+ idCita);
+        return facadeCita.PacienteCancelaSuCita(idCita);
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    //historial de citas
+    @Override
+    public List<Cita> findRange(int startPosition, int maxResults, String sortFields, String sortDirections) {
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        cq.select(cq.from(Cita.class));
+        javax.persistence.Query q = em.createQuery(cq);
+        q.setFirstResult(startPosition);
+        q.setMaxResults(maxResults);
 
+        return q.getResultList();
+    }
+    
+    @Override
+    public int count() {
+        javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        javax.persistence.criteria.Root<Cita> rt = cq.from(Cita.class);
+        cq.select(getEntityManager().getCriteriaBuilder().count(rt));
+        javax.persistence.Query q = getEntityManager().createQuery(cq);
+        return ((Long) q.getSingleResult()).intValue();
+    }
+    ////////////////////////////////////////////////////////////////////////////
 
     
 

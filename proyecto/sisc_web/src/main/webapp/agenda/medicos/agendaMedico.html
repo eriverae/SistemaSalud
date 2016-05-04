@@ -118,9 +118,109 @@
             Agendar espacio
         </button>
     </div>
+
+    <!--<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>-->
+
+
 </div>
+
+
 <!--MENSAJES DE ERROR Y CONFRMACION--> 
 <!-- Mensaje de error -->
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="z-index: inherit;">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Cita #{{infoConsultaCita.idCita}}</h4>
+            </div>
+            <!--<p>-->
+            <!--<div>sdsdsa</div>-->
+            <!--</p>-->
+            <div class="col-md-12" >
+                <div class="mb-content">
+
+                    <div class="panel panel-default tabs nav-tabs-vertical">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a  style="width: 210px !important"  data-toggle="tab" onClick="$('#tab222').show();$('#tab232').hide();$('#tab242').hide();" aria-expanded="true">
+                                    Informacion de la cita 
+                                </a>
+                            </li>
+                            <li class="">
+                                <a  style="width: 210px !important"  data-toggle="tab" onClick="$('#tab232').show();$('#tab222').hide();$('#tab242').hide();" aria-expanded="false">
+                                    Informacion del paciente
+                                </a>
+                            </li>
+                            <li class="">
+                                <a  style="width: 210px !important"  data-toggle="tab" onClick="$('#tab242').show();$('#tab222').hide();$('#tab232').hide();" aria-expanded="false">
+                                    Opciones de cita
+                                </a>
+                            </li>
+                        </ul>                    
+                        <div class="panel-body tab-content" style="margin-left: 199px;">
+                            <div class="tab-pane active" style="display: none" id="tab222" >
+                                <div class="panel-body panel-body-table">
+                                    <div class="table-responsive" align="center">
+                                        <table class="table table-bordered table-striped table-actions">
+                                            <tbody>                                            
+                                                <tr id="trow_1">
+                                                <td >Fecha</td>
+                                                <td width="210"><strong>{{infoConsultaCita.horaInicio | getFormatofecha}}</strong></td>
+                                                </tr>
+                                                <tr id="trow_2">
+                                                <td >Inicia a las: </td>
+                                                <td width="210"><strong>{{infoConsultaCita.horaInicio | getFormatoHora}}</strong></td>
+                                                </tr>
+                                                <tr id="trow_3">
+                                                <td >Termina a las:</td>
+                                                <td width="210"><strong>{{infoConsultaCita.horaFin | getFormatoHora}}</strong></td>
+                                                </tr>
+                                                <tr>
+                                                <td>Ciudad </td>
+                                                <td width="210"><strong></strong></td>
+                                                </tr>
+                                                <tr>
+                                                <td width="210">Localidad </td>
+                                                <td><strong></strong></td>
+                                                </tr>
+                                                <tr>
+                                                <td width="210">Direccion </td>
+                                                <td><strong><1</strong></td>
+                                                </tr>
+                                                <tr>
+                                                <td width="210">Consultorio </td>
+                                                <td><strong><1</strong></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>                                
+
+                                </div>
+
+                            </div>
+                            <div class="tab-pane active" style="display: none" id="tab232">
+
+                            </div>
+                            <div class="tab-pane active" style="display: none" id="tab242">
+
+                            </div>                        
+                        </div>
+                    </div>                              
+                </div>     
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="message-box message-box-danger animated fadeIn" data-sound="fail"  id="message-box-sound-2">
     <div class="mb-container">
         <div class="mb-middle">
@@ -173,6 +273,25 @@
         </div>
     </div>
 </div>
+
+<!--PopUp informacion cita--> 
+<div class="message-box animated fadeIn" data-sound="alert" id="message-box-sound-1">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-globe"></span> Cita #{{infoConsultaCita.idCita}}</div>
+
+            <div class="mb-footer">
+                <button class="btn btn-info btn-lg pull-right mb-control-close" onClick="$('#message-box-sound-1').hide()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
 <!-- fin mensaje de confirmacion -->
 
 <!-- START PRELOADS -->
@@ -182,27 +301,31 @@
 
  START SCRIPTS 
  START PLUGINS 
-<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
+-->
+
+<!--<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="js/plugins/jquery/jquery-ui.min.js"></script>
-<script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script>                
+<script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script>     -->
+
+<!--
  END PLUGINS 
 
  THIS PAGE PLUGINS 
 -->
-<!--<script type='text/javascript' src='js/plugins/icheck/icheck.min.js'></script>-->
-<!--<script type="text/javascript" src="js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>-->
+<!--<script type='text/javascript' src='js/plugins/icheck/icheck.min.js'></script>
+<script type="text/javascript" src="js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
 
-<!--<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-datepicker.js"></script>-->
-<!--<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-timepicker.min.js"></script>-->
-<!--<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-colorpicker.js"></script>-->
-<!--<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-file-input.js"></script>-->
-<!--<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-select.js"></script>-->
-<!--<script type="text/javascript" src="js/plugins/tagsinput/jquery.tagsinput.min.js"></script>-->
-<!--
- END THIS PAGE PLUGINS        
+<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-timepicker.min.js"></script>
+<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-colorpicker.js"></script>
+<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-file-input.js"></script>
+<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-select.js"></script>
+<script type="text/javascript" src="js/plugins/tagsinput/jquery.tagsinput.min.js"></script>-->
 
- START TEMPLATE 
-<script type="text/javascript" src="js/settings.js"></script>
+<!-- END THIS PAGE PLUGINS        
+
+ START TEMPLATE -->
+<!--<script type="text/javascript" src="js/settings.js"></script>
 
 <script type="text/javascript" src="js/plugins.js"></script>        
 <script type="text/javascript" src="js/actions.js"></script>        -->

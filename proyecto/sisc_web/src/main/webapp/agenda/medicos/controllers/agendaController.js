@@ -27,10 +27,11 @@ app.controller('agendaMedicoContoller',
 
             $scope.objErrorNuevaAgenda;
             $scope.generalResponse;
+            $scope.infoConsultaCita;
 
             $scope.nuevaAgenda = {
-                fechaInicio: '18-04-2016',
-                fechaFinal: '22-04-2016',
+                fechaInicio: '16-05-2016',
+                fechaFinal: '21-05-2016',
                 semana: {
                     listaDias: [
                         {numeroDia: 1, dia: 'Lunes', incluir: false},
@@ -122,14 +123,14 @@ app.controller('agendaMedicoContoller',
 
                                     $scope.generalResponse = data.objectResponse;
                                     $('#message-box-success').show();
-                                     $scope.calEventsExt.events=[];
+                                    $scope.calEventsExt.events = [];
                                     var utilRest1 = $http.get('/SiscAgenda/api/medico/agenda/' + $stateParams.idMedico);
 
                                     utilRest1.then(function (result) {
 
                                         var obj = result.data;
                                         if (obj.existeAgenda) {
-                                            
+
                                             $.each(obj.events, function (k, v) {
                                                 $scope.calEventsExt.events.push(v);
                                             });
@@ -138,7 +139,7 @@ app.controller('agendaMedicoContoller',
                                     });
 
 
-                                    
+
                                 } else {
                                     if (data.codigoRespuesta === "ERROR") {
                                         $scope.objErrorNuevaAgenda = data.error;
@@ -176,7 +177,6 @@ app.controller('agendaMedicoContoller',
                 var e = new Date(end).getTime() / 1000;
                 var m = new Date(start).getMonth();
 
-//                alert('>> ' + s + ' ' + ' ' + e + ' ' + m);
 
                 var events = [{title: 'Feed Me ' + m, start: s + (50000), end: s + (100000), allDay: false, className: ['customFeed']}];
                 callback(events);
@@ -205,7 +205,18 @@ app.controller('agendaMedicoContoller',
 
             /* alert on eventClick */
             $scope.alertOnEventClick = function (date, jsEvent, view) {
-                alert('ID CITA: ' + date.idCita);
+
+                
+                var utilRest = $http.get('/SiscAgenda/api/paciente/'+ date.idCita+"/consultarCita");
+                utilRest.then(function (result) {
+                    var obj = result.data;
+                    alert('ID CITA: DESDE REST:  ' + obj.idCita);
+                    $scope.infoConsultaCita= result.data;
+                    $('#myModal').modal();
+                    $('#tab222').show();
+                    
+                    
+                });
 
             };
             /* alert on Drop */

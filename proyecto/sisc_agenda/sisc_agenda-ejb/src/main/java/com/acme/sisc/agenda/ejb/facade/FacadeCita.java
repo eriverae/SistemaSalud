@@ -20,6 +20,9 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.primefaces.json.JSONArray;
+import org.primefaces.json.JSONObject;
+
 /**
  *
  * @author BryanCFz-user
@@ -41,7 +44,6 @@ public class FacadeCita extends AbstractFacade<Cita> {
         super(Cita.class);
     }
 
-
     /**
      * Trae el listado de las citas de un paciente
      *
@@ -53,14 +55,11 @@ public class FacadeCita extends AbstractFacade<Cita> {
         try {
             Query q = em.createNamedQuery(WebConstant.QUERY_CITA_FIND_BY_ID_PACIENTE);
             q.setParameter(WebConstant.QUERY_PARAMETER_ID_PACIENTE, idPaciente);
-            
+
 //            q.setFirstResult(1);
 //            q.setMaxResults(5); //filtrar por cantidad resultado
-            
-            
-            
             List<Cita> listacitasPaciente = (List<Cita>) q.getResultList();
-            _log.log(Level.WARNING, "ULTIMO REGISTRO LISTA-CITAS-PACIENTE, id= {0}", listacitasPaciente.get( (listacitasPaciente.size()-1)).getIdCita() ); 
+            _log.log(Level.WARNING, "ULTIMO REGISTRO LISTA-CITAS-PACIENTE, id= {0}", listacitasPaciente.get((listacitasPaciente.size() - 1)).getIdCita());
             return listacitasPaciente;
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,21 +68,20 @@ public class FacadeCita extends AbstractFacade<Cita> {
 
     }
 
-    
     /**
-     * Retorna una cita, siempre y cuando el id este en la base de datos. 
-     * De lo contrario retorna NULL
+     * Retorna una cita, siempre y cuando el id este en la base de datos. De lo
+     * contrario retorna NULL
+     *
      * @param idCita
-     * @return 
+     * @return
      */
     public Cita ObtenerLaCita(Long idCita) {
-        _log.log(Level.WARNING, "empezar consulta query con = "+ idCita);
         try {
             Query q = em.createNamedQuery(WebConstant.QUERY_CITA_FIND_BY_ID);
             q.setParameter(WebConstant.QUERY_PARAMETER_ID_CITA, idCita);
             Cita cita = (Cita) q.getSingleResult();
-            
-            _log.log(Level.WARNING, "ENCONTRADA OBJETO CITA = "+ cita.getIdCita());
+
+            _log.log(Level.WARNING, "ENCONTRADA OBJETO CITA = " + cita.getIdCita());
             return cita;
         } catch (Exception e) {
             _log.log(Level.WARNING, "NO ENCUENTRO NADA .. LO SIENTO :(");
@@ -91,76 +89,72 @@ public class FacadeCita extends AbstractFacade<Cita> {
         }
     }
 
+    /////////////////////////
     /**
-     * pacient cancela su cita mediante un click y aquio cambiamos el estado a cancelado en su cita cancelada
-     * @param cita 
+     * pacient cancela su cita mediante un click y aquio cambiamos el estado a
+     * cancelado en su cita cancelada
+     *
+     * @param cita
      */
-    //@TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public boolean PacienteCancelaSuCita(Cita cita) {
-        
-        if (cita != null)
-          _log.log(Level.WARNING, "\n\n OBJETO CITA CON DATOS INVISIBLES ...  ");
-        else
-            _log.log(Level.WARNING, "el objeto cita es NULO");
-        
-        
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public String PacienteCancelaSuCita(Cita cita) {
         try {
-             _log.log(Level.WARNING, "1. CITA ID: {0}", cita.getIdCita());
+            _log.log(Level.WARNING, "1. CITA ID: " + cita.getIdCita() + "\n");
             cita.setEstadoCita("CANCELADA");
-            
-            em.merge(cita);
-            em.flush();
-            return true;
-            
-        } catch (Exception e) {
-            _log.log(Level.WARNING, "NO EXISTE CITA SELECCIONADA POR PACIENTE ");
-            return false;
-            
-        }
-    }
-    
-    
-    
-    
-    
-//    public void PacienteCancelaSuCita(Long idCita) {
-//        
-//        
-//        try {
-//             _log.log(Level.WARNING, "1. No se encontro una cita, seeleccionada por el paciente ++++++++++++++++ ", idCita);
-//            Cita cita = em.find(Cita.class, idCita); 
-//            
-//            cita.setEstadoCita("CANCELADO");
+
+            Query q = em.createNativeQuery("update CITA set estado_cita = ? WHERE id_cita = ?");
+            q.setParameter(1, "CANCELADA");
+            q.setParameter(2, cita.getIdCita());
+            int resultado = q.executeUpdate();
+            _log.log(Level.INFO, "Resultado de la ejecucion update: " + resultado + "\n");
 //            em.merge(cita);
 //            em.flush();
-//            
-//        } catch (Exception e) {
-//            _log.log(Level.WARNING, "No se encontro una cita, seeleccionada por el paciente ++++++++++++++++ ", idCita);
-//            
-//        }
-//
-//    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+            return "CITA CANCELADA.. ";
 
-    /**
+        } catch (Exception e) {
+            _log.log(Level.WARNING, "NO SE PUEDE CANCELAR LA CITA ");
+            return "NO SE PUEDE CANCELAR LA CITA ";
+
+        }
+    }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public String PacienteCancelaSuCita(Long idCita) {
+
+        JSONObject json = new JSONObject();
+        JSONArray citaArreglo = new JSONArray();
+        JSONObject cita;
+        
+        try {
+            _log.log(Level.WARNING, "1. CITA ID: " + idCita + "\n");
+
+            Query q = em.createNativeQuery("update CITA set estado_cita = ? WHERE id_cita = ?");
+            q.setParameter(1, "CANCELADA");
+            q.setParameter(2, idCita);
+            int resultado = q.executeUpdate();
+            //return "CITA CANCELADA.. ";
+
+            /*ejemplo funcional*/
+            //http://stackoverflow.com/questions/6154845/returning-json-response-from-servlet-to-javascript-jsp-page
+            //return "{\"idCita\":18}";
+            
+            cita = new JSONObject();
+            cita.put("idCita", idCita);
+            citaArreglo.put(cita);
+            json.put("citaArreglo", citaArreglo);
+            
+            String jsonString = json.toString();
+            _log.log(Level.INFO, "JSON-String= " + jsonString + "\n");
+            return (json.toString());
+            
+        } catch (Exception e) {
+            _log.log(Level.WARNING, "NO SE PUEDE CANCELAR LA CITA ");
+            return "NO SE PUEDE CANCELAR LA CITA ";
+
+        }
+    }
+
+    /////////////////////////////
     /**
      *
      * @param idMedico
@@ -174,7 +168,7 @@ public class FacadeCita extends AbstractFacade<Cita> {
             _log.log(Level.WARNING, "CONSULTANDO CITAS DE idMedico: " + idMedico + " FECHA INICIO:" + fechaInicio.toString() + " FECHA FIN:" + fechaFin.toString());
             Query q;
             if (limitar) {
-                            
+
                 q = em.createNamedQuery(WebConstant.QUERY_CITA_FIND_FECHA_INICIO_FECHA_FIN);
                 q.setMaxResults(limiteRegistos);
             } else {

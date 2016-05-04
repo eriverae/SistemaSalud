@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="col-xs-4">
+            <label for="filtro">Filtrar por Nombre:</label>
+            <input type="text" id="filtro"
+                   data-ng-model="searchText"
+                   data-ng-change="searchTextChanged()"
+            />
+        </div>  
+        <!--<a ui-sref="registroCitas"><span class="glyphicon glyphicon-plus"></span> Nueva Cita</a>-->
+    </div>
+    <div class="panel-body">
+        <div class="grid">
+            <div>
+                <h3>Lista de historial citas paciente</h3>
+            </div>
+            <!-- Binds the grid component to be displayed. -->
+            <div class="gridStyle" ng-grid="gridOptions"></div>
+
+            <!--  Bind the pagination component to be displayed. -->
+            <pagination direction-links="true" boundary-links="true"
+                        total-items="citas.totalResults" items-per-page="citas.pageSize"
+                        ng-model="citas.currentPage" ng-change="refreshGrid()">
+            </pagination>
+        </div>
+    </div>
+</div>

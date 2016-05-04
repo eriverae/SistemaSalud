@@ -34,4 +34,6 @@ public interface UsuarioFacadeRemote {
 
     int count();
 
+    boolean autenticar(String usuario, String password);
+
 }

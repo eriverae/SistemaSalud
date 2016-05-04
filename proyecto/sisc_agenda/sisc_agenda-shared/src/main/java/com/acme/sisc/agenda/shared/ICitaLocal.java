@@ -24,11 +24,19 @@ public interface ICitaLocal {
     public List<Cita> listaCitasPaciente(long idPaciente);
     
     @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
-    public boolean cancelarCita(Cita cita);
+    public String cancelarCita(Cita cita);
+    
+    @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
+    public String cancelarCita1(Long idCita);    
     
     public Cita find(Long id);
 
+    /////////////////////////////////////////////////////////////////
+    //paginador- historial de citas
+    int count();
     
+    List<Cita> findRange(int startPosition, int maxResults, String sortFields, String sortDirections);
+    ////////////////////////////////////////////////////////////////
     
     
     //void crearCita(Cita cita) throws CitaException;

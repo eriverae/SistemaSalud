@@ -36,8 +36,8 @@ import javax.validation.constraints.Size;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @NamedQueries({
     @NamedQuery(name = "Cita.findFechaInicioFechaFin", query = "SELECT c FROM Cita c where (c.agenda.medicoEps.persona.idPersona = :idMedico) AND (c.horaInicio >= :horaInicio  AND c.horaFin <= :horaFin)"),
-    //@NamedQuery(name = "Cita.findIdPaciente", query = "SELECT c FROM Cita c WHERE c.pacienteEps.persona.idPersona = :idPaciente and c.pacienteEps.fechaFin=null"),
-    @NamedQuery(name = "Cita.findIdPaciente", query = "SELECT c FROM Cita c WHERE c.pacienteEps.persona.idPersona = :idPaciente and c.pacienteEps.fechaFin=null ORDER BY c.horaFin DESC"),
+    //@NamedQuery(name = "Cita.findIdPaciente", query = "SELECT c FROM Cita c WHERE c.pacienteEps.persona.idPersona = :idPaciente and c.pacienteEps.fechaFin=null and c.estadoCita<>'CANCELADA' ORDER BY c.horaFin DESC"),
+    @NamedQuery(name = "Cita.findIdPaciente", query = "SELECT c FROM Cita c WHERE c.pacienteEps.persona.idPersona = :idPaciente and c.pacienteEps.fechaFin=null and c.estadoCita<>'CANCELADA' ORDER BY c.horaFin DESC"),
     @NamedQuery(name = "Cita.findAll", query = "SELECT c FROM Cita c"),
     @NamedQuery(name = "Cita.findById", query = "SELECT c FROM Cita c WHERE c.idCita = :idCita"),
     @NamedQuery(name = "Cita.findByValor", query = "SELECT c FROM Cita c WHERE c.valor = :valor"),
@@ -77,6 +77,9 @@ public class Cita implements Serializable {
     private String estadoCita;  
     
     
+    
+    @Column(name = "observaciones")
+    private String observaciones;
 
     
     @JoinColumn(name = "id_paciente_eps", referencedColumnName = "id_persona_eps")
@@ -99,13 +102,14 @@ public class Cita implements Serializable {
         this.idCita = id;
     }
 
-    public Cita(Long id, double valor, boolean estadoPacienteAtendido, Date fechaPaciente, Agenda agenda, String estadoCita) {
+    public Cita(Long id, double valor, boolean estadoPacienteAtendido, Date fechaPaciente, Agenda agenda, String estadoCita, String observaciones) {
         this.idCita = id;
         this.valor = valor;
         this.estadoPacienteAtendido = estadoPacienteAtendido;
         this.horaFin = fechaPaciente;
         this.agenda = agenda;
-       this.estadoCita = estadoCita;
+        this.estadoCita = estadoCita;
+       this.observaciones = observaciones;
     }
 
     public Long getIdCita() {
@@ -215,6 +219,14 @@ public class Cita implements Serializable {
 
     public void setEstadoCita(String estadoCita) {
         this.estadoCita = estadoCita;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
     }
 
     

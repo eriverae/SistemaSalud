@@ -18,7 +18,6 @@
     <class>com.acme.sisc.agenda.entidades.Grupo</class>
     <class>com.acme.sisc.agenda.entidades.Grupusu</class>
     <class>com.acme.sisc.agenda.entidades.Operacion</class>
-    <class>com.acme.sisc.agenda.entidades.Persona</class>
     <class>com.acme.sisc.agenda.entidades.PersonaEps</class>
     <class>com.acme.sisc.agenda.entidades.PersonaJuridica</class>
     <class>com.acme.sisc.agenda.entidades.PersonaNatural</class>
@@ -27,7 +26,6 @@
     <class>com.acme.sisc.agenda.entidades.Tratamiento</class>
     <class>com.acme.sisc.agenda.entidades.Usuario</class>
     <class>com.acme.sisc.agenda.entidades.Usuempr</class>
-    <class>com.acme.sisc.agenda.entidades.Accusua</class>
     <class>com.acme.sisc.agenda.entidades.Cirugia</class>
     <class>com.acme.sisc.agenda.entidades.CitaMedicamento</class>
     <class>com.acme.sisc.agenda.entidades.Incapacidad</class>
@@ -41,9 +39,9 @@
     <validation-mode>NONE</validation-mode>
     <properties>
       <!--**** persistencia PostgreSQL ***-->
-      <!--<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>-->
+      <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
       <!--**** persistencia Mysql ***-->
-      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+      <!--<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>-->
       <property name="hibernate.show_sql" value="true"/>
     </properties>
   </persistence-unit>

@@ -1,6 +1,6 @@
 'use strict';
 // Declare app level module which depends on views, and components
-var app = angular.module('sisc_web', ['ui.router','ngResource','ui.calendar', 'ui.bootstrap','ngGrid','app.utils']);
+var app = angular.module('sisc_web', ['ui.router','ngResource','ui.calendar', 'ui.bootstrap','ngGrid','app.utils', 'ngRoute']);
 
 app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlRouterProvider) {
   $urlRouterProvider.otherwise("/home");
@@ -11,46 +11,59 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       templateUrl: 'home.html'
     })
     
-    .state('seguridad',{
-       url:'/seguridad',
-       templateUrl: 'seguridad/login.html',
-       controller: 'loginFormController'
-    })
-    
     .state('accesos',{
       url:'/accesos',
-      templateUrl: 'accesos/accesos.html',
+      templateUrl: 'seguridad/accesos/accesos.html',
       controller: 'accesosListController'
     })
   
     .state('crearAcceso',{
       url: '/crearAcceso',
-      templateUrl: 'accesos/formularioAcceso.html',
+      templateUrl: 'seguridad/accesos/formularioAcceso.html',
       controller: 'accesoFormController'
     })
     
     .state('modificarAcceso',{
       url: '/modificarAcceso',
-      templateUrl: 'accesos/formularioAcceso.html',
+      templateUrl: 'seguridad/accesos/formularioAcceso.html',
       controller: 'accesoFormController',
       params : {'acceAcce':null}
+    })
+    
+    .state('grupos',{
+      url:'/grupos',
+      templateUrl: 'seguridad/grupos/grupos.html',
+      controller: 'gruposListController'
+    })
+  
+    .state('crearGrupo',{
+      url: '/crearGrupo',
+      templateUrl: 'seguridad/grupos/formularioGrupo.html',
+      controller: 'grupoFormController'
+    })
+    
+    .state('modificarGrupo',{
+      url: '/modificarGrupo',
+      templateUrl: 'seguridad/grupos/formularioGrupo.html',
+      controller: 'grupoFormController',
+      params : {'grupGrup':null}
     })
       
     .state('usuarios',{
       url:'/usuarios',
-      templateUrl: 'usuarios/usuarios.html',
+      templateUrl: 'seguridad/usuarios/usuarios.html',
       controller: 'usuariosListController'
     })
   
     .state('crearUsuario',{
       url: '/crearUsuario',
-      templateUrl: 'usuarios/formularioUsuario.html',
+      templateUrl: 'seguridad/usuarios/formularioUsuario.html',
       controller: 'usuarioFormController'
     })
     
     .state('modificarUsuario',{
       url: '/modificarUsuario',
-      templateUrl: 'usuarios/formularioUsuario.html',
+      templateUrl: 'seguridad/usuarios/formularioUsuario.html',
       controller: 'usuarioFormController',
       params : {'usuaUsua':null}
     })
@@ -59,16 +72,30 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       url: '/medico/agenda',
       templateUrl: 'agenda/medicos/agendaMedico.html',
       controller:'agendaMedicoContoller',
-      params : {'idMedico':'5'}
+      params : {'idMedico':'1'}
       
     })
-     .state('citasPaciente',{
+    .state('citasPaciente',{
       url: '/paciente/lcitas',
       templateUrl: 'agenda/pacientes/consultarCitas.html',
       controller: 'citasController',
+      //params : {'idPaciente':'2'}
       params : {'idPaciente':'3'}
-    })    
-        
+    }) 
+    .state('citasHistorialPaciente',{
+      url: '/paciente/historialCitas',
+      templateUrl: 'agenda/pacientes/historialCitas.html',
+      controller: 'historialCitasController',
+      //params : {'idPaciente':'3'}
+    })
+    
+    // Registro    
+    .state('registroPersonaNatural',{
+      url:'/personaNatural',
+      templateUrl: 'registro/registroPersonaNatural.html',
+      controller: 'personaNaturalController'
+    })   
+    
     .state('registroMedicos',{
       url:'/medicos',
       templateUrl: 'registro/medicos/registroMedicos.html',
@@ -80,7 +107,14 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       templateUrl: 'registro/medicos/listaMedicos.html',
       controller: 'listaMedicosController'
     })
-  
+    
+    .state('modificarMedicos',{
+      url:'/medicos',
+      templateUrl: 'registro/medicos/registroMedicos.html',
+      controller: 'medicosController',
+      params : {idPersona:null}
+    })
+
     .state('registroPacientes',{
       url: '/pacientes',
       templateUrl: 'registro/pacientes/registroPacientes.html',
@@ -92,14 +126,7 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       templateUrl: 'registro/pacientes/listaPacientes.html',
       controller: 'listaPacientesController'
     })
-    
-    .state('modificarMedicos',{
-      url:'/medicos',
-      templateUrl: 'registro/medicos/registroMedicos.html',
-      controller: 'medicosController',
-      params : {idPersona:null}
-    })
-    
+
     .state('modificarPacientes',{
       url:'/pacientes',
       templateUrl: 'registro/pacientes/registroPacientes.html',
@@ -107,15 +134,40 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       params : {idPersona:null}
     })
 
-    
     .state('registroBeneficiarios',{
       url: '/beneficiario',
       templateUrl: 'registro/beneficiario/registroBeneficiarios.html',
-      controller: 'beneficiariosController'
+      controller: 'beneficiariosController',
+      params : {idPersona:null}
     })
-    
+       
+    .state('registroEps',{
+      url: '/RegistroEPS',
+      templateUrl: 'registro/eps/registroEps.html',
+      controller: 'epsController'
+    })
+      
+    .state('listarEps',{
+      url:'/listaEPS',
+      templateUrl: 'registro/eps/listaEps.html',
+      controller: 'listaEpsController'
+    })
+
+    .state('modificarEps',{
+      url:'/ModificarEPS',
+      templateUrl: 'registro/eps/registroEps.html',
+      controller: 'epsController',
+      params : {idPersona:null}
+    })
+
 
     // hc
+
+    .state('menuhc',{
+       url:'/menuhc',
+       templateUrl: 'historia/menuhc.html',
+      // controller: 'loginFormController'
+    })
     .state('asignarmedicamento',{
       url:'/historia/asignar-medicamento',
       templateUrl: 'historia/asignarmedicamento.html',
@@ -144,8 +196,14 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       templateUrl: 'historia/asignarCirugia.html',
       controller: 'cirugiaController'
     })
+    
+    .state('login',{
+      url: '/login',
+      templateUrl: 'login.html',
+      controller: 'loginFormController'
+    })
 
-     ;
+    ;
     
 }]);
 

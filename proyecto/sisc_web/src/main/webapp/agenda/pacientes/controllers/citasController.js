@@ -24,7 +24,11 @@ app.filter("getFormatoHora", function () {
 
 
 app.controller('citasController',
-        function ($scope, $http, $stateParams) {
+        function ($scope, $http, $stateParams, $rootScope) {
+
+
+
+
 
             ////////////////////////////////////////////////////////////////////
             $scope.listaCitasPaciente = {};
@@ -39,56 +43,139 @@ app.controller('citasController',
 
 
             ////////////////////////////////////////////////////////////////////
-            //provicional mientras tanto <esconderMensajeCitaSeleccionada>
             $scope.esconderMensajeCitaSeleccionada = true;
-            $scope.mostrarMensajeCitaSeleccionada = function() {
-                    $scope.esconderMensajeCitaSeleccionada = !$scope.esconderMensajeCitaSeleccionada;
+            /**
+             * provicional mientras tanto <esconderMensajeCitaSeleccionada>
+             * @returns {undefined}
+             */
+            $scope.mostrarMensajeCitaSeleccionada = function () {
+                $scope.esconderMensajeCitaSeleccionada = !$scope.esconderMensajeCitaSeleccionada;
             }
             ////////////////////////////////////////////////////////////////////
-            
-            
+
+
             ////////////////////////////////////////////////////////////////////
             $scope.informacionCita = null;
             $scope.mensajesCita = {};
             /**
              * Mostrar una cita detallada, que fue seleccionada por el paciente
              */
-            $scope.mostrarUnaCitaDetallada = function(informacionCita) {
+            $scope.mostrarUnaCitaDetallada = function (informacionCita) {
                 //alert("entro a mostrar una cita mediante un click");
                 $scope.informacionCita = informacionCita;
-                
+
                 $('#message-box-sound-2').show();
                 $('#audio-fail').get(0).play();
-                
-                $scope.mensajesCita = 
-                    {
-                        msn_citaSeleccionada1: 'MUY BIEN!!! ',
-                        msn_citaSeleccionada2 : 'Has seleccionado una cita correctamente'
-                    };                  
+
+                $scope.mensajesCita =
+                        {
+                            msn_citaSeleccionada1: 'MUY BIEN!!! ',
+                            msn_citaSeleccionada2: 'Has seleccionado una cita correctamente'
+                        };
             }
             ////////////////////////////////////////////////////////////////////
-            
-            $scope.cancelarCita = function(cita){
+
+
+            ////////////////////////////////////////////////////////////////////
+            $scope.posicionFila = -1;
+
+            /**
+             * No cancelar mi cita que fue seleccionada en el boton cancelar
+             * @returns {undefined}
+             */
+            $scope.confirmacionNOCancelarCita = function () {
+                $('#mb-signout').hide();
+                console.log("*** no cancelo mi cita");
+                $scope.posicionFila = -1;
+            };
+
+            /**
+             * Confirmacion para poder cancelar una cita que fue seleccionada
+             * @param {type} index
+             * @param {type} cita
+             * @returns {undefined}
+             */
+            $scope.confirmacionCancelarCita = function (index, cita) {
+                $('#mb-signout').show();
+                console.log("***" + index);
+                $scope.posicionFila = index;
+                //citaEscogida = cita;
+            };
+            /**
+             * Si la confirmacion de eliminar la cita es TRUE, entonces
+             * se cancelara la cita del paciente
+             * @returns {undefined}
+             */
+            $scope.cancelarCita = function () {
                 /**
                  * Cancelar la cita seleccionada por un paciente.
                  */
-                var configServicePost = {
-                    headers: {
-                        'Content-Type': 'application/json;charset=utf-8;'
+                if ($scope.posicionFila >= 0) {
+                    console.log("*** popsicio0nFila = " + $scope.posicionFila + "  ..  ");
+
+
+                    var configServicePost = {
+                        headers: {
+                            'Content-Type': 'application/json;charset=utf-8;'
+                        }
                     }
+
+                    console.log("idCita-->" + JSON.stringify($scope.listaCitasPaciente[$scope.posicionFila].idCita));
+                    console.log("...");
+                    var idCita = $scope.listaCitasPaciente[$scope.posicionFila].idCita + "";
+                    //$http.post('/SiscAgenda/api/paciente/cancelarCita', idCita, configServicePost)
+                    $http.post('/SiscAgenda/api/paciente/' + idCita + '/cancelarCita', configServicePost)
+                            .success(function (data, status, headers, config) {
+
+                                $('#mb-signout').hide();
+                                $scope.mensajesCita =
+                                        {
+                                            msn_citaSeleccionada1: 'MUY BIEN!!! ',
+                                            msn_citaSeleccionada2: 'Has cancelado una cita correctamente'
+                                        };
+                                //$scope.loadData();       
+//                                $scope.loadData = function () {
+//                                    $http.get('/SiscAgenda/api/paciente/').success(function (data) {
+//                                        $scope.listaCitasPaciente = data;
+//                                    });
+//                                };
+
+                            })
+                            .error(function (data, status, header, config) {
+                                //$('#message-box-warning').show();
+                                alert("ERROR: Noo se puede cancelar la cita...");
+
+
+//                                var actualiza = data_citasPaciente;
+//                                $scope.reloadRoute = function () {
+//                                    $route.reload();
+//                                }
+
+
+                            });
+                } else {
+                    console.log("problemas ... ELSE");
                 }
-                
-                $http.post('/SiscAgenda/api/paciente/cancelarCita',    cita, configServicePost)
-                .success(function (data, status, headers, config) {
-                    alert("cita cancelada");
-                    
-                })
-                .error(function (data, status, header, config) {
-                    alert("ERROR: no se pudo cancelar la cita"); 
-                    
-                });
             };
 
+            /**
+             * Recargar la pagina, cuando paciente cancele una cita, entonces
+             * esa cita cancelada no se le mostrara
+             * @returns {undefined}
+             */
+            //Recargar
+//            $scope.loadData=null;
+//            $scope.loadData = function () {
+//                $http.get('/SiscAgenda/api/paciente/').success(function (data) {
+//                    $scope.listaCitasPaciente = data;
+//                });
+//            };
 
-});
+
+
+
+
+
+            //fin <citasController>
+        });
 

@@ -6,13 +6,12 @@
 package com.acme.sisc;
 
 import com.acme.sisc.agenda.entidades.CitaExamen;
-import com.acme.sisc.sisc_hc.exceptions.CustomException;
+import com.acme.sisc.common.exceptions.CustomException;
+import com.acme.sisc.common.exceptions.CustomRunTimeException;
 import com.acme.sisc.sisc_hc.shared.IExamenFacadeLocal;
 import com.acme.sisc.sisc_hc.shared.IExamenFacadeRemote;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -28,14 +27,14 @@ import javax.ws.rs.core.Response;
  */
 @Path("/examen/")
 public class ExamenService {
-    private final static Logger log = Logger.getLogger(CirugiaService.class.getName());
     
     @EJB
     IExamenFacadeRemote facadeExamen;
     
     @GET
     @Produces({"application/json"})
-    public Response GetExamensALL(@QueryParam("idcita") String idcita) throws CustomException{
+    public Response GetExamensALL(@QueryParam("idcita") String idcita) 
+            throws CustomException, CustomRunTimeException{
         try{
             if (idcita == null){
                 return Response
@@ -52,15 +51,15 @@ public class ExamenService {
                 .build();
             }
         }catch(Exception ex){
-            log.log(Level.SEVERE, "ExamenService->GetExamensALL... ", ex);
-            throw new CustomException(503, "Error accediendo a los datos del examen... ");
+            throw new CustomException(Response.Status.BAD_REQUEST.getStatusCode(), 503, "Error accediendo a los datos del examen... ");
         }
     }
     
     @POST
     @Produces({"application/json"})
     @Consumes({"application/json"})
-    public Response addExamenCita(List<CitaExamen> cita_examen) throws CustomException{
+    public Response addExamenCita(List<CitaExamen> cita_examen) 
+            throws CustomException, CustomRunTimeException{
         try{
             facadeExamen.addExamenCita(cita_examen);
             return Response
@@ -68,8 +67,7 @@ public class ExamenService {
                 .entity("{}")
                 .build();
         }catch(Exception ex){
-            log.log(Level.SEVERE, "ExamenService->addExamenCita... ", ex);
-            throw new CustomException(503, "Error adicionando los datos del examen... ");
+            throw new CustomException(Response.Status.BAD_REQUEST.getStatusCode(), 503, "Error adicionando los datos del examen... ");
         }
     }
 }
