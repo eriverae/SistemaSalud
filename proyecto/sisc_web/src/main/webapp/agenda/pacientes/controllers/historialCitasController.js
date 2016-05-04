@@ -1,26 +1,25 @@
 'use strict';
 var app = angular.module('sisc_web');
 
-app.controller('listaPacientesController', function ($scope, $rootScope, $stateParams, $state, personaService, modalService) {
+app.controller('historialCitasController', function ($scope, $rootScope, $stateParams, $state, citaService, modalService) {
     // Initialize required information: sorting, the first page to show and the grid options.
     $scope.sortInfo = {fields: ['id'], directions: ['asc']};
-    $scope.pacientes = {currentPage: 1};
+    $scope.citas = {currentPage: 1};
     $scope.searchText = null;
 
     $scope.gridOptions = {
-        data: 'pacientes.list',
+        data: 'citas.list', //historialCitas.list    //citas.list ???  ¿?
         useExternalSorting: true,
         sortInfo: $scope.sortInfo,
 
         columnDefs: [
-            { field: 'idPersona', displayName: 'Id'},
-            { field: 'nombres', displayName: 'Nombre'},
-            { field: 'apellidos', displayName: 'Apellidos' },
-            { field: 'numeroIdentificacion', displayName: 'Numero Identificacion'},
+            { field: 'idCita', displayName: 'Id'},
+            { field: 'valor', displayName: 'Valor'},
+            { field: 'horaFin', displayName: 'hora cita' },
+            { field: 'estado_cita', displayName: 'Estado cita'},
             { field: '', width: 80, 
                 cellTemplate: '<span class="glyphicon glyphicon-trash remove" ng-click="deleteRow(row)"></span>'+
-                '<span class="glyphicon glyphicon-edit modify" ng-click="updateRow(row)"></span>' +
-                '<span class="fa fa-sitemap" ng-click="beneficiarios(row)"></span>' }
+                '<span class="glyphicon glyphicon-edit modify" ng-click="updateRow(row)"></span>' }
         ],
 
         multiSelect: false,
@@ -28,8 +27,8 @@ app.controller('listaPacientesController', function ($scope, $rootScope, $stateP
         // Broadcasts an event when a row is selected, to signal the form that it needs to load the row data.
         afterSelectionChange: function (rowItem) {
             if (rowItem.selected) {
-                $rootScope.$broadcast('pacienteSelected', $scope.gridOptions.selectedItems[0].idPersona);
-                console.log('Se emitio evento <pacienteSelected>');
+                $rootScope.$broadcast('citasSelected', $scope.gridOptions.selectedItems[0].idCita);
+                console.log('Se emitio evento <citasSelected>');
             }
         }
     };
@@ -40,14 +39,14 @@ app.controller('listaPacientesController', function ($scope, $rootScope, $stateP
 
     // Refresh the grid, calling the appropriate rest method.
     $scope.refreshGrid = function () {
-        var listPacientesArgs = {
-            page: $scope.pacientes.currentPage,
+        var listCitasArgs = {
+            page: $scope.citas.currentPage,
             sortFields: $scope.sortInfo.fields[0],
             sortDirections: $scope.sortInfo.directions[0]
         };
 
-        personaService.get(listPacientesArgs, function (data) {
-            $scope.pacientes = data;
+        citaService.get(listCitasArgs, function (data) {
+            $scope.citas = data;
         });
     };
 
@@ -56,26 +55,21 @@ app.controller('listaPacientesController', function ($scope, $rootScope, $stateP
       var m = row.entity.nombres + " " + row.entity.apellidos;
       var modalOptions = {
           closeButtonText: 'Cancelar',
-          actionButtonText: 'Eliminar Paciente',
+          actionButtonText: 'Eliminar Cita',
           headerText: 'Eliminar ' + m,
-          bodyText: '¿Esta seguro de eliminar este paciente?'
+          bodyText: '¿Esta seguro de eliminar esta cita?'
       };
 
       modalService.showModal({}, modalOptions).then(function (result) {
-        $rootScope.$broadcast('deletePaciente', row.entity.idPersona);
+        $rootScope.$broadcast('deletePaciente', row.entity.idCita);
       });
       
     };
     
     $scope.updateRow = function(row){
-      var idP = row.entity.idPersona;
-      console.log('Modificar persona: ' & idP);
-      $state.go("modificarPacientes", {idPersona: idP});
-    };
-    
-    $scope.beneficiarios = function(row){
-      var idP = row.entity.idPersona;
-      $state.go("registroBeneficiarios", {idPersona: idP});
+      var idP = row.entity.idCita;
+      console.log('Modificar cita: ' & idP);
+      $state.go("modificarCitas", {idCita: idP});
     };
     
     $scope.autenticar = function () {
@@ -97,7 +91,7 @@ app.controller('listaPacientesController', function ($scope, $rootScope, $stateP
     // Watch the sortInfo variable. If changes are detected than we need to refresh the grid.
     // This also works for the first page access, since we assign the initial sorting in the initialize section.
     $scope.$watch('sortInfo', function () {
-        $scope.pacientes = {currentPage: 1};
+        $scope.citas = {currentPage: 1};
         $scope.refreshGrid();
     }, true);
 
@@ -119,21 +113,21 @@ app.controller('listaPacientesController', function ($scope, $rootScope, $stateP
         $scope.gridOptions.selectAll(false);
     });
     
-    $scope.$on('pacienteSelected', function (event, id) {
-        console.log("Ejecuta pacienteSelected " & id);
-        $scope.paciente = personaService.get({id: id});
+    $scope.$on('citasSelected', function (event, id) {
+        console.log("Ejecuta citasSelected " & id);
+        $scope.citas = citaService.get({id: id});
     });
     
     // Picks us the event broadcasted when the person is deleted from the grid and perform the actual person delete by
     // calling the appropiate rest service.
-    $scope.$on('deletePaciente', function (event, id) {
-      console.log('Evento eliminar paciente:' + id);
-      personaService.delete({id: id}).$promise.then(
+    $scope.$on('deleteCita', function (event, id) {
+      console.log('Evento eliminar cita:' + id);
+      citaService.delete({id: id}).$promise.then(
           function () {
               // Broadcast the event to refresh the grid.
               $rootScope.$broadcast('refreshGrid');
               // Broadcast the event to display a delete message.
-              $rootScope.$broadcast('pacienteDeleted');
+              $rootScope.$broadcast('citaDeleted');
               //$scope.clearForm();
           },
           function () {
@@ -146,14 +140,14 @@ app.controller('listaPacientesController', function ($scope, $rootScope, $stateP
 // Create a controller with name alertMessagesController to bind to the feedback messages section.
 app.controller('alertMessagesController', function ($scope) {
     // Picks up the event to display a saved message.
-    $scope.$on('pacienteSaved', function () {
+    $scope.$on('citaSaved', function () {
         $scope.alerts = [
             { type: 'success', msg: 'Record saved successfully!' }
         ];
     });
 
     // Picks up the event to display a deleted message.
-    $scope.$on('pacienteDeleted', function () {
+    $scope.$on('citaDeleted', function () {
         $scope.alerts = [
             { type: 'success', msg: 'Record deleted successfully!' }
         ];

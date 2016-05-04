@@ -50,6 +50,20 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
             return null;
         }        
     }
+
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    @Override
+    public PersonaNatural findByNumeroIdentificacion(long identificacion) {
+        LOGGER.log(Level.FINE, "Consulta persona {0}",  identificacion);
+        Query  q = em.createNamedQuery("Persona.findByNumeroIdentificacion");
+        q.setParameter("numeroIdentificacion", identificacion);
+        try{
+           return ((PersonaNatural)q.getSingleResult());
+        }catch(NoResultException nre){
+            LOGGER.log(Level.WARNING,"No se encontró persona con identificacion {0}", identificacion);
+            return null;
+        }   
+    }
     
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Override

@@ -79,8 +79,15 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       url: '/paciente/lcitas',
       templateUrl: 'agenda/pacientes/consultarCitas.html',
       controller: 'citasController',
-      params : {'idPaciente':'2'}
-    })    
+      //params : {'idPaciente':'2'}
+      params : {'idPaciente':'3'}
+    }) 
+    .state('citasHistorialPaciente',{
+      url: '/paciente/historialCitas',
+      templateUrl: 'agenda/pacientes/historialCitas.html',
+      controller: 'historialCitasController',
+      //params : {'idPaciente':'3'}
+    })
     
     // Registro    
     .state('registroPersonaNatural',{
@@ -130,23 +137,10 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
     .state('registroBeneficiarios',{
       url: '/beneficiario',
       templateUrl: 'registro/beneficiario/registroBeneficiarios.html',
-      controller: 'beneficiariosController'
-    })
-    
-    .state('listarBeneficiarios',{
-      url:'/listaBeneficiarios',
-      templateUrl: 'registro/beneficiario/listaBeneficiarios.html',
-      controller: 'listaBeneficiariosController'
-    })
-
-    .state('modificarBeneficiarios',{
-      url:'/ModificacionBeneficiarios',
-      templateUrl: 'registro/beneficiario/registroBeneficiarios.html',
-      controller: 'pacientesController',
+      controller: 'beneficiariosController',
       params : {idPersona:null}
     })
-    
-   
+       
     .state('registroEps',{
       url: '/RegistroEPS',
       templateUrl: 'registro/eps/registroEps.html',

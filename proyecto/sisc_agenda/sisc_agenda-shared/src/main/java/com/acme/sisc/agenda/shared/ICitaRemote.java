@@ -31,7 +31,12 @@ public interface ICitaRemote {
     
     public Cita find(Long id);
 
+    /////////////////////////////////////////////////////////////////
+    //paginador- historial de citas
+    int count();
     
+    List<Cita> findRange(int startPosition, int maxResults, String sortFields, String sortDirections);
+    ////////////////////////////////////////////////////////////////
     
     
     //void crearCita(Cita cita) throws CitaException;

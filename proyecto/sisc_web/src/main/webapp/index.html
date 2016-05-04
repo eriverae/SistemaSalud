@@ -92,7 +92,7 @@
                         <a href="#"><span class="fa fa-wheelchair"></span> <span class="xn-text">Pacientes</span></a>
                         <ul>
                             <li><a ui-sref="citasPaciente">Citas</a></li>
-                            <li><a ui-sref="registroCitaPaciente">Registro de la cita</a></li>
+                            <li><a ui-sref="citasHistorialPaciente">Historial citas</a></li>
                         </ul>
                     </li>
                  <!--FIN PARA AGENDA MEDICOS Y PACINETES-->
@@ -101,13 +101,9 @@
                     <li class="xn-openable">
                         <a href="#"><span class="fa fa-archive"></span> <span class="xn-text">Registro</span></a>
                         <ul>
-                            <li><a ui-sref="registroPersonaNatural">Registrar personas naturales</a></li>
-                            <li><a ui-sref="registroMedicos">Registrar Médicos</a></li>
+                            <li><a ui-sref="registroPersonaNatural">Registrar Personas Naturales</a></li>
                             <li><a ui-sref="listarMedicos">Listar Médicos</a></li>
-                            <li><a ui-sref="registroPacientes">Registrar Pacientes</a></li>
                             <li><a ui-sref="listarPacientes">Listar Pacientes</a></li>
-                            <li><a ui-sref="registroBeneficiarios">Registrar Beneficiarios</a></li>
-                            <li><a ui-sref="listarBeneficiarios">Listar Beneficiarios</a></li>
                             <li><a ui-sref="registroEps">Registrar EPS</a></li>
                             <li><a ui-sref="listarEps">Listar EPS</a></li>
                         </ul>
@@ -342,6 +338,9 @@
     <script src="agenda/medicos/controllers/agendaController.js"></script>
     <script src="agenda/medicos/controllers/serviceAgenda.js"></script>
     <script src="agenda/pacientes/controllers/citasController.js"></script>
+    <script src="agenda/pacientes/controllers/historialCitasController.js"></script>
+    <script src="services/citaServices.js"></script>
+    
 
     <!-- Controladores de Registro -->
     <script src="registro/personaNaturalController.js"></script>
@@ -349,7 +348,6 @@
     <script src="registro/medicos/listaMedicosController.js"></script>
     <script src="registro/pacientes/pacientesController.js"></script>
     <script src="registro/pacientes/listaPacientesController.js"></script>
-    <script src="registro/beneficiario/beneficiariosController.js"></script>
     <script src="registro/beneficiario/beneficiariosController.js"></script>
     <script src="registro/eps/epsController.js"></script>
     <script src="registro/eps/listaEpsController.js"></script>

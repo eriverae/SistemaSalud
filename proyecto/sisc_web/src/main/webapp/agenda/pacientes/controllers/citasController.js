@@ -24,7 +24,7 @@ app.filter("getFormatoHora", function () {
 
 
 app.controller('citasController',
-        function ($scope, $http, $stateParams, $route) {
+        function ($scope, $http, $stateParams, $rootScope) {
 
 
 
@@ -134,11 +134,11 @@ app.controller('citasController',
                                             msn_citaSeleccionada2: 'Has cancelado una cita correctamente'
                                         };
                                 //$scope.loadData();       
-                                $scope.loadData = function () {
-                                    $http.get('/SiscAgenda/api/paciente/').success(function (data) {
-                                        $scope.listaCitasPaciente = data;
-                                    });
-                                };
+//                                $scope.loadData = function () {
+//                                    $http.get('/SiscAgenda/api/paciente/').success(function (data) {
+//                                        $scope.listaCitasPaciente = data;
+//                                    });
+//                                };
 
                             })
                             .error(function (data, status, header, config) {
@@ -164,12 +164,12 @@ app.controller('citasController',
              * @returns {undefined}
              */
             //Recargar
-            $scope.loadData=null;
-            $scope.loadData = function () {
-                $http.get('/SiscAgenda/api/paciente/').success(function (data) {
-                    $scope.listaCitasPaciente = data;
-                });
-            };
+//            $scope.loadData=null;
+//            $scope.loadData = function () {
+//                $http.get('/SiscAgenda/api/paciente/').success(function (data) {
+//                    $scope.listaCitasPaciente = data;
+//                });
+//            };
 
 
 

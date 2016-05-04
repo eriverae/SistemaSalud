@@ -64,15 +64,6 @@ public class RestFullCitaPaciente {
         logi.log(Level.WARNING,  "Request para cancelar la Cita con id {0}",idCita);
         Long idCitaA = Long.valueOf(idCita);        
         return facadeCita.cancelarCita1(idCitaA); 
-
-        /***********************************************/
-        /*Con este funciona, porque recibo un JSON*/
-        //return "{\"idCita\":18}";
-        /***********************************************/
-        
-        /*String json = "{\"idCita\":" + idCita + "}";
-        logi.log(Level.WARNING,  "\n\n=========== json = " + json);
-        return "{\"idCita\":" + idCita + "}";*/
     }    
     
     @GET

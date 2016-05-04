@@ -78,6 +78,14 @@ public class PersonaNaturalResource {
         LOGGER.log(Level.FINE, "Consultando persona natural con id {0} \n\n\n", id);
         return facadePersonaNatural.find(id);
     }
+
+    @GET
+    @Path("{numeroIdentificacion}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public PersonaNatural consultarPersonaPorNumeroIdentificacion(@PathParam("numeroIdentificacion") Long numeroIdentificacion){
+        LOGGER.log(Level.FINE, "Consultando persona natural con numero identificacion {0} \n\n\n", numeroIdentificacion);
+        return facadePersonaNatural.findByNumeroIdentificacion(numeroIdentificacion);
+    }
     
     @DELETE
     @Path("{id}")

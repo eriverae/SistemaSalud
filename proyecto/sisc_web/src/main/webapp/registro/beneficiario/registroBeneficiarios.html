@@ -11,7 +11,7 @@
                 <span ng-class="{'glyphicon glyphicon-ok' : BeneficiarioForm.identificacionCotizante.$valid && BeneficiarioForm.identificacionCotizante.$dirty}"></span>
 
                 <input id="identificacionCotizante" name="identificacionCotizante" type="number" class="form-control" maxlength="20"
-                       ng-model="cotizante.idCotizante" required ng-minlength="3" ng-maxlength="20"
+                       ng-model="cotizante.numeroIdentificacion" required ng-minlength="3" ng-maxlength="20"
                        placeholder="número de identificación"/>
             </div>
 
@@ -22,7 +22,7 @@
                 <span ng-class="{'glyphicon glyphicon-ok' : BeneficiarioForm.nombresCotizante.$valid && BeneficiarioForm.nombresCotizante.$dirty}"></span>
                 
                 <input id="nombres" name="nombresCotizante" type="text" class="form-control" maxlength="30"
-                       ng-model="cotizante.nombresCotizante" required ng-minlength="3" ng-maxlength="30"
+                       ng-model="cotizante.nombres" required ng-minlength="3" ng-maxlength="30"
                        placeholder="Nombres"/>
             </div>
 
@@ -32,20 +32,21 @@
                 <!-- Display a check when the field is valid and was modified -->
                 <span ng-class="{'glyphicon glyphicon-ok' : BeneficiarioForm.apellidosCotizante.$valid && BeneficiarioForm.apellidosCotizante.$dirty}"></span>
                 <input id="apellidos" name="apellidosCotizante" type="text" class="form-control" maxlength="30"
-                       ng-model="cotizante.apellidosCotizante" required ng-minlength="3" ng-maxlength="30"
+                       ng-model="cotizante.apellidos" required ng-minlength="3" ng-maxlength="30"
                        placeholder="Apellidos"/>
             </div>
 
             <!--Filtro -->
             <div class="panel-heading">
+                <h4>Buscar beneficiarios</h4>
                 <div class="col-xs-4">
-                    <label for="filtro">Filtrar por Numero Identificacion:</label>
-                    <input type="text" id="filtro"
-                           data-ng-model="searchText"
-                           data-ng-change="searchTextChanged()"
-                           />
+                    <label class="col-md-3 col-xs-12 label-info control-label label label-form">Número identificación:</label>
+                    <input type="text" data-ng-model="numeroIdBeneficiario" />
                 </div>  
-                <a ui-sref="registroPacientes"><span class="glyphicon glyphicon-plus"></span>Agregar Beneficiario</a>
+                <button type="button" class="btn btn-primary" ng-click="buscarBeneficiario()">Buscar 
+                    <span class="glyphicon glyphicon-floppy-remove"></span>
+                </button>
+                <!--<a ui-sref="registroPacientes"><span class="glyphicon glyphicon-plus"></span>Agregar Beneficiario</a>-->
             </div>
 
             <!--Se consulta la identificacion del beneficiario, sino existe se direcciona a crear nueva persona natural
@@ -58,7 +59,7 @@
                 <span ng-class="{'glyphicon glyphicon-ok' : BeneficiarioForm.identificacionBeneficiario.$valid && BeneficiarioForm.identificacionBeneficiario.$dirty}"></span>
 
                 <input id="identificacionCotizante" name="identificacionBeneficiario" type="number" class="form-control" maxlength="20"
-                       ng-model="beneficiario.idBeneficiario" required ng-minlength="3" ng-maxlength="20"
+                       ng-model="beneficiario.numeroIdentificacion" required ng-minlength="3" ng-maxlength="20"
                        placeholder="número de identificación"/>
             </div>
 
@@ -68,7 +69,7 @@
                 <!-- Display a check when the field is valid and was modified -->
                 <span ng-class="{'glyphicon glyphicon-ok' : BeneficiarioForm.nombresBeneficiario.$valid && BeneficiarioForm.nombresBeneficiario.$dirty}"></span>
                 <input id="nombres" name="nombresBeneficiario" type="text" class="form-control" maxlength="30"
-                       ng-model="beneficiario.nombresBeneficiario" required ng-minlength="3" ng-maxlength="30"
+                       ng-model="beneficiario.nombres" required ng-minlength="3" ng-maxlength="30"
                        placeholder="Nombres"/>
             </div>
 
@@ -78,7 +79,7 @@
                 <!-- Display a check when the field is valid and was modified -->
                 <span ng-class="{'glyphicon glyphicon-ok' : BeneficiarioForm.apellidosBeneficiario.$valid && BeneficiarioForm.apellidosBeneficiario.$dirty}"></span>
                 <input id="apellidos" name="apellidosBeneficiario" type="text" class="form-control" maxlength="30"
-                       ng-model="beneficiario.apellidosBeneficiario" required ng-minlength="3" ng-maxlength="30"
+                       ng-model="beneficiario.apellidos" required ng-minlength="3" ng-maxlength="30"
                        placeholder="Apellidos"/>
             </div>
 
@@ -93,7 +94,10 @@
                 <!--
                 <p class="help-block" ng-show="BeneficiarioForm.IdType.$error.required">Seleccione tipo de parentezco</p>
                 -->
-            </div>
+            </div> 
+            <button type="button" class="btn btn-primary" ng-click="asociarBeneficiario()">Asociar 
+                <span class="glyphicon glyphicon-floppy-remove"></span>
+            </button>
 
             <!--Si al consultar el cliente tiene beneficiarios asociados debe listarlos - CRUD-->
             <div class="grid">
