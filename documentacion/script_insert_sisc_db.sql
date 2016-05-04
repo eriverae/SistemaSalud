@@ -88,7 +88,7 @@ SELECT ('c-' || id_cita) AS citaconca, id_cita FROM cita
 
 
 UPDATE cita SET estado_cita = 'APARTADA' WHERE estado_cita = 'CANCELADA';
-
+UPDATE cita SET observaciones = 'observacion paciente by medico';
 
 
 

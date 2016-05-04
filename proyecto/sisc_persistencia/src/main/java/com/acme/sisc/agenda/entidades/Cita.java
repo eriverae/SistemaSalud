@@ -76,8 +76,10 @@ public class Cita implements Serializable {
     @Column(name = "estado_cita")
     private String estadoCita;  
     
+    
+    
     @Column(name = "observaciones")
-    private String observaciones;    
+    private String observaciones;
 
     
     @JoinColumn(name = "id_paciente_eps", referencedColumnName = "id_persona_eps")
@@ -106,7 +108,8 @@ public class Cita implements Serializable {
         this.estadoPacienteAtendido = estadoPacienteAtendido;
         this.horaFin = fechaPaciente;
         this.agenda = agenda;
-       this.estadoCita = estadoCita;
+        this.estadoCita = estadoCita;
+       this.observaciones = observaciones;
     }
 
     public Long getIdCita() {

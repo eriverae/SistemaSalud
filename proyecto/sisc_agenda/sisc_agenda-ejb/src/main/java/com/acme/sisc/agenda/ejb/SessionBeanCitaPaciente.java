@@ -114,7 +114,29 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
         logger.log(Level.WARNING, "\n\nSESION-BEAN-CITA-PACIENTE\n El paciente cancela la cita: "+ idCita);
         return facadeCita.PacienteCancelaSuCita(idCita);
     }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    //historial de citas
+    @Override
+    public List<Cita> findRange(int startPosition, int maxResults, String sortFields, String sortDirections) {
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        cq.select(cq.from(Cita.class));
+        javax.persistence.Query q = em.createQuery(cq);
+        q.setFirstResult(startPosition);
+        q.setMaxResults(maxResults);
 
+        return q.getResultList();
+    }
+    
+    @Override
+    public int count() {
+        javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        javax.persistence.criteria.Root<Cita> rt = cq.from(Cita.class);
+        cq.select(getEntityManager().getCriteriaBuilder().count(rt));
+        javax.persistence.Query q = getEntityManager().createQuery(cq);
+        return ((Long) q.getSingleResult()).intValue();
+    }
+    ////////////////////////////////////////////////////////////////////////////
 
     
 
