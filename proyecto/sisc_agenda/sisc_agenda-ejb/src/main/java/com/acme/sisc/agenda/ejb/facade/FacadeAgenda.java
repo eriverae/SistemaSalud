@@ -7,6 +7,7 @@ package com.acme.sisc.agenda.ejb.facade;
 
 import com.acme.sisc.agenda.constant.WebConstant;
 import com.acme.sisc.agenda.entidades.Agenda;
+import com.acme.sisc.common.util.JMSUtil;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -41,6 +42,7 @@ public class FacadeAgenda  extends  AbstractFacade <Agenda>  {
     public boolean insertarAgenda(Agenda agenda){
         try{
             em.persist(agenda);
+            JMSUtil.sendMessage(agenda, "java:/jms/queue/SiscQueue");
             return true;
         }catch(Exception e){
             log.log(Level.SEVERE, "ERROR EN insertarAgenda",e);

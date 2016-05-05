@@ -25,6 +25,7 @@ import com.acme.sisc.agenda.exceptions.AgendaException;
 import com.acme.sisc.agenda.shared.IAgendaLocal;
 import com.acme.sisc.agenda.shared.IAgendaRemote;
 import com.acme.sisc.agenda.util.AgendaUtil;
+import com.acme.sisc.common.util.JMSUtil;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -82,6 +83,7 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
                 agenda.setMedicoEps(facadeMedicoEps.consultarMedicoEps(idMedico, idEps));
                 if (facadeAgenda.insertarAgenda(agenda)) {
                     _log.log(Level.INFO, "NO SE INSERTO AGENDA " + agenda);
+                    
                 }
             }
             return true;
@@ -185,6 +187,7 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
                 }
                 
                 if (CodesResponse.SUCCESS.value().equals(response.getCodigoRespuesta())) {
+                    
                     agenda.setCitasAgenda(citasAgenda);
                     if (facadeAgenda.insertarAgenda(agenda)) {
                         ResponseExitoCrearAgenda exitoInsertarAgenda = new ResponseExitoCrearAgenda();
