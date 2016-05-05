@@ -6,6 +6,7 @@
 package com.acme.sisc.seguridad;
 
 import com.acme.sisc.agenda.entidades.Usuario;
+import com.acme.sisc.common.util.JMSUtil;
 import com.acme.sisc.seguridad.exceptions.SeguridadException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -65,6 +66,9 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
         usuario.setUsuaUsumd(new Date());
         usuario.setUsuaUsums("El usuario mismo");        
         em.persist(usuario);
+        
+        //JMSUtil.sendMessage(usuario,"java:/jms/queue/SiscQueue");
+        LOGGER.info("Finaliza crearUsuario(...)");
     }
 
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
