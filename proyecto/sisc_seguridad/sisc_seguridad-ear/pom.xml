@@ -42,10 +42,22 @@
     </build>
     <dependencies>
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sisc_seguridad-ejb</artifactId>
+            <version>${project.version}</version>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
             <groupId>com.acme.sisc</groupId>
             <artifactId>sisc_seguridad-api</artifactId>
             <version>1.0-SNAPSHOT</version>
             <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sisc_seguridad-shared</artifactId>
+            <version>${project.version}</version>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -57,19 +69,7 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>sisc_common</artifactId>
             <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>sisc_seguridad-shared</artifactId>
-            <version>${project.version}</version>
             <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>sisc_seguridad-ejb</artifactId>
-            <version>${project.version}</version>
-            <type>ejb</type>
         </dependency>
     </dependencies>
 </project>

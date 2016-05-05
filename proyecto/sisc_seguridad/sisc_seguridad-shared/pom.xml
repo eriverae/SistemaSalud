@@ -15,16 +15,21 @@
     </properties>
     <dependencies>
         <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20160212</version>
+        </dependency>   
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>sisc_persistencia</artifactId>
             <version>${project.version}</version>
-               <scope>provided</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>sisc_common</artifactId>
             <version>${project.version}</version>
-            <type>jar</type>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax</groupId>

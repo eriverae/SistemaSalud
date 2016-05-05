@@ -67,7 +67,7 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
         usuario.setUsuaUsums("El usuario mismo");        
         em.persist(usuario);
         
-        //JMSUtil.sendMessage(usuario,"java:/jms/queue/SiscQueue");
+        JMSUtil.sendMessage(usuario,"java:/jms/queue/SiscQueue");
         LOGGER.info("Finaliza crearUsuario(...)");
     }
 
