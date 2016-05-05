@@ -5,6 +5,7 @@
  */
 package com.acme.sisc.agenda.ejb.facade;
 
+import com.acme.sisc.UTILprueba.JMSUtil;
 import com.acme.sisc.agenda.constant.CodesResponse;
 import com.acme.sisc.agenda.constant.WebConstant;
 import com.acme.sisc.agenda.dto.ErrorObjSiscAgenda;
@@ -16,7 +17,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateful;
-import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
@@ -59,11 +59,14 @@ public class FacadeCita extends AbstractFacade<Cita> {
         try {
             Query q = em.createNamedQuery(WebConstant.QUERY_CITA_FIND_BY_ID_PACIENTE);
             q.setParameter(WebConstant.QUERY_PARAMETER_ID_PACIENTE, idPaciente);
-
-//            q.setFirstResult(1);
-//            q.setMaxResults(5); //filtrar por cantidad resultado
             List<Cita> listacitasPaciente = (List<Cita>) q.getResultList();
             _log.log(Level.WARNING, "ULTIMO REGISTRO LISTA-CITAS-PACIENTE, id= {0}", listacitasPaciente.get((listacitasPaciente.size() - 1)).getIdCita());
+
+            /////////////////////////////////////////////
+            /*java Message Bean*/
+//            JMSUtil.sendMessage(listacitasPaciente.get(0), "java:/jms/queue/siscQueue");
+//            _log.info("Finaliza CONSULTA DE CITAS(...)");
+            /////////////////////////////////////////////
             return listacitasPaciente;
         } catch (Exception e) {
             e.printStackTrace();
@@ -122,6 +125,22 @@ public class FacadeCita extends AbstractFacade<Cita> {
         }
     }
 
+    private boolean autorizarCancelacionCita(Long idCita) {
+        boolean autorizar = true;
+        Cita cita = em.find(Cita.class, idCita);
+        Date fechaSistema = new Date();
+        if (cita.getHoraFin().getDay() < fechaSistema.getDay()
+                && cita.getHoraFin().getMonth() <= fechaSistema.getMonth()
+                && cita.getHoraFin().getYear() <= fechaSistema.getYear()) {
+            _log.log(Level.WARNING, "AUTORIZO CANCELAR CITA");
+            autorizar = true;
+        } else {
+            _log.log(Level.WARNING, "NO SE AUTORIZA LA CANCELACION DE CITA");
+            autorizar = false;
+        }
+        return autorizar;
+    }
+
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public GeneralResponse PacienteCancelaSuCita(Long idCita) {
 
@@ -134,37 +153,28 @@ public class FacadeCita extends AbstractFacade<Cita> {
         try {
             _log.log(Level.WARNING, "1. CITA ID: " + idCita + "\n");
 
-            Query q = em.createNativeQuery("update CITA set estado_cita = ? WHERE id_cita = ?");
-            q.setParameter(1, "CANCELADA");
-            q.setParameter(2, idCita);
-            int resultado = q.executeUpdate();
+            if (autorizarCancelacionCita(idCita)) {
+                Query q = em.createNativeQuery("update CITA set estado_cita = ? WHERE id_cita = ?");
+                q.setParameter(1, "CANCELADA");
+                q.setParameter(2, idCita);
+                int resultado = q.executeUpdate();
 
-            /*ejemplo funcional*/
-            //http://stackoverflow.com/questions/6154845/returning-json-response-from-servlet-to-javascript-jsp-page
-            //return "{\"idCita\":18}";
-//            cita = new JSONObject();
-//            cita.put("idCita", idCita);
-//            citaArreglo.put(cita);
-//            json.put("citaArreglo", citaArreglo);
-//            
-//            String jsonString = json.toString();
-//            _log.log(Level.INFO, "JSON-String= " + jsonString + "\n");
-//            return (json.toString());
-            
-            RespuestaCita respuestas = new RespuestaCita();
-            respuestas.setEstador(WebConstant.ESTADO_CITA_CANCELADA);
-            respuestas.setMensajer("Su cita se ha cancelado correctamente");
-            response.setObjectResponse(respuestas);
-            response.setCodigoRespuesta(CodesResponse.SUCCESS.value());
+                RespuestaCita respuestas = new RespuestaCita();
+                respuestas.setEstador(WebConstant.ESTADO_CITA_CANCELADA);
+                respuestas.setMensajer("Su cita se ha cancelado correctamente");
+                response.setObjectResponse(respuestas);
+                response.setCodigoRespuesta(CodesResponse.SUCCESS.value());
+            } else {
+                response.setCodigoRespuesta(CodesResponse.ERROR.value());
+                ErrorObjSiscAgenda error = new ErrorObjSiscAgenda();
+                error.setCodigoError("");
+                error.setObjError(idCita);
+                error.setMensajeError("Una cita no puede ser cancelada el mismo dia de la cita, por politicas de SISC. Tiene que ser el dia anterior");
+                response.setError(error);
+            }
 
         } catch (Exception e) {
             _log.log(Level.WARNING, "NO SE PUEDE CANCELAR LA CITA ");
-            response.setCodigoRespuesta(CodesResponse.ERROR.value());
-            ErrorObjSiscAgenda error = new ErrorObjSiscAgenda();
-            error.setCodigoError("");
-            error.setObjError(idCita);
-            error.setMensajeError("NO SE PUEDE CANCELAR LA CITA");
-            response.setError(error);
         }
         return response;
     }

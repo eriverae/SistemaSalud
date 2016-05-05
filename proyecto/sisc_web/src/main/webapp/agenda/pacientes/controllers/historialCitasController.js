@@ -16,7 +16,7 @@ app.controller('historialCitasController', function ($scope, $rootScope, $stateP
             { field: 'idCita', displayName: 'Id'},
             { field: 'valor', displayName: 'Valor'},
             { field: 'horaFin', displayName: 'hora cita' },
-            { field: 'estado_cita', displayName: 'Estado cita'},
+            { field: 'estadoCita', displayName: 'Estado cita'},
             { field: '', width: 80, 
                 cellTemplate: '<span class="glyphicon glyphicon-trash remove" ng-click="deleteRow(row)"></span>'+
                 '<span class="glyphicon glyphicon-edit modify" ng-click="updateRow(row)"></span>' }

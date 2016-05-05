@@ -69,7 +69,7 @@ select * from cita;
 
 select id_cita, hora_fin from cita
 	order by hora_fin desc
-LIMIT 5 OFFSET 1
+LIMIT 5 OFFSET 0
  
 
 --////
@@ -87,8 +87,11 @@ SELECT ('c-' || id_cita) AS citaconca, id_cita FROM cita
 
 
 
+--UPDATE cita SET observaciones = 'observacion paciente by medico';
 UPDATE cita SET estado_cita = 'APARTADA' WHERE estado_cita = 'CANCELADA';
-UPDATE cita SET observaciones = 'observacion paciente by medico';
+UPDATE cita SET hora_fin = '2016-05-05 23:55:59.757948', estado_cita = 'APARTADA' WHERE id_cita = 21;
+
+
 
 
 

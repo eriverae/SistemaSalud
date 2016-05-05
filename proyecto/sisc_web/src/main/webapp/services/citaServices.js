@@ -5,7 +5,7 @@ var myModule = angular.module('sisc_web');
 
 myModule.factory('citaService', function ($resource) {
 //    return $resource('/sisc_agenda/api/historialCitas/:id');
-    return $resource('/sisc_agenda/api/historialCitas/');
+    return $resource('/SiscAgenda/api/historialCitas');
 })
 
 ;
