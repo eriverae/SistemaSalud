@@ -39,9 +39,9 @@
     <validation-mode>NONE</validation-mode>
     <properties>
       <!--**** persistencia PostgreSQL ***-->
-      <!--<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>-->
+      <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
       <!--**** persistencia Mysql ***-->
-      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+      <!--<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>-->
       <property name="hibernate.show_sql" value="true"/>
     </properties>
   </persistence-unit>
