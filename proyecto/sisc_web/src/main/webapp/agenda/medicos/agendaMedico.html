@@ -156,7 +156,7 @@
                                 </a>
                             </li>
                             <li class="">
-                                <a  style="width: 210px !important"  data-toggle="tab" onClick="$('#tab242').show();$('#tab222').hide();$('#tab232').hide();" aria-expanded="false">
+                                <a  style="width: 210px !important"  data-toggle="tab" ng-click="irMenuHC()" aria-expanded="false">
                                     Opciones de cita
                                 </a>
                             </li>
@@ -167,15 +167,15 @@
                                     <div class="table-responsive" align="center">
                                         <table class="table table-bordered table-striped table-actions">
                                             <tbody>                                            
-                                                <tr id="trow_1">
+                                                <tr>
                                                 <td >Fecha</td>
                                                 <td width="210"><strong>{{infoConsultaCita.horaInicio | getFormatofecha}}</strong></td>
                                                 </tr>
-                                                <tr id="trow_2">
+                                                <tr >
                                                 <td >Inicia a las: </td>
                                                 <td width="210"><strong>{{infoConsultaCita.horaInicio | getFormatoHora}}</strong></td>
                                                 </tr>
-                                                <tr id="trow_3">
+                                                <tr>
                                                 <td >Termina a las:</td>
                                                 <td width="210"><strong>{{infoConsultaCita.horaFin | getFormatoHora}}</strong></td>
                                                 </tr>

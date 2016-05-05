@@ -23,7 +23,7 @@ app.filter("getFormatoHora", function () {
 });
 
 app.controller('agendaMedicoContoller',
-        function ($scope, $compile, $timeout, uiCalendarConfig, $http, $stateParams) {
+        function ($scope, $compile, $timeout, uiCalendarConfig, $http, $stateParams,$state) {
 
             $scope.objErrorNuevaAgenda;
             $scope.generalResponse;
@@ -56,6 +56,10 @@ app.controller('agendaMedicoContoller',
 
             };
 
+            $scope.irMenuHC=function (){
+                 $state.go('menuhc');
+            };
+               
 
             /* funcion para validar si se incluye el dia seleccionado en la agenda */
             $scope.colocarDiasAgenda = function (dia, choice, index) {
