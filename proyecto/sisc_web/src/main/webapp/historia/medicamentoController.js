@@ -7,20 +7,22 @@ app.controller('medicamentoController', function ($scope, $rootScope,$state ,med
 
     $scope.gridOptions = {
 
+        
         data: 'myData',
         columnDefs: [
-            { field: 'idcita', displayName: 'Cita' ,  enableCellEdit: true},            
+            { field: 'idcita', displayName: 'Cita' ,   visible: false},            
             { field: 'idmedicamento', 
                       displayField : 'nombreMedicamento',
                       valueField: 'idmedicamento',
                       enableCellEdit: true,
+                      width: 140,
                       editableCellTemplate: 'wgMedicamentos.html',
             },    
 
             { field: 'formula', displayName: 'Formula', enableCellEdit: true},
 
-            {field: 'Eliminar', displayName:'Eliminar',
-                cellTemplate : '<div class="ui-grid-cell-contents"> <button class="btn btn-primary" ng-click = "deleteRow()">X</button></div>'
+            {field: 'Eliminar', displayName:'', width: 115,
+                cellTemplate : '<div class="ui-grid-cell-contents"> <button ng-click="deleteRow()" style="margin-left: 10px;" class="btn btn-danger btn-rounded btn-sm"><span class="fa fa-times"></span>Eliminar</button></div>'
             }
         ],
 
