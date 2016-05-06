@@ -5,10 +5,8 @@
  */
 package com.acme.sisc.sisc_hc.shared;
 
-import com.acme.sisc.agenda.entidades.Incapacidad;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import javax.ejb.Remote;
 
 /**
@@ -16,9 +14,7 @@ import javax.ejb.Remote;
  * @author GABRIEL
  */
 @Remote
-public interface IIncapacidadFacadeRemote {
-    Incapacidad find(Object id);
-    List<Incapacidad> findAll();
-    void addIncapacidad(Object incapacidad);
+public interface IHistoriaFacadeRemote {
+    ArrayList<HashMap> findAll();
     ArrayList<HashMap> findByCita(Long idcita);
 }

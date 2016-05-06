@@ -6,15 +6,17 @@
 package com.acme.sisc;
 
 import com.acme.sisc.agenda.entidades.Cita;
+import com.acme.sisc.agenda.entidades.CitaCirugia;
+import com.acme.sisc.agenda.entidades.CitaExamen;
+import com.acme.sisc.agenda.entidades.CitaTratamiento;
+import com.acme.sisc.agenda.entidades.Incapacidad;
 import com.acme.sisc.agenda.entidades.CitaMedicamento;
-import com.acme.sisc.agenda.entidades.Medicamento;
-import com.acme.sisc.sisc_hc.shared.IMedicamentoFacadeLocal;
-import com.acme.sisc.sisc_hc.shared.IMedicamentoFacadeRemote;
+import com.acme.sisc.sisc_hc.shared.IHistoriaFacadeLocal;
+import com.acme.sisc.sisc_hc.shared.IHistoriaFacadeRemote;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -29,11 +31,9 @@ import javax.persistence.Query;
  * @author GABRIEL
  */
 @Stateless
-public class MedicamentoFacade implements IMedicamentoFacadeLocal, IMedicamentoFacadeRemote{
+public class HistoriaFacade implements IHistoriaFacadeLocal, IHistoriaFacadeRemote{
     @EJB
-    IMedicamentoFacadeRemote facadeMedicamento;
-    
-    private static final Logger LOGGER = Logger.getLogger(MedicamentoFacade.class.getName());
+    IHistoriaFacadeRemote facadeHistoria;
     
     @PersistenceContext(unitName = "SistemaSaludPU")
     private EntityManager em;
@@ -42,55 +42,174 @@ public class MedicamentoFacade implements IMedicamentoFacadeLocal, IMedicamentoF
         return em;
     }
 
-    public MedicamentoFacade() {
+    public HistoriaFacade() {
         
     }
     
     @Override
-    public Medicamento find(Object id) {
-        return em.find(Medicamento.class, id);
-    }
-
-    @Override
-    public List<Medicamento> findAll() {
-        Query q = em.createQuery("SELECT m FROM Medicamento m");
-        return q.getResultList();
-    }
-
-    @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void addMedicamentoCita(List<CitaMedicamento>listaMedicamentos) {
-        try{
-            Cita c = em.find(Cita.class, new Long("1"));
-            for (int i=0; i<listaMedicamentos.size(); i++) {
-                CitaMedicamento obj = listaMedicamentos.get(i);
-                obj.setFechaGenracion(new Date());
-                obj.setMedicamento(facadeMedicamento.find(listaMedicamentos.get(i).getMedicamento().getIdMedicamento()));
-                obj.setCita(c);
-                //listaMedicamentos.get(i).setMedicamento(facadeCita.findById(listaMedicamentos.get(i).getCita().getId()));
-                em.persist(obj);
-            }
-        }catch(Exception e){
-            LOGGER.log(Level.SEVERE,"No se encontro cliente {0} ", e);
-        }
-    }
-    
-    @Override
     public ArrayList<HashMap> findByCita(Long idcita) {
+        HashMap result_map = new HashMap();
+        ArrayList<HashMap> result_js= new ArrayList<HashMap>();
+        
         Query q = em.createQuery("SELECT cm FROM CitaMedicamento cm WHERE cm.cita.idCita="+idcita);
-        List<CitaMedicamento>lista = q.getResultList();
+        List<CitaMedicamento>listaCitaMedicamento = q.getResultList();
 
         ArrayList<HashMap> js= new ArrayList<HashMap>();
 
-        for (int i = 0; i<lista.size();i++ ){
+        for (int i = 0; i<listaCitaMedicamento.size();i++ ){
             HashMap m = new HashMap();
-            m.put("idcita", lista.get(i).getCita().getIdCita());
-            m.put("idmedicamento", lista.get(i).getMedicamento().getIdMedicamento());
-            m.put("fechageneracion", lista.get(i).getFechaGenracion());
-            m.put("formula", lista.get(i).getFormula());
+            m.put("idcita", listaCitaMedicamento.get(i).getCita().getIdCita());
+            m.put("idmedicamento", listaCitaMedicamento.get(i).getMedicamento().getIdMedicamento());
+            m.put("fechageneracion", listaCitaMedicamento.get(i).getFechaGenracion());
+            m.put("formula", listaCitaMedicamento.get(i).getFormula());
             js.add(m);
         }
-        return js;
+        result_map.put("medicamentos", js);
+        js.clear();
+        
+        Query q2 = em.createQuery("SELECT cc FROM CitaCirugia cc WHERE cc.cita.idCita="+idcita);
+        List<CitaCirugia>listaCitaCirugia = q2.getResultList();
+        
+        for (int i = 0; i<listaCitaCirugia.size();i++ ){
+            HashMap m = new HashMap();
+            m.put("idcita", listaCitaCirugia.get(i).getCita().getIdCita());
+            m.put("idcirugia", listaCitaCirugia.get(i).getCirugia().getIdCirugia());
+            m.put("fechageneracion", listaCitaCirugia.get(i).getFechaGeneracion());
+            m.put("observaciones", listaCitaCirugia.get(i).getObservaciones());
+            m.put("detalles", listaCitaCirugia.get(i).getDetalles());
+            js.add(m);
+        }
+        result_map.put("cirugia", js);
+        js.clear();
+        
+        Query q3 = em.createQuery("SELECT ce FROM CitaExamen ce WHERE ce.cita.idCita="+idcita);
+        List<CitaExamen>listaCitaExamen = q3.getResultList();
+        
+        for (int i = 0; i<listaCitaExamen.size();i++ ){
+            HashMap m = new HashMap();
+            m.put("idcita", listaCitaExamen.get(i).getCita().getIdCita());
+            m.put("idexamen", listaCitaExamen.get(i).getExamen().getIdExamen());
+            m.put("fechageneracion", listaCitaExamen.get(i).getFechaGeneracion());
+            m.put("observaciones", listaCitaExamen.get(i).getObservaciones());
+            m.put("detalles", listaCitaExamen.get(i).getDetalles());
+            js.add(m);
+        }
+        result_map.put("examen", js);
+        js.clear();
+        
+        Query q4 = em.createQuery("SELECT ct FROM CitaTratamiento ct WHERE ct.cita.idCita="+idcita);
+        List<CitaTratamiento>listaCitaTratamiento = q4.getResultList();
+        
+        for (int i = 0; i<listaCitaTratamiento.size();i++ ){
+            HashMap m = new HashMap();
+            m.put("idcita", listaCitaTratamiento.get(i).getCita().getIdCita());
+            m.put("idtratamiento", listaCitaTratamiento.get(i).getTratamiento().getIdTratamiento());
+            m.put("fechageneracion", listaCitaTratamiento.get(i).getFechaGeneracion());
+            m.put("observaciones", listaCitaTratamiento.get(i).getObservaciones());
+            js.add(m);
+        }
+        result_map.put("tratamiento", js);
+        js.clear();
+        
+        Query q5 = em.createQuery("SELECT i FROM Incapacidad i WHERE i.cita.idCita="+idcita);
+        List<Incapacidad>listaIncapacidad = q5.getResultList();
+        
+        for (int i = 0; i<listaIncapacidad.size();i++ ){
+            HashMap m = new HashMap();
+            m.put("idcita", listaIncapacidad.get(i).getCita().getIdCita());
+            m.put("idtratamiento", listaIncapacidad.get(i).getIdIncapacidad());
+            m.put("fechageneracion", listaIncapacidad.get(i).getFechaGeneracion());
+            m.put("motivo", listaIncapacidad.get(i).getMotivo());
+            m.put("periodo", listaIncapacidad.get(i).getPeriodo());
+            js.add(m);
+        }
+        result_map.put("incapacidad", js);
+        
+        result_js.add(result_map);
+        return result_js;
+    }
+
+    @Override
+    public ArrayList<HashMap> findAll() {
+        HashMap result_map = new HashMap();
+        ArrayList<HashMap> result_js= new ArrayList<HashMap>();
+        
+        Query q = em.createQuery("SELECT cm FROM CitaMedicamento cm");
+        List<CitaMedicamento>listaCitaMedicamento = q.getResultList();
+
+        ArrayList<HashMap> js= new ArrayList<HashMap>();
+
+        for (int i = 0; i<listaCitaMedicamento.size();i++ ){
+            HashMap m = new HashMap();
+            m.put("idcita", listaCitaMedicamento.get(i).getCita().getIdCita());
+            m.put("idmedicamento", listaCitaMedicamento.get(i).getMedicamento().getIdMedicamento());
+            m.put("fechageneracion", listaCitaMedicamento.get(i).getFechaGenracion());
+            m.put("formula", listaCitaMedicamento.get(i).getFormula());
+            js.add(m);
+        }
+        result_map.put("medicamentos", js);
+        js.clear();
+        
+        Query q2 = em.createQuery("SELECT cc FROM CitaCirugia cc");
+        List<CitaCirugia>listaCitaCirugia = q2.getResultList();
+        
+        for (int i = 0; i<listaCitaCirugia.size();i++ ){
+            HashMap m = new HashMap();
+            m.put("idcita", listaCitaCirugia.get(i).getCita().getIdCita());
+            m.put("idcirugia", listaCitaCirugia.get(i).getCirugia().getIdCirugia());
+            m.put("fechageneracion", listaCitaCirugia.get(i).getFechaGeneracion());
+            m.put("observaciones", listaCitaCirugia.get(i).getObservaciones());
+            m.put("detalles", listaCitaCirugia.get(i).getDetalles());
+            js.add(m);
+        }
+        result_map.put("cirugia", js);
+        js.clear();
+        
+        Query q3 = em.createQuery("SELECT ce FROM CitaExamen ce");
+        List<CitaExamen>listaCitaExamen = q3.getResultList();
+        
+        for (int i = 0; i<listaCitaExamen.size();i++ ){
+            HashMap m = new HashMap();
+            m.put("idcita", listaCitaExamen.get(i).getCita().getIdCita());
+            m.put("idexamen", listaCitaExamen.get(i).getExamen().getIdExamen());
+            m.put("fechageneracion", listaCitaExamen.get(i).getFechaGeneracion());
+            m.put("observaciones", listaCitaExamen.get(i).getObservaciones());
+            m.put("detalles", listaCitaExamen.get(i).getDetalles());
+            js.add(m);
+        }
+        result_map.put("examen", js);
+        js.clear();
+        
+        Query q4 = em.createQuery("SELECT ct FROM CitaTratamiento ct");
+        List<CitaTratamiento>listaCitaTratamiento = q4.getResultList();
+        
+        for (int i = 0; i<listaCitaTratamiento.size();i++ ){
+            HashMap m = new HashMap();
+            m.put("idcita", listaCitaTratamiento.get(i).getCita().getIdCita());
+            m.put("idtratamiento", listaCitaTratamiento.get(i).getTratamiento().getIdTratamiento());
+            m.put("fechageneracion", listaCitaTratamiento.get(i).getFechaGeneracion());
+            m.put("observaciones", listaCitaTratamiento.get(i).getObservaciones());
+            js.add(m);
+        }
+        result_map.put("tratamiento", js);
+        js.clear();
+        
+        Query q5 = em.createQuery("SELECT i FROM Incapacidad i");
+        List<Incapacidad>listaIncapacidad = q5.getResultList();
+        
+        for (int i = 0; i<listaIncapacidad.size();i++ ){
+            HashMap m = new HashMap();
+            m.put("idcita", listaIncapacidad.get(i).getCita().getIdCita());
+            m.put("idtratamiento", listaIncapacidad.get(i).getIdIncapacidad());
+            m.put("fechageneracion", listaIncapacidad.get(i).getFechaGeneracion());
+            m.put("motivo", listaIncapacidad.get(i).getMotivo());
+            m.put("periodo", listaIncapacidad.get(i).getPeriodo());
+            js.add(m);
+        }
+        result_map.put("incapacidad", js);
+        
+        result_js.add(result_map);
+        return result_js;
     }
     
 }
