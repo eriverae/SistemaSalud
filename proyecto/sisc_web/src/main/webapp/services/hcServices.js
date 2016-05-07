@@ -26,6 +26,7 @@ myModule.factory('examenService', function ($resource) {
 myModule.factory('incapacidadService', function ($resource) {
 	return $resource('http://127.0.0.1:8080/hc/api/incapacidad/');
 });
+
 myModule.factory('historiaService', function ($resource) {
-	return $resource('http://127.0.0.1:8080/hc/api/incapacidad/');
+	return $resource('http://127.0.0.1:8080/hc/api/historia/lastcita/');
 });

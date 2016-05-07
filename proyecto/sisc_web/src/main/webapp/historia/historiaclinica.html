@@ -1,28 +1,56 @@
 <div class="page-content-wrap">
 	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-6" ng-repeat="hist in historias">
 			<div class="panel panel-default">
                <div class="panel-heading">
-                   <h3 class="panel-title">Basic example</h3>
+                   <h3 class="panel-title">Examenes</h3>
                </div>
-			                               
+               <div class="panel-body">
+               		<ul ng-repeat="e in hist.examen">
+               			<h4>{{e.idexamen}}</h4>
+               		</ul>		
+               </div>
 			</div>
 			<div class="panel panel-default">
                <div class="panel-heading">
-                   <h3 class="panel-title">Basic example</h3>
+                   <h3 class="panel-title">Cirug&iacute;as</h3>
                </div>
-			                               
+               <div class="panel-body">
+               		<ul ng-repeat="ci in hist.cirugia">
+               			<h4>{{ci.idcirugia}}</h4>
+               			<h4>{{ci.observaciones}}</h4>
+	               		<h4>{{ci.fechageneracion}}</h4>
+               		</ul>
+               </div>
 			</div>
 		</div>
-		<div class="col-md-6">
-
-	        <!-- START STRIPED TABLE SAMPLE -->
+		
+		<div class="col-md-6" ng-repeat="hist in historias">
 	        <div class="panel panel-default">
 	            <div class="panel-heading">
-	                <h3 class="panel-title">Striped rows</h3>
+	                <h3 class="panel-title">Medicamentos</h3>
 	            </div>
+	            <div class="panel-body">
+               		<ul ng-repeat="m in hist.medicamentos">
+               			<h4>{{m.idmedicamento}}</h4>
+	               		<h4>{{m.fechageneracion}}</h4>
+               		</ul>
+               </div>
 	        </div>
+	        <div class="panel panel-default">
+               <div class="panel-heading">
+                   <h3 class="panel-title">Tratamientos</h3>
+               </div>
+               <div class="panel-body">
+               		<ul ng-repeat="t in hist.tratamiento">
+               			<h4>{{t.idtratamiento}}</h4>
+               			<h4>{{t.observaciones}}</h4>
+	               		<h4>{{t.fechageneracion}}</h4>
+               		</ul>
+               </div>
+			</div>
         </div>
+    
 
 	</div>
 </div>     

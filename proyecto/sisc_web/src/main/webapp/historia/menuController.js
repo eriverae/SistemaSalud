@@ -4,12 +4,16 @@ var app = angular.module('sisc_web');
 app.controller('menuController', function ($scope, $rootScope, $stateParams, $state, 
           menuService,modalService) {
   
-  $scope.menu={};
+  	$scope.menu={};
 
-$scope.imprimir = function(){
+	$scope.imprimir = function(){
 
-}
+	}
 
-  
+	$("#icono1").click(function(){
+	            $(".page-container").addClass("page-navigation-toggled");
+	            x_navigation_minimize("close");            
+	});
+	  
 
 });
