@@ -17,4 +17,5 @@ import javax.ejb.Remote;
 public interface IHistoriaFacadeRemote {
     ArrayList<HashMap> findAll();
     ArrayList<HashMap> findByCita(Long idcita);
+    ArrayList<HashMap> find_last_cita();
 }

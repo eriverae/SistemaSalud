@@ -17,4 +17,5 @@ import javax.ejb.Local;
 public interface IHistoriaFacadeLocal {
     ArrayList<HashMap> findAll();
     ArrayList<HashMap> findByCita(Long idcita);
+    ArrayList<HashMap> find_last_cita();
 }
