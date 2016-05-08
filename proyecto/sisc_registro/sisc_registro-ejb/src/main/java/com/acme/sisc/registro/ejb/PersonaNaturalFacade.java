@@ -6,6 +6,7 @@ package com.acme.sisc.registro.ejb;
 
 import com.acme.sisc.agenda.entidades.PersonaNatural;
 import com.acme.sisc.agenda.entidades.TipoIdentificacion;
+//import com.acme.sisc.registro.queue.JMSUtil;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -146,8 +147,10 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
                 throw new Exception("La persona natural " + personaNatural.getTipoIdentificacion()+ "-" 
                         + personaNatural.getNumeroIdentificacion() + " ya existe en el sistema");
             }
-            em.persist(personaNatural);
-            LOGGER.info("Finaliza crearPersonaNatural(...)");
+            //Prueba queues
+            //em.persist(personaNatural);
+            //JMSUtil.sendMessage(personaNatural,"java:/jms/queue/BancoQueue");
+            LOGGER.info("Finaliza crearPersonaNatural despues(...)");
         }
         catch (Exception ex) {
             LOGGER.log(Level.WARNING,"No se encontró cliente {0}", personaNatural.getTipoIdentificacion() + " " 
