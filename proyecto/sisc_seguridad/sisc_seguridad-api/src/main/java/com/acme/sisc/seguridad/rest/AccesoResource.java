@@ -7,7 +7,7 @@ package com.acme.sisc.seguridad.rest;
 
 import com.acme.sisc.agenda.entidades.Acceso;
 import com.acme.sisc.seguridad.AccesoFacadeLocal;
-import com.acme.sisc.seguridad.pagination.PaginatedListWrapperAcceso;
+import com.acme.sisc.common.pagination.PaginatedListWrapper;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -46,7 +46,7 @@ public class AccesoResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public PaginatedListWrapperAcceso listAccesos(@DefaultValue("1")
+    public PaginatedListWrapper listAccesos(@DefaultValue("1")
                                             @QueryParam("page")
                                             Integer page,
                                              @DefaultValue("id")
@@ -55,7 +55,7 @@ public class AccesoResource {
                                              @DefaultValue("asc")
                                             @QueryParam("sortDirections")
                                             String sortDirections) {
-        PaginatedListWrapperAcceso paginatedListWrapper = new PaginatedListWrapperAcceso();
+        PaginatedListWrapper paginatedListWrapper = new PaginatedListWrapper();
         paginatedListWrapper.setCurrentPage(page);
         paginatedListWrapper.setSortFields(sortFields);
         paginatedListWrapper.setSortDirections(sortDirections);
@@ -63,7 +63,7 @@ public class AccesoResource {
         return findAccesos(paginatedListWrapper);
     }
     
-    private PaginatedListWrapperAcceso findAccesos(PaginatedListWrapperAcceso wrapper) {
+    private PaginatedListWrapper findAccesos(PaginatedListWrapper wrapper) {
         int totalAccesos = facadeAcceso.count();
         wrapper.setTotalResults(totalAccesos);
         int start = (wrapper.getCurrentPage() - 1) * wrapper.getPageSize();

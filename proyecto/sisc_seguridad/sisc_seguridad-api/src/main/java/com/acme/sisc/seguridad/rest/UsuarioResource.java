@@ -7,7 +7,7 @@ package com.acme.sisc.seguridad.rest;
 
 import com.acme.sisc.agenda.entidades.Usuario;
 import com.acme.sisc.seguridad.UsuarioFacadeLocal;
-import com.acme.sisc.seguridad.pagination.PaginatedListWrapper;
+import com.acme.sisc.common.pagination.PaginatedListWrapper;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;

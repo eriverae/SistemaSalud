@@ -7,7 +7,7 @@ package com.acme.sisc.seguridad.rest;
 
 import com.acme.sisc.agenda.entidades.Grupo;
 import com.acme.sisc.seguridad.GrupoFacadeLocal;
-import com.acme.sisc.seguridad.pagination.PaginatedListWrapperGrupo;
+import com.acme.sisc.common.pagination.PaginatedListWrapper;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -46,7 +46,7 @@ public class GrupoResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public PaginatedListWrapperGrupo listAccesos(@DefaultValue("1")
+    public PaginatedListWrapper listAccesos(@DefaultValue("1")
                                             @QueryParam("page")
                                             Integer page,
                                              @DefaultValue("id")
@@ -55,7 +55,7 @@ public class GrupoResource {
                                              @DefaultValue("asc")
                                             @QueryParam("sortDirections")
                                             String sortDirections) {
-        PaginatedListWrapperGrupo paginatedListWrapper = new PaginatedListWrapperGrupo();
+        PaginatedListWrapper paginatedListWrapper = new PaginatedListWrapper();
         paginatedListWrapper.setCurrentPage(page);
         paginatedListWrapper.setSortFields(sortFields);
         paginatedListWrapper.setSortDirections(sortDirections);
@@ -63,7 +63,7 @@ public class GrupoResource {
         return findAccesos(paginatedListWrapper);
     }
     
-    private PaginatedListWrapperGrupo findAccesos(PaginatedListWrapperGrupo wrapper) {
+    private PaginatedListWrapper findAccesos(PaginatedListWrapper wrapper) {
         int totalAccesos = facadeGrupo.count();
         wrapper.setTotalResults(totalAccesos);
         int start = (wrapper.getCurrentPage() - 1) * wrapper.getPageSize();

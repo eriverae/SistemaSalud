@@ -1,26 +1,37 @@
-package com.acme.sisc.seguridad.pagination;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.acme.sisc.common.pagination;
 
-import com.acme.sisc.agenda.entidades.Grupo;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Wraps all the information needed to paginate a table.
- *
- * @author Roberto Cortez
+ * Basado en implementación de Roberto Cortez
+ * @author jmartinez
+ * @param <T> Tipo generico para la lista de entidades a paginar
  */
 @XmlRootElement
-public class PaginatedListWrapperGrupo implements Serializable {
+public class PaginatedListWrapper<T> implements Serializable {
+    
     private Integer currentPage;
     private Integer pageSize;
     private Integer totalResults;
 
     private String sortFields;
     private String sortDirections;
+    
+    private static final Logger LOGGER = Logger.getLogger(PaginatedListWrapper.class.getName());
+            
     @XmlElement
-    private List<Grupo> list;
+    private List<T> list;
 
     public Integer getCurrentPage() {
         return currentPage;
@@ -62,11 +73,12 @@ public class PaginatedListWrapperGrupo implements Serializable {
         this.sortDirections = sortDirections;
     }
 
-    public List getList() {
+    public List<T> getList() {
         return list;
     }
 
-    public void setList(List<Grupo> list) {
-        this.list = list;
+    public void setList(List<T> list) {
+      LOGGER.log(Level.FINEST,"Se inicializa lista en PaginatedListWrapper.setList()");
+      this.list = list;
     }
 }
