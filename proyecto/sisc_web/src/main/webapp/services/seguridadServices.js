@@ -21,3 +21,7 @@ myModule.factory('grupoService', function ($resource) {
 myModule.factory('loginService', function ($resource) {
     return $resource('/sisc_seguridad/api/seguridad/');
 });
+
+myModule.factory('accesoGrupoService', function ($resource) {
+    return $resource('/sisc_seguridad/api/accesoGrupo/:idAccgrup');
+});

@@ -8,7 +8,6 @@ package com.acme.sisc.agenda.entidades;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,8 +28,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "accgrup")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Accgrup.findAll", query = "SELECT a FROM Accgrup a")})
-public class Accgrup implements Serializable {
+    @NamedQuery(name = "Accgrup.findAll", query = "SELECT a FROM AccesoGrupo a"),
+    @NamedQuery(name = "Accgrup.findAccesoGrupo", query = "SELECT a FROM AccesoGrupo a WHERE a.acceso.acceAcce = :acceAcce AND a.grupo.grupGrup = :grupGrup")
+})
+public class AccesoGrupo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -68,7 +69,7 @@ public class Accgrup implements Serializable {
         this.grupo = grupo;
     }
 
-    public Accgrup() {
+    public AccesoGrupo() {
     }
 
     @Override
@@ -81,10 +82,10 @@ public class Accgrup implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Accgrup)) {
+        if (!(object instanceof AccesoGrupo)) {
             return false;
         }
-        Accgrup other = (Accgrup) object;
+        AccesoGrupo other = (AccesoGrupo) object;
         if ((this.idAccgrup == null && other.idAccgrup != null) || (this.idAccgrup != null && !this.idAccgrup.equals(other.idAccgrup))) {
             return false;
         }

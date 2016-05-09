@@ -5,6 +5,7 @@ app.controller('listaPacientesController', function ($scope, $rootScope, $stateP
     // Initialize required information: sorting, the first page to show and the grid options.
     $scope.sortInfo = {fields: ['id'], directions: ['asc']};
     $scope.pacientes = {currentPage: 1};
+    $scope.pacientes2 = {};
     $scope.searchText = null;
 
     $scope.gridOptions = {
@@ -20,7 +21,7 @@ app.controller('listaPacientesController', function ($scope, $rootScope, $stateP
             { field: '', width: 80, 
                 cellTemplate: '<span class="glyphicon glyphicon-trash remove" ng-click="deleteRow(row)"></span>'+
                 '<span class="glyphicon glyphicon-edit modify" ng-click="updateRow(row)"></span>' +
-                '<span class="fa fa-sitemap" ng-click="beneficiarios(row)"></span>' }
+                '&nbsp;&nbsp;&nbsp;<span class="fa fa-sitemap" ng-click="beneficiarios(row)"></span>' }
         ],
 
         multiSelect: false,
@@ -48,6 +49,7 @@ app.controller('listaPacientesController', function ($scope, $rootScope, $stateP
 
         personaService.get(listPacientesArgs, function (data) {
             $scope.pacientes = data;
+            $scope.pacientes2 = data;
         });
     };
 

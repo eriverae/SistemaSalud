@@ -2,9 +2,15 @@
 var app = angular.module('sisc_web');
 // Create a controller with name personsFormController to bind to the form section.
 app.controller('grupoFormController', function ($scope, $rootScope, $stateParams, $state, 
-          grupoService,modalService) {
+          grupoService,modalService,accesoService,accesoGrupoService) {
   
   $scope.grupo={};
+  $scope.acceso=[];
+  
+  accesoService.get(null, function (data) {
+      $scope.listaAcceso = data.list;
+  });
+
   
   if (angular.isDefined($stateParams.grupGrup)){
     console.log('Grupo a modificar, ID = '+ $stateParams.grupGrup);
@@ -26,7 +32,7 @@ app.controller('grupoFormController', function ($scope, $rootScope, $stateParams
       {id: 'Administrador', name: 'Administrador'},
       {id: 'Auditor', name: 'Auditor'}
     ];
-  
+    
   // Clears the form. Either by clicking the 'Clear' button in the form, or when a successfull save is performed.
   $scope.clearForm = function () {
     $scope.grupo = null;
@@ -35,11 +41,16 @@ app.controller('grupoFormController', function ($scope, $rootScope, $stateParams
     // Broadcast the event to also clear the grid selection.
     $rootScope.$broadcast('clear');
   };
-
+  
   // Calls the rest method to save a Grupo.
   $scope.updateGrupo = function () {
     grupoService.save($scope.grupo).$promise.then(
     function () {
+        //Calls rest method to save access for group
+        for (i = 0; i < $scope.acceso.size(); i++) {
+            accesoGrupo = {acceso:{acceAcce:$scope.acceso[i]}, grupo:{grupGrup:$scope.grupo.grupGrup}};
+            accesoGrupoService.save(accesoGrupo);
+        }
       // Broadcast the event to refresh the grid.
       $rootScope.$broadcast('refreshGrid');
       // Broadcast the event to display a save message.

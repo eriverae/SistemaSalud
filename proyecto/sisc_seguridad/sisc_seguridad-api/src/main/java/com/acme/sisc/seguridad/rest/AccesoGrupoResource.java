@@ -5,9 +5,9 @@
  */
 package com.acme.sisc.seguridad.rest;
 
-import com.acme.sisc.agenda.entidades.Acceso;
-import com.acme.sisc.seguridad.AccesoFacadeLocal;
+import com.acme.sisc.agenda.entidades.AccesoGrupo;
 import com.acme.sisc.common.pagination.PaginatedListWrapper;
+import com.acme.sisc.seguridad.AccesoGrupoFacadeLocal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -29,19 +29,19 @@ import javax.ws.rs.core.UriInfo;
  *
  * @author rm-rf
  */
-@Path("accesos")
+@Path("accesoGrupo")
 @RequestScoped
-public class AccesoResource {
+public class AccesoGrupoResource {
     
-    private static final Logger LOGGER = Logger.getLogger(AccesoResource.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AccesoGrupoResource.class.getName());
     
     @Context
     private UriInfo context;
     
     @EJB
-    AccesoFacadeLocal facadeAcceso;
+    AccesoGrupoFacadeLocal facadeAccesoGrupo;
 
-    public AccesoResource() {
+    public AccesoGrupoResource() {
     }
     
     @GET
@@ -64,10 +64,10 @@ public class AccesoResource {
     }
     
     private PaginatedListWrapper findAccesos(PaginatedListWrapper wrapper) {
-        int totalAccesos = facadeAcceso.count();
+        int totalAccesos = facadeAccesoGrupo.count();
         wrapper.setTotalResults(totalAccesos);
         int start = (wrapper.getCurrentPage() - 1) * wrapper.getPageSize();
-        wrapper.setList(facadeAcceso.findRange(start,
+        wrapper.setList(facadeAccesoGrupo.findRange(start,
                 wrapper.getPageSize(),
                 wrapper.getSortFields(),
                 wrapper.getSortDirections()));
@@ -75,28 +75,28 @@ public class AccesoResource {
     }
     
     @GET
-    @Path("{acceAcce}")
+    @Path("{idAccgrup}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Acceso consultarAcceso(@PathParam("acceAcce") Long id){
-        return facadeAcceso.find(id);
+    public AccesoGrupo consultarAcceso(@PathParam("idAccgrup") Long id){
+        return facadeAccesoGrupo.find(id);
 
     }
     
     @DELETE
-    @Path("{acceAcce}")
-    public void eliminarAcceso(@PathParam("acceAcce") Long id){
-      LOGGER.log(Level.FINE,"Request para eliminar acceso con id {0}", id);
-      facadeAcceso.remove(id);
+    @Path("{idAccgrup}")
+    public void eliminarAcceso(@PathParam("idAccgrup") Long id){
+      LOGGER.log(Level.FINE,"Request para eliminar AccesoGrupo con id {0}", id);
+      facadeAccesoGrupo.remove(id);
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void guardarAcceso(Acceso acceso) {
+    public void guardarAcceso(AccesoGrupo accgrup) {
       try {
-        if (acceso.getAcceAcce() == null){
-          facadeAcceso.crearAcceso(acceso);
+        if (accgrup.getIdAccgrup() == null){
+          facadeAccesoGrupo.crearAccesoGrupo(accgrup);
         }else{
-          facadeAcceso.modificarAcceso(acceso);
+          facadeAccesoGrupo.modificarGrupoAcceso(accgrup);
         }
       }catch (Exception e){
           //TODO Definir manejo
