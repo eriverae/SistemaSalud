@@ -5,7 +5,6 @@
     <jta-data-source>java:jboss/datasources/siscDatasource</jta-data-source>
     <!-- Hay 32 entidades, 23 mapeadas -->
     <class>com.acme.sisc.agenda.entidades.Acceso</class>
-    <class>com.acme.sisc.agenda.entidades.Accgrup</class>
     <class>com.acme.sisc.agenda.entidades.Agenda</class>
     <class>com.acme.sisc.agenda.entidades.Alergia</class>
     <class>com.acme.sisc.agenda.entidades.Auditusu</class>
@@ -35,6 +34,7 @@
     <class>com.acme.sisc.agenda.entidades.CitaCirugia</class>
     <class>com.acme.sisc.agenda.entidades.Enfermedad</class>
     <class>com.acme.sisc.agenda.entidades.Especialidad</class>
+    <class>com.acme.sisc.agenda.entidades.AccesoGrupo</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <validation-mode>NONE</validation-mode>
     <properties>
