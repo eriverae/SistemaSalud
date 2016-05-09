@@ -147,8 +147,8 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
                 throw new Exception("La persona natural " + personaNatural.getTipoIdentificacion()+ "-" 
                         + personaNatural.getNumeroIdentificacion() + " ya existe en el sistema");
             }
+            em.persist(personaNatural);
             //Prueba queues
-            //em.persist(personaNatural);
             //JMSUtil.sendMessage(personaNatural,"java:/jms/queue/BancoQueue");
             LOGGER.info("Finaliza crearPersonaNatural despues(...)");
         }
