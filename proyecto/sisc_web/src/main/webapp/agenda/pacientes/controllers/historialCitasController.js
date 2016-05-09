@@ -28,7 +28,7 @@ app.controller('historialCitasController', function ($scope, $rootScope, $stateP
         afterSelectionChange: function (rowItem) {
             if (rowItem.selected) {
                 $rootScope.$broadcast('citasSelected', $scope.gridOptions.selectedItems[0].idCita);
-                console.log('Se emitio evento <citasSelected>');
+                console.log('Se emitio evento <citasSelected> = ' + $scope.gridOptions.selectedItems[0].idCita);
             }
         }
     };

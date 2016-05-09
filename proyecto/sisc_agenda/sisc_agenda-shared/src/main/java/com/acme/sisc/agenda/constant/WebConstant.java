@@ -24,6 +24,9 @@ public class WebConstant {
         /*Cita*/
     public static final String QUERY_CITA_FIND_FECHA_INICIO_FECHA_FIN_LIMITADO  ="Cita.findFechaInicioFechaFinLimitado";
     public static final String QUERY_CITA_FIND_FECHA_INICIO_FECHA_FIN   ="Cita.findFechaInicioFechaFin";
+    
+    public static final String QUERY_CITA_FIND_BY_ID_PACIENTE_HISTORIAL_EPS   ="Cita.findIdPacienteHistorialEPS";
+    
     public static final String QUERY_CITA_FIND_BY_ID_PACIENTE           ="Cita.findIdPaciente";
     public static final String QUERY_CITA_FIND_BY_ID                    ="Cita.findById";
     

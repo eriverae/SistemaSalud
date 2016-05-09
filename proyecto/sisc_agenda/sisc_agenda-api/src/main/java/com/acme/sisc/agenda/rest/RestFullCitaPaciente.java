@@ -37,14 +37,37 @@ public class RestFullCitaPaciente {
     @EJB
     ICitaLocal facadeCita;
 
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Path("/{idPaciente}/listaCitas")
+//    public List<Cita> CitasDePaciente(
+//            @PathParam("idPaciente") Long idPaciente) {
+//        List<Cita> lista = facadeCita.listaCitasPaciente(idPaciente).toArray();
+//        return facadeCita.listaCitasPaciente(idPaciente);
+//    }
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{idPaciente}/listaCitas")
-    public List<Cita> CitasDePaciente(
+    public Object[] CitasDePaciente(
             @PathParam("idPaciente") Long idPaciente) {
-        return facadeCita.listaCitasPaciente(idPaciente);
-    }
+        List<Cita> lista = facadeCita.listaCitasPendientePaciente(idPaciente);
+        //return facadeCita.listaCitasPaciente(idPaciente);
+        return lista.toArray();
+    }    
 
+     @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{idPaciente}/listaCitasHistorialEPS")
+    public Object[] CitasPacienteHistorial(
+            @PathParam("idPaciente") Long idPaciente) {
+        List<Cita> lista = facadeCita.listaCitasHistorialPacienteEPS(idPaciente);
+        //return facadeCita.listaCitasPaciente(idPaciente);
+        return lista.toArray();
+    }      
+    
+    
+    
     //ORIGINAL
 //    @POST
 //    @Path("/cancelarCita")
@@ -55,7 +78,11 @@ public class RestFullCitaPaciente {
 //        return facadeCita.cancelarCita(cita); 
 //    }
     
-    
+    /**
+     * 
+     * @param idCita
+     * @return 
+     */
     @POST
     @Path("/{idCita}/cancelarCita")
     @Produces(MediaType.APPLICATION_JSON)
@@ -67,6 +94,11 @@ public class RestFullCitaPaciente {
         return facadeCita.cancelarCita1(idCitaA); 
     }    
     
+    /**
+     * 
+     * @param idCita
+     * @return 
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{idCita}/consultarCita")

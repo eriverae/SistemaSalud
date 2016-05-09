@@ -5,14 +5,14 @@
  */
 package com.acme.sisc.agenda.ejb.facade;
 
-import com.acme.sisc.UTILprueba.JMSUtil;
+//import com.acme.sisc.UTILprueba.JMSUtil;
 import com.acme.sisc.agenda.constant.CodesResponse;
 import com.acme.sisc.agenda.constant.WebConstant;
 import com.acme.sisc.agenda.dto.ErrorObjSiscAgenda;
 import com.acme.sisc.agenda.dto.GeneralResponse;
 import com.acme.sisc.agenda.dto.RespuestaCita;
 import com.acme.sisc.agenda.entidades.Cita;
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,13 +55,11 @@ public class FacadeCita extends AbstractFacade<Cita> {
      * @return
      */
     public List<Cita> CitasDelPaciante(long idPaciente) {
-
         try {
             Query q = em.createNamedQuery(WebConstant.QUERY_CITA_FIND_BY_ID_PACIENTE);
             q.setParameter(WebConstant.QUERY_PARAMETER_ID_PACIENTE, idPaciente);
             List<Cita> listacitasPaciente = (List<Cita>) q.getResultList();
             _log.log(Level.WARNING, "ULTIMO REGISTRO LISTA-CITAS-PACIENTE, id= {0}", listacitasPaciente.get((listacitasPaciente.size() - 1)).getIdCita());
-
             /////////////////////////////////////////////
             /*java Message Bean*/
 //            JMSUtil.sendMessage(listacitasPaciente.get(0), "java:/jms/queue/siscQueue");
@@ -72,8 +70,19 @@ public class FacadeCita extends AbstractFacade<Cita> {
             e.printStackTrace();
             return null;
         }
-
     }
+    public List<Cita> CitasDelPacianteHistorialEPS(long idPaciente) {
+        try {
+            Query q = em.createNamedQuery(WebConstant.QUERY_CITA_FIND_BY_ID_PACIENTE_HISTORIAL_EPS);
+            q.setParameter(WebConstant.QUERY_PARAMETER_ID_PACIENTE, idPaciente);
+            List<Cita> listacitasPaciente = (List<Cita>) q.getResultList();
+            _log.log(Level.WARNING, "ULTIMO REGISTRO LISTA-CITAS-PACIENTE, id= {0}", listacitasPaciente.get((listacitasPaciente.size() - 1)).getIdCita());
+            return listacitasPaciente;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }    
 
     /**
      * Retorna una cita, siempre y cuando el id este en la base de datos. De lo
@@ -125,19 +134,40 @@ public class FacadeCita extends AbstractFacade<Cita> {
         }
     }
 
+    private static java.sql.Date convertUtilToSql(java.util.Date uDate) {
+        java.sql.Date sDate = new java.sql.Date(uDate.getTime());
+        return sDate;
+    }
+
     private boolean autorizarCancelacionCita(Long idCita) {
         boolean autorizar = true;
         Cita cita = em.find(Cita.class, idCita);
-        Date fechaSistema = new Date();
-        if (cita.getHoraFin().getDay() < fechaSistema.getDay()
-                && cita.getHoraFin().getMonth() <= fechaSistema.getMonth()
-                && cita.getHoraFin().getYear() <= fechaSistema.getYear()) {
-            _log.log(Level.WARNING, "AUTORIZO CANCELAR CITA");
-            autorizar = true;
-        } else {
-            _log.log(Level.WARNING, "NO SE AUTORIZA LA CANCELACION DE CITA");
+        java.util.Date fechaSistema = new java.util.Date();
+
+        java.sql.Date sDateCita = convertUtilToSql(cita.getHoraFin());
+        java.sql.Date sDateSistema = convertUtilToSql(fechaSistema);
+
+        if (sDateCita.toString().equalsIgnoreCase(sDateSistema.toString())) {
+            //_log.log(Level.WARNING, "FECHAS IGUALES\n");
+            _log.log(Level.WARNING, "\n\n  NO SE AUTORIZA LA CANCELACION DE CITA  -->  (fechas iguales) \n"
+                    + "FECHA-CITA  " + sDateCita + "   =   "
+                    + sDateSistema + "  FECHA-SISTEMA \n\n\n");
             autorizar = false;
+        } else //_log.log(Level.WARNING, "FECHAS DIFERENTES\n");
+        {
+            if (sDateCita.after(sDateSistema)) {
+                _log.log(Level.WARNING, "\n\n AUTORIZO CANCELAR CITA \n"
+                        + "FECHA-CITA  " + sDateCita + "   >   "
+                        + sDateSistema + "  FECHA-SISTEMA \n\n\n");
+                autorizar = true;
+            } else if (sDateCita.before(sDateSistema)) {
+                _log.log(Level.WARNING, "\n\n  NO SE AUTORIZA LA CANCELACION DE CITA  -->  (fecha Caducada) \n"
+                        + "FECHA-CITA  " + sDateCita + "   <   "
+                        + sDateSistema + "  FECHA-SISTEMA \n\n\n");
+                autorizar = false;
+            }
         }
+
         return autorizar;
     }
 
@@ -146,12 +176,11 @@ public class FacadeCita extends AbstractFacade<Cita> {
 
         GeneralResponse response = new GeneralResponse();
 
-        JSONObject json = new JSONObject();
-        JSONArray citaArreglo = new JSONArray();
-        JSONObject cita;
+        java.util.Date fecha = new java.util.Date();
+        java.sql.Date fechaSistema = convertUtilToSql(fecha);
 
         try {
-            _log.log(Level.WARNING, "1. CITA ID: " + idCita + "\n");
+            _log.log(Level.WARNING, "\n\n\n1. CITA ID: " + idCita + "\n\n\n");
 
             if (autorizarCancelacionCita(idCita)) {
                 Query q = em.createNativeQuery("update CITA set estado_cita = ? WHERE id_cita = ?");
@@ -165,11 +194,13 @@ public class FacadeCita extends AbstractFacade<Cita> {
                 response.setObjectResponse(respuestas);
                 response.setCodigoRespuesta(CodesResponse.SUCCESS.value());
             } else {
+                //java.util.Date fechaSistema = new java.util.Date();
+
                 response.setCodigoRespuesta(CodesResponse.ERROR.value());
                 ErrorObjSiscAgenda error = new ErrorObjSiscAgenda();
                 error.setCodigoError("");
                 error.setObjError(idCita);
-                error.setMensajeError("Una cita no puede ser cancelada el mismo dia de la cita, por politicas de SISC. Tiene que ser el dia anterior");
+                error.setMensajeError("Se debe cancelar la cita antes de la fecha actual: " + fechaSistema + ", por politicas de SISC. Tiene que ser el dia anterior");
                 response.setError(error);
             }
 
@@ -187,7 +218,7 @@ public class FacadeCita extends AbstractFacade<Cita> {
      * @param fechaFin
      * @return
      */
-    public List<Cita> validarCitasAgendadasMedico(long idMedico, Date fechaInicio, Date fechaFin, boolean limitar, int limiteRegistos) {
+    public List<Cita> validarCitasAgendadasMedico(long idMedico, java.util.Date fechaInicio, java.util.Date fechaFin, boolean limitar, int limiteRegistos) {
 
         try {
             _log.log(Level.WARNING, "CONSULTANDO CITAS DE idMedico: " + idMedico + " FECHA INICIO:" + fechaInicio.toString() + " FECHA FIN:" + fechaFin.toString());

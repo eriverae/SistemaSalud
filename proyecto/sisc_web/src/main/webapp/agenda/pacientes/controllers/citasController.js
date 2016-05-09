@@ -32,13 +32,24 @@ app.controller('citasController',
 
 
             ////////////////////////////////////////////////////////////////////
-            $scope.listaCitasPaciente = {};
+            $scope.listaCitasPaciente = [];
             /**
-             *  Traer la lista de citas de un paciente
+             *  Traer la lista de citas pendientes de un paciente
              */
             var data_citasPaciente = $http.get('/SiscAgenda/api/paciente/' + $stateParams.idPaciente + '/listaCitas');
             data_citasPaciente.then(function (result) {
                 $scope.listaCitasPaciente = result.data;
+            });
+            ////////////////////////////////////////////////////////////////////
+            
+            ////////////////////////////////////////////////////////////////////
+            $scope.listaCitasPacienteHistorialEPS = [];
+            /**
+             *  Traer la lista de historial de itas en EPS de un paciente
+             */
+            var data_citasPacienteHistorialEPS = $http.get('/SiscAgenda/api/paciente/' + $stateParams.idPaciente + '/listaCitasHistorialEPS');
+            data_citasPacienteHistorialEPS.then(function (result) {
+                $scope.listaCitasPacienteHistorialEPS = result.data;
             });
             ////////////////////////////////////////////////////////////////////
 
@@ -63,9 +74,12 @@ app.controller('citasController',
              */
             $scope.mostrarUnaCitaDetallada = function (informacionCita) {
                 //alert("entro a mostrar una cita mediante un click");
+                console.log("mostrarUnaCitaDetallada(informacionCita)")
+                console.log("idCita" + informacionCita.idCita)
+
                 $scope.informacionCita = informacionCita;
 
-                $('#message-box-sound-2').show();
+                $('#message-box-sound-1').show();
                 $('#audio-fail').get(0).play();
 
                 $scope.mensajesCita =
@@ -130,9 +144,16 @@ app.controller('citasController',
                                 if (data.codigoRespuesta === "SUCCESS") {
                                     console.log("codigo respuesta === SUCCES");
                                     $('#mb-signout').hide();
-                                    
+
                                     $scope.generalResponse = data.objectResponse;
+                                    //$('#message-box-success').show();
+                                    
+                                    ////////////////////////////////////////////
+                                    //RECARGAR PAGINA 
+                                    window.setTimeout(function(){location.reload()},4000);
                                     $('#message-box-success').show();
+
+
 //                                    $scope.mensajesCita =
 //                                            {
 //                                                msn_citaSeleccionada1: 'MUY BIEN!!! ',
@@ -142,7 +163,7 @@ app.controller('citasController',
                                     if (data.codigoRespuesta === "ERROR") {
                                         console.log("codigo respuesta === ERROR");
                                         $('#mb-signout').hide();
-                                        
+
                                         $scope.objErrorCancelarCita = data.error;
                                         $('#message-box-sound-2').show();
                                     }
@@ -161,23 +182,124 @@ app.controller('citasController',
                     console.log("problemas ... ELSE");
                 }
             };
-            
+
             $scope.cerrarCancelarCita = function () {
                 $('#message-box-success').hide();
             };
 
-            /**
-             * Recargar la pagina, cuando paciente cancele una cita, entonces
-             * esa cita cancelada no se le mostrara
-             * @returns {undefined}
-             */
-            //Recargar
-//            $scope.loadData=null;
-//            $scope.loadData = function () {
-//                $http.get('/SiscAgenda/api/paciente/').success(function (data) {
-//                    $scope.listaCitasPaciente = data;
-//                });
-//            };
+
+
+
+            /******************************************************************* */
+            /******************************************************************* */
+$.fn.pageMe = function(opts){
+    var $this = this,
+        defaults = {
+            perPage: 7,
+            showPrevNext: false,
+            hidePageNumbers: false
+        },
+        settings = $.extend(defaults, opts);
+    
+    var listElement = $this;
+    var perPage = settings.perPage; 
+    var children = listElement.children();
+    var pager = $('.pager');
+    
+    if (typeof settings.childSelector!="undefined") {
+        children = listElement.find(settings.childSelector);
+    }
+    
+    if (typeof settings.pagerSelector!="undefined") {
+        pager = $(settings.pagerSelector);
+    }
+    
+    var numItems = children.size();
+    var numPages = Math.ceil(numItems/perPage);
+
+    pager.data("curr",0);
+    
+    if (settings.showPrevNext){
+        $('<li><a href="#" class="prev_link">«</a></li>').appendTo(pager);
+    }
+    
+    var curr = 0;
+    while(numPages > curr && (settings.hidePageNumbers==false)){
+        $('<li><a href="#" class="page_link">'+(curr+1)+'</a></li>').appendTo(pager);
+        curr++;
+    }
+    
+    if (settings.showPrevNext){
+        $('<li><a href="#" class="next_link">»</a></li>').appendTo(pager);
+    }
+    
+    pager.find('.page_link:first').addClass('active');
+    pager.find('.prev_link').hide();
+    if (numPages<=1) {
+        pager.find('.next_link').hide();
+    }
+  	pager.children().eq(1).addClass("active");
+    
+    children.hide();
+    children.slice(0, perPage).show();
+    
+    pager.find('li .page_link').click(function(){
+        var clickedPage = $(this).html().valueOf()-1;
+        goTo(clickedPage,perPage);
+        return false;
+    });
+    pager.find('li .prev_link').click(function(){
+        previous();
+        return false;
+    });
+    pager.find('li .next_link').click(function(){
+        next();
+        return false;
+    });
+    
+    function previous(){
+        var goToPage = parseInt(pager.data("curr")) - 1;
+        goTo(goToPage);
+    }
+     
+    function next(){
+        goToPage = parseInt(pager.data("curr")) + 1;
+        goTo(goToPage);
+    }
+    
+    function goTo(page){
+        var startAt = page * perPage,
+            endOn = startAt + perPage;
+        
+        children.css('display','none').slice(startAt, endOn).show();
+        
+        if (page>=1) {
+            pager.find('.prev_link').show();
+        }
+        else {
+            pager.find('.prev_link').hide();
+        }
+        
+        if (page<(numPages-1)) {
+            pager.find('.next_link').show();
+        }
+        else {
+            pager.find('.next_link').hide();
+        }
+        
+        pager.data("curr",page);
+      	pager.children().removeClass("active");
+        pager.children().eq(page+1).addClass("active");
+    
+    }
+};
+
+$(document).ready(function(){
+    
+  $('#myTable').pageMe({pagerSelector:'#myPager',showPrevNext:true,hidePageNumbers:false,perPage:4});
+    
+});            
+
 
 
 
