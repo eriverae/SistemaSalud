@@ -10,8 +10,7 @@
         <link rel="stylesheet" href="lib/dependencies/css/bootstrap.min.css" />
         <link rel="stylesheet" href="lib/dependencies/css/ng-grid.min.css" />
         <link href="css/estilomenuhc.css" rel="stylesheet" type="text/css">
-        <!--<link rel="stylesheet" href="lib/dependencies/css/fullcalendar.css">-->
-        <!--<link rel="stylesheet" type="text/css" href="css/style.css"/>-->
+
         <!-- CSS INCLUDE -->        
         <link rel="stylesheet" type="text/css" id="theme" href="css/theme-default.css"/>
         <link rel="icon" href="favicon.ico" type="image/x-icon" />
@@ -94,8 +93,9 @@
                         <a href="#"><span class="fa fa-wheelchair"></span> <span class="xn-text">Pacientes</span></a>
                         <ul>
                             <li><a ui-sref="citasPaciente">Citas</a></li>
-                            <li><a ui-sref="citasHistorialPaciente">Historial citas (prueba)</a></li>
+                            <!--<li><a ui-sref="citasHistorialPaciente">Historial citas (prueba)</a></li>-->
                             <li><a ui-sref="historialPacienteEPS">Historial citas EPS</a>
+                            <li><a ui-sref="agendarCitaPaciente">Agendar cita</a>
                         </ul>
                     </li>
                     <!--FIN PARA AGENDA MEDICOS Y PACINETES-->
@@ -348,6 +348,7 @@
         <script src="agenda/medicos/controllers/serviceAgenda.js"></script>
         <script src="agenda/pacientes/controllers/citasController.js"></script>
         <script src="agenda/pacientes/controllers/historialCitasController.js"></script>
+        <script src="agenda/pacientes/controllers/agendarCitaPacienteController.js"></script>
         <script src="services/citaServices.js"></script>
 
 

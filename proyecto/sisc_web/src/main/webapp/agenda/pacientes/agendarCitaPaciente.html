@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<div class="col-md-12">
+
+    <form class="form-horizontal">
+        <div class="panel panel-default">
+            <div class="panel-heading ui-draggable-handle">
+                <h3 class="panel-title"><span class="fa fa-bookmark"> - </span><strong>Agendar</strong> Cita</h3>
+            </div>
+
+            <!--COLOCAR TODO EN EL CENTRO-->
+            <div class="panel-body">                                                                        
+
+                <div class="form-group">
+                    <label class="col-md-3 col-xs-12 control-label"></label>
+                    <div class="col-md-6 col-xs-12">                                            
+                        <!--<div class="input-group">-->
+                        <p style="font-size: 20px;">
+                            Buen dia y coordial saludo paciente, aqui podras agendar una cita medica <br/>con un medico según la especialidad que requieres. <br/> <br/>
+                            <strong>¡Animate y deja todos tus malestares para otro día!</strong> <br/> <br/> 
+                            <a href="login.html">
+                                <span class="label label-warning label-form">HAS LOGGIN Y AGENDAS CITA <br/><br/><span class="fa fa-hand-o-up fa-3x" style=""></span></span>
+                            </a>
+                            <a href="registro/registroPersonaNatural.html">
+                                <span class="label label-danger label-form" style="margin-left: 70px;">SI NO TIENES CUENTA ( REGISTRATE ) <br/><br/><span class="fa fa-meh-o fa-3x" style=""></span></span>
+                            </a>
+                        </p>
+                        <!--</div>-->                                                                    
+                    </div>
+                </div>                
+            </div>
+            <!--FIN PANEL BODY-->
+
+            <!--ejemplo TEMPLATE ORIGINAL EXTREMO A EXTREMO-->         
+            <div class="panel-body">
+
+                <!--mi contenido************************************************************************-->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Seleccion</label>
+                            <div class="col-md-9">                                                                                            
+                                <br/>
+                                <label style="display: inline-block;">TIPO DE MEDICO : </label>
+                                <select class="span2" name="category" style="margin-left: 0px; padding-top: 4px; padding-right: 2px; padding-bottom: 7px; padding-left: 1px;  font-weight: bold; font-size: 18px; color: #00AD82; display: inline-block;" >
+                                    <option>select</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">1.  CARDIOLOGO</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">2.  OPTOMETRA</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">3.  ODONTOLOGO</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">4.  CABECERA</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">5.  OFTALMOLOGO</option>
+                                </select>
+                                <!--<span class="help-block">Select box example</span>-->
+                                
+                                
+                                <label style="display: inline-block; margin-left: 30px;">MEDICOS ESPECIALIDAD :  
+                                <select class="span2" name="category" style="margin-left: 0px; padding-top: 4px; padding-right: 2px; padding-bottom: 7px; padding-left: 1px;  font-weight: bold; font-size: 18px; color: #00AD82; display: inline-block;" >
+                                    <option>select</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">1.  Andres</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">2.  Bryan</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">3.  Ricardo</option>
+                                </select>
+                                </label>
+                                
+                            </div>
+                        </div>  
+                    </div>
+                </div>                
+            </div>            
+
+            <div class="panel-body">
+                <!--CALENDARIO DE AGENDA--> 
+                <div class="col-md-11">
+                    <div class="panel panel-default tabs">                            
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li ng-click="changeView('month', 'myCalendar1')"       class="active"><a  role="tab" data-toggle="tab">Ver agenda del mes</a></li>
+                            <li ng-click="changeView('agendaWeek', 'myCalendar1')"  ><a  role="tab" data-toggle="tab">Ver agenda de la semana</a></li>
+                            <li ng-click="changeView('agendaDay', 'myCalendar1')"   ><a role="tab" data-toggle="tab">Ver agenda del día</a></li>
+
+                        </ul>
+                        <div class="panel-body tab-content">
+                            <div class="tab-pane active" id="tab-first">
+                                <div class="col-md-12">
+                                    <div class="calendar" ng-model="eventSources2" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+
+            </div>
+
+
+            <!--botones para agendar-->
+            <div class="panel-footer">
+                <button class="btn btn-default">Clear Form</button>                                    
+                <button class="btn btn-primary pull-right">AGENDAR</button>
+            </div>
+        </div>
+    </form>
+
+</div>            
+
+
+
+
+<!--
+<div class="panel-body">
+    <p>
+        Buen dia y coordial saludo paciente, aqui podras agendar una cita medica con un medico según la especialidad. <br/> 
+        Animate y deja todos tus malestares para otro día. <br/> <br/> 
+    <span class="label label-warning label-form">HAS LOGGIN Y AGENDAS CITA <br/><br/><span class="fa fa-hand-o-up fa-3x" style=""></span></span>
+    <span class="label label-danger label-form">SI NO TIENES CUENTA ( REGISTRATE ) <br/><br/><span class="fa fa-meh-o fa-3x" style=""></span></span>
+</p>
+</div>
+
+
+<div class="panel-body">                                                                        
+
+    <div class="form-group">
+        <label class="col-md-3 col-xs-12 control-label">Text Field</label>
+        <div class="col-md-6 col-xs-12">                                            
+            <div class="input-group">
+                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                <input type="text" class="form-control">
+            </div>                                            
+            <span class="help-block">This is sample of text field</span>
+        </div>
+    </div>
+
+    <div class="form-group">                                        
+        <label class="col-md-3 col-xs-12 control-label">Password</label>
+        <div class="col-md-6 col-xs-12">
+            <div class="input-group">
+                <span class="input-group-addon"><span class="fa fa-unlock-alt"></span></span>
+                <input type="password" class="form-control">
+            </div>            
+            <span class="help-block">Password field sample</span>
+        </div>
+    </div>
+
+
+
+</div>-->
+
+
+<!--*******************************************************************************************************************************************-->
+<!--*******************************************************************************************************************************************-->
+<!--*******************************************************************************************************************************************-->
+<!--
+<div class="col-md-12">
+
+    <form class="form-horizontal">
+        <div class="panel panel-default">
+            <div class="panel-heading ui-draggable-handle">
+                <h3 class="panel-title"><strong>Agendar</strong> Cita</h3>
+                <a href="login.html" class="panel-title">LOGIN22 <br/><span class="fa fa-hand-o-up"></span></a>
+            </div>
+
+            COLOCAR TODO EN EL CENTRO
+            <div class="panel-body">                                                                        
+
+                <div class="form-group">
+                    <label class="col-md-3 col-xs-12 control-label"></label>
+                    <div class="col-md-6 col-xs-12">                                            
+                        <div class="input-group">
+                        <p style="font-size: 20px;">
+                            Buen dia y coordial saludo paciente, aqui podras agendar una cita medica <br/>con un medico según la especialidad que requieres. <br/> <br/>
+                            <strong>¡Animate y deja todos tus malestares para otro día!</strong> <br/> <br/> 
+                        <span class="label label-warning label-form">HAS LOGGIN Y AGENDAS CITA <br/><br/><span class="fa fa-hand-o-up fa-3x" style=""></span></span>
+                        <span class="label label-danger label-form" style="margin-left: 70px;">SI NO TIENES CUENTA ( REGISTRATE ) <br/><br/><span class="fa fa-meh-o fa-3x" style=""></span></span>
+                        </p>
+                        </div>                                                                    
+                    </div>
+                </div>                
+            </div>
+            FIN PANEL BODY
+
+            ejemplo TEMPLATE ORIGINAL EXTREMO A EXTREMO         
+            <div class="panel-body">
+
+                mi contenido************************************************************************
+                <div class="row">
+
+                    <div class="col-md-6">
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Seleccion</label>
+                            <div class="col-md-9">                                                                                            
+
+                                <br/>
+                                <label>TIPO DE MEDICO: </label>
+                                <select class="span2" name="category" style="margin-left: 0px; padding-top: 4px; padding-right: 2px; padding-bottom: 7px; padding-left: 1px;  font-weight: bold; font-size: 18px; color: #00AD82;" >
+                                    <option>select</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">1.  Usaquén</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">2.  Chapinero</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">3.  Santa Fe</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">4.  San Cristóbal</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">5.  Usme</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">6.  Tunjuelito</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">7.  Bosa</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">8.  Kennedy</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">9.  Fontibón</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">10.  Engativá</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">11.  Suba</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">12.  Barrios Unidos</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">13.  Teusaquillo</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">14.  Los Mártires</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">15.  Antonio Nariño</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">16.  Puente Aranda</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">17.  La Candelaria</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">18.  Rafael Uribe Uribe</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">19.  Ciudad Bolívar</option>
+                                    <option style="font-weight: bold; font-size: 18px; color: #00AD82;">20.  Sumapaz</option>
+                                </select>
+                                <div class="btn-group bootstrap-select form-control select"><button type="button" class="btn dropdown-toggle selectpicker btn-default" data-toggle="dropdown" title="Option 1" aria-expanded="false"><span class="filter-option pull-left">Option 1</span>&nbsp;<span class="caret"></span></button><div class="dropdown-menu open" style="max-height: 577px; overflow: hidden; min-height: 121px;"><ul class="dropdown-menu inner selectpicker" role="menu" style="max-height: 575px; overflow-y: auto; min-height: 119px;"><li rel="0" class="selected"><a tabindex="0" class="" style=""><span class="text">Option 1</span><i class="glyphicon glyphicon-ok icon-ok check-mark"></i></a></li><li rel="1"><a tabindex="0" class="" style=""><span class="text">Option 2</span><i class="glyphicon glyphicon-ok icon-ok check-mark"></i></a></li><li rel="2"><a tabindex="0" class="" style=""><span class="text">Option 3</span><i class="glyphicon glyphicon-ok icon-ok check-mark"></i></a></li><li rel="3"><a tabindex="0" class="" style=""><span class="text">Option 4</span><i class="glyphicon glyphicon-ok icon-ok check-mark"></i></a></li><li rel="4"><a tabindex="0" class="" style=""><span class="text">Option 5</span><i class="glyphicon glyphicon-ok icon-ok check-mark"></i></a></li></ul></div></div>
+                                <span class="help-block">Select box example</span>
+                            </div>
+                        </div>  
+
+                    </div>
+
+                </div>                
+
+            </div>            
+
+
+
+            botones para agendar
+            <div class="panel-footer">
+                <button class="btn btn-default">Clear Form</button>                                    
+                <button class="btn btn-primary pull-right">AGENDAR</button>
+            </div>
+        </div>
+    </form>
+
+</div>            
+-->
+
+<!--**********************************************************************************************************************************************-->
