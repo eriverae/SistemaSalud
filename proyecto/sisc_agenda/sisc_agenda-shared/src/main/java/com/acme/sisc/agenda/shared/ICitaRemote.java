@@ -22,13 +22,15 @@ import javax.ejb.TransactionAttributeType;
 @Remote
 public interface ICitaRemote {
     
-    public List<Cita> listaCitasPaciente(long idPaciente);
+    public List<Cita> listaCitasPendientePaciente(long idPaciente);
+    
+    public List<Cita> listaCitasHistorialPacienteEPS(long idPaciente);
     
     @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
     public String cancelarCita(Cita cita);
     
     @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
-    public GeneralResponse cancelarCita1(Long idCita);     
+    public GeneralResponse cancelarCita1(Long idCita);    
     
     public Cita find(Long id);
 

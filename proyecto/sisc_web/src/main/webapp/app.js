@@ -88,6 +88,12 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       controller: 'historialCitasController',
       //params : {'idPaciente':'3'}
     })
+    .state('historialPacienteEPS',{
+      url: '/paciente/historialPacienteEPS',
+      templateUrl: 'agenda/pacientes/historialPacienteEPS.html',
+      controller: 'citasController',
+      params : {'idPaciente':'3'}
+    })    
     
     // Registro    
     .state('registroPersonaNatural',{

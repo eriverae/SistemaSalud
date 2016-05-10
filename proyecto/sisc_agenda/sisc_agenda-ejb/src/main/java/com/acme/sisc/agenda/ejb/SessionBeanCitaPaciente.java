@@ -52,14 +52,24 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
      * @return 
      */
     @Override
-    public List<Cita> listaCitasPaciente(long idPaciente) {
+    public List<Cita> listaCitasPendientePaciente(long idPaciente) {
         try {
-            logger.log(Level.INFO, "consultando la lista de citas del paciente", idPaciente);
+            logger.log(Level.INFO, "\n\nconsultando la lista de citas del paciente: ", idPaciente);
             return facadeCita.CitasDelPaciante(idPaciente);
         } catch (NullPointerException nu) {
             return null;
         }
     }
+    
+    @Override
+    public List<Cita> listaCitasHistorialPacienteEPS(long idPaciente) {
+        try {
+            logger.log(Level.INFO, "\n\nconsultando la lista historial EPS de paciente: ", idPaciente);
+            return facadeCita.CitasDelPacianteHistorialEPS(idPaciente);
+        } catch (NullPointerException nu) {
+            return null;
+        }        
+    }    
     
     
     /**
@@ -69,13 +79,13 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
      */
     @Override
     public Cita find(Long id) {
-        logger.log(Level.WARNING, "llamando a facadeCita id = "+ id);
+        logger.log(Level.WARNING, "\nllamando a facadeCita id = "+ id);
         return facadeCita.ObtenerLaCita(id);
     }
 
     @Override
     public void remove(Long id) {
-        logger.log(Level.FINE, "Eliminar cita con id {0}", id);
+        logger.log(Level.FINE, "\n\nEliminar cita con id {0}", id);
         Cita cita = this.find(id);
         if (cita != null) {
             remove(cita);
@@ -138,7 +148,6 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
         return ((Long) q.getSingleResult()).intValue();
     }
     ////////////////////////////////////////////////////////////////////////////
-
     
 
 }

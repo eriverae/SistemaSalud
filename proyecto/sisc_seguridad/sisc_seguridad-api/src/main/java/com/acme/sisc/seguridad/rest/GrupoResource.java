@@ -8,6 +8,8 @@ package com.acme.sisc.seguridad.rest;
 import com.acme.sisc.agenda.entidades.Grupo;
 import com.acme.sisc.seguridad.GrupoFacadeLocal;
 import com.acme.sisc.common.pagination.PaginatedListWrapper;
+import com.acme.sisc.seguridad.AccesoFacadeLocal;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -40,13 +42,16 @@ public class GrupoResource {
     
     @EJB
     GrupoFacadeLocal facadeGrupo;
+    
+    @EJB
+    AccesoFacadeLocal facadeAcceso;
 
     public GrupoResource() {
     }
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public PaginatedListWrapper listAccesos(@DefaultValue("1")
+    public PaginatedListWrapper listGrupos(@DefaultValue("1")
                                             @QueryParam("page")
                                             Integer page,
                                              @DefaultValue("id")
@@ -60,10 +65,10 @@ public class GrupoResource {
         paginatedListWrapper.setSortFields(sortFields);
         paginatedListWrapper.setSortDirections(sortDirections);
         paginatedListWrapper.setPageSize(10);
-        return findAccesos(paginatedListWrapper);
+        return findGrupos(paginatedListWrapper);
     }
     
-    private PaginatedListWrapper findAccesos(PaginatedListWrapper wrapper) {
+    private PaginatedListWrapper findGrupos(PaginatedListWrapper wrapper) {
         int totalAccesos = facadeGrupo.count();
         wrapper.setTotalResults(totalAccesos);
         int start = (wrapper.getCurrentPage() - 1) * wrapper.getPageSize();
@@ -91,17 +96,49 @@ public class GrupoResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void guardarAcceso(Grupo grupo) {
+    public Grupo guardarAcceso(Grupo grupo) {
       try {
         if (grupo.getGrupGrup() == null){
           facadeGrupo.crearGrupo(grupo);
         }else{
           facadeGrupo.modificarGrupo(grupo);
         }
+        return grupo;
       }catch (Exception e){
           //TODO Definir manejo
           LOGGER.log(Level.SEVERE, "Houston, estamos en problemas ...", e);
       }
+      return null;
     }
+    
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public PaginatedListWrapper listAccesos(@DefaultValue("1")
+//                                            @QueryParam("page")
+//                                            Integer page,
+//                                             @DefaultValue("id")
+//                                            @QueryParam("sortFields")
+//                                            String sortFields,
+//                                             @DefaultValue("asc")
+//                                            @QueryParam("sortDirections")
+//                                            String sortDirections) {
+//        PaginatedListWrapper paginatedListWrapper = new PaginatedListWrapper();
+//        paginatedListWrapper.setCurrentPage(page);
+//        paginatedListWrapper.setSortFields(sortFields);
+//        paginatedListWrapper.setSortDirections(sortDirections);
+//        paginatedListWrapper.setPageSize(10);
+//        return findAccesos(paginatedListWrapper);
+//    }
+//    
+//    private PaginatedListWrapper findAccesos(PaginatedListWrapper wrapper) {
+//        int totalAccesos = facadeAcceso.count();
+//        wrapper.setTotalResults(totalAccesos);
+//        int start = (wrapper.getCurrentPage() - 1) * wrapper.getPageSize();
+//        wrapper.setList(facadeAcceso.findRange(start,
+//                wrapper.getPageSize(),
+//                wrapper.getSortFields(),
+//                wrapper.getSortDirections()));
+//        return wrapper;
+//    }
     
 }

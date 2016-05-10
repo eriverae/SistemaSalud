@@ -22,7 +22,9 @@ import javax.ejb.TransactionAttributeType;
 @Local
 public interface ICitaLocal {
     
-    public List<Cita> listaCitasPaciente(long idPaciente);
+    public List<Cita> listaCitasPendientePaciente(long idPaciente);
+    
+    public List<Cita> listaCitasHistorialPacienteEPS(long idPaciente);
     
     @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
     public String cancelarCita(Cita cita);

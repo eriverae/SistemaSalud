@@ -52,7 +52,17 @@
                 <p class="help-block" ng-show="grupoForm.grupDescri.$error.minlength">Debe tener al menos 5 caracteres.</p>
                 <p class="help-block" ng-show="grupoForm.grupDescri.$error.maxlength">La descripcion no debe superar 200 characters.</p>
             </div>
-
+            
+            <div class="form-group" ng-class="{'has-error' : grupoForm.acceso.$invalid && grupoForm.acceso.$dirty && grupoForm.acceso.size() === 0 }">
+                <label>Accesos:</label>
+                <tt>Acceso = {{grupoForm.acceso}}</tt><br/>
+                <span ng-class="{'glyphicon glyphicon-ok' : grupoForm.acceso.$valid && grupoForm.acceso.$dirty}"></span>
+                <div ng-repeat='acc in listaAcceso'>
+                  <input ng-model="grupoForm.acceso[acc.acceAcce]" type="checkbox"/>{{ acc.acceNombre }}
+                </div>
+                <p class="help-block" ng-show="grupoForm.acceso.$error.size() === 0">Debe seleccionar al menos un acceso.</p>
+            </div>
+            
 
             <!-- Form buttons. The 'Save' button is only enabled when the form is valid. -->
             <div class="buttons">
