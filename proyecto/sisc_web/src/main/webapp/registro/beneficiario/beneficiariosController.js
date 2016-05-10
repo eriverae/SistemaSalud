@@ -2,7 +2,6 @@
 var app = angular.module('sisc_web');
 
 app.controller('beneficiariosController', function ($scope, $rootScope, $stateParams, $state, personaService, modalService) {
-    $scope.datosGenerales = {};
     $scope.cotizante = {};
     $scope.beneficiario = {};
     $scope.numeroIdBeneficiario;
@@ -12,7 +11,7 @@ app.controller('beneficiariosController', function ($scope, $rootScope, $statePa
         personaService.get({id: $stateParams.idPersona}).$promise.then(
                 function (data) {
                     console.log('Datos de cotizante encontrados');
-                    $scope.datosGenerales.cotizante = data;
+                    $scope.cotizante = data;
                 },
                 function () {
                     console.log('Datos paila :(');
@@ -31,10 +30,10 @@ app.controller('beneficiariosController', function ($scope, $rootScope, $statePa
     ];
 
     $scope.buscarBeneficiario = function() {
-        personaService.get({numeroIdentificacion: $stateParams.numeroIdBeneficiario}).$promise.then(
+        personaService.get({id: $scope.numeroIdBeneficiario}).$promise.then(
         function (data) {
             console.log('Datos de beneficiario encontrados');
-            $scope.datosGenerales.beneficiario = data;
+            $scope.beneficiario = data;
         },
         function () {
             console.log('Datos paila :(');

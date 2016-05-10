@@ -12,7 +12,7 @@
                     <span ng-class="{'glyphicon glyphicon-ok' : BeneficiarioForm.identificacionCotizante.$valid && BeneficiarioForm.identificacionCotizante.$dirty}"></span>
                     <div class="col-md-6 col-xs-12">
                         <input id="identificacionCotizante" name="identificacionCotizante" type="number" class="form-control" maxlength="20"
-                           ng-model="datosGenerales.cotizante.numeroIdentificacion" required ng-minlength="3" ng-maxlength="20"
+                           ng-model="cotizante.numeroIdentificacion" required ng-minlength="3" ng-maxlength="20"
                            placeholder="número de identificación"/>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
                     <span ng-class="{'glyphicon glyphicon-ok' : BeneficiarioForm.nombresCotizante.$valid && BeneficiarioForm.nombresCotizante.$dirty}"></span>
                     <div class="col-md-6 col-xs-12">
                         <input id="nombres" name="nombresCotizante" type="text" class="form-control" maxlength="30"
-                           ng-model="datosGenerales.cotizante.nombres" required ng-minlength="3" ng-maxlength="30"
+                           ng-model="cotizante.nombres" required ng-minlength="3" ng-maxlength="30"
                            placeholder="Nombres"/>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                     <span ng-class="{'glyphicon glyphicon-ok' : BeneficiarioForm.apellidosCotizante.$valid && BeneficiarioForm.apellidosCotizante.$dirty}"></span>
                     <div class="col-md-6 col-xs-12">
                         <input id="apellidos" name="apellidosCotizante" type="text" class="form-control" maxlength="30"
-                           ng-model="datosGenerales.cotizante.apellidos" required ng-minlength="3" ng-maxlength="30"
+                           ng-model="cotizante.apellidos" required ng-minlength="3" ng-maxlength="30"
                            placeholder="Apellidos"/>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
                 <span ng-class="{'glyphicon glyphicon-ok' : BeneficiarioForm.identificacionBeneficiario.$valid && BeneficiarioForm.identificacionBeneficiario.$dirty}"></span>
                 <div class="col-md-6 col-xs-12">
                     <input id="identificacionCotizante" name="identificacionBeneficiario" type="number" class="form-control" maxlength="20"
-                       ng-model="datosGenerales.beneficiario.numeroIdentificacion" required ng-minlength="3" ng-maxlength="20"
+                       ng-model="beneficiario.numeroIdentificacion" required ng-minlength="3" ng-maxlength="20"
                        placeholder="Número de identificación"/>
                 </div>
             </div>
@@ -80,7 +80,7 @@
                 <span ng-class="{'glyphicon glyphicon-ok' : BeneficiarioForm.nombresBeneficiario.$valid && BeneficiarioForm.nombresBeneficiario.$dirty}"></span>
                 <div class="col-md-6 col-xs-12">
                     <input id="nombres" name="nombresBeneficiario" type="text" class="form-control" maxlength="30"
-                       ng-model="datosGenerales.beneficiario.nombres" required ng-minlength="3" ng-maxlength="30"
+                       ng-model="beneficiario.nombres" required ng-minlength="3" ng-maxlength="30"
                        placeholder="Nombres"/>
                 </div>
             </div>
@@ -92,7 +92,7 @@
                 <span ng-class="{'glyphicon glyphicon-ok' : BeneficiarioForm.apellidosBeneficiario.$valid && BeneficiarioForm.apellidosBeneficiario.$dirty}"></span>
                 <div class="col-md-6 col-xs-12">
                     <input id="apellidos" name="apellidosBeneficiario" type="text" class="form-control" maxlength="30"
-                       ng-model="datosGenerales.beneficiario.apellidos" required ng-minlength="3" ng-maxlength="30"
+                       ng-model="beneficiario.apellidos" required ng-minlength="3" ng-maxlength="30"
                        placeholder="Apellidos"/>
                 </div>
             </div>

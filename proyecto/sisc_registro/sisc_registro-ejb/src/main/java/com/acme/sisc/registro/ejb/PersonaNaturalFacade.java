@@ -47,7 +47,7 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         try{
            return ((PersonaNatural)q.getSingleResult());
         }catch(NoResultException nre){
-            LOGGER.log(Level.WARNING,"No se encontró persona con identificacion {0}", identificacion);
+            LOGGER.log(Level.WARNING,"No se encontró persona con identificación " + tId + " - " + identificacion);
             return null;
         }        
     }
@@ -61,7 +61,7 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         try{
            return ((PersonaNatural)q.getSingleResult());
         }catch(NoResultException nre){
-            LOGGER.log(Level.WARNING,"No se encontró persona con identificacion {0}", identificacion);
+            LOGGER.log(Level.WARNING,"No se encontró persona con identificación {0}", identificacion);
             return null;
         }   
     }
@@ -153,7 +153,7 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
             LOGGER.info("Finaliza crearPersonaNatural despues(...)");
         }
         catch (Exception ex) {
-            LOGGER.log(Level.WARNING,"No se encontró cliente {0}", personaNatural.getTipoIdentificacion() + " " 
+            LOGGER.log(Level.WARNING,"No se encontró persona {0}", personaNatural.getTipoIdentificacion() + " " 
                     + personaNatural.getNumeroIdentificacion() + " Exception: " + ex.getLocalizedMessage());
         }
     }

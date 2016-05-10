@@ -34,6 +34,14 @@ app.controller('personaNaturalController', function ($scope, $rootScope, $stateP
     {id:'F', label:'Femenino'}
   ];
   
+  //TODO Reemplazar por consulta de items asociados a la enumeracion en Java
+  $scope.listaGrupoSanguineo =[
+    {id:'A', label:'A'},
+    {id:'B', label:'B'},
+    {id:'AB', label:'AB'},
+    {id:'O', label:'O'}
+  ];
+  
   $scope.listaRH =[
     {id:'+', label:'Positivo'},
     {id:'-', label:'Negativo'}

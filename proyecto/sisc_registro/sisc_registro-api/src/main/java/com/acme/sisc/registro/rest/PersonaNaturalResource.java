@@ -27,7 +27,7 @@ import javax.ws.rs.core.MediaType;
 public class PersonaNaturalResource {
 
     private static final Logger LOGGER = Logger.getLogger(PersonaNaturalResource.class.getName());
-  
+
     @Context
     private UriInfo context;
 
@@ -40,18 +40,14 @@ public class PersonaNaturalResource {
     public PersonaNaturalResource() {
     }
 
-    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public PaginatedListWrapperPN listPersonaNatural(@DefaultValue("1")
-                                            @QueryParam("page")
-                                            Integer page,
-                                             @DefaultValue("id")
-                                            @QueryParam("sortFields")
-                                            String sortFields,
-                                             @DefaultValue("asc")
-                                            @QueryParam("sortDirections")
-                                            String sortDirections) {
+            @QueryParam("page") Integer page,
+            @DefaultValue("id")
+            @QueryParam("sortFields") String sortFields,
+            @DefaultValue("asc")
+            @QueryParam("sortDirections") String sortDirections) {
         PaginatedListWrapperPN paginatedListWrapper = new PaginatedListWrapperPN();
         paginatedListWrapper.setCurrentPage(page);
         paginatedListWrapper.setSortFields(sortFields);
@@ -59,7 +55,7 @@ public class PersonaNaturalResource {
         paginatedListWrapper.setPageSize(10);
         return findPersonaNatural(paginatedListWrapper);
     }
-    
+
     private PaginatedListWrapperPN findPersonaNatural(PaginatedListWrapperPN wrapper) {
         int total = facadePersonaNatural.count();
         wrapper.setTotalResults(total);
@@ -71,45 +67,59 @@ public class PersonaNaturalResource {
         return wrapper;
     }
 
+//    @GET
+//    @Path("{id}")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public PersonaNatural consultarPersona(@PathParam("id") Long id){
+//        LOGGER.log(Level.FINE, "Consultando persona natural con id {0} \n\n\n", id);
+//        return facadePersonaNatural.find(id);
+//    }
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public PersonaNatural consultarPersona(@PathParam("id") Long id){
+    public PersonaNatural consultarPersona(@PathParam("id") Long id) {
+        PersonaNatural response = null;
+        LOGGER.log(Level.FINE, "ATENCION id " + id + " \n\n\n");
         LOGGER.log(Level.FINE, "Consultando persona natural con id {0} \n\n\n", id);
-        return facadePersonaNatural.find(id);
+        response = facadePersonaNatural.find(id);
+        if (response == null) {
+            LOGGER.log(Level.FINE, "Consultando persona natural con numero identificacion {0} \n\n\n", id);
+            return facadePersonaNatural.findByNumeroIdentificacion(id);
+        }
+        return response;
     }
 
-    @GET
-    @Path("{numeroIdentificacion}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public PersonaNatural consultarPersonaPorNumeroIdentificacion(@PathParam("numeroIdentificacion") Long numeroIdentificacion){
-        LOGGER.log(Level.FINE, "Consultando persona natural con numero identificacion {0} \n\n\n", numeroIdentificacion);
-        return facadePersonaNatural.findByNumeroIdentificacion(numeroIdentificacion);
-    }
-    
+//    @GET
+//    @Path("/{numberId}/personaByNumberId")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public PersonaNatural consultarPersonaPorNumeroIdentificacion(@PathParam("numberId") Long numeroIdentificacion){
+//        LOGGER.log(Level.FINE, "Consultando persona natural con numero identificacion {0} \n\n\n", numeroIdentificacion);
+//        return facadePersonaNatural.findByNumeroIdentificacion(numeroIdentificacion);
+//    }
     @DELETE
     @Path("{id}")
-    public void eliminarPersona(@PathParam("id") Long id){
-      LOGGER.log(Level.FINE,"Request para eliminar persona natural con id {0}", id);
-      facadePersonaNatural.remove(id);
+    public void eliminarPersona(@PathParam("id") Long id) {
+        LOGGER.log(Level.FINE, "Request para eliminar persona natural con id {0}", id);
+        facadePersonaNatural.remove(id);
     }
 
     /**
      * PUT method for updating or creating an instance of PersonaNaturalResource
+     *
      * @param PersonaNatural representation for the resource
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void guardarPersonaNatural(PersonaNatural personaNatural) {
-      try {
-        if (personaNatural.getIdPersona()== null){
-          facadePersonaNatural.crearPersonaNatural(personaNatural);
-        }else{
-          facadePersonaNatural.modificarPersonaNatural(personaNatural);
+        try {
+            if (personaNatural.getIdPersona() == null) {
+                facadePersonaNatural.crearPersonaNatural(personaNatural);
+            } else {
+                facadePersonaNatural.modificarPersonaNatural(personaNatural);
+            }
+        } catch (Exception e) {
+            //TODO Definir manejo
+            LOGGER.log(Level.SEVERE, "Houston, estamos en problemas...", e);
         }
-      }catch (Exception e){
-          //TODO Definir manejo
-          LOGGER.log(Level.SEVERE, "Houston, estamos en problemas...", e);
-      }
     }
 }

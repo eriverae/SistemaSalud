@@ -5,7 +5,6 @@ app.controller('listaPacientesController', function ($scope, $rootScope, $stateP
     // Initialize required information: sorting, the first page to show and the grid options.
     $scope.sortInfo = {fields: ['id'], directions: ['asc']};
     $scope.pacientes = {currentPage: 1};
-    $scope.pacientes2 = {};
     $scope.searchText = null;
 
     $scope.gridOptions = {
@@ -49,7 +48,6 @@ app.controller('listaPacientesController', function ($scope, $rootScope, $stateP
 
         personaService.get(listPacientesArgs, function (data) {
             $scope.pacientes = data;
-            $scope.pacientes2 = data;
         });
     };
 
