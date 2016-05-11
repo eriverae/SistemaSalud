@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "especialidad")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "Especialidad.findEspecialidades", query = "SELECT DISTINCT  a.descripcion FROM Especialidad a"),
     @NamedQuery(name = "Especialidad.findAll", query = "SELECT a FROM Especialidad a"),
     @NamedQuery(name = "Especialidad.findByIdEspecialidad", query = "SELECT a FROM Especialidad a WHERE a.idEspecialidad = :idEspecialidad"),
     @NamedQuery(name = "Especialidad.findByDescripcion", query = "SELECT a FROM Especialidad a WHERE a.descripcion = :descripcion")})

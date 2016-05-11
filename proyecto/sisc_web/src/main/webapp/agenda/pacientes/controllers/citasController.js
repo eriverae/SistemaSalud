@@ -150,7 +150,8 @@ app.controller('citasController',
                                     
                                     ////////////////////////////////////////////
                                     //RECARGAR PAGINA 
-                                    window.setTimeout(function(){location.reload()},4000);
+//                                    window.setTimeout(function(){location.reload()},4000);
+                                    $('#cita-'+idCita).remove();
                                     $('#message-box-success').show();
 
 
@@ -185,7 +186,7 @@ app.controller('citasController',
 
             $scope.cerrarCancelarCita = function () {
                 $('#message-box-success').hide();
-            };
+            };                       
 
 
 

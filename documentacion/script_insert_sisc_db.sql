@@ -94,9 +94,24 @@ UPDATE cita SET hora_fin = '2016-05-05 23:55:59.757948', estado_cita = 'APARTADA
 
 
 
-select count(*) from cita where ;
+select count(*) from cita;
 
 
+------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------
+--DATOS PRUEBA PARA (((TABLA - ESPECIALIDAD)))
+INSERT INTO especialidad (id_especialidad, descripcion) VALUES (1, 'CARDIOLOGO');
+INSERT INTO especialidad (id_especialidad, descripcion) VALUES (2, 'ODONTOLOGO');
+INSERT INTO especialidad (id_especialidad, descripcion) VALUES (3, 'OFTALMOLOGO');
+INSERT INTO especialidad (id_especialidad, descripcion) VALUES (4, 'OPTOMETRA');
+INSERT INTO especialidad (id_especialidad, descripcion) VALUES (5, 'CARDIOLOGO');
+
+SELECT * FROM especialidad;
+
+
+select DISTINCT ON (descripcion) descripcion from especialidad;
+------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------
 
 
 

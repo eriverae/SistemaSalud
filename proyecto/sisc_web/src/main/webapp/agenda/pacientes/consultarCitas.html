@@ -51,7 +51,7 @@ and open the template in the editor.
             </div>
             <div class="mb-footer">
                 <button class="btn btn-default btn-lg pull-right mb-control-close"  ng-click="cerrarCancelarCita()">Cerrar</button>  
-<!--                                                                onClick="$(location.reload())"                                          -->
+                <!--                                                                onClick="$(location.reload())"                                          -->
             </div>
         </div>
     </div>
@@ -73,7 +73,7 @@ and open the template in the editor.
                     <div class="panel panel-warning push-up-20">
                         <div class="panel-body panel-body-pricing"  >
                             <h2>#-CITA:  {{informacionCita.idCita}}<br/><small><STRONG>EPS: </STRONG> {{informacionCita.pacienteEps.eps.razonSocial}}</small></h2>    
-                            
+
                             <p><span class="fa fa-caret-right"></span> <STRONG>FECHA Y HORA:</STRONG> {{informacionCita.horaInicio| getFormatofecha}}  -  {{informacionCita.horaInicio| getFormatoHora}}</p>
                             <p><span class="fa fa-caret-right"></span> <STRONG>CIUDAD:</STRONG> {{informacionCita.agenda.ciudad}}</p>
                             <p><span class="fa fa-caret-right"></span> <STRONG>LOCALIDAD:</STRONG> {{informacionCita.agenda.localidad}}</p>
@@ -142,7 +142,7 @@ and open the template in the editor.
 
             <div class="panel-heading">
                 <h3 class="panel-title"><strong>Listado de citas pendientes para paciente</strong></h3>
-                
+
                 <!--dataTableExport.html-->
                 <div class="btn-group pull-right">
                     <button class="btn btn-danger dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i> Export Data</button>
@@ -153,29 +153,29 @@ and open the template in the editor.
                     </ul>
                 </div>
                 <!--FIN dataTableExport.html-->
-                
+
             </div>
 
             <div class="panel-body panel-body-table">
 
                 <div class="table-responsive">
-                    
-                <!--probando codigo-->
-                 <br />
-                <p style="color: #369;font-weight: bold;font-size: 2em;"><label>Filtrar por idCita :  <input type="text" placeholder="# IdCita" ng-model="searchText"/></label></p>
-                <br /><br />
-                <!--FIN probando codigo-->
-                    
+
+                    <!--probando codigo-->
+                    <br />
+                    <p style="color: #369;font-weight: bold;font-size: 2em;"><label>Filtrar por idCita :  <input type="text" placeholder="# IdCita" ng-model="searchText"/></label></p>
+                    <br /><br />
+                    <!--FIN probando codigo-->
+
                     <table id="customers2" class="table table-bordered table-striped table-actions">
                         <thead>
-                            
+
                             <tr>
-                                <th class="text-center success">IdCita</th>
-                                <th>Nombre Eps</th>
-                                <th>Direccion</th>
-                                <th>Fecha</th>
-                                <th>Estado</th>
-                                <th class="danger">Acciones</th>
+                            <th class="text-center success">IdCita</th>
+                            <th>Nombre Eps</th>
+                            <th>Direccion</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th class="danger">Acciones</th>
                             </tr>                                
                             <!-- 
                             simatoria de los <th> = 450
@@ -190,15 +190,15 @@ and open the template in the editor.
                         </thead>
                         <tbody>  
                             <!--<tr ng-repeat="cita in listaCitasPaciente | filter:searchText ">--> 
-                            <tr ng-repeat="cita in listaCitasPaciente | filter:{idCita:searchText}"> 
-                            <td class="text-center success" ng-click="mostrarUnaCitaDetallada(cita)">{{cita.idCita}}</td>
-                            <td class="text-center" ng-click="mostrarUnaCitaDetallada(cita)"><strong>{{cita.agenda.medicoEps.eps.razonSocial}}</strong></td>
-                            <td class="text-center" ng-click="mostrarUnaCitaDetallada(cita)"><strong>{{cita.agenda.direccion}}</strong></td>
-                            <td class="text-center" ng-click="mostrarUnaCitaDetallada(cita)">{{cita.horaInicio| getFormatofecha}} {{cita.horaInicio| getFormatoHora}}</td>
-                            <td class="text-center" ng-click="mostrarUnaCitaDetallada(cita)"><span class="label label-warning">{{cita.estadoCita}}</span></td>
-                            <td class="text-center">
-                            <button class="btn btn-danger btn-rounded btn-sm" ng-click="confirmacionCancelarCita($index, cita)"> CANCELAR <span class="fa fa-times"></span></button>                        
-                            </td>
+                            <tr ng-repeat="cita in listaCitasPaciente| filter:{idCita:searchText}" id="{{'cita-'+ cita.idCita}}" > 
+                                <td class="text-center success" ng-click="mostrarUnaCitaDetallada(cita)">{{cita.idCita}}</td>
+                                <td class="text-center" ng-click="mostrarUnaCitaDetallada(cita)"><strong>{{cita.agenda.medicoEps.eps.razonSocial}}</strong></td>
+                                <td class="text-center" ng-click="mostrarUnaCitaDetallada(cita)"><strong>{{cita.agenda.direccion}}</strong></td>
+                                <td class="text-center" ng-click="mostrarUnaCitaDetallada(cita)">{{cita.horaInicio| getFormatofecha}} {{cita.horaInicio| getFormatoHora}}</td>
+                                <td class="text-center" ng-click="mostrarUnaCitaDetallada(cita)"><span class="label label-warning">{{cita.estadoCita}}</span></td>
+                                <td class="text-center">
+                                <button class="btn btn-danger btn-rounded btn-sm" ng-click="confirmacionCancelarCita($index, cita)"> CANCELAR <span class="fa fa-times"></span></button>                        
+                                </td>
                             </tr>                            
                         </tbody>
                     </table>

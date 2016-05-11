@@ -7,7 +7,12 @@ package com.acme.sisc.agenda.rest;
 
 import com.acme.sisc.agenda.dto.GeneralResponse;
 import com.acme.sisc.agenda.entidades.Cita;
+import com.acme.sisc.agenda.errorhandling.ErrorMessage;
+import com.acme.sisc.agenda.exceptions.CitaException;
 import com.acme.sisc.agenda.shared.ICitaLocal;
+import com.acme.sisc.agenda.shared.IUtilitariosAgendaLocal;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +24,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 /**
@@ -36,6 +42,9 @@ public class RestFullCitaPaciente {
     
     @EJB
     ICitaLocal facadeCita;
+    
+    @EJB
+    IUtilitariosAgendaLocal facadeUtilitariosAgenda;
 
 //    @GET
 //    @Produces(MediaType.APPLICATION_JSON)
@@ -115,14 +124,16 @@ public class RestFullCitaPaciente {
      * @param cita
      * @return 
      */ 
-/*    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response guardarCitaPaciente(Cita cita) {
+    /*@POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response agendarCitaPaciente(Cita cita) {
 
         if (cita.getIdCita() == null) {
             try {
-                facadeCita.crearCita(cita);
+                //agendar la cita
+                facadeCita.agendarCita(cita);
             } catch (CitaException ex) {
+                //error al agendar la cita
                 ErrorMessage errorMessage = new ErrorMessage();
                 errorMessage.setCode(ex.getErrorCode());
                 errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
@@ -138,9 +149,24 @@ public class RestFullCitaPaciente {
                         .build();
             }
         } else {
-            facadeCita.modificarCliente(cita);
+            //modificar la cita
+            //facadeCita.modificarCitaPaciente(cita);
         }
         return Response.ok().build();
     }*/
+    
+    
+    
+    /**
+     * retorna las especialidades de los medicos
+     * @return 
+     */
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/especialidadesMedicosEPS")
+    public Object[] especialidadesMedicos() {
+        logi.log(Level.WARNING, "SERVICIOrEST: ConsultarEspecialidades\n\n");
+        return facadeUtilitariosAgenda.especialidadesMedicosEps().toArray();
+    }    
 
 }

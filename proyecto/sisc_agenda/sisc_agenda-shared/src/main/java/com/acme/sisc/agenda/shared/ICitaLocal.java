@@ -22,27 +22,28 @@ import javax.ejb.TransactionAttributeType;
 @Local
 public interface ICitaLocal {
     
-    public List<Cita> listaCitasPendientePaciente(long idPaciente);
-    
-    public List<Cita> listaCitasHistorialPacienteEPS(long idPaciente);
-    
+    @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
+    public Cita find(Long id);
+
     @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
-    public String cancelarCita(Cita cita);
-    
+    public void agendarCita(Cita cita) throws CitaException;
+
+    @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
+    public List<Cita> listaCitasPendientePaciente(long idPaciente);
+
     @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
     public GeneralResponse cancelarCita1(Long idCita);    
     
-    public Cita find(Long id);
+    @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
+    public List<Cita> listaCitasHistorialPacienteEPS(long idPaciente);
+    
 
     /////////////////////////////////////////////////////////////////
     //paginador- historial de citas
     int count();
     
     List<Cita> findRange(int startPosition, int maxResults, String sortFields, String sortDirections);
-    ////////////////////////////////////////////////////////////////
-    
-    
-    //void crearCita(Cita cita) throws CitaException;
+    ////////////////////////////////////////////////////////////////   
 
     void remove(Long id);
 

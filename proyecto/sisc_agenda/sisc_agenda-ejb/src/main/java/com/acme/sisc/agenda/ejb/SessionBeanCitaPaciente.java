@@ -9,6 +9,7 @@ import com.acme.sisc.agenda.constant.WebConstant;
 import com.acme.sisc.agenda.dto.GeneralResponse;
 import com.acme.sisc.agenda.ejb.facade.FacadeCita;
 import com.acme.sisc.agenda.entidades.Cita;
+import com.acme.sisc.agenda.exceptions.CitaException;
 import com.acme.sisc.agenda.shared.ICitaLocal;
 import com.acme.sisc.agenda.shared.ICitaRemote;
 import java.util.List;
@@ -44,13 +45,48 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
 
     @EJB
     FacadeCita facadeCita;
-    
-    
+
     /**
-     * 
-     * @param idPaciente
-     * @return 
+     * Hace llamado al facadeCita para buscar una cita por el id
+     *
+     * @param id
+     * @return
      */
+    @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
+    @Override
+    public Cita find(Long id) {
+        logger.log(Level.WARNING, "\nllamando a facadeCita id = " + id);
+        return facadeCita.ObtenerLaCita(id);
+    }
+
+    /**
+     *
+     * @param cita
+     * @throws CitaException
+     */
+    @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
+    @Override
+    public void agendarCita(Cita cita) throws CitaException {
+        logger.info("Inicia crearCitaPaciente(...)");
+        //Se verifica si el paciente ya existe;
+        Cita cita1 = cita;      //findByIdentificacion(cliente.getTipoIdentificacion(), cliente.getIdentificacion());
+//        if (cita != null) {
+//            em.lock(cita, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
+//            LOGGER.log(Level.WARNING, "La cita {0} ya existe !!", cita.getIdCita());
+//
+//            throw new CitaException("La cita " + cita.getIdCita() + "- con el id del paciente " + cita.getPacienteEps().getPersona().getIdPersona() + " ya existe en el sistema");
+//
+//        }
+//        em.persist(cita);
+//        LOGGER.info("Finaliza crearCita(...)");
+    }
+
+    /**
+     *
+     * @param idPaciente
+     * @return
+     */
+    @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
     @Override
     public List<Cita> listaCitasPendientePaciente(long idPaciente) {
         try {
@@ -60,7 +96,25 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
             return null;
         }
     }
-    
+
+    /**
+     *
+     * @param idCita
+     * @return
+     */
+    @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
+    @Override
+    public GeneralResponse cancelarCita1(Long idCita) {
+        logger.log(Level.WARNING, "\n\nSESION-BEAN-CITA-PACIENTE\n El paciente cancela la cita: " + idCita);
+        return facadeCita.PacienteCancelaSuCita(idCita);
+    }
+
+    /**
+     *
+     * @param idPaciente
+     * @return
+     */
+    @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
     @Override
     public List<Cita> listaCitasHistorialPacienteEPS(long idPaciente) {
         try {
@@ -68,21 +122,48 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
             return facadeCita.CitasDelPacianteHistorialEPS(idPaciente);
         } catch (NullPointerException nu) {
             return null;
-        }        
-    }    
-    
-    
-    /**
-     * Hace llamado al facadeCita para buscar una cita por el id
-     * @param id
-     * @return 
-     */
-    @Override
-    public Cita find(Long id) {
-        logger.log(Level.WARNING, "\nllamando a facadeCita id = "+ id);
-        return facadeCita.ObtenerLaCita(id);
+        }
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    //historial de citas
+    /**
+     *
+     * @return
+     */
+    @Override
+    public int count() {
+        javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        javax.persistence.criteria.Root<Cita> rt = cq.from(Cita.class);
+        cq.select(getEntityManager().getCriteriaBuilder().count(rt));
+        javax.persistence.Query q = getEntityManager().createQuery(cq);
+        return ((Long) q.getSingleResult()).intValue();
+    }
+
+    /**
+     *
+     * @param startPosition
+     * @param maxResults
+     * @param sortFields
+     * @param sortDirections
+     * @return
+     */
+    @Override
+    public List<Cita> findRange(int startPosition, int maxResults, String sortFields, String sortDirections) {
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        cq.select(cq.from(Cita.class));
+        javax.persistence.Query q = em.createQuery(cq);
+        q.setFirstResult(startPosition);
+        q.setMaxResults(maxResults);
+
+        return q.getResultList();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    /**
+     *
+     * @param id
+     */
     @Override
     public void remove(Long id) {
         logger.log(Level.FINE, "\n\nEliminar cita con id {0}", id);
@@ -94,76 +175,14 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
             logger.log(Level.INFO, "La cita con id de paciente {} no existe", id);
         }
     }
-    
-    
+
     /**
-     * 
-     * @param entity 
+     *
+     * @param entity
      */
     @Override
     public void remove(Cita entity) {
         em.remove(entity);
     }
 
-    
-    /**
-     * 
-     * @param cita
-     * @return 
-     */
-    @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
-    @Override
-    public String cancelarCita(Cita cita) {
-        
-        logger.log(Level.WARNING, "\n\nSESION-BEAN-CITA-PACIENTE\n El paciente cancela la cita: "+ cita.getIdCita() + "\n Estado de la cita actual = " + cita.getEstadoCita());
-        return facadeCita.PacienteCancelaSuCita(cita);
-    }
-    
-    @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
-    @Override
-    public GeneralResponse cancelarCita1(Long idCita) {
-        logger.log(Level.WARNING, "\n\nSESION-BEAN-CITA-PACIENTE\n El paciente cancela la cita: "+ idCita);
-        return facadeCita.PacienteCancelaSuCita(idCita);
-    }
-    
-    ////////////////////////////////////////////////////////////////////////////
-    //historial de citas
-    @Override
-    public List<Cita> findRange(int startPosition, int maxResults, String sortFields, String sortDirections) {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Cita.class));
-        javax.persistence.Query q = em.createQuery(cq);
-        q.setFirstResult(startPosition);
-        q.setMaxResults(maxResults);
-
-        return q.getResultList();
-    }
-    
-    @Override
-    public int count() {
-        javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-        javax.persistence.criteria.Root<Cita> rt = cq.from(Cita.class);
-        cq.select(getEntityManager().getCriteriaBuilder().count(rt));
-        javax.persistence.Query q = getEntityManager().createQuery(cq);
-        return ((Long) q.getSingleResult()).intValue();
-    }
-    ////////////////////////////////////////////////////////////////////////////
-    
-
 }
-
-    /*@Override
-    public void crearCita(Cita cita) throws CitaException {
-        LOGGER.info("Inicia crearCita(...)");
-        //Se verifica si el paciente ya existe;
-        Cita cita = ;      //findByIdentificacion(cliente.getTipoIdentificacion(), cliente.getIdentificacion());
-        if (cita != null) {
-            em.lock(cita, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
-            LOGGER.log(Level.WARNING, "La cita {0} ya existe !!", cita.getIdCita());
-            
-            throw new CitaException("La cita " + cita.getIdCita() + "- con el id del paciente " + cita.getPacienteEps().getPersona().getIdPersona() + " ya existe en el sistema");
-
-        }
-        em.persist(cita);
-        LOGGER.info("Finaliza crearCita(...)");
-    }*/

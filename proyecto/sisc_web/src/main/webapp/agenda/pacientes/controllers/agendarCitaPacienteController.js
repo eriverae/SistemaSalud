@@ -10,8 +10,29 @@ var app = angular.module('sisc_web');
 
 app.controller('agendarCitaPacienteController',
         function ($scope, $http, $stateParams, $state, $compile, $timeout, uiCalendarConfig) {
+            
+            
+            ////////////////////////////////////////////////////////////////////
+            $scope.listaespecialidadesEPS = [];
+            /**
+             *  Traer la lista especialidades de medicos eps
+             */
+            var especialidadesEPS = $http.get('/SiscAgenda/api/paciente/especialidadesMedicosEPS');
+            especialidadesEPS.then(function (result) {
+                $scope.listaespecialidadesEPS = result.data;
+            });
+            ////////////////////////////////////////////////////////////////////
+            
+            
+            
 
 
+            
+            
+
+/*******************************************************************************
+ * inicial pluggin de calendar
+ */
             $scope.changeTo = 'Hungarian';
             /* event source that pulls from google.com */
             $scope.eventSource = {
@@ -19,11 +40,13 @@ app.controller('agendarCitaPacienteController',
                 className: 'gcal-event', // an option!
                 currentTimezone: 'America/Chicago' // an option!
             };
-            /* arreglo con las agendas a programar */
-            $scope.events = [
-//      {title: 'All Day Event',start: new Date(y, m, 1)},
-
-            ];
+            
+            
+//            /* arreglo con las agendas a programar */
+//            $scope.events = [
+////      {title: 'All Day Event',start: new Date(y, m, 1)},
+//
+//            ];
             /* event source that calls a function on every view switch */
             $scope.eventsF = function (start, end, timezone, callback) {
                 var s = new Date(start).getTime() / 1000;
@@ -34,44 +57,44 @@ app.controller('agendarCitaPacienteController',
                 var events = [{title: 'Feed Me ' + m, start: s + (50000), end: s + (100000), allDay: false, className: ['customFeed']}];
                 callback(events);
             };
-
-            var utilRest = $http.get('/SiscAgenda/api/medico/agenda/' + $stateParams.idMedico);
-
-            utilRest.then(function (result) {
-
-                var obj = result.data;
-                if (obj.existeAgenda) {
-                    $.each(obj.events, function (k, v) {
-                        $scope.calEventsExt.events.push(v);
-                    });
-                }
-
-            });
-
-
-
+//
+//            var utilRest = $http.get('/SiscAgenda/api/medico/agenda/' + $stateParams.idMedico);
+//
+//            utilRest.then(function (result) {
+//
+//                var obj = result.data;
+//                if (obj.existeAgenda) {
+//                    $.each(obj.events, function (k, v) {
+//                        $scope.calEventsExt.events.push(v);
+//                    });
+//                }
+//
+//            });
+//
+//
+//
             $scope.calEventsExt = {
                 textColor: '#f1111',
                 events: []
             };
-
-
-            /* alert on eventClick */
-            $scope.alertOnEventClick = function (date, jsEvent, view) {
-
-
-                var utilRest = $http.get('/SiscAgenda/api/paciente/' + date.idCita + "/consultarCita");
-                utilRest.then(function (result) {
-                    var obj = result.data;
-                    alert('ID CITA: DESDE REST:  ' + obj.idCita);
-                    $scope.infoConsultaCita = result.data;
-                    $('#myModal').modal();
-                    $('#tab222').show();
-
-
-                });
-
-            };
+//
+//
+//            /* alert on eventClick */
+//            $scope.alertOnEventClick = function (date, jsEvent, view) {
+//
+//
+//                var utilRest = $http.get('/SiscAgenda/api/paciente/' + date.idCita + "/consultarCita");
+//                utilRest.then(function (result) {
+//                    var obj = result.data;
+//                    alert('ID CITA: DESDE REST:  ' + obj.idCita);
+//                    $scope.infoConsultaCita = result.data;
+//                    $('#myModal').modal();
+//                    $('#tab222').show();
+//
+//
+//                });
+//
+//            };
             /* alert on Drop */
             $scope.alertOnDrop = function (event, delta, revertFunc, jsEvent, ui, view) {
                 $scope.alertMessage = ('Event Dropped to make dayDelta ' + delta);
@@ -156,3 +179,82 @@ app.controller('agendarCitaPacienteController',
         });
 //fin <pacienteAgendaCitaController>
 
+
+
+
+
+
+/******************************************************************************
+ * inicial plugin de select buscador
+ */            
+// init jquery functions and plugins
+$(document).ready(function(){
+
+  $.getScript('//cdnjs.cloudflare.com/ajax/libs/select2/3.4.8/select2.min.js',function(){
+  $.getScript('//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js',function(){
+  $.getScript('//cdnjs.cloudflare.com/ajax/libs/moment.js/2.6.0/moment.min.js',function(){
+  $.getScript('//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.0.0/js/bootstrap-datetimepicker.min.js',function(){
+  $.getScript('//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js',function(){
+  
+    $("#mySel").select2({
+    	
+    });
+    
+    $("#mySel2").select2({
+    	closeOnSelect:false
+    });
+    
+    $('#datepicker').datepicker({
+      autoclose:true,
+    }).on("changeDate", function(e){
+      console.log(e.date);
+    });
+    
+    $('.input-daterange').datepicker({
+      autoclose:true
+    }).on("changeDate", function(e){
+      console.log(e.date);
+    });
+    
+    $('#timepicker').datetimepicker({
+      pickDate: false
+    });
+    
+    $("input").bind('keyup change',function() {
+		var $t = $(this);
+        var $par = $t.parent();
+        var min = $t.attr("data-valid-min");
+        var match = $t.attr("data-valid-match");
+      	var pattern = $t.attr("pattern");
+               
+        if (typeof match!="undefined"){
+            if ($t.val()!=$('#'+match).val()) {
+                $par.removeClass('has-success').addClass('has-error');
+            }
+            else {
+                $par.removeClass('has-error').addClass('has-success');
+            }
+        }
+      	else if (!this.checkValidity()) {
+      		$par.removeClass('has-success').addClass('has-error');
+        }
+        else {
+            $par.removeClass('has-error').addClass('has-success');
+        }
+      	
+      	if ($par.hasClass("has-success")) {
+        	$par.find('.form-control-feedback').removeClass('fade');
+      	}
+ 		else {
+        	$par.find('.form-control-feedback').addClass('fade');
+      	}
+      
+	});
+    
+  });//script
+  });//script
+  });//script
+  });//script
+  });//script
+  
+  });
