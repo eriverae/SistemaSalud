@@ -37,34 +37,35 @@ and open the template in the editor.
             </div>
             <!--FIN PANEL BODY-->
 
-            <!--ejemplo TEMPLATE ORIGINAL EXTREMO A EXTREMO-->         
+            <!--ejemplo TEMPLATE ORIGINAL MITAD Y MITAD-->         
             <div class="panel-body">
-
                 <!--mi contenido************************************************************************-->
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="col-md-3 control-label">TIPO DE MEDICO :</label>
                             <div class="col-md-9">                                            
-                                <div class="input-group">
-                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                <div class="input-group">  <!--tamañó para dejarlo mas pequeñó-->
+                                    <!--<span class="input-group-addon"><span class="fa fa-pencil"></span></span>-->
                                     <select id="mySel" class="form-control">
                                         <option ng-repeat="item in listaespecialidadesEPS"  ng-model="item.descripcion">{{item.descripcion}}</option>
                                     </select>
+                                    <span class="input-group-addon">
+                                        <span class="fa fa-pencil"></span>                                            
+                                    </span>
                                 </div>                                            
-                                <span class="help-block">Especialidades</span>
+                                <span class="help-block">Especialidades</span> 
                             </div>
                         </div>                       
-                    </div>
+                    </div>              
                     <div class="col-md-6">
-
                         <div class="form-group">
                             <label class="col-md-3 control-label">MEDICOS ESPECIALIDAD :</label>
                             <div class="col-md-9">                                            
                                 <div class="input-group">
                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                     <!--<input type="text" class="form-control">-->
-                                    <select class="span2" name="category" style="margin-left: 0px; padding-top: 4px; padding-right: 2px; padding-bottom: 7px; padding-left: 1px;  font-weight: bold; font-size: 18px; color: #00AD82;" >
+                                    <select class="span2" name="category" style="margin-left: 0px; padding-top: 4px; padding-right: 5px; padding-bottom: 7px; padding-left: 6px;  font-weight: bold; font-size: 18px; color: #00AD82;" >
                                         <option>select</option>
                                         <option style="font-weight: bold; font-size: 18px; color: #00AD82;">1.  Andres</option>
                                         <option style="font-weight: bold; font-size: 18px; color: #00AD82;">2.  Bryan</option>
@@ -75,10 +76,10 @@ and open the template in the editor.
                             </div>
                         </div>
                     </div>
-
                 </div>                
             </div>            
-
+            
+            <!--ejemplo TEMPLATE ORIGINAL EXTREMO A EXTREMO--> 
             <div class="panel-body">
                 <!--CALENDARIO DE AGENDA--> 
                 <div class="col-md-11">

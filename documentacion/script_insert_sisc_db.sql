@@ -110,6 +110,13 @@ SELECT * FROM especialidad;
 
 
 select DISTINCT ON (descripcion) descripcion from especialidad;
+select DISTINCT(descripcion) from especialidad;
+
+
+
+select distinct on (descripcion) * from especialidad;
+
+select distinct descripcion * from especialidad;
 ------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------
 
