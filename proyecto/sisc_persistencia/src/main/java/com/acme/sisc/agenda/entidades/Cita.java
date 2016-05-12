@@ -35,12 +35,9 @@ import javax.validation.constraints.Size;
 @Table(name = "cita")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @NamedQueries({
-    @NamedQuery(name = "Cita.conteoPacientePendiente", query = "SELECT c FROM Cita c WHERE c.pacienteEps.persona.idPersona = :idPaciente and c.estadoCita = :estadoCita"),
     @NamedQuery(name = "Cita.findFechaInicioFechaFin", query = "SELECT c FROM Cita c where (c.agenda.medicoEps.persona.idPersona = :idMedico) AND (c.horaInicio >= :horaInicio  AND c.horaFin <= :horaFin)"),
-    //..
-    @NamedQuery(name = "Cita.findIdPaciente", query = "SELECT c FROM Cita c WHERE c.pacienteEps.persona.idPersona = :idPaciente and c.pacienteEps.fechaFin=null and c.estadoCita='APARTADA' ORDER BY c.horaInicio DESC"),
-    @NamedQuery(name = "Cita.findIdPacienteHistorialEPS", query = "SELECT c FROM Cita c WHERE c.pacienteEps.persona.idPersona = :idPaciente and c.pacienteEps.fechaFin=null ORDER BY c.idCita ASC"),
-    //..
+    //@NamedQuery(name = "Cita.findIdPaciente", query = "SELECT c FROM Cita c WHERE c.pacienteEps.persona.idPersona = :idPaciente and c.pacienteEps.fechaFin=null and c.estadoCita<>'CANCELADA' ORDER BY c.horaFin DESC"),
+    @NamedQuery(name = "Cita.findIdPaciente", query = "SELECT c FROM Cita c WHERE c.pacienteEps.persona.idPersona = :idPaciente and c.pacienteEps.fechaFin=null and c.estadoCita<>'CANCELADA' ORDER BY c.horaFin DESC"),
     @NamedQuery(name = "Cita.findAll", query = "SELECT c FROM Cita c"),
     @NamedQuery(name = "Cita.findById", query = "SELECT c FROM Cita c WHERE c.idCita = :idCita"),
     @NamedQuery(name = "Cita.findByValor", query = "SELECT c FROM Cita c WHERE c.valor = :valor"),
@@ -83,6 +80,9 @@ public class Cita implements Serializable {
     
     @Column(name = "observaciones")
     private String observaciones;
+    
+    @Column(name = "diagnostico")
+    private String diagnostico;
 
     
     @JoinColumn(name = "id_paciente_eps", referencedColumnName = "id_persona_eps")
@@ -154,6 +154,12 @@ public class Cita implements Serializable {
     public void setHoraInicio(Date horaInicio) {
         this.horaInicio = horaInicio;
     }
+    
+    public void setDiagnostico(String diagnostico){
+        this.diagnostico = diagnostico;
+    }
+    
+    
 
     public PersonaEps getPacienteEps() {
         return pacienteEps;
@@ -202,6 +208,9 @@ public class Cita implements Serializable {
 
     public void setAgenda(Agenda agenda) {
         this.agenda = agenda;
+    }
+    public String getDiagnostico(){
+        return diagnostico;
     }
 
     public boolean isEstadoPacienteAtendido() {
