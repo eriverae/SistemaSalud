@@ -107,6 +107,13 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       url:'/personaNatural',
       templateUrl: 'registro/registroPersonaNatural.html',
       controller: 'personaNaturalController'
+    })     
+    
+    .state('modificarPersonaNatural',{
+      url:'/mPersonaNatural',
+      templateUrl: 'registro/registroPersonaNatural.html',
+      controller: 'personaNaturalController',
+      params : {idPersona:null}
     })   
     
     .state('registroMedicos',{
