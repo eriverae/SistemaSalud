@@ -1,4 +1,28 @@
 <!--TITULO-->
+<style>
+    .propiedades-opcion-cita{
+        color: white;
+        width: 136px;
+        height: 100px;
+    }
+    .f-rojo{
+        background: #B40404;
+
+
+    }
+    .f-rojo-min{
+        background:#FACC2E;
+    }
+    .f-verde{
+        background:#088A08;
+    }
+    .f-azul{
+        background: #2a6496;
+    }
+
+</style>
+
+
 <div class="page-title">                    
     <h2><span class="fa fa-bookmark"></span> Agenda</h2>
 </div>   
@@ -117,109 +141,173 @@
         <button type="button" class="btn btn-primary" ng-click="agregarAgenda()">
             Agendar espacio
         </button>
-    </div>
-
-    <!--<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>-->
+    </div>   
 
 
 </div>
 
 
 <!--MENSAJES DE ERROR Y CONFRMACION--> 
-<!-- Mensaje de error -->
-
-<!-- Modal -->
+<!--MODAL CON INFORMACION DE CITA--> 
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog" style="z-index: inherit;">
-        <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Cita #{{infoConsultaCita.idCita}}</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h2 class="modal-title"><i class="fa fa-calendar"></i> #{{infoConsultaCita.idCita}}</h2>
             </div>
-            <!--<p>-->
-            <!--<div>sdsdsa</div>-->
-            <!--</p>-->
-            <div class="col-md-12" >
-                <div class="mb-content">
 
-                    <div class="panel panel-default tabs nav-tabs-vertical">
-                        <ul class="nav nav-tabs">
-                            <li class="active">
-                                <a  style="width: 210px !important"  data-toggle="tab" onClick="$('#tab222').show();$('#tab232').hide();$('#tab242').hide();" aria-expanded="true">
-                                    Informacion de la cita 
-                                </a>
-                            </li>
-                            <li class="">
-                                <a  style="width: 210px !important"  data-toggle="tab" onClick="$('#tab232').show();$('#tab222').hide();$('#tab242').hide();" aria-expanded="false">
-                                    Informacion del paciente
-                                </a>
-                            </li>
-                            <li class="">
-                                <a  style="width: 210px !important"  data-toggle="tab" ng-click="irMenuHC()" aria-expanded="false">
-                                    Opciones de cita
-                                </a>
-                            </li>
-                        </ul>                    
-                        <div class="panel-body tab-content" style="margin-left: 199px;">
-                            <div class="tab-pane active" style="display: none" id="tab222" >
-                                <div class="panel-body panel-body-table">
-                                    <div class="table-responsive" align="center">
-                                        <table class="table table-bordered table-striped table-actions">
-                                            <tbody>                                            
-                                                <tr>
-                                                <td >Fecha</td>
-                                                <td width="210"><strong>{{infoConsultaCita.horaInicio | getFormatofecha}}</strong></td>
-                                                </tr>
-                                                <tr >
-                                                <td >Inicia a las: </td>
-                                                <td width="210"><strong>{{infoConsultaCita.horaInicio | getFormatoHora}}</strong></td>
-                                                </tr>
-                                                <tr>
-                                                <td >Termina a las:</td>
-                                                <td width="210"><strong>{{infoConsultaCita.horaFin | getFormatoHora}}</strong></td>
-                                                </tr>
-                                                <tr>
-                                                <td>Ciudad </td>
-                                                <td width="210"><strong></strong></td>
-                                                </tr>
-                                                <tr>
-                                                <td width="210">Localidad </td>
-                                                <td><strong></strong></td>
-                                                </tr>
-                                                <tr>
-                                                <td width="210">Direccion </td>
-                                                <td><strong><1</strong></td>
-                                                </tr>
-                                                <tr>
-                                                <td width="210">Consultorio </td>
-                                                <td><strong><1</strong></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>                                
 
-                                </div>
+            <div class="panel panel-default tabs">                            
+                <ul class="nav nav-tabs" role="tablist">
+                    <li style="width: 33%;text-align: center" class="active">
+                        <a role="tab"  onClick="$('#tab222').show();$('#tab232').hide();$('#tab242').hide();" id="info_init_cita" data-toggle="tab"> Informacion de la cita </a>
+                    </li>
+                    <li style="width: 34%;text-align: center">
+                        <a role="tab"  onClick="$('#tab232').show();$('#tab222').hide();$('#tab242').hide();" data-toggle="tab"> Informacion del paciente</a>
+                    </li >
+                    <li style="width: 33%; text-align: center">
+                        <a role="tab" onClick="$('#tab242').show();$('#tab232').hide();$('#tab222').hide();" data-toggle="tab"> Opciones de cita</a>
+                    </li>
 
-                            </div>
-                            <div class="tab-pane active" style="display: none" id="tab232">
+                </ul>
+                <div class="panel-body tab-content">
+                    <div class="tab-pane active" style="display: none;" id="tab222">
+                        <div class="panel-body panel-body-table">
+                            <div class="table-responsive" align="center">
+                                <table class="table table-bordered table-striped table-actions">
+                                    <tbody>                                            
+                                        <tr>
+                                        <td >Fecha</td>
+                                        <td width="210"><strong>{{infoConsultaCita.horaInicio| getFormatofecha}}</strong></td>
+                                        </tr>
+                                        <tr >
+                                        <td >Inicia a las: </td>
+                                        <td width="210"><strong>{{infoConsultaCita.horaInicio| getFormatoHora}}</strong></td>
+                                        </tr>
+                                        <tr>
+                                        <td >Termina a las:</td>
+                                        <td width="210"><strong>{{infoConsultaCita.horaFin| getFormatoHora}}</strong></td>
+                                        </tr>
+                                        <tr>
+                                        <td>Ciudad </td>
+                                        <td width="210"><strong>{{infoConsultaCita.agenda.ciudad}}</strong></td>
+                                        </tr>
+                                        <tr>
+                                        <td width="210">Localidad </td>
+                                        <td><strong>{{infoConsultaCita.agenda.localidad}}</strong></td>
+                                        </tr>
+                                        <tr>
+                                        <td width="210">Direccion </td>
+                                        <td><strong>{{infoConsultaCita.agenda.direccion}}</strong></td>
+                                        </tr>
+                                        <tr>
+                                        <td width="210">Consultorio </td>
+                                        <td><strong>{{infoConsultaCita.agenda.numeroConsultorio}}</strong></td>
+                                        <tr>
+                                        <td width="210">EPS: </td>
+                                        <td><strong>{{infoConsultaCita.agenda.medicoEps.eps.razonSocial}}</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>                                
 
-                            </div>
-                            <div class="tab-pane active" style="display: none" id="tab242">
-
-                            </div>                        
                         </div>
-                    </div>                              
-                </div>     
-            </div>
+                    </div>
+                    <div class="tab-pane active" style="display: none" id="tab232">
+                        <div ng-if="infoConsultaCita.pacienteEps != null">
+                            <div  class="panel-body panel-body-table">
+                                <div class="table-responsive" align="center">
+                                    <table class="table table-bordered table-striped table-actions">
+                                        <tbody>                                            
+                                            <tr>
+                                            <td width="200">Tipo identificacion: </td>
+                                            <td width="270"><strong>{{infoConsultaCita.pacienteEps.persona.tipoIdentificacion}}</strong></td>
+                                            </tr>
+                                            <tr>
+                                            <td width="200">Numero identificacion: </td>
+                                            <td width="270"><strong>{{infoConsultaCita.pacienteEps.persona.numeroIdentificacion}}</strong></td>
+                                            </tr>
+                                            <tr>
+                                            <td width="200">Nombre: </td>
+                                            <td width="270"><strong>{{infoConsultaCita.pacienteEps.persona.nombres + ' ' + infoConsultaCita.pacienteEps.persona.apellidos}} </strong></td>
+                                            </tr>
+                                            <tr>
+                                            <td width="200">Genero: </td>
+                                            <td width="270"><strong>{{infoConsultaCita.pacienteEps.persona.genero}} </strong></td>
+                                            </tr>
+                                            <tr>
+                                            <td width="200">Fecha nacimiento </td>
+                                            <td width="270"><strong>{{infoConsultaCita.pacienteEps.persona.fechaNacimiento| getFormatofecha}} </strong></td>
+                                            </tr>
+                                            <tr>
+                                            <td width="200">Edad: </td>
+                                            <td width="270"><strong>{{infoConsultaCita.pacienteEps.persona.fechaNacimiento| getEdad}} </strong></td>
+                                            </tr>
+                                            <tr>
+                                            <td width="200">Email: </td>
+                                            <td width="270"><strong>{{infoConsultaCita.pacienteEps.persona.correoElectronico}}</strong></td>
+                                            </tr>
+                                            <tr>
+                                            <td width="200">Celular: </td>
+                                            <td width="270"><strong>{{infoConsultaCita.pacienteEps.persona.telefonoCelular}}</strong></td>
+                                            </tr>
+                                            <tr>
+                                            <td width="200">Telefono fijo: </td>
+                                            <td width="270"><strong>{{infoConsultaCita.pacienteEps.persona.telefonoFijo}}</strong></td>
+                                            </tr>
+                                            <tr>
+                                            <td width="200">Tipo de saggre: </td>
+                                            <td width="270"><strong>{{infoConsultaCita.pacienteEps.persona.grupoSanguineo + ' ' + infoConsultaCita.pacienteEps.persona.rh}}</strong></td>
+                                            </tr>
 
 
+                                        </tbody>
+                                    </table>
+                                </div>                                
+
+                            </div>  
+                        </div>
+                        <div ng-if="infoConsultaCita.pacienteEps == null">
+                            <div class="alert alert-warning" role="alert" style="text-align: center;">
+                                <button type="button" class="close" data-dismiss="alert"><span class="sr-only" >Cerrar</span></button>
+                                <strong>¡ </strong> La cita no ha sido agendada por ningun paciente  <strong> !</strong>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="tab-pane active" style="display: none" id="tab242">
+                        <button  data-toggle="tooltip" data-original-title="El paciente asisitio a la cita " class="btn btn-default propiedades-opcion-cita f-verde">
+                            <i class="fa fa-check-circle" style="font-size: 53px;"></i>                            
+                        </button> 
+                        <button data-toggle="tooltip" data-original-title="El paciente no asisitio a la cita" class="btn btn-default propiedades-opcion-cita f-rojo-min" >
+                            <i class="glyphicon glyphicon-remove-sign" style="font-size: 53px;"></i>
+                        </button>
+                        <button data-toggle="tooltip" data-original-title="Cancelar cita " class="btn btn-default propiedades-opcion-cita f-rojo">
+                            <i class="fa fa-ban" style="font-size: 53px;"></i>
+                        </button>
+                        <button data-toggle="tooltip" data-original-title="Historico de la cita " class="btn btn-default propiedades-opcion-cita f-azul">
+                            <i class="glyphicon glyphicon-th" style="font-size: 53px;"></i>
+                        </button>             
+
+                    </div>
+                </div>
+            </div> 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>                        
             </div>
         </div>
     </div>
-</div>
+</div> 
+
+
+
+
+
+
+
+
 
 <div class="message-box message-box-danger animated fadeIn" data-sound="fail"  id="message-box-sound-2">
     <div class="mb-container">
