@@ -1,0 +1,40 @@
+<div class="col-md-6 col-md-offset-3">
+  <div>
+    <!-- Specify the function to be called on submit and disable HTML5 validation, since we're using Angular validation-->
+    <form class="form-horizontal" name="diagnosticoForm" ng-submit="insertIncapacidad()" novalidate>
+      
+      <!-- Correo electronico-->
+      <div class="form-group" ng-class="{'has-error' : diagnosticoForm.diagnostico.$invalid && diagnosticoForm.diagnostico.$dirty}">
+        <label for="motivo">Ingrese el Diagn&oacute;stico Inicial:</label>
+        <!-- Display a check when the field is valid and was modified -->
+        <span ng-class="{'glyphicon glyphicon-ok' : diagnosticoForm.diagnostico.$valid && diagnosticoForm.diagnostico.$dirty}"></span>
+        
+        <textarea id="diagnostico" name="diagnostico" type="textarea" ng-model="diagnostico" style="width:100%;height:400px " > </textarea>
+      </div>  
+
+      <!-- Form buttons. The 'Save' button is only enabled when the form is valid. -->
+      <div class="buttons">
+        <button type="button" class="btn btn-primary" ng-click="cancelar()">Cancelar
+           <span class="glyphicon glyphicon-floppy-remove"></span>
+        </button>
+        <button type="submit" class="btn btn-primary" ng-click="guardar()">Guardar
+         <span class="fa fa-floppy-o"></span>
+         </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="message-box message-box-success animated fadeIn" id="message-box-success">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-check"></span> Diagn&oacute;stico Almacenado</div>
+            <div class="mb-content">
+                <p>  </p>
+            </div>
+            <div class="mb-footer">
+                <button class="btn btn-default btn-lg pull-right mb-control-close" ng-click="closepopup()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

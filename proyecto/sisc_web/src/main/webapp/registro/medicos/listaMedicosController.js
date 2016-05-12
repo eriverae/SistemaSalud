@@ -69,7 +69,7 @@ app.controller('listaMedicosController', function ($scope, $rootScope, $statePar
     $scope.updateRow = function(row){
       var idP = row.entity.idPersona;
       console.log('Modificar persona: ' & idP);
-      $state.go("modificarMedicos", {'idPersona': idP});
+      $state.go("modificarPersonaNatural", {'idPersona': idP});
     };
     
     // Watch the sortInfo variable. If changes are detected than we need to refresh the grid.
