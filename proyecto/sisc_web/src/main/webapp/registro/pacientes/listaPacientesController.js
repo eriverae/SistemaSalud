@@ -70,7 +70,7 @@ app.controller('listaPacientesController', function ($scope, $rootScope, $stateP
     $scope.updateRow = function(row){
       var idP = row.entity.idPersona;
       console.log('Modificar persona: ' & idP);
-      $state.go("modificarPacientes", {idPersona: idP});
+      $state.go("modificarPersonaNatural", {idPersona: idP});
     };
     
     $scope.beneficiarios = function(row){
