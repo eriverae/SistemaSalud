@@ -54,13 +54,13 @@ public class DiagnosticoFacade implements IDiagnosticoFacadeLocal, IDiagnosticoF
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void addDiagnosticoCita(Long id_cita, String diagnostico) {
         Cita c = em.find(Cita.class, new Long("1"));
-        c.setDiagnostico(diagnostico);
+        c.setObservaciones(diagnostico);
         em.merge(c);
     }
 
     @Override
     public ArrayList<HashMap> findByCita(Long idcita) {
-        Query q = em.createNativeQuery("SELECT diagnostico FROM Cita WHERE id_cita =" + idcita.toString());
+        Query q = em.createNativeQuery("SELECT observaciones FROM Cita WHERE id_cita =" + idcita.toString());
         String diagnostico =  (String) q.getSingleResult();
 
         HashMap m = new HashMap();

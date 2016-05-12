@@ -75,16 +75,10 @@ public class Cita implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "estado_cita")
     private String estadoCita;  
-    
-    
-    
+   
     @Column(name = "observaciones")
     private String observaciones;
-    
-    @Column(name = "diagnostico")
-    private String diagnostico;
 
-    
     @JoinColumn(name = "id_paciente_eps", referencedColumnName = "id_persona_eps")
 //    @ManyToOne(optional = false)
     @ManyToOne()
@@ -154,12 +148,6 @@ public class Cita implements Serializable {
     public void setHoraInicio(Date horaInicio) {
         this.horaInicio = horaInicio;
     }
-    
-    public void setDiagnostico(String diagnostico){
-        this.diagnostico = diagnostico;
-    }
-    
-    
 
     public PersonaEps getPacienteEps() {
         return pacienteEps;
@@ -208,9 +196,6 @@ public class Cita implements Serializable {
 
     public void setAgenda(Agenda agenda) {
         this.agenda = agenda;
-    }
-    public String getDiagnostico(){
-        return diagnostico;
     }
 
     public boolean isEstadoPacienteAtendido() {
