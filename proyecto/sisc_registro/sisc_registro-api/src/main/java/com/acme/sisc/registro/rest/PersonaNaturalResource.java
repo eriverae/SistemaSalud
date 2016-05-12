@@ -89,13 +89,14 @@ public class PersonaNaturalResource {
         return response;
     }
 
-//    @GET
-//    @Path("/{numberId}/personaByNumberId")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public PersonaNatural consultarPersonaPorNumeroIdentificacion(@PathParam("numberId") Long numeroIdentificacion){
-//        LOGGER.log(Level.FINE, "Consultando persona natural con numero identificacion {0} \n\n\n", numeroIdentificacion);
-//        return facadePersonaNatural.findByNumeroIdentificacion(numeroIdentificacion);
-//    }
+    @GET
+    @Path("{numberId}/personaByNumberId")
+    @Produces(MediaType.APPLICATION_JSON)
+    public PersonaNatural consultarPersonaPorNumeroIdentificacion(@PathParam("numberId") Long numberId){
+        LOGGER.log(Level.FINE, "Consultando persona natural con numero identificacion {0} \n\n\n", numberId);
+        return facadePersonaNatural.findByNumeroIdentificacion(numberId);
+    }
+    
     @DELETE
     @Path("{id}")
     public void eliminarPersona(@PathParam("id") Long id) {
