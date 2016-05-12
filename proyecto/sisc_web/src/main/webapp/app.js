@@ -175,7 +175,11 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
 
 
     // hc
-
+    .state('diagnostico',{
+      url:'/historia/diagnostico',
+      templateUrl: 'historia/diagnostico.html',
+      controller: 'diagnosticoController'
+    })
     .state('menuhc',{
        url:'/menuhc',
        templateUrl: 'historia/menuhc.html',

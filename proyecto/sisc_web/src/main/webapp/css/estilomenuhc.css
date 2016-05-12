@@ -163,3 +163,14 @@ transform: scale(1.2);
 #menu li a:hover #icono6{
 	
 }
+#menu li a #icono7{
+	width:160px;
+	height:59px;
+	display:block;
+	position:absolute;
+	left:50px;
+	top:50px;
+}
+#menu li a:hover #icono7{
+	
+}
