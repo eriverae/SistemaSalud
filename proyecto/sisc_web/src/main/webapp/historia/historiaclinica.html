@@ -1,56 +1,115 @@
 <div class="page-content-wrap">
-	<div class="row">
-		<div class="col-md-6" ng-repeat="hist in historias">
-			<div class="panel panel-default">
-               <div class="panel-heading">
-                   <h3 class="panel-title">Examenes</h3>
-               </div>
-               <div class="panel-body">
-               		<ul ng-repeat="e in hist.examen">
-               			<h4>{{e.idexamen}}</h4>
-               		</ul>		
-               </div>
-			</div>
-			<div class="panel panel-default">
-               <div class="panel-heading">
-                   <h3 class="panel-title">Cirug&iacute;as</h3>
-               </div>
-               <div class="panel-body">
-               		<ul ng-repeat="ci in hist.cirugia">
-               			<h4>{{ci.idcirugia}}</h4>
-               			<h4>{{ci.observaciones}}</h4>
-	               		<h4>{{ci.fechageneracion}}</h4>
-               		</ul>
-               </div>
-			</div>
-		</div>
-		
-		<div class="col-md-6" ng-repeat="hist in historias">
-	        <div class="panel panel-default">
-	            <div class="panel-heading">
-	                <h3 class="panel-title">Medicamentos</h3>
-	            </div>
-	            <div class="panel-body">
-               		<ul ng-repeat="m in hist.medicamentos">
-               			<h4>{{m.idmedicamento}}</h4>
-	               		<h4>{{m.fechageneracion}}</h4>
-               		</ul>
-               </div>
-	        </div>
-	        <div class="panel panel-default">
-               <div class="panel-heading">
-                   <h3 class="panel-title">Tratamientos</h3>
-               </div>
-               <div class="panel-body">
-               		<ul ng-repeat="t in hist.tratamiento">
-               			<h4>{{t.idtratamiento}}</h4>
-               			<h4>{{t.observaciones}}</h4>
-	               		<h4>{{t.fechageneracion}}</h4>
-               		</ul>
-               </div>
-			</div>
+  <div class="row">
+    <div class="col-md-6" ng-repeat="hist in historias">
+      <div class="panel panel-default">
+         <div class="panel-heading">
+             <h3 class="panel-title">Examenes</h3>
+         </div>
+         <div class="panel-body">
+            <table class="table table-bordered table-striped table-actions">
+              <thead>
+                  <tr>
+                      <th width="50">id examen</th>
+                      <th width="100">detalles</th>
+                      <th width="100">observaciones</th>
+                      <th width="100">fecha generacion</th>
+                      <th width="100">id cita</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="e in hist.examen">
+                    <td class="text-center">{{e.idexamen}}</td>
+                    <td><strong>{{e.detalles}}</strong></td>
+                    <td><strong>{{e.observaciones}}<strong></td>
+                    <td><strong>{{e.fechageneracion}}<strong></td>
+                    <td><strong>{{e.idcita}}<strong></td>
+                </tr>
+              </tbody>
+            </table>
+         </div>
+      </div>
+      <div class="panel panel-default">
+         <div class="panel-heading">
+             <h3 class="panel-title">Cirug&iacute;as</h3>
+         </div>
+         <div class="panel-body">
+            <table class="table table-bordered table-striped table-actions">
+              <thead>
+                  <tr>
+                      <th width="50">id cirugia</th>
+                      <th width="100">detalles</th>
+                      <th width="100">observaciones</th>
+                      <th width="100">fecha generacion</th>
+                      <th width="100">id cita</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="ci in hist.cirugia">
+                    <td class="text-center">{{ci.idcirugia}}</td>
+                    <td><strong>{{ci.detalles}}</strong></td>
+                    <td><strong>{{ci.observaciones}}<strong></td>
+                    <td><strong>{{ci.fechageneracion}}<strong></td>
+                    <td><strong>{{ci.idcita}}<strong></td>
+                </tr>
+              </tbody>
+            </table>
+         </div>
+      </div>
+    </div>
+    
+    <div class="col-md-6" ng-repeat="hist in historias">
+         <div class="panel panel-default">
+          <div class="panel-heading">
+              <h3 class="panel-title">Medicamentos</h3>
+          </div>
+          <div class="panel-body">
+            <table class="table table-bordered table-striped table-actions">
+              <thead>
+                  <tr>
+                      <th width="50">id medicamento</th>
+                      <th width="100">formula</th>
+                      <th width="100">fecha generacion</th>
+                      <th width="100">id cita</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="m in hist.medicamentos">
+                    <td class="text-center">{{m.idmedicamento}}</td>
+                    <td><strong>{{m.formula}}</strong></td>
+                    <td><strong>{{m.fechageneracion}}<strong></td>
+                    <td><strong>{{m.idcita}}<strong></td>
+                </tr>
+              </tbody>
+            </table>
+           </div>
+          </div>
+          <div class="panel panel-default">
+           <div class="panel-heading">
+               <h3 class="panel-title">Tratamientos</h3>
+           </div>
+           <div class="panel-body">
+              <table class="table table-bordered table-striped table-actions">
+                <thead>
+                    <tr>
+                        <th width="50">id tratamiento</th>
+                        <th width="100">observaciones</th>
+                        <th width="100">fecha generacion</th>
+                        <th width="100">id cita</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="t in hist.tratamiento">
+                      <td class="text-center">{{t.idtratamiento}}</td>
+                      <td><strong>{{t.observaciones}}</strong></td>
+                      <td><strong>{{t.fechageneracion}}<strong></td>
+                      <td><strong>{{t.idcita}}<strong></td>
+                  </tr>
+                </tbody>
+              </table>
+           </div>
+      </div>
         </div>
     
 
-	</div>
+  </div>
 </div>     
