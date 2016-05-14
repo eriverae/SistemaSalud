@@ -39,227 +39,239 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "persona_natural")
 @XmlRootElement
 @NamedQueries({
-  @NamedQuery(name = "PersonaNatural.findAll", query = "SELECT p FROM PersonaNatural p"),
-  @NamedQuery(name = "PersonaNatural.findByCorreoElectronico", query = "SELECT p FROM PersonaNatural p WHERE p.correoElectronico = :correoElectronico"),
-  @NamedQuery(name = "PersonaNatural.findByNombres", query = "SELECT p FROM PersonaNatural p WHERE p.nombres = :nombres"),
-  @NamedQuery(name = "PersonaNatural.findByApellidos", query = "SELECT p FROM PersonaNatural p WHERE p.apellidos = :apellidos")
+    @NamedQuery(name = "PersonaNatural.findAll", query = "SELECT p FROM PersonaNatural p"),
+    @NamedQuery(name = "PersonaNatural.findByCorreoElectronico", query = "SELECT p FROM PersonaNatural p WHERE p.correoElectronico = :correoElectronico"),
+    @NamedQuery(name = "PersonaNatural.findByNombres", query = "SELECT p FROM PersonaNatural p WHERE p.nombres = :nombres"),
+    @NamedQuery(name = "PersonaNatural.findByApellidos", query = "SELECT p FROM PersonaNatural p WHERE p.apellidos = :apellidos")
 })
 public class PersonaNatural extends Persona implements Serializable {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  @Basic(optional = false)
-  @Column(name = "correo_electronico")
-  private String correoElectronico;
-  @Basic(optional = false)
-  @Column(name = "nombres")
-  private String nombres;
-  @Basic(optional = false)
-  @Column(name = "apellidos")
-  private String apellidos;
-  @Basic(optional = false)
-  @Column(name = "genero")
-  private Character genero;
-  @Basic(optional = false)
-  @Column(name = "fecha_nacimiento")
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date fechaNacimiento;
-  @Basic(optional = false)
-  @Column(name = "telefono_celular")
-  private long telefonoCelular;
-  @Basic(optional = false)
-  @Column(name = "telefono_fijo")
-  private long telefonoFijo;
-  @Basic(optional = false)
-  @Column(name = "direccion")
-  private String direccion;
-  @Column(name = "fotografia")
-  private String fotografia;
-  @Lob
-  @Column(name = "huella")
-  private byte[] huella;
-  @Basic(optional = false)
-  @Column(name = "rh")
-  private Character rh;
-  @Basic(optional = false)
+    @Basic(optional = false)
+    @Column(name = "correo_electronico")
+    private String correoElectronico;
+    @Basic(optional = false)
+    @Column(name = "nombres")
+    private String nombres;
+    @Basic(optional = false)
+    @Column(name = "apellidos")
+    private String apellidos;
+    @Basic(optional = false)
+    @Column(name = "genero")
+    private Character genero;
+    @Basic(optional = false)
+    @Column(name = "fecha_nacimiento")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaNacimiento;
+    @Basic(optional = false)
+    @Column(name = "telefono_celular")
+    private long telefonoCelular;
+    @Basic(optional = false)
+    @Column(name = "telefono_fijo")
+    private long telefonoFijo;
+    @Basic(optional = false)
+    @Column(name = "direccion")
+    private String direccion;
+    @Column(name = "fotografia")
+    private String fotografia;
+    @Lob
+    @Column(name = "huella")
+    private byte[] huella;
+    @Basic(optional = false)
+    @Column(name = "rh")
+    private Character rh;
+    @Basic(optional = false)
 
-  @Column(name = "grupo_sanguineo")
-  private String grupoSanguineo;
+    @Column(name = "grupo_sanguineo")
+    private String grupoSanguineo;
 
-  @Column(name = "tarjeta_profesional")
-  private String tarjetaProfesional;
+    @Column(name = "tarjeta_profesional")
+    private String tarjetaProfesional;
 
-  @Column(name = "rol_persona_natural")
-  private String rolPersonaNatutal;
+    @Column(name = "rol_persona_natural")
+    private String rolPersonaNatutal;
 
-  @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY)
-  private List<PersonaEps> listaPersonasEps;
+    @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY)
+    private List<PersonaEps> listaPersonasEps;
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "paciente", fetch = FetchType.LAZY)
-  private List<PersonaNaturalAlergia> listaAlergias;
-  
-  @ManyToMany
-  @JoinTable(
-      name="OPERACION_PACIENTE",
-      joinColumns=@JoinColumn(name="PACIENTE_ID", referencedColumnName="ID_PERSONA"),
-      inverseJoinColumns=@JoinColumn(name="OPERACION_ID", referencedColumnName="ID_OPERACION"),
-      uniqueConstraints=@UniqueConstraint(name="OPER_PACIENTE_UNIQUE", columnNames={"PACIENTE_ID","OPERACION_ID"}))
-  private List<Operacion> listaOperacionesPaciente;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "paciente", fetch = FetchType.LAZY)
+    private List<PersonaNaturalAlergia> listaAlergias;
 
-  public PersonaNatural() {
-  }
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "medico", fetch = FetchType.LAZY)
+    private List<PersonaNaturalEspecialidad> listaEspecialidadesMedico;
 
-  public PersonaNatural(String correoElectronico, String nombres, String apellidos, Character genero, Date fechaNacimiento, long telefonoCelular, long telefonoFijo, String direccion, Character rh, String grupoSanguineo) {
+    @ManyToMany
+    @JoinTable(
+            name = "OPERACION_PACIENTE",
+            joinColumns = @JoinColumn(name = "PACIENTE_ID", referencedColumnName = "ID_PERSONA"),
+            inverseJoinColumns = @JoinColumn(name = "OPERACION_ID", referencedColumnName = "ID_OPERACION"),
+            uniqueConstraints = @UniqueConstraint(name = "OPER_PACIENTE_UNIQUE", columnNames = {"PACIENTE_ID", "OPERACION_ID"}))
+    private List<Operacion> listaOperacionesPaciente;
 
-    this.correoElectronico = correoElectronico;
-    this.nombres = nombres;
-    this.apellidos = apellidos;
-    this.genero = genero;
-    this.fechaNacimiento = fechaNacimiento;
-    this.telefonoCelular = telefonoCelular;
-    this.telefonoFijo = telefonoFijo;
-    this.direccion = direccion;
-    this.rh = rh;
-    this.grupoSanguineo = grupoSanguineo;
-  }
+    public PersonaNatural() {
+    }
 
-  public String getCorreoElectronico() {
-    return correoElectronico;
-  }
+    public PersonaNatural(String correoElectronico, String nombres, String apellidos, Character genero, Date fechaNacimiento, long telefonoCelular, long telefonoFijo, String direccion, Character rh, String grupoSanguineo) {
 
-  public void setCorreoElectronico(String correoElectronico) {
-    this.correoElectronico = correoElectronico;
-  }
+        this.correoElectronico = correoElectronico;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.genero = genero;
+        this.fechaNacimiento = fechaNacimiento;
+        this.telefonoCelular = telefonoCelular;
+        this.telefonoFijo = telefonoFijo;
+        this.direccion = direccion;
+        this.rh = rh;
+        this.grupoSanguineo = grupoSanguineo;
+    }
 
-  public String getNombres() {
-    return nombres;
-  }
+    public String getCorreoElectronico() {
+        return correoElectronico;
+    }
 
-  public void setNombres(String nombres) {
-    this.nombres = nombres;
-  }
+    public void setCorreoElectronico(String correoElectronico) {
+        this.correoElectronico = correoElectronico;
+    }
 
-  public String getApellidos() {
-    return apellidos;
-  }
+    public String getNombres() {
+        return nombres;
+    }
 
-  public void setApellidos(String apellidos) {
-    this.apellidos = apellidos;
-  }
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
 
-  public Character getGenero() {
-    return genero;
-  }
+    public String getApellidos() {
+        return apellidos;
+    }
 
-  public void setGenero(Character genero) {
-    this.genero = genero;
-  }
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
 
-  public Date getFechaNacimiento() {
-    return fechaNacimiento;
-  }
+    public Character getGenero() {
+        return genero;
+    }
 
-  public void setFechaNacimiento(Date fechaNacimiento) {
-    this.fechaNacimiento = fechaNacimiento;
-  }
+    public void setGenero(Character genero) {
+        this.genero = genero;
+    }
 
-  public long getTelefonoCelular() {
-    return telefonoCelular;
-  }
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
+    }
 
-  public void setTelefonoCelular(long telefonoCelular) {
-    this.telefonoCelular = telefonoCelular;
-  }
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
 
-  public long getTelefonoFijo() {
-    return telefonoFijo;
-  }
+    public long getTelefonoCelular() {
+        return telefonoCelular;
+    }
 
-  public void setTelefonoFijo(long telefonoFijo) {
-    this.telefonoFijo = telefonoFijo;
-  }
+    public void setTelefonoCelular(long telefonoCelular) {
+        this.telefonoCelular = telefonoCelular;
+    }
 
-  public String getDireccion() {
-    return direccion;
-  }
+    public long getTelefonoFijo() {
+        return telefonoFijo;
+    }
 
-  public void setDireccion(String direccion) {
-    this.direccion = direccion;
-  }
+    public void setTelefonoFijo(long telefonoFijo) {
+        this.telefonoFijo = telefonoFijo;
+    }
 
-  public String getFotografia() {
-    return fotografia;
-  }
+    public String getDireccion() {
+        return direccion;
+    }
 
-  public void setFotografia(String fotografia) {
-    this.fotografia = fotografia;
-  }
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
 
-  public byte[] getHuella() {
-    return huella;
-  }
+    public String getFotografia() {
+        return fotografia;
+    }
 
-  public void setHuella(byte[] huella) {
-    this.huella = huella;
-  }
+    public void setFotografia(String fotografia) {
+        this.fotografia = fotografia;
+    }
 
-  public Character getRh() {
-    return rh;
-  }
+    public byte[] getHuella() {
+        return huella;
+    }
 
-  public void setRh(Character rh) {
-    this.rh = rh;
-  }
+    public void setHuella(byte[] huella) {
+        this.huella = huella;
+    }
 
-  public String getGrupoSanguineo() {
-    return grupoSanguineo;
-  }
+    public Character getRh() {
+        return rh;
+    }
 
-  public void setGrupoSanguineo(String grupoSanguineo) {
-    this.grupoSanguineo = grupoSanguineo;
-  }
+    public void setRh(Character rh) {
+        this.rh = rh;
+    }
 
-  public String getTarjetaProfesional() {
-    return tarjetaProfesional;
-  }
+    public String getGrupoSanguineo() {
+        return grupoSanguineo;
+    }
 
-  public void setTarjetaProfesional(String tarjetaProfesional) {
-    this.tarjetaProfesional = tarjetaProfesional;
-  }
+    public void setGrupoSanguineo(String grupoSanguineo) {
+        this.grupoSanguineo = grupoSanguineo;
+    }
 
-  @JsonIgnore
-  public List<PersonaEps> getListaPersonasEps() {
-    return listaPersonasEps;
-  }
+    public String getTarjetaProfesional() {
+        return tarjetaProfesional;
+    }
 
-  public void setListaPersonasEps(List<PersonaEps> listaPersonasEps) {
-    this.listaPersonasEps = listaPersonasEps;
-  }
+    public void setTarjetaProfesional(String tarjetaProfesional) {
+        this.tarjetaProfesional = tarjetaProfesional;
+    }
 
-  public String getRolPersonaNatutal() {
-    return rolPersonaNatutal;
-  }
+    @JsonIgnore
+    public List<PersonaEps> getListaPersonasEps() {
+        return listaPersonasEps;
+    }
 
-  public void setRolPersonaNatutal(String rolPersonaNatutal) {
-    this.rolPersonaNatutal = rolPersonaNatutal;
-  }
+    public void setListaPersonasEps(List<PersonaEps> listaPersonasEps) {
+        this.listaPersonasEps = listaPersonasEps;
+    }
 
-  @JsonIgnore
-  public List<PersonaNaturalAlergia> getListaAlergias() {
-    return listaAlergias;
-  }
+    public String getRolPersonaNatutal() {
+        return rolPersonaNatutal;
+    }
 
-  public void setListaAlergias(List<PersonaNaturalAlergia> listaAlergias) {
-    this.listaAlergias = listaAlergias;
-  }
+    public void setRolPersonaNatutal(String rolPersonaNatutal) {
+        this.rolPersonaNatutal = rolPersonaNatutal;
+    }
 
-  @JsonIgnore
-  public List<Operacion> getListaOperacionesPaciente() {
-    return listaOperacionesPaciente;
-  }
+    @JsonIgnore
+    public List<PersonaNaturalAlergia> getListaAlergias() {
+        return listaAlergias;
+    }
 
-  public void setListaOperacionesPaciente(List<Operacion> listaOperacionesPaciente) {
-    this.listaOperacionesPaciente = listaOperacionesPaciente;
-  }
+    public void setListaAlergias(List<PersonaNaturalAlergia> listaAlergias) {
+        this.listaAlergias = listaAlergias;
+    }
+
+    @JsonIgnore
+    public List<Operacion> getListaOperacionesPaciente() {
+        return listaOperacionesPaciente;
+    }
+
+    public void setListaOperacionesPaciente(List<Operacion> listaOperacionesPaciente) {
+        this.listaOperacionesPaciente = listaOperacionesPaciente;
+    }
+
+    @JsonIgnore
+    public List<PersonaNaturalEspecialidad> getListaEspecialidadesMedico() {
+        return listaEspecialidadesMedico;
+    }
+
+    public void setListaEspecialidadesMedico(List<PersonaNaturalEspecialidad> listaEspecialidadesMedico) {
+        this.listaEspecialidadesMedico = listaEspecialidadesMedico;
+    }
 
 }

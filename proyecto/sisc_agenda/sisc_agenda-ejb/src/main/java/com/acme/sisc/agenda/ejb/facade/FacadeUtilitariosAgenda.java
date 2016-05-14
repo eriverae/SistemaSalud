@@ -7,6 +7,8 @@ package com.acme.sisc.agenda.ejb.facade;
 
 import com.acme.sisc.agenda.constant.WebConstant;
 import com.acme.sisc.agenda.entidades.Especialidad;
+import com.acme.sisc.agenda.entidades.PersonaNatural;
+import com.acme.sisc.agenda.entidades.PersonaNaturalEspecialidad;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,26 +38,33 @@ public class FacadeUtilitariosAgenda extends AbstractFacade<Especialidad> {
     @PersistenceContext(unitName = WebConstant.UNIT_NAME_PERSISTENCE)
     private EntityManager em;
 
-    /*    public List<Especialidad> getEspecialidadesList(){
-        List<Especialidad> listaEspecialidad = null;
-        
-        try { 
-            log.log(Level.WARNING, "\n\n TRAYENDO ESPECIALIDADES\n");
+    
+        public List<PersonaNaturalEspecialidad> getMedicosList(String especialidad) {
+        List<PersonaNaturalEspecialidad> listaMedicosEspecialidad;
 
-            Query q = em.createNativeQuery("select distinct on (descripcion) * from especialidad");
-            listaEspecialidad = (List<Especialidad>)q.getResultList();
+        try {
+            log.log(Level.WARNING, "\n\n <FACADE CITA> .. TRAYENDO MEDICOS de la especialidad: " + especialidad + "\n");
             
-            int resultado = q.executeUpdate();
-            log.log(Level.INFO, "Cantidad de especialidades encontradas: " + resultado + "\n");
+            //1. obtener el id_especialidad
+            Query q = em.createNamedQuery("Especialidad.findByDescripcion");
+            q.setParameter("descripcion", especialidad);
+            Especialidad especialidadEntidad =  (Especialidad)q.getSingleResult();
+            log.log(Level.WARNING, "\n\n id_especialidad: " + especialidadEntidad.getIdEspecialidad() + "\n");
             
-            return listaEspecialidad;
+            //2. obtener una lista de los medicos que contengan  id_especialidad
+            Query q2 = em.createNamedQuery("PersonaNaturalEspecialidad.findAllMedicosEspecialidad");
+            q2.setParameter("idEspecialidad", especialidadEntidad.getIdEspecialidad());
+            listaMedicosEspecialidad = (List<PersonaNaturalEspecialidad>) q2.getResultList();
+            //log.log(Level.WARNING, "\n\n nombre medico[0]: " + listaMedicosEspecialidad.get(0).getMedico().getNombres() + "\n");
+            return listaMedicosEspecialidad;
 
         } catch (Exception e) {
             log.log(Level.WARNING, "NO ENCONTRO NINGUNA ESPECIALIDAD, EN LA EPS");
-            return listaEspecialidad;
+            return null;
 
         }
-    }*/
+    }
+    
     public List<Especialidad> getEspecialidadesList() {
         List<Especialidad> listaEspecialidad;
 

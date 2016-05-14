@@ -98,8 +98,13 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       url: '/paciente/agendarCita',
       templateUrl: 'agenda/pacientes/agendarCitaPaciente.html',
       controller: 'agendarCitaPacienteController',
-      params : {'idPaciente':'3'}
+      params : {'descripcion':'CARDIOLOGO'}
+            //      CARDIOLOGO          = 2
+            //      ODONTOLOGO          = 3
+            //      OFTALMOLOGO         = 2
+            //      OPTOMETRA           = 1
     })      
+    
     
     
     // Registro    

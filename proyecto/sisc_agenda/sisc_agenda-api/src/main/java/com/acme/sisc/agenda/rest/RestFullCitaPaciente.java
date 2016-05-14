@@ -155,6 +155,18 @@ public class RestFullCitaPaciente {
         return Response.ok().build();
     }*/
     
+    /**
+     * retorna los medicos segun la especialidad
+     * @return 
+     */
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{descripcion}/listaMedicosEspecialidad")
+    public Object[] listaMedicosEspecialidadEPS(
+            @PathParam("descripcion") String descripcion) {
+        logi.log(Level.WARNING, "SERVICIOrEST: listaMedicos con especialidad: " + descripcion + "\n\n");
+        return facadeUtilitariosAgenda.listaEspecialidadMedicosEps(descripcion).toArray();
+    }     
     
     
     /**
@@ -166,7 +178,8 @@ public class RestFullCitaPaciente {
     @Path("/especialidadesMedicosEPS")
     public Object[] especialidadesMedicos() {
         logi.log(Level.WARNING, "SERVICIOrEST: ConsultarEspecialidades\n\n");
-        return facadeUtilitariosAgenda.especialidadesMedicosEps().toArray();
+        return facadeUtilitariosAgenda.especialidadesEps().toArray();
     }    
+    
 
 }

@@ -6,6 +6,8 @@
 package com.acme.sisc.agenda.shared;
 
 import com.acme.sisc.agenda.entidades.Especialidad;
+import com.acme.sisc.agenda.entidades.PersonaNatural;
+import com.acme.sisc.agenda.entidades.PersonaNaturalEspecialidad;
 import java.util.List;
 import javax.ejb.Remote;
 import javax.ejb.TransactionAttribute;
@@ -20,6 +22,9 @@ import javax.ejb.TransactionAttributeType;
 public interface IUtilitariosAgendaRemote {
     
     @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
-    public List<Especialidad> especialidadesMedicosEps();
+    public List<Especialidad> especialidadesEps();
+    
+    @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
+    public List<PersonaNaturalEspecialidad> listaEspecialidadMedicosEps(String especialidad);
     
 }

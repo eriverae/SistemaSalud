@@ -151,6 +151,7 @@ app.controller('citasController',
                                     ////////////////////////////////////////////
                                     //RECARGAR PAGINA 
 //                                    window.setTimeout(function(){location.reload()},4000);
+                                    //ELIMINAR REGISTRO DE LA TABLA
                                     $('#cita-'+idCita).remove();
                                     $('#message-box-success').show();
 
@@ -217,3 +218,5 @@ $(document).ready(function() {
 //    } );
 //} );
 
+//RECARGAR PAGINA 
+//   window.setTimeout(function(){location.reload()},4000);

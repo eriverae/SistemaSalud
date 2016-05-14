@@ -4,6 +4,8 @@ select * from persona_juridica;
 select * from persona_eps;
 select * from agenda;
 select * from cita;
+select * from persona_natural_especialidad;
+select * from especialidad;
 commit ;
 
 
@@ -66,10 +68,6 @@ ALTER TABLE cita ADD COLUMN observaciones text;
 
 select * from cita;
 
-
-select id_cita, hora_fin from cita
-	order by hora_fin desc
-LIMIT 5 OFFSET 0
  
 
 --////
@@ -81,9 +79,6 @@ VALUES		 (FALSE, (now() + interval '15 minutes 15 milliseconds'), now(), 2500, 2
 INSERT INTO cita (id_cita, estado_paciente_atendido, hora_fin, hora_inicio, valor, id_agenda, id_paciente_eps, estado_cita)
 VALUES		 (1, FALSE, (now() + interval '15 minutes 15 milliseconds'), now(), 2500, 2, 4, 'APARTADA');
 --////
-
-
-SELECT ('c-' || id_cita) AS citaconca, id_cita FROM cita
 
 
 
@@ -99,26 +94,73 @@ select count(*) from cita;
 
 ------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------
---DATOS PRUEBA PARA (((TABLA - ESPECIALIDAD)))
+-- **************************CONSULTAS *************************
+
+SELECT * FROM especialidad;
+
+select DISTINCT ON (descripcion) descripcion from especialidad;
+select distinct on (descripcion) * from especialidad;
+-- **************************FIN-CONSULTAS *************************
+
+
+--5 = medicos 
+INSERT INTO persona (id_persona,TIPO_PERSONA, numero_identificacion, tipo_identificacion) VALUES (11,'MEDICO', 	'0001011011', 1);
+INSERT INTO persona (id_persona,TIPO_PERSONA, numero_identificacion, tipo_identificacion) VALUES (12,'MEDICO', 	'0001212122', 1);
+INSERT INTO persona (id_persona,TIPO_PERSONA, numero_identificacion, tipo_identificacion) VALUES (13,'MEDICO', 	'0001313133', 1);
+INSERT INTO persona (id_persona,TIPO_PERSONA, numero_identificacion, tipo_identificacion) VALUES (14,'MEDICO', 	'0001414144', 1);
+INSERT INTO persona (id_persona,TIPO_PERSONA, numero_identificacion, tipo_identificacion) VALUES (15,'MEDICO', 	'0001515155', 1);
+
+INSERT INTO persona_natural (apellidos,correo_electronico,direccion,fecha_nacimiento, fotografia,grupo_sanguineo,nombres,rol_persona_natural,tarjeta_profesional,telefono_celular,telefono_fijo,id_persona, genero, rh) VALUES 
+                            ('DOC11', 'medico11@sisc.com', 'Calle falsa 111', now(),'fotoDonMedico11','gruposang11', 'Don Medicco11', 'MEDICO','3432432432',31320982,32432432,11, 'm', 'r');
+INSERT INTO persona_natural (apellidos,correo_electronico,direccion,fecha_nacimiento, fotografia,grupo_sanguineo,nombres,rol_persona_natural,tarjeta_profesional,telefono_celular,telefono_fijo,id_persona, genero, rh) VALUES 
+                            ('DOC12', 'medico12@sisc.com', 'Calle falsa 222', now(),'fotoDonMedico12','gruposang12', 'Don Medicco12', 'MEDICO','3432432432',31320982,32432432,12, 'm', 'r');
+INSERT INTO persona_natural (apellidos,correo_electronico,direccion,fecha_nacimiento, fotografia,grupo_sanguineo,nombres,rol_persona_natural,tarjeta_profesional,telefono_celular,telefono_fijo,id_persona, genero, rh) VALUES 
+                            ('DOC13', 'medico13@sisc.com', 'Calle falsa 333', now(),'fotoDonMedico13','gruposang13', 'Don Medicco13', 'MEDICO','3432432432',31320982,32432432,13, 'm', 'r');
+INSERT INTO persona_natural (apellidos,correo_electronico,direccion,fecha_nacimiento, fotografia,grupo_sanguineo,nombres,rol_persona_natural,tarjeta_profesional,telefono_celular,telefono_fijo,id_persona, genero, rh) VALUES 
+                            ('DOC14', 'medico14@sisc.com', 'Calle falsa 444', now(),'fotoDonMedico14','gruposang14', 'Don Medicco14', 'MEDICO','3432432432',31320982,32432432,14, 'm', 'r');
+INSERT INTO persona_natural (apellidos,correo_electronico,direccion,fecha_nacimiento, fotografia,grupo_sanguineo,nombres,rol_persona_natural,tarjeta_profesional,telefono_celular,telefono_fijo,id_persona, genero, rh) VALUES 
+                            ('DOC15', 'medico15@sisc.com', 'Calle falsa 555', now(),'fotoDonMedico15','gruposang15', 'Don Medicco15', 'MEDICO','3432432432',31320982,32432432,15, 'm', 'r');
+
+
+-- 1 = eps
+INSERT INTO persona (id_persona,TIPO_PERSONA, numero_identificacion, tipo_identificacion) VALUES (555,'EPS', 		'0001155551', 555);
+INSERT INTO persona_juridica (fecha_constitucion, razon_social, representante_legal, id_persona) VALUES (now(), 'CRUZ BLANCA', 'EL DUEÑO DE LA EPS Cruz-Blanca', 555);
+
+
+-- ligar los (5 = medicos) a la EPS
+INSERT INTO persona_eps (id_persona_eps,fecha_fin, fecha_inicio, id_eps, id_persona) VALUES (111,now(), now(), 555, 11);
+INSERT INTO persona_eps (id_persona_eps,fecha_fin, fecha_inicio, id_eps, id_persona) VALUES (112,now(), now(), 555, 12);
+INSERT INTO persona_eps (id_persona_eps,fecha_fin, fecha_inicio, id_eps, id_persona) VALUES (113,now(), now(), 555, 13);
+INSERT INTO persona_eps (id_persona_eps,fecha_fin, fecha_inicio, id_eps, id_persona) VALUES (114,now(), now(), 555, 14);
+INSERT INTO persona_eps (id_persona_eps,fecha_fin, fecha_inicio, id_eps, id_persona) VALUES (115,now(), now(), 555, 15);
+
+
+-- definimos las especialidades de los medicos en nuestra eps.
+INSERT INTO persona_natural_especialidad (id_persona_especialidad, id_especialidad, id_medico) VALUES (200, 1, 11);
+INSERT INTO persona_natural_especialidad (id_persona_especialidad, id_especialidad, id_medico) VALUES (201, 2, 12);
+INSERT INTO persona_natural_especialidad (id_persona_especialidad, id_especialidad, id_medico) VALUES (202, 2, 13);
+INSERT INTO persona_natural_especialidad (id_persona_especialidad, id_especialidad, id_medico) VALUES (203, 3, 14);
+INSERT INTO persona_natural_especialidad (id_persona_especialidad, id_especialidad, id_medico) VALUES (204, 1, 15);
+INSERT INTO persona_natural_especialidad (id_persona_especialidad, id_especialidad, id_medico) VALUES (205, 2, 15);
+INSERT INTO persona_natural_especialidad (id_persona_especialidad, id_especialidad, id_medico) VALUES (206, 3, 15);
+INSERT INTO persona_natural_especialidad (id_persona_especialidad, id_especialidad, id_medico) VALUES (207, 4, 15);
+
+-- 4 = ESPECIALIDADES que hay en la eps, segun los medicos registrados
 INSERT INTO especialidad (id_especialidad, descripcion) VALUES (1, 'CARDIOLOGO');
 INSERT INTO especialidad (id_especialidad, descripcion) VALUES (2, 'ODONTOLOGO');
 INSERT INTO especialidad (id_especialidad, descripcion) VALUES (3, 'OFTALMOLOGO');
 INSERT INTO especialidad (id_especialidad, descripcion) VALUES (4, 'OPTOMETRA');
-INSERT INTO especialidad (id_especialidad, descripcion) VALUES (5, 'CARDIOLOGO');
-
-SELECT * FROM especialidad;
-
-
-select DISTINCT ON (descripcion) descripcion from especialidad;
-select DISTINCT(descripcion) from especialidad;
 
 
 
-select distinct on (descripcion) * from especialidad;
 
-select distinct descripcion * from especialidad;
 ------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------
+
+
+
+
+
 
 
 
