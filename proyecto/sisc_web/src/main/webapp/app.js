@@ -97,8 +97,9 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
     .state('agendarCitaPaciente',{
       url: '/paciente/agendarCita',
       templateUrl: 'agenda/pacientes/agendarCitaPaciente.html',
-      controller: 'agendarCitaPacienteController',
-      params : {'descripcion':'CARDIOLOGO'}
+      controller: 'agendarCitaPacienteController'
+      //params : {'descripcion':'ODONTOLOGO'
+      //}
             //      CARDIOLOGO          = 2
             //      ODONTOLOGO          = 3
             //      OFTALMOLOGO         = 2

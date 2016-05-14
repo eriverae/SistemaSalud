@@ -14,7 +14,12 @@ app.controller('agendarCitaPacienteController',
             //window.setTimeout(function(){location.reload()},4000);
 
             ////////////////////////////////////////////////////////////////////
+            $scope.especialidadSelected = "";
             $scope.listaespecialidadesEPS = [];
+            $scope.listamedicosEspecialidadEPS = [];
+
+
+            ////////////////////////////////////////////////////////////////////
             /**
              *  Traer la lista especialidades que hay en la eps
              */
@@ -25,22 +30,26 @@ app.controller('agendarCitaPacienteController',
             ////////////////////////////////////////////////////////////////////
             //http://localhost:8080/SiscAgenda/api/paciente/especialidadesMedicosEPS
             
-
-            ////////////////////////////////////////////////////////////////////
-//            $scope.especialidad = $('especialidad-'+ item.descripcion);
-//            console.log();
             
-            $scope.listamedicosEspecialidadEPS = [];
-            /**
-             *  Traer la lista de medicos segun la especicalidad seleccionada
-             *  http://localhost:8080/sisc_web/pages-address-book.html#
-             */
-            var medicosEspecialidadEPS = $http.get('/SiscAgenda/api/paciente/' + $stateParams.descripcion + '/listaMedicosEspecialidad');
-            medicosEspecialidadEPS.then(function (result) {
-                $scope.listamedicosEspecialidadEPS = result.data;
-            });
-            ////////////////////////////////////////////////////////////////////
-            //http://localhost:8080/SiscAgenda/api/paciente/CARDIOLOGO/listaMedicosEspecialidad
+
+            $scope.buscarEspecialidades = function () {
+                console.log("entro:" + $scope.especialidadSelected);
+                ////////////////////////////////////////////////////////////////////
+                /**
+                 *  Traer la lista de medicos segun la especicalidad seleccionada
+                 *  http://localhost:8080/sisc_web/pages-address-book.html#
+                 */
+                var medicosEspecialidadEPS = $http.get('/SiscAgenda/api/paciente/' + $scope.especialidadSelected + '/listaMedicosEspecialidad');
+                medicosEspecialidadEPS.then(function (result) {
+                    $scope.listamedicosEspecialidadEPS = result.data;
+                });
+                ////////////////////////////////////////////////////////////////////
+                //http://localhost:8080/SiscAgenda/api/paciente/CARDIOLOGO/listaMedicosEspecialidad
+            };
+
+
+
+
 
 
 

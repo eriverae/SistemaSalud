@@ -52,7 +52,7 @@ and open the template in the editor.
                             <div class="col-md-9">                                            
                                 <div class="input-group">  <!--tamañó para dejarlo mas pequeñó-->
                                     <!--<span class="input-group-addon"><span class="fa fa-pencil"></span></span>-->
-                                    <select id="mySel" class="form-control">
+                                    <select id="mySel" class="form-control" ng-change="buscarEspecialidades()" ng-model="especialidadSelected">
                                         <option ng-repeat="item in listaespecialidadesEPS"  ng-model="item.descripcion" id="{{'especialidad-' + item.descripcion}}">{{item.descripcion}}</option>
                                     </select>
                                     <span class="input-group-addon">
