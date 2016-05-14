@@ -3,7 +3,67 @@
  */
 var app = angular.module('sisc_web');
 
+app.filter("getEdad", function () {  //fa y fb dos fechas
+    return function (input) {
+        var fa=new Date(input);
+        var fb = new Date();
+        var totdias = fa - fb;
+        totdias /= 3600000;
+        totdias /= 24;
+        totdias = Math.floor(totdias);
+        totdias = Math.abs(totdias);
 
+        var ans, meses, dias, m2, m1, d3, d2, d1;
+        var f2 = new Date();
+        var f1 = new Date();
+
+        if (fa > fb) {
+            f2 = fa;
+            f1 = fb;
+        } else {
+            var f2 = fb;
+            f1 = fa;
+        }  //Siempre f2 > f1
+        ans = f2.getFullYear() - f1.getFullYear(); // dif de años inicial
+        m2 = f2.getMonth();
+        m1 = f1.getMonth();
+        meses = m2 - m1;
+        if (meses < 0) {
+            meses += 12;
+            --ans;
+        }
+
+        d2 = f2.getDate();
+        d1 = f1.getDate();
+        dias = d2 - d1;
+
+        var f3 = new Date(f2.getFullYear(), m2, 1);
+        f3.setDate(f3.getDate() - 1);
+        d3 = f3.getDate();
+
+        if (d1 > d2) {
+            dias += d3;
+            --meses;
+            if (meses < 0) {
+                meses += 12;
+                --ans;
+            }
+            if (fa > fb) {  //corrección por febrero y meses de 30 días
+                f3 = new Date(f1.getFullYear(), m1 + 1, 1);
+                f3.setDate(f3.getDate() - 1);
+                d3 = f3.getDate();
+                if (d3 == 30)
+                    dias -= 1;
+                if (d3 == 29)
+                    dias -= 2;
+                if (d3 == 28)
+                    dias -= 3;
+            }
+        }
+//        var res=ans +'años con '+meses+' meses y '+ dias  ;
+        return ans + ' años con ' + meses + ' meses y ' + dias+ ' dias';
+    }
+});
 
 app.filter("getFormatofecha", function () {
     return function (input) {
@@ -23,7 +83,7 @@ app.filter("getFormatoHora", function () {
 });
 
 app.controller('agendaMedicoContoller',
-        function ($scope, $compile, $timeout, uiCalendarConfig, $http, $stateParams,$state) {
+        function ($scope, $compile, $timeout, uiCalendarConfig, $http, $stateParams, $state) {
 
             $scope.objErrorNuevaAgenda;
             $scope.generalResponse;
@@ -56,10 +116,10 @@ app.controller('agendaMedicoContoller',
 
             };
 
-            $scope.irMenuHC=function (){
-                 $state.go('menuhc');
+            $scope.irMenuHC = function () {
+                $state.go('menuhc');
             };
-               
+
 
             /* funcion para validar si se incluye el dia seleccionado en la agenda */
             $scope.colocarDiasAgenda = function (dia, choice, index) {
@@ -210,16 +270,26 @@ app.controller('agendaMedicoContoller',
             /* alert on eventClick */
             $scope.alertOnEventClick = function (date, jsEvent, view) {
 
-                
-                var utilRest = $http.get('/SiscAgenda/api/paciente/'+ date.idCita+"/consultarCita");
+
+                var utilRest = $http.get('/SiscAgenda/api/paciente/' + date.idCita + "/consultarCita");
                 utilRest.then(function (result) {
                     var obj = result.data;
-                    alert('ID CITA: DESDE REST:  ' + obj.idCita);
-                    $scope.infoConsultaCita= result.data;
-                    $('#myModal').modal();
-                    $('#tab222').show();
+
+                    $scope.infoConsultaCita = result.data;
+                   
+//                    $('#tab222').show();
+//                    $('#tab232').hide();
+//                    $('#tab242').hide();
                     
-                    
+
+$( "#info_init_cita" ).click();
+
+//$('#myModal').css('z-index', -1);
+$('#myModal').modal();
+
+
+
+
                 });
 
             };
