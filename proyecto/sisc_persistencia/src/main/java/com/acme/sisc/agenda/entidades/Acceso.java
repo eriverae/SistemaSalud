@@ -5,6 +5,7 @@
  */
 package com.acme.sisc.agenda.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -22,6 +23,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Julio
  */
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "acceso")
 @XmlRootElement

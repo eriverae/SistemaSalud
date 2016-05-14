@@ -99,7 +99,7 @@ public class GrupoResource {
     public Grupo guardarAcceso(Grupo grupo) {
       try {
         if (grupo.getGrupGrup() == null){
-          facadeGrupo.crearGrupo(grupo);
+          grupo = facadeGrupo.crearGrupo(grupo);
         }else{
           facadeGrupo.modificarGrupo(grupo);
         }

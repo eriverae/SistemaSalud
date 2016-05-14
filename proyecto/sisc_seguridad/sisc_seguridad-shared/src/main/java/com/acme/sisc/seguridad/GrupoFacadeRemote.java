@@ -17,7 +17,7 @@ import javax.ejb.Remote;
 @Remote
 public interface GrupoFacadeRemote {
 
-    void crearGrupo(Grupo grupo) throws SeguridadException;
+    public Grupo crearGrupo(Grupo grupo) throws SeguridadException;
 
     Grupo findByNom(String nombre);
 
