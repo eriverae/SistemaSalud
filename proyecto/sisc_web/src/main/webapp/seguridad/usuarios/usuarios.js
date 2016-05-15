@@ -12,9 +12,10 @@ app.controller('usuariosListController', function ($scope, $rootScope,$state ,us
         sortInfo: $scope.sortInfo,
 
         columnDefs: [
-            { field: 'usuaUsua', displayName: 'Id'},
+            { field: 'usuaUsua', displayName: 'Id', width: 25},
             { field: 'usuaEmail', displayName: 'Email' },
             { field: 'usuaPass', displayName: 'Password'},
+            { field: 'usuaEsta', displayName: 'Estado'},
             { field: '', width: 80, 
                 cellTemplate: '<span class="glyphicon glyphicon-trash remove" ng-click="deleteRow(row)"></span>'+
                 '<span class="glyphicon glyphicon-edit modify" ng-click="updateRow(row)"></span>' }

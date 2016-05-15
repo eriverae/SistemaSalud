@@ -58,7 +58,7 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
         }
         
         usuario.setUsuaPass(contrasenaEncriptada);
-        usuario.setUsuaBlock(true);
+        usuario.setUsuaBlock(false);
         usuario.setUsuaConta(0);
         usuario.setUsuaEsta("Activo");
         usuario.setUsuaUsucd(new Date());
@@ -123,7 +123,9 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
         LOGGER.log(Level.FINE,"Eliminar usuario con id {0}", usuario);
       Usuario usu = this.find(usuario);
       if (usu!=null){
-        remove(usu);
+        usu.setUsuaEsta("Inactivo");
+        em.merge(usu);  
+        //remove(usu);
         LOGGER.log(Level.INFO,"Usuario eliminado correctamente");
       }else{
         LOGGER.log(Level.INFO, "Usuario con id {} no existe", usuario);
