@@ -102,6 +102,15 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
     @Override
     public Usuario modificarUsuario(Usuario usuario) {
         LOGGER.log(Level.FINE,"Modificando usuario con nombre : {0} - Version: ", new Object[]{usuario.getUsuaEmail()} );
+        String contrasenaEncriptada = "";
+        
+        try {
+            contrasenaEncriptada = encriptar(usuario.getUsuaPass());
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(UsuarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        usuario.setUsuaPass(contrasenaEncriptada);
         usuario = em.merge(usuario);
         return usuario;
     }
