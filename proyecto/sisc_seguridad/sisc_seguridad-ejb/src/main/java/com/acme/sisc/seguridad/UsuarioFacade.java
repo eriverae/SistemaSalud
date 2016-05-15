@@ -20,6 +20,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.Order;
 
 /**
  *
@@ -149,11 +150,15 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
 
     @Override
     public java.util.List<Usuario> findRange(int startPosition, int maxResults, String sortFields, String sortDirections) {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Usuario.class));
-        javax.persistence.Query q = em.createQuery(cq);
+        Query q = em.createNamedQuery("Usuario.findAllOrderByEstado");
         q.setFirstResult(startPosition);
         q.setMaxResults(maxResults);
+//        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+//        cq.select(cq.from(Usuario.class));
+//        javax.persistence.Query q = em.createQuery(cq);
+////        javax.persistence.Query q = em.createNativeQuery("Select * from Usuario where Usuario.usua_esta = 'Activo'");
+//        q.setFirstResult(startPosition);
+//        q.setMaxResults(maxResults);
 
         return q.getResultList();
     }
