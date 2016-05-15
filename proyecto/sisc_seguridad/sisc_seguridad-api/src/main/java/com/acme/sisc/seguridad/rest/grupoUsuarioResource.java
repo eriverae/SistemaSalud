@@ -5,9 +5,10 @@
  */
 package com.acme.sisc.seguridad.rest;
 
-import com.acme.sisc.agenda.entidades.Usuario;
-import com.acme.sisc.seguridad.UsuarioFacadeLocal;
+
+import com.acme.sisc.agenda.entidades.GrupoUsuario;
 import com.acme.sisc.common.pagination.PaginatedListWrapper;
+import com.acme.sisc.seguridad.GrupoUsuarioFacadeLocal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -24,29 +25,28 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
-
+import com.acme.sisc.seguridad.GrupoUsuarioFacadeLocal;
 /**
  *
- * @author rm-rf
+ * @author Julio
  */
-@Path("usuarios")
+@Path("grupoUsuario")
 @RequestScoped
-public class UsuarioResource {
-    
-    private static final Logger LOGGER = Logger.getLogger(UsuarioResource.class.getName());
+public class grupoUsuarioResource {
+    private static final Logger LOGGER = Logger.getLogger(grupoUsuarioResource.class.getName());
     
     @Context
     private UriInfo context;
     
     @EJB
-    UsuarioFacadeLocal facadeUsuario;
+    GrupoUsuarioFacadeLocal facadeGrupoUsuario;
 
-    public UsuarioResource() {
+    public grupoUsuarioResource() {
     }
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public PaginatedListWrapper listUsuarios(@DefaultValue("1")
+    public PaginatedListWrapper listGrupoUsuarios(@DefaultValue("1")
                                             @QueryParam("page")
                                             Integer page,
                                              @DefaultValue("id")
@@ -60,14 +60,14 @@ public class UsuarioResource {
         paginatedListWrapper.setSortFields(sortFields);
         paginatedListWrapper.setSortDirections(sortDirections);
         paginatedListWrapper.setPageSize(10);
-        return findUsuarios(paginatedListWrapper);
+        return findGrupoUsuarios(paginatedListWrapper);
     }
     
-    private PaginatedListWrapper findUsuarios(PaginatedListWrapper wrapper) {
-        int totalUsuarios = facadeUsuario.count();
-        wrapper.setTotalResults(totalUsuarios);
+    private PaginatedListWrapper findGrupoUsuarios(PaginatedListWrapper wrapper) {
+        int totalGrupoUsuarios = facadeGrupoUsuario.count();
+        wrapper.setTotalResults(totalGrupoUsuarios);
         int start = (wrapper.getCurrentPage() - 1) * wrapper.getPageSize();
-        wrapper.setList(facadeUsuario.findRange(start,
+        wrapper.setList(facadeGrupoUsuario.findRange(start,
                 wrapper.getPageSize(),
                 wrapper.getSortFields(),
                 wrapper.getSortDirections()));
@@ -75,35 +75,32 @@ public class UsuarioResource {
     }
     
     @GET
-    @Path("{usuaUsua}")
+    @Path("{idGrupusu}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Usuario consultarUsuario(@PathParam("usuaUsua") Long id){
-        return facadeUsuario.find(id);
+    public GrupoUsuario consultarGrupoUsuario(@PathParam("idGrupusu") Long id){
+        return facadeGrupoUsuario.find(id);
 
     }
     
     @DELETE
-    @Path("{usuaUsua}")
-    public void eliminarUsuario(@PathParam("usuaUsua") Long id){
-      LOGGER.log(Level.FINE,"Request para eliminar usuario con id {0}", id);
-      facadeUsuario.remove(id);
+    @Path("{idGrupusu}")
+    public void eliminarGrupoUsuario(@PathParam("idGrupusu") Long id){
+      LOGGER.log(Level.FINE,"Request para eliminar GrupoUsuario con id {0}", id);
+      facadeGrupoUsuario.remove(id);
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Usuario guardarUsuario(Usuario usuario) {
+    public void guardarGrupoUsuario(GrupoUsuario grupoUsuario) {
       try {
-        if (usuario.getUsuaUsua() == null){
-          usuario = facadeUsuario.crearUsuario(usuario);
+        if (grupoUsuario.getIdGrupusu() == null){
+          facadeGrupoUsuario.crearGrupoUsuario(grupoUsuario);
         }else{
-          facadeUsuario.modificarUsuario(usuario);
+          facadeGrupoUsuario.modificarGrupoUsuario(grupoUsuario);
         }
-        return usuario;
       }catch (Exception e){
           //TODO Definir manejo
           LOGGER.log(Level.SEVERE, "Houston, estamos en problemas ...", e);
       }
-      return null;
     }
-    
 }

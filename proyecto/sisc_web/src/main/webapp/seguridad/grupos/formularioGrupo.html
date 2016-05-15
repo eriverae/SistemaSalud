@@ -52,7 +52,7 @@
                 <p class="help-block" ng-show="grupoForm.grupDescri.$error.minlength">Debe tener al menos 5 caracteres.</p>
                 <p class="help-block" ng-show="grupoForm.grupDescri.$error.maxlength">La descripcion no debe superar 200 characters.</p>
             </div>
-            
+
             <!--<div class="form-group" ng-class="{'has-error' : grupoForm.acceso.$invalid && grupoForm.acceso.$dirty && grupoForm.acceso.size() === 0 }">
                 <label>Accesos:</label>
                 <tt>Acceso = {{grupoForm.acceso}}</tt><br/>
@@ -62,15 +62,16 @@
                 </div>
                 <p class="help-block" ng-show="grupoForm.acceso.$error.size() === 0">Debe seleccionar al menos un acceso.</p>
             </div>
-            -->          
+            -->         
             <div class="panel">
-            <div ng-repeat="rol in listaAcceso">
-              <div class="action-checkbox">
-                  <input id="{{rol.acceAcce}}" type="checkbox" value="rol" ng-checked="items.indexOf(rol) > -1"
-                          ng-click="toggleSelection(rol)"/>{{rol.acceNombre}}
-              </div>
+                <p>Seleccione accesos del perfil:<p>
+                <div ng-repeat="rol in listaAcceso">
+                    <div class="action-checkbox">
+                        <input id="{{rol.acceAcce}}" type="checkbox" value="rol" ng-checked="items.indexOf(rol) > -1"
+                               ng-click="toggleSelection(rol)"/>{{rol.acceNombre}}
+                    </div>
+                </div>
             </div>
-          </div>
 
             <!-- Form buttons. The 'Save' button is only enabled when the form is valid. -->
             <div class="buttons">

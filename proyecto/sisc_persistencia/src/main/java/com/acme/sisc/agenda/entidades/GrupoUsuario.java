@@ -29,8 +29,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "grupusu")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Grupusu.findAll", query = "SELECT g FROM Grupusu g")})
-public class Grupusu implements Serializable {
+    @NamedQuery(name = "Grupusu.findAll", query = "SELECT g FROM GrupoUsuario g"),
+    @NamedQuery(name = "Grupusu.findGrupoUsuario", query = "SELECT a FROM GrupoUsuario a WHERE a.usuario.usuaUsua = :usuaUsua AND a.grupo.grupGrup = :grupGrup")
+})
+public class GrupoUsuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -53,7 +55,7 @@ public class Grupusu implements Serializable {
     private Usuario usuario;
     
     
-    public Grupusu() {
+    public GrupoUsuario() {
     }
 
 
@@ -67,10 +69,10 @@ public class Grupusu implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Grupusu)) {
+        if (!(object instanceof GrupoUsuario)) {
             return false;
         }
-        Grupusu other = (Grupusu) object;
+        GrupoUsuario other = (GrupoUsuario) object;
         if ((this.idGrupusu == null && other.idGrupusu != null) || (this.idGrupusu != null && !this.idGrupusu.equals(other.idGrupusu))) {
             return false;
         }

@@ -110,35 +110,4 @@ public class GrupoResource {
       }
       return null;
     }
-    
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public PaginatedListWrapper listAccesos(@DefaultValue("1")
-//                                            @QueryParam("page")
-//                                            Integer page,
-//                                             @DefaultValue("id")
-//                                            @QueryParam("sortFields")
-//                                            String sortFields,
-//                                             @DefaultValue("asc")
-//                                            @QueryParam("sortDirections")
-//                                            String sortDirections) {
-//        PaginatedListWrapper paginatedListWrapper = new PaginatedListWrapper();
-//        paginatedListWrapper.setCurrentPage(page);
-//        paginatedListWrapper.setSortFields(sortFields);
-//        paginatedListWrapper.setSortDirections(sortDirections);
-//        paginatedListWrapper.setPageSize(10);
-//        return findAccesos(paginatedListWrapper);
-//    }
-//    
-//    private PaginatedListWrapper findAccesos(PaginatedListWrapper wrapper) {
-//        int totalAccesos = facadeAcceso.count();
-//        wrapper.setTotalResults(totalAccesos);
-//        int start = (wrapper.getCurrentPage() - 1) * wrapper.getPageSize();
-//        wrapper.setList(facadeAcceso.findRange(start,
-//                wrapper.getPageSize(),
-//                wrapper.getSortFields(),
-//                wrapper.getSortDirections()));
-//        return wrapper;
-//    }
-    
 }

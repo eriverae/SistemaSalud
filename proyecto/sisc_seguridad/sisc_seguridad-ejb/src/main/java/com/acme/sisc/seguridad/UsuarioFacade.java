@@ -40,7 +40,7 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
     }
 
     @Override
-    public void crearUsuario(Usuario usuario) throws SeguridadException{
+    public Usuario crearUsuario(Usuario usuario) throws SeguridadException{
         LOGGER.info("Inicia Usuario(...)");
         
         Usuario u = findByEmail(usuario.getUsuaEmail());
@@ -69,6 +69,9 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
         
         JMSUtil.sendMessage(usuario,"java:/jms/queue/SiscQueue");
         LOGGER.info("Finaliza crearUsuario(...)");
+        
+        em.refresh(usuario);
+        return usuario;
     }
 
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
