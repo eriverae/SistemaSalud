@@ -17,7 +17,6 @@
     <class>com.acme.sisc.agenda.entidades.Especialidad</class>
     <class>com.acme.sisc.agenda.entidades.Examen</class>
     <class>com.acme.sisc.agenda.entidades.Grupo</class>
-    <class>com.acme.sisc.agenda.entidades.Grupusu</class>
     <class>com.acme.sisc.agenda.entidades.Incapacidad</class>
     <class>com.acme.sisc.agenda.entidades.LogNotifica</class>
     <class>com.acme.sisc.agenda.entidades.Medicamento</class>
@@ -36,6 +35,7 @@
     <class>com.acme.sisc.agenda.entidades.Usuario</class>
     <class>com.acme.sisc.agenda.entidades.Usuempr</class>
     <class>com.acme.sisc.agenda.entidades.AccesoGrupo</class>
+    <class>com.acme.sisc.agenda.entidades.GrupoUsuario</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <validation-mode>NONE</validation-mode>
     <properties>

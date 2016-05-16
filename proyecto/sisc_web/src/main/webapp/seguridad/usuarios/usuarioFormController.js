@@ -2,9 +2,15 @@
 var app = angular.module('sisc_web');
 // Create a controller with name personsFormController to bind to the form section.
 app.controller('usuarioFormController', function ($scope, $rootScope, $stateParams, $state, 
-          usuarioService,modalService) {
+          usuarioService,modalService,grupoService,grupoUsuarioService, grupoPorUsuarioServ) {
   
   $scope.usuario={};
+  $scope.items = [];
+  
+  grupoService.get(null, function (data) {
+      $scope.listaGrupo = data.list;
+      console.log(data.list);
+  });
   
   if (angular.isDefined($stateParams.usuaUsua)){
     console.log('Usuario a modificar, ID = '+ $stateParams.usuaUsua);
@@ -17,6 +23,15 @@ app.controller('usuarioFormController', function ($scope, $rootScope, $statePara
         // Broadcast the event for a server error.
         $rootScope.$broadcast('error');
       });
+//      grupoPorUsuarioServ.get({usuaUsua: $stateParams.usuaUsua}).$promise.then(
+//        function (data){
+//            //$scope.items = data;
+//            console.log(data);
+//            console.log(data.list);
+//        },
+//        function () {
+//          $rootScope.$broadcast('error');
+//        });
   }
   
   // Clears the form. Either by clicking the 'Clear' button in the form, or when a successfull save is performed.
@@ -27,16 +42,40 @@ app.controller('usuarioFormController', function ($scope, $rootScope, $statePara
     // Broadcast the event to also clear the grid selection.
     $rootScope.$broadcast('clear');
   };
+  
+    $scope.toggleSelection = function (idGrupo) {
+      var index = $scope.items.indexOf(idGrupo);
+      if (index > -1) { //Ya existe en los items seleccionados, >> se debe eliminar
+          $scope.items.splice(index, 1); //-- Se elimina el item del arreglo
+      } else { //Si no existen en el arreglo se adiciona
+          $scope.items.push(idGrupo);
+      }
+  }
 
   // Calls the rest method to save a Usuario.
   $scope.updateUsuario = function () {
     usuarioService.save($scope.usuario).$promise.then(
-    function () {
+    function (data) {
       // Broadcast the event to refresh the grid.
       $rootScope.$broadcast('refreshGrid');
       // Broadcast the event to display a save message.
       $rootScope.$broadcast('usuarioSaved');
-      
+                    if ($scope.items.length == 0) {
+                        console.log('No hay items seleccionados ...');
+                    } else {
+                        var index = 0;
+                        var cadenaUsuarios = "";
+                        for (; index < $scope.items.length; index++) {
+                            var grupoUsuario = {};
+                            console.log($scope.items[index].grupGrup + ' -- ' + $scope.items[index].grupNombr);
+                            //accesoGrupo = {acceso:{acceAcce:$scope.items[index].acceAcce}, grupo:{data.grupGrup}};
+                            grupoUsuario.grupo = $scope.items[index];
+                            grupoUsuario.usuario = data;
+                            grupoUsuarioService.save(grupoUsuario);
+                            //cadenaRoles = cadenaRoles + $scope.items[index].acceNombre + ";"
+                        }
+                        //alert("Seleccionó: " + cadenaRoles);
+                    }
     },
     function () {
       // Broadcast the event for a server error.

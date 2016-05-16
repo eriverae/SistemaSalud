@@ -16,7 +16,7 @@ import javax.ejb.Remote;
 @Remote
 public interface UsuarioFacadeRemote {
 
-    void crearUsuario(Usuario usuario) throws SeguridadException;
+    Usuario crearUsuario(Usuario usuario) throws SeguridadException;
 
     Usuario findByEmail(String email);
 

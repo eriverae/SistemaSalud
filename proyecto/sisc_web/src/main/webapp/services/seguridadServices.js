@@ -25,3 +25,11 @@ myModule.factory('loginService', function ($resource) {
 myModule.factory('accesoGrupoService', function ($resource) {
     return $resource('/sisc_seguridad/api/accesoGrupo/:idAccgrup');
 });
+
+myModule.factory('grupoUsuarioService', function ($resource) {
+    return $resource('/sisc_seguridad/api/grupoUsuario/:idGrupusu');
+});
+
+myModule.factory('grupoPorUsuarioServ', function ($resource) {
+    return $resource('/sisc_seguridad/api/grupoUsuario/idusua/:usuaUsua');
+});

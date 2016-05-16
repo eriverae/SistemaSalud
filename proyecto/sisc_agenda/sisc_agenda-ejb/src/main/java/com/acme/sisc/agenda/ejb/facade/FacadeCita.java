@@ -12,7 +12,6 @@ import com.acme.sisc.agenda.dto.ErrorObjSiscAgenda;
 import com.acme.sisc.agenda.dto.GeneralResponse;
 import com.acme.sisc.agenda.dto.RespuestaCita;
 import com.acme.sisc.agenda.entidades.Cita;
-import java.time.Instant;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,8 +23,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.primefaces.json.JSONArray;
-import org.primefaces.json.JSONObject;
 
 /**
  *

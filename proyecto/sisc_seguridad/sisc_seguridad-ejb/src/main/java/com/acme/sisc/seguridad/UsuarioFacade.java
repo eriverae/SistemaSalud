@@ -20,6 +20,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.Order;
 
 /**
  *
@@ -40,7 +41,7 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
     }
 
     @Override
-    public void crearUsuario(Usuario usuario) throws SeguridadException{
+    public Usuario crearUsuario(Usuario usuario) throws SeguridadException{
         LOGGER.info("Inicia Usuario(...)");
         
         Usuario u = findByEmail(usuario.getUsuaEmail());
@@ -58,7 +59,7 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
         }
         
         usuario.setUsuaPass(contrasenaEncriptada);
-        usuario.setUsuaBlock(true);
+        usuario.setUsuaBlock(false);
         usuario.setUsuaConta(0);
         usuario.setUsuaEsta("Activo");
         usuario.setUsuaUsucd(new Date());
@@ -69,6 +70,9 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
         
         JMSUtil.sendMessage(usuario,"java:/jms/queue/SiscQueue");
         LOGGER.info("Finaliza crearUsuario(...)");
+        
+        em.refresh(usuario);
+        return usuario;
     }
 
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
@@ -99,6 +103,15 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
     @Override
     public Usuario modificarUsuario(Usuario usuario) {
         LOGGER.log(Level.FINE,"Modificando usuario con nombre : {0} - Version: ", new Object[]{usuario.getUsuaEmail()} );
+        String contrasenaEncriptada = "";
+        
+        try {
+            contrasenaEncriptada = encriptar(usuario.getUsuaPass());
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(UsuarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        usuario.setUsuaPass(contrasenaEncriptada);
         usuario = em.merge(usuario);
         return usuario;
     }
@@ -120,7 +133,9 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
         LOGGER.log(Level.FINE,"Eliminar usuario con id {0}", usuario);
       Usuario usu = this.find(usuario);
       if (usu!=null){
-        remove(usu);
+        usu.setUsuaEsta("Inactivo");
+        em.merge(usu);  
+        //remove(usu);
         LOGGER.log(Level.INFO,"Usuario eliminado correctamente");
       }else{
         LOGGER.log(Level.INFO, "Usuario con id {} no existe", usuario);
@@ -135,11 +150,15 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
 
     @Override
     public java.util.List<Usuario> findRange(int startPosition, int maxResults, String sortFields, String sortDirections) {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Usuario.class));
-        javax.persistence.Query q = em.createQuery(cq);
+        Query q = em.createNamedQuery("Usuario.findAllOrderByEstado");
         q.setFirstResult(startPosition);
         q.setMaxResults(maxResults);
+//        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+//        cq.select(cq.from(Usuario.class));
+//        javax.persistence.Query q = em.createQuery(cq);
+////        javax.persistence.Query q = em.createNativeQuery("Select * from Usuario where Usuario.usua_esta = 'Activo'");
+//        q.setFirstResult(startPosition);
+//        q.setMaxResults(maxResults);
 
         return q.getResultList();
     }

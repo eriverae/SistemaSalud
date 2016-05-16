@@ -17,7 +17,7 @@ import javax.ejb.Local;
 @Local
 public interface GrupoFacadeLocal {
     
-    void crearGrupo(Grupo grupo) throws SeguridadException;
+    public Grupo crearGrupo(Grupo grupo) throws SeguridadException;
 
     Grupo findByNom(String nombre);
 

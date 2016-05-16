@@ -5,6 +5,7 @@
  */
 package com.acme.sisc.agenda.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -22,12 +23,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Julio
  */
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "grupo")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Grupo.findAll", query = "SELECT g FROM Grupo g"),
     @NamedQuery(name = "Grupo.findByGrupGrup", query = "SELECT g FROM Grupo g WHERE g.grupGrup = :grupGrup"),
+    @NamedQuery(name = "Grupo.findByUsuaUsua", query = "SELECT g FROM Grupo g WHERE g.grupGrup IN (SELECT m.grupo.grupGrup FROM GrupoUsuario m WHERE m.usuario.usuaUsua = :usuaUsua)"),
     @NamedQuery(name = "Grupo.findByNom", query = "SELECT g FROM Grupo g WHERE g.grupNombr = :grupNombr")})
 public class Grupo implements Serializable {
 

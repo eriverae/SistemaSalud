@@ -16,7 +16,7 @@ import javax.ejb.Local;
 @Local
 public interface UsuarioFacadeLocal {
 
-    void crearUsuario(Usuario usuario) throws SeguridadException;
+    Usuario crearUsuario(Usuario usuario) throws SeguridadException;
 
     Usuario findByEmail(String email);
 

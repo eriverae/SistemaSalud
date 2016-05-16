@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "persona_natural_especialidad")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "PersonaNaturalEspecialidad.findAllMedicosEspecialidad", query = "SELECT p FROM PersonaNaturalEspecialidad p WHERE p.especialidad.idEspecialidad = :idEspecialidad"),
     @NamedQuery(name = "PersonaNaturalEspecialidad.findAll", query = "SELECT p FROM PersonaNaturalEspecialidad p"),
     @NamedQuery(name = "PersonaNaturalEspecialidad.findByIdMedico", query = "SELECT p FROM PersonaNaturalEspecialidad p WHERE p.medico.idPersona = :idMedico")})
 

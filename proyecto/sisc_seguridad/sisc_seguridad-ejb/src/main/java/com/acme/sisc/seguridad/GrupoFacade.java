@@ -41,7 +41,7 @@ public class GrupoFacade implements GrupoFacadeRemote, GrupoFacadeLocal {
     }
 
     @Override
-    public void crearGrupo(Grupo grupo) throws SeguridadException{
+    public Grupo crearGrupo(Grupo grupo) throws SeguridadException{
         LOGGER.info("Inicia Grupo(...)");
         
         Grupo g = findByNom(grupo.getGrupNombr());
@@ -52,6 +52,8 @@ public class GrupoFacade implements GrupoFacadeRemote, GrupoFacadeLocal {
         
         grupo.setGrupEsta("Activo");
         em.persist(grupo);
+        em.refresh(grupo);
+        return grupo;
     }
 
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)

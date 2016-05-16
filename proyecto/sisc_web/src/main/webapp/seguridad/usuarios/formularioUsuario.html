@@ -1,62 +1,72 @@
 <div class="col-md-6 col-md-offset-3">
-  <!-- Verify person, if there is no id present, that we are Adding a Person -->
-  <div ng-if="usuario.usuaUsua == null">
-    <h3>Crear nuevo Usuario</h3>
-  </div>
-  <!-- Otherwise it's an Edit -->
-  <div ng-if="usuario.usuaUsua != null">
-    <h3>Modificar Usuario</h3>
-  </div>
+    <!-- Verify person, if there is no id present, that we are Adding a Person -->
+    <div ng-if="usuario.usuaUsua == null">
+        <h3>Crear nuevo Usuario</h3>
+    </div>
+    <!-- Otherwise it's an Edit -->
+    <div ng-if="usuario.usuaUsua != null">
+        <h3>Modificar Usuario</h3>
+    </div>
 
-  <div>
-    <!-- Specify the function to be called on submit and disable HTML5 validation, since we're using Angular validation-->
-    <form class="form-horizontal" name="usuarioForm" ng-submit="updateUsuario()" novalidate>
-      
-      <!-- Correo electronico-->
-      <div class="form-group" ng-class="{'has-error' : usuarioForm.usuaEmail.$invalid && usuarioForm.usuaEmail.$dirty}">
-        <label for="usuaEmail">Correo electronico:</label>
-        <!-- Display a check when the field is valid and was modified -->
-        <span ng-class="{'glyphicon glyphicon-ok' : usuarioForm.usuaEmail.$valid && usuarioForm.usuaEmail.$dirty}"></span>
-        <input id="usuaEmail" name="usuaEmail" type="email" class="form-control" maxlength="50"
-               ng-model="usuario.usuaEmail" required ng-minlength="2" ng-maxlength="50" placeholder="Ingrese un correo valido"/>
+    <div>
+        <!-- Specify the function to be called on submit and disable HTML5 validation, since we're using Angular validation-->
+        <form class="form-horizontal" name="usuarioForm" ng-submit="updateUsuario()" novalidate>
 
-        <!-- Validation messages to be displayed on required, minlength and maxlength -->
-        <p class="help-block" ng-show="usuarioForm.usuaEmail.$error.minlength">Debe tener al menos 2 caracteres.</p>
-        <p class="help-block" ng-show="usuarioForm.usuaEmail.$error.maxlength">El correo no debe superar 50 characters.</p>
-      </div>  
-      
-      <!-- Password -->
-      <div class="form-group" ng-class="{'has-error' : usuarioForm.usuaPass.$invalid && usuarioForm.usuaPass.$dirty}">
-        <label for="usuaPass">Constraseña:</label>
-        <!-- Display a check when the field is valid and was modified -->
-        <span ng-class="{'glyphicon glyphicon-ok' : usuarioForm.usuaPass.$valid && usuarioForm.usuaPass.$dirty}"></span>
-        <input id="usuaPass" name="usuaPass" type="password" class="form-control" maxlength="50"
-               ng-model="usuario.usuaPass" required ng-minlength="5" ng-maxlength="50" placeholder="Ingrese una contrasena valida"/>
+            <!-- Correo electronico-->
+            <div class="form-group" ng-class="{'has-error' : usuarioForm.usuaEmail.$invalid && usuarioForm.usuaEmail.$dirty}">
+                <label for="usuaEmail">Correo electronico:</label>
+                <!-- Display a check when the field is valid and was modified -->
+                <span ng-class="{'glyphicon glyphicon-ok' : usuarioForm.usuaEmail.$valid && usuarioForm.usuaEmail.$dirty}"></span>
+                
+                <input id="usuaEmail" name="usuaEmail" type="email" class="form-control" maxlength="50"
+                       ng-model="usuario.usuaEmail" required ng-minlength="2" ng-maxlength="50" placeholder="Ingrese un correo valido" ng-disabled="usuario.usuaUsua!=null"/>
 
-        <!-- Validation messages to be displayed on required, minlength and maxlength -->
-        <p class="help-block" ng-show="usuarioForm.usuaPass.$error.minlength">Debe tener al menos 5 caracteres.</p>
-        <p class="help-block" ng-show="usuarioForm.usuaPass.$error.maxlength">La contrasena no debe superar 50 characters.</p>
-      </div>
-      
-      
-      <div class="form-group" ng-class="{'has-error' : usuarioForm.usuaPass1.$invalid && usuarioForm.usuaPass1.$dirty}">
-        <label for="usuaPass1">Confirmar Constraseña:</label>
-        <!-- Display a check when the field is valid and was modified -->
-        <span ng-class="{'glyphicon glyphicon-ok' : usuarioForm.usuaPass1.$valid && usuarioForm.usuaPass1.$dirty}"></span>
-        <input id="usuaPass1" name="usuaPass1" type="password" class="form-control" maxlength="50"
-               ng-model="usuario.usuaPass1" required placeholder="Confirmar contraseña"
-               wj-validation-error="usuario.usuaPass1 != usuario.usuaPass"/>
+                <!-- Validation messages to be displayed on required, minlength and maxlength -->
+                <p class="help-block" ng-show="usuarioForm.usuaEmail.$error.minlength">Debe tener al menos 2 caracteres.</p>
+                <p class="help-block" ng-show="usuarioForm.usuaEmail.$error.maxlength">El correo no debe superar 50 characters.</p>
+            </div>  
 
-        <!-- Validation messages to be displayed on required, minlength and maxlength -->
-        <p class="help-block" ng-show="usuarioForm.usuaPass1.$error.wjValidationError">No coincide la contraseña.</p>
-      </div>
-      
+            <!-- Password -->
+            <div class="form-group" ng-if="usuario.usuaUsua==null" ng-class="{'has-error' : usuarioForm.usuaPass.$invalid && usuarioForm.usuaPass.$dirty}">
+                <label for="usuaPass">Constraseña:</label>
+                <!-- Display a check when the field is valid and was modified -->
+                <span ng-class="{'glyphicon glyphicon-ok' : usuarioForm.usuaPass.$valid && usuarioForm.usuaPass.$dirty}"></span>
+                <input id="usuaPass" name="usuaPass" type="password" class="form-control" maxlength="50"
+                       ng-model="usuario.usuaPass" required ng-minlength="5" ng-maxlength="50" placeholder="Ingrese una contrasena valida"/>
 
-      <!-- Form buttons. The 'Save' button is only enabled when the form is valid. -->
-      <div class="buttons">
-        <button type="button" class="btn btn-primary" ng-click="cancelar()">Cancelar</button>
-        <button type="submit" class="btn btn-primary" ng-disabled="usuarioForm.$invalid">Guardar</button>
-      </div>
-    </form>
-  </div>
+                <!-- Validation messages to be displayed on required, minlength and maxlength -->
+                <p class="help-block" ng-show="usuarioForm.usuaPass.$error.minlength">Debe tener al menos 5 caracteres.</p>
+                <p class="help-block" ng-show="usuarioForm.usuaPass.$error.maxlength">La contrasena no debe superar 50 characters.</p>
+            </div>
+
+
+            <div class="form-group" ng-if="usuario.usuaUsua==null" ng-class="{'has-error' : usuarioForm.usuaPass1.$invalid && usuarioForm.usuaPass1.$dirty}">
+                <label for="usuaPass1">Confirmar Constraseña:</label>
+                <!-- Display a check when the field is valid and was modified -->
+                <span ng-class="{'glyphicon glyphicon-ok' : usuarioForm.usuaPass1.$valid && usuarioForm.usuaPass1.$dirty}"></span>
+                <input id="usuaPass1" name="usuaPass1" type="password" class="form-control" maxlength="50"
+                       ng-model="usuario.usuaPass1" required placeholder="Confirmar contraseña"
+                       wj-validation-error="usuario.usuaPass1 != usuario.usuaPass"/>
+
+                <!-- Validation messages to be displayed on required, minlength and maxlength -->
+                <p class="help-block" ng-show="usuarioForm.usuaPass1.$error.wjValidationError">No coincide la contraseña.</p>
+            </div>
+
+            <div class="panel">
+                <p>Seleccione Perfiles del Usuario:<p>
+                <div ng-repeat="perfil in listaGrupo">
+                    <div class="action-checkbox">
+                        <input id="{{perfil.grupGrup}}" type="checkbox" value="perfil" ng-checked="items.indexOf(perfil) > -1"
+                               ng-click="toggleSelection(perfil)"/>{{perfil.grupNombr}}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Form buttons. The 'Save' button is only enabled when the form is valid. -->
+            <div class="buttons">
+                <button type="button" class="btn btn-primary" ng-click="cancelar()">Cancelar</button>
+                <button type="submit" class="btn btn-primary" ng-disabled="usuarioForm.$invalid">Guardar</button>
+            </div>
+        </form>
+    </div>
 </div>

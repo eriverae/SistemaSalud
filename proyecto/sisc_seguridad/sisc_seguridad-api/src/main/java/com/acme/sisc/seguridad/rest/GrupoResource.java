@@ -80,7 +80,7 @@ public class GrupoResource {
     }
     
     @GET
-    @Path("{acceAcce}")
+    @Path("{grupGrup}")
     @Produces(MediaType.APPLICATION_JSON)
     public Grupo consultarAcceso(@PathParam("grupGrup") Long id){
         return facadeGrupo.find(id);
@@ -88,8 +88,8 @@ public class GrupoResource {
     }
     
     @DELETE
-    @Path("{acceAcce}")
-    public void eliminarGrupo(@PathParam("acceAcce") Long id){
+    @Path("{grupGrup}")
+    public void eliminarGrupo(@PathParam("grupGrup") Long id){
       LOGGER.log(Level.FINE,"Request para eliminar acceso con id {0}", id);
       facadeGrupo.remove(id);
     }
@@ -99,7 +99,7 @@ public class GrupoResource {
     public Grupo guardarAcceso(Grupo grupo) {
       try {
         if (grupo.getGrupGrup() == null){
-          facadeGrupo.crearGrupo(grupo);
+          grupo = facadeGrupo.crearGrupo(grupo);
         }else{
           facadeGrupo.modificarGrupo(grupo);
         }
@@ -110,35 +110,4 @@ public class GrupoResource {
       }
       return null;
     }
-    
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public PaginatedListWrapper listAccesos(@DefaultValue("1")
-//                                            @QueryParam("page")
-//                                            Integer page,
-//                                             @DefaultValue("id")
-//                                            @QueryParam("sortFields")
-//                                            String sortFields,
-//                                             @DefaultValue("asc")
-//                                            @QueryParam("sortDirections")
-//                                            String sortDirections) {
-//        PaginatedListWrapper paginatedListWrapper = new PaginatedListWrapper();
-//        paginatedListWrapper.setCurrentPage(page);
-//        paginatedListWrapper.setSortFields(sortFields);
-//        paginatedListWrapper.setSortDirections(sortDirections);
-//        paginatedListWrapper.setPageSize(10);
-//        return findAccesos(paginatedListWrapper);
-//    }
-//    
-//    private PaginatedListWrapper findAccesos(PaginatedListWrapper wrapper) {
-//        int totalAccesos = facadeAcceso.count();
-//        wrapper.setTotalResults(totalAccesos);
-//        int start = (wrapper.getCurrentPage() - 1) * wrapper.getPageSize();
-//        wrapper.setList(facadeAcceso.findRange(start,
-//                wrapper.getPageSize(),
-//                wrapper.getSortFields(),
-//                wrapper.getSortDirections()));
-//        return wrapper;
-//    }
-    
 }

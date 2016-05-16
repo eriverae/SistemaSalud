@@ -31,7 +31,7 @@ public class AccesoGrupoFacade implements AccesoGrupoFacadeRemote, AccesoGrupoFa
 
     @Override
     public void crearAccesoGrupo(AccesoGrupo accesoGrupo) throws SeguridadException {
-        LOGGER.info("Inicia Acceso(...)");
+        LOGGER.info("Inicia Acceso(...)" + accesoGrupo.getAcceso().getAcceAcce() + " - " + accesoGrupo.getGrupo().getGrupGrup());
 
         AccesoGrupo a = findByAcceGrup(accesoGrupo.getAcceso().getAcceAcce(), accesoGrupo.getGrupo().getGrupGrup());
         if (a != null) {
