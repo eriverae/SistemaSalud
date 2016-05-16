@@ -80,7 +80,7 @@ public class GrupoResource {
     }
     
     @GET
-    @Path("{acceAcce}")
+    @Path("{grupGrup}")
     @Produces(MediaType.APPLICATION_JSON)
     public Grupo consultarAcceso(@PathParam("grupGrup") Long id){
         return facadeGrupo.find(id);
@@ -88,8 +88,8 @@ public class GrupoResource {
     }
     
     @DELETE
-    @Path("{acceAcce}")
-    public void eliminarGrupo(@PathParam("acceAcce") Long id){
+    @Path("{grupGrup}")
+    public void eliminarGrupo(@PathParam("grupGrup") Long id){
       LOGGER.log(Level.FINE,"Request para eliminar acceso con id {0}", id);
       facadeGrupo.remove(id);
     }

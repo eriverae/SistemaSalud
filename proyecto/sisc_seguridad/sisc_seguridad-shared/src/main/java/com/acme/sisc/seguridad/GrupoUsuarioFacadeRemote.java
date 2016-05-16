@@ -5,6 +5,7 @@
  */
 package com.acme.sisc.seguridad;
 
+import com.acme.sisc.agenda.entidades.Grupo;
 import com.acme.sisc.agenda.entidades.GrupoUsuario;
 import com.acme.sisc.seguridad.exceptions.SeguridadException;
 import javax.ejb.Remote;
@@ -33,5 +34,7 @@ public interface GrupoUsuarioFacadeRemote {
     int count();
 
     java.util.List<com.acme.sisc.agenda.entidades.GrupoUsuario> findRange(int startPosition, int maxResults, String sortFields, String sortDirections);
+
+    java.util.List<Grupo> findByUsuaUsua(Long usuaUsua);
     
 }

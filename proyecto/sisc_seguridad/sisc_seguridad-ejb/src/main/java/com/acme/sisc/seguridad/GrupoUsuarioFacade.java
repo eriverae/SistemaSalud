@@ -5,6 +5,7 @@
  */
 package com.acme.sisc.seguridad;
 
+import com.acme.sisc.agenda.entidades.Grupo;
 import com.acme.sisc.agenda.entidades.GrupoUsuario;
 import com.acme.sisc.seguridad.exceptions.SeguridadException;
 import java.util.logging.Level;
@@ -16,6 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
 
 
 /**
@@ -117,6 +119,14 @@ public class GrupoUsuarioFacade implements GrupoUsuarioFacadeRemote, GrupoUsuari
         q.setFirstResult(startPosition);
         q.setMaxResults(maxResults);
 
+        return q.getResultList();
+    }
+
+    @Override
+    public java.util.List<Grupo> findByUsuaUsua(Long usuaUsua) {
+        LOGGER.log(Level.FINE, "Consulta findByUsuaUsua {0}", new Object[]{usuaUsua});
+        Query q = em.createNamedQuery("Grupo.findByUsuaUsua");
+        q.setParameter("usuaUsua", usuaUsua);
         return q.getResultList();
     }
 }

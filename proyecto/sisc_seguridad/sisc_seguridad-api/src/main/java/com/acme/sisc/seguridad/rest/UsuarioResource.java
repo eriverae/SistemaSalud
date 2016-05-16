@@ -96,7 +96,7 @@ public class UsuarioResource {
         if (usuario.getUsuaUsua() == null){
           usuario = facadeUsuario.crearUsuario(usuario);
         }else{
-          facadeUsuario.modificarUsuario(usuario);
+          usuario = facadeUsuario.modificarUsuario(usuario);
         }
         return usuario;
       }catch (Exception e){

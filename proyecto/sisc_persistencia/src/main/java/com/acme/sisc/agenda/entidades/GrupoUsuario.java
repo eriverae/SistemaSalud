@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Grupusu.findAll", query = "SELECT g FROM GrupoUsuario g"),
+    @NamedQuery(name = "Grupusu.findByUsuaUsua", query = "SELECT DISTINCT g.grupo FROM GrupoUsuario g WHERE g.usuario.usuaUsua = :usuaUsua"),
     @NamedQuery(name = "Grupusu.findGrupoUsuario", query = "SELECT a FROM GrupoUsuario a WHERE a.usuario.usuaUsua = :usuaUsua AND a.grupo.grupGrup = :grupGrup")
 })
 public class GrupoUsuario implements Serializable {

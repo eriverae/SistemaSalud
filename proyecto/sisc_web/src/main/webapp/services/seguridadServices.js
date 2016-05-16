@@ -29,3 +29,7 @@ myModule.factory('accesoGrupoService', function ($resource) {
 myModule.factory('grupoUsuarioService', function ($resource) {
     return $resource('/sisc_seguridad/api/grupoUsuario/:idGrupusu');
 });
+
+myModule.factory('grupoPorUsuarioServ', function ($resource) {
+    return $resource('/sisc_seguridad/api/grupoUsuario/idusua/:usuaUsua');
+});

@@ -26,6 +26,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 import com.acme.sisc.seguridad.GrupoUsuarioFacadeLocal;
+import javax.ws.rs.core.Response;
 /**
  *
  * @author Julio
@@ -75,11 +76,21 @@ public class grupoUsuarioResource {
     }
     
     @GET
+    @Path("idusua/{usuaUsua}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response consultarGruposPorUsuario(@PathParam("usuaUsua") Long id){
+        return Response.ok()
+                .entity(facadeGrupoUsuario.findByUsuaUsua(id))
+                .type(MediaType.APPLICATION_JSON)
+                .build();
+//        return facadeGrupoUsuario.findByUsuaUsua(id);
+    }
+    
+    @GET
     @Path("{idGrupusu}")
     @Produces(MediaType.APPLICATION_JSON)
     public GrupoUsuario consultarGrupoUsuario(@PathParam("idGrupusu") Long id){
         return facadeGrupoUsuario.find(id);
-
     }
     
     @DELETE

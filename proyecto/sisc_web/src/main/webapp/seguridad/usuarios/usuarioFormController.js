@@ -2,13 +2,14 @@
 var app = angular.module('sisc_web');
 // Create a controller with name personsFormController to bind to the form section.
 app.controller('usuarioFormController', function ($scope, $rootScope, $stateParams, $state, 
-          usuarioService,modalService,grupoService,grupoUsuarioService) {
+          usuarioService,modalService,grupoService,grupoUsuarioService, grupoPorUsuarioServ) {
   
   $scope.usuario={};
   $scope.items = [];
   
   grupoService.get(null, function (data) {
       $scope.listaGrupo = data.list;
+      console.log(data.list);
   });
   
   if (angular.isDefined($stateParams.usuaUsua)){
@@ -22,6 +23,15 @@ app.controller('usuarioFormController', function ($scope, $rootScope, $statePara
         // Broadcast the event for a server error.
         $rootScope.$broadcast('error');
       });
+//      grupoPorUsuarioServ.get({usuaUsua: $stateParams.usuaUsua}).$promise.then(
+//        function (data){
+//            //$scope.items = data;
+//            console.log(data);
+//            console.log(data.list);
+//        },
+//        function () {
+//          $rootScope.$broadcast('error');
+//        });
   }
   
   // Clears the form. Either by clicking the 'Clear' button in the form, or when a successfull save is performed.
