@@ -111,9 +111,15 @@
                             <label class="col-md-3 col-xs-12 label-info control-label label label-form">Grupo sanguineo:</label>
                             <span ng-class="{'glyphicon glyphicon-ok' : personaForm.grupoSanguineo.$valid && personaForm.grupoSanguineo.$dirty}"></span>
                             <div class="col-md-6 col-xs-12">
-                                <input id="grupoSanguineo" name="grupoSanguineo" type="text" class="form-control" maxlength="1"
+                                <div ng-repeat="item in listaGrupoSanguineo">
+                                    <label class="radio-inline">
+                                        <input id="grupoSanguineo" name="grupoSanguineo" type="radio" ng-model="persona.grupoSanguineo"
+                                               value="{{item.id}}"/>{{item.label}}
+                                    </label>
+                                </div>
+<!--                                <input id="grupoSanguineo" name="grupoSanguineo" type="text" class="form-control" maxlength="1"
                                        ng-model="persona.grupoSanguineo" required ng-minlength="1" ng-maxlength="1"
-                                       placeholder="A"/>
+                                       placeholder="A"/>-->
                             </div>
                             <p class="help-block" ng-show="personaForm.grupoSanguineo.$error.minlength">Debe tener 1 caracter</p>
                             <p class="help-block" ng-show="personaForm.grupoSanguineo.$error.maxlength">Debe tener un caracter</p>

@@ -5,9 +5,9 @@ var myModule = angular.module('sisc_web');
 myModule.factory('personaService', function ($resource) {
     return $resource('/sisc_registro/api/personaNatural/:id',{},
     {
-        personaByNumberId:{
+        getByNumber:{
             method: 'GET',
-            url: '/sisc_registro/api/personaNatural/:numberId/personaByNumberId/',
+            url: '/sisc_registro/api/personaNatural/getByNumber/:numberId',
             params:{numberId:'@numberID'}
         }
     });

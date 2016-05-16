@@ -90,7 +90,7 @@ public class PersonaNaturalResource {
     }
 
     @GET
-    @Path("{numberId}/personaByNumberId")
+    @Path("getByNumber/{numberId}")
     @Produces(MediaType.APPLICATION_JSON)
     public PersonaNatural consultarPersonaPorNumeroIdentificacion(@PathParam("numberId") Long numberId){
         LOGGER.log(Level.FINE, "Consultando persona natural con numero identificacion {0} \n\n\n", numberId);

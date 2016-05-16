@@ -30,8 +30,8 @@ app.controller('beneficiariosController', function ($scope, $rootScope, $statePa
     ];
 
     $scope.buscarBeneficiario = function() {
-        personaService.get({id: $scope.numeroIdBeneficiario}).$promise.then(
-        //personaService.personaByNumberId({numberId: $scope.numeroIdBeneficiario}).$promise.then(
+        //personaService.get({id: $scope.numeroIdBeneficiario}).$promise.then(
+        personaService.getByNumber({numberId: $scope.numeroIdBeneficiario}).$promise.then(
         function (data) {
             console.log('Datos de beneficiario encontrados');
             $scope.beneficiario = data;
