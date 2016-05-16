@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+
+
+
+<!--ejemplo TEMPLATE ORIGINAL EXTREMO A EXTREMO--> 
+<div class="col-md-12">
+
+    <form class="form-horizontal">
+        <div class="panel panel-default">
+            <div class="panel-heading ui-draggable-handle">
+                <h3 class="panel-title"><span class="fa fa-calendar"> - </span><strong>Agendar</strong> Cita</h3>
+            </div>
+            <!--ALGO EN EL CENTRO-->
+            <div class="panel-body">                                                                        
+                <a  ui-sref="pacienteConsultaMedicoEspecializado">
+                    <span class="label label-warning label-form">REGRESAR<br/><br/><span class="fa fa-undo fa-4x" style=""></span></span>
+                </a>
+            </div>
+            <!--CALENDARIO-->
+            <div class="panel-body">
+                <!--CALENDARIO DE AGENDA--> 
+                <div class="col-md-11">
+                    <div class="panel panel-default tabs">                            
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li ng-click="changeView('month', 'myCalendar1')"       class="active"><a  role="tab" data-toggle="tab">Ver agenda del mes</a></li>
+                            <li ng-click="changeView('agendaWeek', 'myCalendar1')"  ><a  role="tab" data-toggle="tab">Ver agenda de la semana</a></li>
+                            <li ng-click="changeView('agendaDay', 'myCalendar1')"   ><a role="tab" data-toggle="tab">Ver agenda del día</a></li>
+
+                        </ul>
+                        <div class="panel-body tab-content">
+                            <div class="tab-pane active" id="tab-first">
+                                <div class="col-md-12">
+                                    <div class="calendar" ng-model="eventSources2" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+
+                </div>               
+            </div>          
+            <div class="panel-footer">
+                <!--<button class="btn btn-default">Clear Form</button>-->                                    
+                <button class="btn btn-primary pull-left">AGENDAR</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="message-box message-box-danger animated fadeIn" data-sound="fail"  id="message-box-sound-2">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-times"></span> Error</div>
+            <div class="mb-content">
+                <p>
+                    {{objErrorNuevaAgenda.mensajeError}}<br>
+                </p>                    
+            </div>
+            <div class="mb-footer">
+                <button class="btn btn-default btn-lg pull-right mb-control-close" onClick=" $('#message-box-sound-2').hide()">Error</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- fin mensaje de error -->
+
+<!-- mensaje de confirmacion -->
+<div class="message-box message-box-success animated fadeIn" id="message-box-success">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-check"></span> Agenda creada</div>
+            <div class="mb-content">
+                <p>{{generalResponse.mensaje}}, agenda creada del {{generalResponse.fechaInicialAgenda| getFormatofecha }} 
+                    al {{generalResponse.fechaFinalAgenda| getFormatofecha }} los dias {{generalResponse.dias}} en el horario de {{generalResponse.fechaInicialAgenda| getFormatoHora }}
+                    a {{generalResponse.fechaFinalAgenda| getFormatoHora }}
+                </p>
+            </div>
+            <div class="mb-footer">
+                <button class="btn btn-default btn-lg pull-right mb-control-close" ng-click="terminarCreacionNuevaAgenda()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--PopUp informacion cita--> 
+<div class="message-box animated fadeIn" data-sound="alert" id="message-box-sound-1">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-globe"></span> Cita #{{infoConsultaCita.idCita}}</div>
+
+            <div class="mb-footer">
+                <button class="btn btn-info btn-lg pull-right mb-control-close" onClick="$('#message-box-sound-1').hide()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

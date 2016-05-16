@@ -8,7 +8,7 @@
 
 var app = angular.module('sisc_web');
 
-app.controller('agendarCitaPacienteController',
+app.controller('pacienteConsultaMedicoEspecializado',
         function ($scope, $http, $stateParams, $state, $compile, $timeout) {
 
             //window.setTimeout(function(){location.reload()},4000);

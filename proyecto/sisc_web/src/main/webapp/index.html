@@ -93,9 +93,8 @@
                         <a href="#"><span class="fa fa-wheelchair"></span> <span class="xn-text">Pacientes</span></a>
                         <ul>
                             <li><a ui-sref="citasPaciente">Citas</a></li>
-                            <!--<li><a ui-sref="citasHistorialPaciente">Historial citas (prueba)</a></li>-->
                             <li><a ui-sref="historialPacienteEPS">Historial citas EPS</a>
-                            <li><a ui-sref="agendarCitaPaciente">Agendar cita</a>
+                            <li><a ui-sref="pacienteConsultaMedicoEspecializado">Agendar cita</a>
                         </ul>
                     </li>
                     <!--FIN PARA AGENDA MEDICOS Y PACINETES-->
@@ -350,9 +349,11 @@
         <script src="agenda/medicos/controllers/serviceAgenda.js"></script>
         <script src="agenda/pacientes/controllers/citasController.js"></script>
         <script src="agenda/pacientes/controllers/historialCitasController.js"></script>
-        <script src="agenda/pacientes/controllers/agendarCitaPacienteController.js"></script>       
+        <script src="agenda/pacientes/controllers/pacienteConsultaMedicoEspecializado.js"></script>  
+        <script src="agenda/pacientes/controllers/agendarCalendarioDelMedico.js"></script>
         <script src="services/citaServices.js"></script>
         <script src="agenda/pacientes/controllers/select2.min.js"></script>
+        <script src="agenda/pacientes/controllers/bootstrap-datepicker.min.js"></script>
 
 
         <!-- Controladores de Registro -->

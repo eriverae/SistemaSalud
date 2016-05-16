@@ -94,17 +94,18 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       controller: 'citasController',
       params : {'idPaciente':'3'}
     })    
-    .state('agendarCitaPaciente',{
-      url: '/paciente/agendarCita',
-      templateUrl: 'agenda/pacientes/agendarCitaPaciente.html',
-      controller: 'agendarCitaPacienteController'
-      //params : {'descripcion':'ODONTOLOGO'
-      //}
-            //      CARDIOLOGO          = 2
-            //      ODONTOLOGO          = 3
-            //      OFTALMOLOGO         = 2
-            //      OPTOMETRA           = 1
-    })      
+    .state('pacienteConsultaMedicoEspecializado',{
+      url: '/paciente/ConsultaMedicoEspecializado',
+      templateUrl: 'agenda/pacientes/pacienteConsultaMedicoEspecializado.html',
+      controller: 'pacienteConsultaMedicoEspecializado'
+      //params : {'descripcion':'ODONTOLOGO'}
+    })
+    .state('agendarCalendarioDelMedico',{
+      url: '/paciente/agendarCalendarioDelMedico',
+      templateUrl: 'agenda/pacientes/agendarCalendarioDelMedico.html',
+      controller: 'agendarCalendarioDelMedico'
+    })    
+    
     
     
     
