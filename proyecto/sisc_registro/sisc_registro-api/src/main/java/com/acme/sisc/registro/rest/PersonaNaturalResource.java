@@ -123,4 +123,34 @@ public class PersonaNaturalResource {
             LOGGER.log(Level.SEVERE, "Houston, estamos en problemas...", e);
         }
     }
+    
+    @GET
+    @Path("medicosPorEspecialidad/{page}/{sortFields}/{sortDirections}/{especialidad}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public PaginatedListWrapperPN medicosPorEspecialidad(
+            @DefaultValue("1") @QueryParam("page") Integer page,
+            @DefaultValue("id") @QueryParam("sortFields") String sortFields,
+            @DefaultValue("asc") @QueryParam("sortDirections") String sortDirections,
+            @DefaultValue("0") @QueryParam("especialidad") Long especialidad) {
+        PaginatedListWrapperPN paginatedListWrapper = new PaginatedListWrapperPN();
+        paginatedListWrapper.setCurrentPage(page);
+        paginatedListWrapper.setSortFields(sortFields);
+        paginatedListWrapper.setSortDirections(sortDirections);
+        paginatedListWrapper.setPageSize(10);
+        return medicosPorEspecialidadWrapper(paginatedListWrapper, especialidad);
+    }
+
+    private PaginatedListWrapperPN medicosPorEspecialidadWrapper(PaginatedListWrapperPN wrapper, Long especialidad) {
+        int total = facadePersonaNatural.count();
+        wrapper.setTotalResults(total);
+        int start = (wrapper.getCurrentPage() - 1) * wrapper.getPageSize();
+        wrapper.setList(
+                facadePersonaNatural.medicosPorEspecialidadFindRange(start,
+                    wrapper.getPageSize(),
+                    wrapper.getSortFields(),
+                    wrapper.getSortDirections(),
+                    especialidad)
+        );
+        return wrapper;
+    }
 }
