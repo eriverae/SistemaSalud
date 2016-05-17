@@ -25,6 +25,6 @@ public interface IUtilitariosAgendaLocal {
     public List<Especialidad> especialidadesEps();
     
     @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
-    public List<PersonaNaturalEspecialidad> listaEspecialidadMedicosEps(String especialidad);
+    public List<PersonaNaturalEspecialidad> listaEspecialidadMedicosEps(String especialidad, String idEps);
     
 }

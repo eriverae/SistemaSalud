@@ -39,7 +39,7 @@ app.controller('pacienteConsultaMedicoEspecializado',
                  *  Traer la lista de medicos segun la especicalidad seleccionada
                  *  http://localhost:8080/sisc_web/pages-address-book.html#
                  */
-                var medicosEspecialidadEPS = $http.get('/SiscAgenda/api/paciente/' + $scope.especialidadSelected + '/listaMedicosEspecialidad');
+                var medicosEspecialidadEPS = $http.get('/SiscAgenda/api/paciente/' + $scope.especialidadSelected + '/listaMedicosEspecialidad?idEps='+$stateParams.paciente.idEps);
                 medicosEspecialidadEPS.then(function (result) {
                     $scope.listamedicosEspecialidadEPS = result.data;
                 });
