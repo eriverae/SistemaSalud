@@ -29,6 +29,25 @@ app.controller('agendarCalendarioDelMedico',
         function ($scope, $compile, $timeout, uiCalendarConfig, $http, $stateParams, $state) {
 
 
+            $('#datepicker').datepicker({
+                autoclose: true,
+            }).on("changeDate", function (e) {
+                console.log(e.date);
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             $scope.changeTo = 'Hungarian';
             /* event source that pulls from google.com */
             $scope.eventSource = {

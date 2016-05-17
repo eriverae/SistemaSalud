@@ -97,8 +97,11 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
     .state('pacienteConsultaMedicoEspecializado',{
       url: '/paciente/ConsultaMedicoEspecializado',
       templateUrl: 'agenda/pacientes/pacienteConsultaMedicoEspecializado.html',
-      controller: 'pacienteConsultaMedicoEspecializado'
-      //params : {'descripcion':'ODONTOLOGO'}
+      controller: 'pacienteConsultaMedicoEspecializado',
+      params : {paciente:{
+              idPersona:"3",
+              idEps: "2",
+      }}
     })
     .state('agendarCalendarioDelMedico',{
       url: '/paciente/agendarCalendarioDelMedico',

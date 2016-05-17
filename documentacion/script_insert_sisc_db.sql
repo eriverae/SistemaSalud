@@ -102,6 +102,19 @@ select DISTINCT ON (descripcion) descripcion from especialidad;
 select distinct on (descripcion) * from especialidad;
 -- **************************FIN-CONSULTAS *************************
 
+--2 = pacientes
+INSERT INTO persona (id_persona,TIPO_PERSONA, numero_identificacion, tipo_identificacion) VALUES (41,'PACIENTE', 	'0001011011', 1);
+INSERT INTO persona (id_persona,TIPO_PERSONA, numero_identificacion, tipo_identificacion) VALUES (42,'PACIENTE', 	'0001011011', 1);
+
+INSERT INTO persona_natural (apellidos,correo_electronico,direccion,fecha_nacimiento, fotografia,grupo_sanguineo,nombres,rol_persona_natural,tarjeta_profesional,telefono_celular,telefono_fijo,id_persona, genero, rh) VALUES 
+                            ('PACIE11', 'paciente41@sisc.com', 'Calle falsa 4141', now(),'fotoPaciente41','gruposang41', 'Don Paciente41', 'PACIENTE','3432432432',31320982,32432432,41, 'm', 'r');
+INSERT INTO persona_natural (apellidos,correo_electronico,direccion,fecha_nacimiento, fotografia,grupo_sanguineo,nombres,rol_persona_natural,tarjeta_profesional,telefono_celular,telefono_fijo,id_persona, genero, rh) VALUES 
+                            ('PACIE12', 'paciente41@sisc.com', 'Calle falsa 4242', now(),'fotoPaciente41','gruposang42', 'Don Paciente42', 'PACIENTE','3432432432',31320982,32432432,42, 'm', 'r');
+
+-- ligar los (2 = pacientes) a la EPS
+INSERT INTO persona_eps (id_persona_eps,fecha_fin, fecha_inicio, id_eps, id_persona) VALUES (111,now(), now(), 555, 41);
+INSERT INTO persona_eps (id_persona_eps,fecha_fin, fecha_inicio, id_eps, id_persona) VALUES (112,now(), now(), 555, 42);
+
 
 --5 = medicos 
 INSERT INTO persona (id_persona,TIPO_PERSONA, numero_identificacion, tipo_identificacion) VALUES (11,'MEDICO', 	'0001011011', 1);
@@ -152,8 +165,22 @@ INSERT INTO especialidad (id_especialidad, descripcion) VALUES (3, 'OFTALMOLOGO'
 INSERT INTO especialidad (id_especialidad, descripcion) VALUES (4, 'OPTOMETRA');
 
 
+select e.id_persona from persona_eps e, persona_natural p  where e.id_persona = p.id_persona
+GROUP BY e.id_persona
 
 
+
+select * from 
+persona_natural_especialidad pne,
+persona_natural pn,
+persona_eps pe,
+especialidad e
+where 
+pne.id_medico = pn.id_persona and
+pn.id_persona = pe.id_persona and 
+e.id_especialidad = pne.id_especialidad and
+pe.id_eps=555 and
+e.id_especialidad=4;
 ------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------
 
