@@ -47,4 +47,5 @@ public interface IPersonaNaturalFacadeRemote {
         
     public void remove(Long id);
     
+    List<PersonaNatural> medicosPorEspecialidadFindRange(int startPosition, int maxResults, String sortFields, String sortDirections, Long especialidad);
 }

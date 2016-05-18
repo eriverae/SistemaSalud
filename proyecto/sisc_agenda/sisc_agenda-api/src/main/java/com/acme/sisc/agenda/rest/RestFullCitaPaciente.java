@@ -11,6 +11,7 @@ import com.acme.sisc.agenda.errorhandling.ErrorMessage;
 import com.acme.sisc.agenda.exceptions.CitaException;
 import com.acme.sisc.agenda.shared.ICitaLocal;
 import com.acme.sisc.agenda.shared.IUtilitariosAgendaLocal;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
@@ -22,6 +23,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -39,10 +41,10 @@ public class RestFullCitaPaciente {
 
     @Context
     private UriInfo context;
-    
+
     @EJB
     ICitaLocal facadeCita;
-    
+
     @EJB
     IUtilitariosAgendaLocal facadeUtilitariosAgenda;
 
@@ -54,7 +56,6 @@ public class RestFullCitaPaciente {
 //        List<Cita> lista = facadeCita.listaCitasPaciente(idPaciente).toArray();
 //        return facadeCita.listaCitasPaciente(idPaciente);
 //    }
-    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{idPaciente}/listaCitas")
@@ -63,9 +64,9 @@ public class RestFullCitaPaciente {
         List<Cita> lista = facadeCita.listaCitasPendientePaciente(idPaciente);
         //return facadeCita.listaCitasPaciente(idPaciente);
         return lista.toArray();
-    }    
+    }
 
-     @GET
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{idPaciente}/listaCitasHistorialEPS")
     public Object[] CitasPacienteHistorial(
@@ -73,10 +74,8 @@ public class RestFullCitaPaciente {
         List<Cita> lista = facadeCita.listaCitasHistorialPacienteEPS(idPaciente);
         //return facadeCita.listaCitasPaciente(idPaciente);
         return lista.toArray();
-    }      
-    
-    
-    
+    }
+
     //ORIGINAL
 //    @POST
 //    @Path("/cancelarCita")
@@ -86,27 +85,26 @@ public class RestFullCitaPaciente {
 //        logi.log(Level.WARNING,  "Request para cancelar la Cita con id {0}", cita.getIdCita());
 //        return facadeCita.cancelarCita(cita); 
 //    }
-    
     /**
-     * 
+     *
      * @param idCita
-     * @return 
+     * @return
      */
     @POST
     @Path("/{idCita}/cancelarCita")
     @Produces(MediaType.APPLICATION_JSON)
     public GeneralResponse cancelarUnaCitaDePaciente(
             @PathParam("idCita") String idCita
-    ){
-        logi.log(Level.WARNING,  "Request para cancelar la Cita con id {0}",idCita);
-        Long idCitaA = Long.valueOf(idCita);        
-        return facadeCita.cancelarCita1(idCitaA); 
-    }    
-    
+    ) {
+        logi.log(Level.WARNING, "Request para cancelar la Cita con id {0}", idCita);
+        Long idCitaA = Long.valueOf(idCita);
+        return facadeCita.cancelarCita1(idCitaA);
+    }
+
     /**
-     * 
+     *
      * @param idCita
-     * @return 
+     * @return
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -116,14 +114,13 @@ public class RestFullCitaPaciente {
         logi.log(Level.WARNING, "Obtener la cita segun su id: " + idCita);
         return facadeCita.find(idCita);
     }
-    
 
-    
     /**
      * Crear y Modificar una Cita
+     *
      * @param cita
-     * @return 
-     */ 
+     * @return
+     */
     /*@POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response agendarCitaPaciente(Cita cita) {
@@ -154,24 +151,28 @@ public class RestFullCitaPaciente {
         }
         return Response.ok().build();
     }*/
-    
     /**
      * retorna los medicos segun la especialidad
-     * @return 
+     *
+     * @return
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{descripcion}/listaMedicosEspecialidad")
     public Object[] listaMedicosEspecialidadEPS(
-            @PathParam("descripcion") String descripcion) {
-        logi.log(Level.WARNING, "SERVICIOrEST: listaMedicos con especialidad: " + descripcion + "\n\n");
-        return facadeUtilitariosAgenda.listaEspecialidadMedicosEps(descripcion).toArray();
-    }     
-    
-    
+            @PathParam("descripcion") String descripcion, @QueryParam("idEps") String idEps) {
+        if (idEps != null) {
+            logi.log(Level.WARNING, "SERVICIOrEST: listaMedicos con especialidad: " + descripcion + "\n\n");
+            return facadeUtilitariosAgenda.listaEspecialidadMedicosEps(descripcion,idEps).toArray();
+        }
+        
+        return null;
+    }
+
     /**
      * retorna las especialidades de los medicos
-     * @return 
+     *
+     * @return
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -179,7 +180,6 @@ public class RestFullCitaPaciente {
     public Object[] especialidadesMedicos() {
         logi.log(Level.WARNING, "SERVICIOrEST: ConsultarEspecialidades\n\n");
         return facadeUtilitariosAgenda.especialidadesEps().toArray();
-    }    
-    
+    }
 
 }

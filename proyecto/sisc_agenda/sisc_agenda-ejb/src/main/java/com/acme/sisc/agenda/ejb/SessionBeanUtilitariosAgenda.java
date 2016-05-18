@@ -50,9 +50,9 @@ public class SessionBeanUtilitariosAgenda implements IUtilitariosAgendaLocal, IU
     
     @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
     @Override
-    public List<PersonaNaturalEspecialidad> listaEspecialidadMedicosEps(String especialidad) {
+    public List<PersonaNaturalEspecialidad> listaEspecialidadMedicosEps(String especialidad, String idEps) {
         logger.log(Level.WARNING, "\nLISTA MEDICOS SEGUN LA ESPECIALIDAD : sessionBean\n");
-        return facadeUtilitariosAgenda.getMedicosList(especialidad);
+        return facadeUtilitariosAgenda.getMedicosList(especialidad, idEps);
     }
     
     

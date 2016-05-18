@@ -101,14 +101,19 @@ public class PersonaNatural extends Persona implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "medico", fetch = FetchType.LAZY)
     private List<PersonaNaturalEspecialidad> listaEspecialidadesMedico;
 
-    @ManyToMany
-    @JoinTable(
-            name = "OPERACION_PACIENTE",
-            joinColumns = @JoinColumn(name = "PACIENTE_ID", referencedColumnName = "ID_PERSONA"),
-            inverseJoinColumns = @JoinColumn(name = "OPERACION_ID", referencedColumnName = "ID_OPERACION"),
-            uniqueConstraints = @UniqueConstraint(name = "OPER_PACIENTE_UNIQUE", columnNames = {"PACIENTE_ID", "OPERACION_ID"}))
-    private List<Operacion> listaOperacionesPaciente;
-
+    //Se estandarizan las listas con entidades aparte
+    //por si en algún momento se requiere añadir más
+    //campos o funcionalidades propias de la relación M*M
+    //@ManyToMany
+    //@JoinTable(
+    //    name = "OPERACION_PACIENTE",
+    //    joinColumns = @JoinColumn(name = "PACIENTE_ID", referencedColumnName = "ID_PERSONA"),
+    //    inverseJoinColumns = @JoinColumn(name = "OPERACION_ID", referencedColumnName = "ID_OPERACION"),
+    //    uniqueConstraints = @UniqueConstraint(name = "OPER_PACIENTE_UNIQUE", columnNames = {"PACIENTE_ID", "OPERACION_ID"}))
+    //private List<Operacion> listaOperacionesPaciente;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "paciente", fetch = FetchType.LAZY)
+    private List<PersonaNaturalOperacion> listaOperaciones;
+    
     public PersonaNatural() {
     }
 
@@ -257,12 +262,12 @@ public class PersonaNatural extends Persona implements Serializable {
     }
 
     @JsonIgnore
-    public List<Operacion> getListaOperacionesPaciente() {
-        return listaOperacionesPaciente;
+    public List<PersonaNaturalOperacion> getListaOperaciones() {
+        return listaOperaciones;
     }
 
-    public void setListaOperacionesPaciente(List<Operacion> listaOperacionesPaciente) {
-        this.listaOperacionesPaciente = listaOperacionesPaciente;
+    public void setListaOperaciones(List<PersonaNaturalOperacion> listaOperaciones) {
+        this.listaOperaciones = listaOperaciones;
     }
 
     @JsonIgnore

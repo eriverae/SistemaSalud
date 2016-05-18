@@ -46,4 +46,6 @@ public interface IPersonaNaturalFacadeLocal{
     
     void remove(Long id);
     
+    List<PersonaNatural> medicosPorEspecialidadFindRange(int startPosition, int maxResults, String sortFields, String sortDirections, Long especialidad);
+    
 }

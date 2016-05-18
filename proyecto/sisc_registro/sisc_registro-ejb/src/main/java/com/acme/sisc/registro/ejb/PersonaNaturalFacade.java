@@ -153,8 +153,18 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
             LOGGER.info("Finaliza crearPersonaNatural despues(...)");
         }
         catch (Exception ex) {
-            LOGGER.log(Level.WARNING,"No se encontró persona {0}", personaNatural.getTipoIdentificacion() + " " 
+            LOGGER.log(Level.WARNING, "No se encontró persona {0}", personaNatural.getTipoIdentificacion() + " " 
                     + personaNatural.getNumeroIdentificacion() + " Exception: " + ex.getLocalizedMessage());
         }
+    }
+    
+    @Override
+    public List<PersonaNatural> medicosPorEspecialidadFindRange(int startPosition, int maxResults, String sortFields, 
+            String sortDirections, Long especialidad) {
+        Query q = em.createQuery("SELECT p FROM PersonaNatural p INNER JOIN FETCH p.listaEspecialidadesMedico e WHERE e.especialidad = :idesp");
+        q.setParameter("idesp", especialidad);
+        q.setFirstResult(startPosition);
+        q.setMaxResults(maxResults);
+        return q.getResultList();
     }
 }
