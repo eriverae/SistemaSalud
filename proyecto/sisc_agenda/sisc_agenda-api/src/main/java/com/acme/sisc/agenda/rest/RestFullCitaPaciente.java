@@ -211,8 +211,8 @@ public class RestFullCitaPaciente {
                 e.setFecha(AgendaUtil.parserDateToString(cita.getHoraInicio(), WebConstant.SIMPLE_DATE_FORMAT));
                 e.setHoraInicio(AgendaUtil.parserDateToString(cita.getHoraInicio(), WebConstant.SIMPLE_DATE_FORMAT_HOUR));
                 e.setHoraFin(AgendaUtil.parserDateToString(cita.getHoraFin(), WebConstant.SIMPLE_DATE_FORMAT_HOUR));
-                e.setLocalidad(fechaBusqueda);
-                e.setNumeroConsultorio(fechaBusqueda);
+                e.setLocalidad(cita.getAgenda().getLocalidad());
+                e.setNumeroConsultorio(cita.getAgenda().getNumeroConsultorio());
 
                 if (response.get(cita.getAgenda().getMedicoEps().getPersona().getIdPersona()) != null) {
                     response.get(cita.getAgenda().getMedicoEps().getPersona().getIdPersona()).getCitasDisponibles().add(e);

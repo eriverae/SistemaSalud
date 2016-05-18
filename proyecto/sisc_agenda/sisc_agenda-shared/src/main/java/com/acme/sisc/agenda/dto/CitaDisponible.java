@@ -20,7 +20,7 @@ public class CitaDisponible implements  Serializable{
     private String ciudad;
     private String localidad;
     private String direccion;
-    private String numeroConsultorio;
+    private int numeroConsultorio;
 
     public String getHoraInicio() {
         return horaInicio;
@@ -70,20 +70,20 @@ public class CitaDisponible implements  Serializable{
         this.direccion = direccion;
     }
 
-    public String getNumeroConsultorio() {
-        return numeroConsultorio;
-    }
-
-    public void setNumeroConsultorio(String numeroConsultorio) {
-        this.numeroConsultorio = numeroConsultorio;
-    }
-
     public String getFecha() {
         return fecha;
     }
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+
+    public int getNumeroConsultorio() {
+        return numeroConsultorio;
+    }
+
+    public void setNumeroConsultorio(int numeroConsultorio) {
+        this.numeroConsultorio = numeroConsultorio;
     }
     
     
