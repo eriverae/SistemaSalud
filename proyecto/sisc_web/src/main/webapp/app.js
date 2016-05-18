@@ -3,10 +3,16 @@
 var app = angular.module('sisc_web', ['ui.router','ngResource','ui.calendar', 'ui.bootstrap','ngGrid','app.utils', 'ngRoute']);
 
 app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlRouterProvider) {
-  $urlRouterProvider.otherwise("/home");
+  $urlRouterProvider.otherwise("/404");
   
   $stateProvider.
-    state('home',{
+    state('login',{
+      url: '/login',
+      templateUrl: 'login.html',
+      controller: 'loginFormController'
+    })
+    
+    .state('home',{
       url: '/home',
       templateUrl: 'home.html'
     })
@@ -234,10 +240,9 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
       controller: 'cirugiaController'
     })
     
-    .state('login',{
-      url: '/login',
-      templateUrl: 'login.html',
-      controller: 'loginFormController'
+    .state('404',{
+      url: '/404',
+      templateUrl: 'pages-error-404-2.html'      
     })
 
     ;
