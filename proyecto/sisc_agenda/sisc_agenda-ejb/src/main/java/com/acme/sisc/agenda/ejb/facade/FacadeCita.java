@@ -12,6 +12,8 @@ import com.acme.sisc.agenda.dto.ErrorObjSiscAgenda;
 import com.acme.sisc.agenda.dto.GeneralResponse;
 import com.acme.sisc.agenda.dto.RespuestaCita;
 import com.acme.sisc.agenda.entidades.Cita;
+import com.acme.sisc.agenda.util.AgendaUtil;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +24,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
 
 /**
  *
@@ -68,6 +69,7 @@ public class FacadeCita extends AbstractFacade<Cita> {
             return null;
         }
     }
+
     public List<Cita> CitasDelPacianteHistorialEPS(long idPaciente) {
         try {
             Query q = em.createNamedQuery(WebConstant.QUERY_CITA_FIND_BY_ID_PACIENTE_HISTORIAL_EPS);
@@ -79,7 +81,7 @@ public class FacadeCita extends AbstractFacade<Cita> {
             e.printStackTrace();
             return null;
         }
-    }    
+    }
 
     /**
      * Retorna una cita, siempre y cuando el id este en la base de datos. De lo
@@ -151,8 +153,7 @@ public class FacadeCita extends AbstractFacade<Cita> {
                     + sDateSistema + "  FECHA-SISTEMA \n\n\n");
             autorizar = false;
         } else //_log.log(Level.WARNING, "FECHAS DIFERENTES\n");
-        {
-            if (sDateCita.after(sDateSistema)) {
+         if (sDateCita.after(sDateSistema)) {
                 _log.log(Level.WARNING, "\n\n AUTORIZO CANCELAR CITA \n"
                         + "FECHA-CITA  " + sDateCita + "   >   "
                         + sDateSistema + "  FECHA-SISTEMA \n\n\n");
@@ -163,7 +164,6 @@ public class FacadeCita extends AbstractFacade<Cita> {
                         + sDateSistema + "  FECHA-SISTEMA \n\n\n");
                 autorizar = false;
             }
-        }
 
         return autorizar;
     }
@@ -246,4 +246,33 @@ public class FacadeCita extends AbstractFacade<Cita> {
         }
 
     }
+
+    public List<Cita> buscarCitasDisponiblesPaciente(long idEspecialidad, long idEps, String fechaBusqueda) {
+        try {
+            Query q = em.createNativeQuery(WebConstant.QUERY_CITA_FIND_CITAS_DIPONIBLES_PACIENTE, Cita.class);
+            q.setParameter(1, idEspecialidad);
+            q.setParameter(2, idEps);
+            Date aux;
+            if (fechaBusqueda != null) {
+
+                aux = AgendaUtil.parserStringToDateSimpleDateFormat(fechaBusqueda);
+                if (aux == null) {
+                    aux = new Date();
+                }
+            } else {
+                aux = new Date();
+            }
+            _log.log(Level.WARNING, ">>>> fecha a: "+AgendaUtil.parserDateToString(aux, WebConstant.DATE_FORMAT_CITA_BD));
+            _log.log(Level.WARNING, ">>>> fecha b: "+AgendaUtil.parserDateToString(new Date(aux.getTime() + WebConstant.MS_DAY), WebConstant.DATE_FORMAT_CITA_BD));
+            q.setParameter(3, AgendaUtil.parserDateToString(aux, WebConstant.DATE_FORMAT_CITA_BD));
+            q.setParameter(4, AgendaUtil.parserDateToString(new Date(aux.getTime() + WebConstant.MS_DAY), WebConstant.DATE_FORMAT_CITA_BD));
+
+            return (List<Cita>) q.getResultList();
+
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
 }
+

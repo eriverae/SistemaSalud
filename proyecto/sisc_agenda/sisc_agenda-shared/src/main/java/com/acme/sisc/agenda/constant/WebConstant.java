@@ -29,6 +29,18 @@ public class WebConstant {
     
     public static final String QUERY_CITA_FIND_BY_ID_PACIENTE           ="Cita.findIdPaciente";
     public static final String QUERY_CITA_FIND_BY_ID                    ="Cita.findById";
+    public static final String QUERY_CITA_FIND_CITAS_DIPONIBLES_PACIENTE=
+            "select * from cita c " +
+            "inner join agenda a on a.id_agenda = c.id_agenda " +
+            "inner join persona_eps pe on a.id_medico_eps = pe.id_persona_eps " +
+            "inner join persona_natural pn on pn.id_persona = pe.id_persona " +
+            "inner join persona_natural_especialidad  pne on pne.id_medico = pe.id_persona " +
+            "inner join especialidad e on e.id_especialidad = pne.id_especialidad " +
+            "where " +
+            "e.id_especialidad = ? and " +
+            "pe.id_eps = ? and " +
+            "(c.hora_inicio >= ? and c.hora_inicio  <= ? ) " +
+            "group by c.id_cita";
     
     /**
      * Nombre parametros de consultas
@@ -49,8 +61,10 @@ public class WebConstant {
      * Formatos
      */
     public static final String SIMPLE_DATE_FORMAT="dd-MM-yyyy";
+    public static final String SIMPLE_DATE_FORMAT_HOUR="HH-mm-ss";
     public static final String DATE_FORMAT_CITA_JSON="yyyy'-'MM'-'dd'T'HH':'mm':'ss";
     public static final String DATE_FORMAT_CITA="dd-MM-yyyy HH':'mm':'ss";
+    public static final String DATE_FORMAT_CITA_BD="yyyy-MM-dd HH':'mm':'ss";
     public static final String JSON_DATE_FORMAT="{'\"day\":\"'dd'\",\"month\": \"'MM'\",\"year\":\"'yyyy'\","
             + "\"hours\":\"'HH'\",\"minutes\":\"'mm'\",\"seconds\":\"'ss'\"}'";
     
@@ -75,6 +89,7 @@ public class WebConstant {
     public static final String COLOR_CITA_DISPONIBLE="#5cb85c";
    
     
+    public static  final long MS_DAY=86400000;
     
     
     

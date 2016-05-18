@@ -12,6 +12,7 @@ import com.acme.sisc.agenda.entidades.Cita;
 import com.acme.sisc.agenda.exceptions.CitaException;
 import com.acme.sisc.agenda.shared.ICitaLocal;
 import com.acme.sisc.agenda.shared.ICitaRemote;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -183,6 +184,15 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
     @Override
     public void remove(Cita entity) {
         em.remove(entity);
+    }
+
+    @Override
+    public List<Cita> buscarCitasDisponiblesPaciente(long idEspecialidad, long idEps, String fechaBusqueda) {
+        try{
+            return facadeCita.buscarCitasDisponiblesPaciente(idEspecialidad, idEps, fechaBusqueda);
+        }catch(NullPointerException e) {
+            return new ArrayList<>();
+        }
     }
 
 }

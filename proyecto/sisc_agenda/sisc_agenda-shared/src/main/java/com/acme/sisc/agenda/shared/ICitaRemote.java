@@ -36,10 +36,7 @@ public interface ICitaRemote {
     
     @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
     public List<Cita> listaCitasHistorialPacienteEPS(long idPaciente);
-    
-
-    /////////////////////////////////////////////////////////////////
-    //paginador- historial de citas
+       
     int count();
     
     List<Cita> findRange(int startPosition, int maxResults, String sortFields, String sortDirections);
@@ -48,5 +45,7 @@ public interface ICitaRemote {
     void remove(Long id);
 
     void remove(Cita entity);
+    
+    public List<Cita> buscarCitasDisponiblesPaciente(long idEspecialidad,long idEps,String fechaBusqueda);
 
 }
