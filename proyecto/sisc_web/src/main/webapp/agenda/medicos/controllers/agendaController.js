@@ -116,8 +116,8 @@ app.controller('agendaMedicoContoller',
 
             };
 
-            $scope.irMenuHC = function () {
-                $state.go('menuhc');
+            $scope.irMenuHC = function (cita) {
+                $state.go('menuhc',{ 'cita':cita});
             };
 
 

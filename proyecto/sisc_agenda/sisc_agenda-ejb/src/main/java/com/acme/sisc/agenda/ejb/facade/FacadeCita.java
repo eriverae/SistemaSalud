@@ -218,7 +218,8 @@ public class FacadeCita extends AbstractFacade<Cita> {
     public List<Cita> validarCitasAgendadasMedico(long idMedico, java.util.Date fechaInicio, java.util.Date fechaFin, boolean limitar, int limiteRegistos) {
 
         try {
-            _log.log(Level.WARNING, "CONSULTANDO CITAS DE idMedico: " + idMedico + " FECHA INICIO:" + fechaInicio.toString() + " FECHA FIN:" + fechaFin.toString());
+            _log.log(Level.WARNING, "CONSULTANDO CITAS DE idMedico: {0} FECHA INICIO:{1} FECHA FIN:{2}", 
+                    new Object[]{idMedico, fechaInicio.toString(), fechaFin.toString()});
             Query q;
             if (limitar) {
 
@@ -240,8 +241,8 @@ public class FacadeCita extends AbstractFacade<Cita> {
             }
 
         } catch (NoResultException e) {
-            _log.log(Level.SEVERE, "NO SE ENCONTRARON RESULTADOS DE CITAS AGENDADAS PARA EL MEDICO CON ID: " + idMedico + " ENTRE: "
-                    + fechaFin.toString() + " AL: " + fechaFin.toString());
+            _log.log(Level.SEVERE, "NO SE ENCONTRARON RESULTADOS DE CITAS AGENDADAS PARA EL MEDICO CON ID: {0} ENTRE: {1} AL: {2}", 
+                    new Object[]{idMedico, fechaFin.toString(), fechaFin.toString()});
             return null;
         }
 
@@ -260,10 +261,9 @@ public class FacadeCita extends AbstractFacade<Cita> {
                     aux = new Date();
                 }
             } else {
-                aux = new Date();
+                aux = AgendaUtil.getCurrentDate();
             }
-            _log.log(Level.WARNING, ">>>> fecha a: "+AgendaUtil.parserDateToString(aux, WebConstant.DATE_FORMAT_CITA_BD));
-            _log.log(Level.WARNING, ">>>> fecha b: "+AgendaUtil.parserDateToString(new Date(aux.getTime() + WebConstant.MS_DAY), WebConstant.DATE_FORMAT_CITA_BD));
+            
             q.setParameter(3, AgendaUtil.parserDateToString(aux, WebConstant.DATE_FORMAT_CITA_BD));
             q.setParameter(4, AgendaUtil.parserDateToString(new Date(aux.getTime() + WebConstant.MS_DAY), WebConstant.DATE_FORMAT_CITA_BD));
 

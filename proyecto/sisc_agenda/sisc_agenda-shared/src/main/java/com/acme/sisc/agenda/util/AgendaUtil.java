@@ -66,14 +66,23 @@ public class AgendaUtil {
 
         }
     }
+    
+    public static Date getCurrentDate() {
+        try {
+            DateFormat dateFormat = new SimpleDateFormat(WebConstant.SIMPLE_DATE_FORMAT);
+            return dateFormat.parse(parserDateToString(new Date(), WebConstant.SIMPLE_DATE_FORMAT));
+        } catch (NullPointerException | ParseException ex) {
+            _log.log(Level.SEVERE, "AgendaUtil.parserStringToDateSimpleDateFormat", ex);
+            return null;
+
+        }
+    }
 
     public static List<Date> devolverFechasXdiaDeLaSemana(Date fechaInicio, Date FechaFin, int diaDeLaSemana) {
 
-        try {
-            
-            _log.log(Level.SEVERE, "["+fechaInicio.toString()+">> "+FechaFin.toString()+" dia: "+diaDeLaSemana+"]");
-            
-            List<Date> fechas = new ArrayList<Date>();
+        try {           
+     
+            List<Date> fechas = new ArrayList<>();
             int diaFechaInicio = fechaInicio.getDay();
 
             fechaInicio.setTime(fechaInicio.getTime() + ((diaDeLaSemana > diaFechaInicio ? diaDeLaSemana - diaFechaInicio
@@ -91,7 +100,7 @@ public class AgendaUtil {
     }
     
     public static List<Date> fechasInicioFinMes(){
-        List<Date> listFechas=new ArrayList<Date>();
+        List<Date> listFechas=new ArrayList<>();
         listFechas.add(AgendaUtil.parserStringToDateSimpleDateFormat(
                 AgendaUtil.parserDateToString(new Date(), "'01-'MM-yyyy")));        
         listFechas.add(new Date(listFechas.get(0).getTime()+(2678400000l)));
@@ -99,10 +108,9 @@ public class AgendaUtil {
     }
     
     public static void main(String args[]) {
+            
+            System.out.println("getCurrentDate "+AgendaUtil.getCurrentDate().toString());
         
-        for(Date fecha:AgendaUtil.fechasInicioFinMes()){
-            System.out.println(">> "+fecha.toString());
-        }
 
        
     }

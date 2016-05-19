@@ -13,6 +13,7 @@ import com.acme.sisc.agenda.entidades.Cita;
 import com.acme.sisc.agenda.shared.ICitaLocal;
 import com.acme.sisc.agenda.shared.IUtilitariosAgendaLocal;
 import com.acme.sisc.agenda.util.AgendaUtil;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import java.util.List;
@@ -187,14 +188,14 @@ public class RestFullCitaPaciente {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/citasDisponibles")
-    public Map<Long, ResponseCitasDisponiblesMedico> buscarCitasDisponiblesPaciente(
+    public List<ResponseCitasDisponiblesMedico> buscarCitasDisponiblesPaciente(
             @QueryParam("idEspecialidad") long idEspecialidad,
             @QueryParam("idEps") long idEps,
             @DefaultValue("null")
             @QueryParam("fechaBusqueda") String fechaBusqueda) {
 
         Map<Long, ResponseCitasDisponiblesMedico> response = new HashMap<Long, ResponseCitasDisponiblesMedico>();
-
+         List<ResponseCitasDisponiblesMedico> list =null;
         try {
             List<Cita> listCitas;
             if (fechaBusqueda.equals("null")) {
@@ -236,11 +237,15 @@ public class RestFullCitaPaciente {
                 }
 
             }
-
+            
+            list = new ArrayList<ResponseCitasDisponiblesMedico>(response.values());
+            
+            
         } catch (NullPointerException e) {
 
         }
-        return response;
+        
+        return list;
 
     }
 
