@@ -3,12 +3,12 @@
 var app = angular.module('sisc_web', ['ui.router','ngResource','ui.calendar', 'ui.bootstrap','ngGrid','app.utils', 'ngRoute']);
 
 app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlRouterProvider) {
-  $urlRouterProvider.otherwise("/404");
+  $urlRouterProvider.otherwise("/home");
   
-  $stateProvider.
-    state('login',{
+  $stateProvider
+    .state('login',{
       url: '/login',
-      templateUrl: 'login.html',
+      templateUrl: 'index.html',
       controller: 'loginFormController'
     })
     
