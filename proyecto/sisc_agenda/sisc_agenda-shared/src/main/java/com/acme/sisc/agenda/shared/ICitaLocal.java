@@ -10,7 +10,6 @@ import com.acme.sisc.agenda.entidades.Cita;
 import com.acme.sisc.agenda.exceptions.CitaException;
 import java.util.List;
 import javax.ejb.Local;
-import javax.ejb.Remote;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
@@ -36,17 +35,15 @@ public interface ICitaLocal {
     
     @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
     public List<Cita> listaCitasHistorialPacienteEPS(long idPaciente);
-    
-
-    /////////////////////////////////////////////////////////////////
-    //paginador- historial de citas
+       
     int count();
     
     List<Cita> findRange(int startPosition, int maxResults, String sortFields, String sortDirections);
-    ////////////////////////////////////////////////////////////////   
-
+    
     void remove(Long id);
 
     void remove(Cita entity);
+    
+    public List<Cita> buscarCitasDisponiblesPaciente(long idEspecialidad,long idEps,String fechaBusqueda);
 
 }

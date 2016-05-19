@@ -206,7 +206,9 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
     .state('menuhc',{
        url:'/menuhc',
        templateUrl: 'historia/menuhc.html',
-       controller: 'menuController'
+       controller: 'menuController',
+       params : {cita:null}
+       
     })
     .state('historia',{
        url:'/historia/historiaclinica',

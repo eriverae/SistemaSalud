@@ -160,13 +160,13 @@
 
             <div class="panel panel-default tabs">                            
                 <ul class="nav nav-tabs" role="tablist">
-                    <li style="width: 33%;text-align: center" class="active">
+                    <li style="width: 32%;text-align: center" class="active">
                         <a role="tab"  onClick="$('#tab222').show();$('#tab232').hide();$('#tab242').hide();" id="info_init_cita" data-toggle="tab"> Informacion de la cita </a>
                     </li>
-                    <li style="width: 34%;text-align: center">
+                    <li style="width: 36%;text-align: center">
                         <a role="tab"  onClick="$('#tab232').show();$('#tab222').hide();$('#tab242').hide();" data-toggle="tab"> Informacion del paciente</a>
                     </li >
-                    <li style="width: 33%; text-align: center">
+                    <li style="width: 32%; text-align: center">
                         <a role="tab" onClick="$('#tab242').show();$('#tab232').hide();$('#tab222').hide();" data-toggle="tab"> Opciones de cita</a>
                     </li>
 
@@ -287,8 +287,8 @@
                         <button data-toggle="tooltip" data-original-title="Cancelar cita " class="btn btn-default propiedades-opcion-cita f-rojo">
                             <i class="fa fa-ban" style="font-size: 53px;"></i>
                         </button>
-                        <button data-toggle="tooltip" data-original-title="Historico de la cita " class="btn btn-default propiedades-opcion-cita f-azul">
-                            <i class="glyphicon glyphicon-th" style="font-size: 53px;"></i>
+                        <button  data-toggle="tooltip" data-original-title="Historico de la cita " class="btn btn-default propiedades-opcion-cita f-azul">
+                            <i ng-click="irMenuHC(infoConsultaCita)" class="glyphicon glyphicon-th" style="font-size: 53px;"></i>
                         </button>             
 
                     </div>

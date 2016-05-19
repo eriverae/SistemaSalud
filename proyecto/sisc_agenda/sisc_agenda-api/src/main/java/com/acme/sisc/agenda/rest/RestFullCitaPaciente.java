@@ -5,19 +5,23 @@
  */
 package com.acme.sisc.agenda.rest;
 
+import com.acme.sisc.agenda.constant.WebConstant;
+import com.acme.sisc.agenda.dto.CitaDisponible;
 import com.acme.sisc.agenda.dto.GeneralResponse;
+import com.acme.sisc.agenda.dto.ResponseCitasDisponiblesMedico;
 import com.acme.sisc.agenda.entidades.Cita;
-import com.acme.sisc.agenda.errorhandling.ErrorMessage;
-import com.acme.sisc.agenda.exceptions.CitaException;
 import com.acme.sisc.agenda.shared.ICitaLocal;
 import com.acme.sisc.agenda.shared.IUtilitariosAgendaLocal;
+import com.acme.sisc.agenda.util.AgendaUtil;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -26,7 +30,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 /**
@@ -163,9 +166,9 @@ public class RestFullCitaPaciente {
             @PathParam("descripcion") String descripcion, @QueryParam("idEps") String idEps) {
         if (idEps != null) {
             logi.log(Level.WARNING, "SERVICIOrEST: listaMedicos con especialidad: " + descripcion + "\n\n");
-            return facadeUtilitariosAgenda.listaEspecialidadMedicosEps(descripcion,idEps).toArray();
+            return facadeUtilitariosAgenda.listaEspecialidadMedicosEps(descripcion, idEps).toArray();
         }
-        
+
         return null;
     }
 
@@ -180,6 +183,70 @@ public class RestFullCitaPaciente {
     public Object[] especialidadesMedicos() {
         logi.log(Level.WARNING, "SERVICIOrEST: ConsultarEspecialidades\n\n");
         return facadeUtilitariosAgenda.especialidadesEps().toArray();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/citasDisponibles")
+    public List<ResponseCitasDisponiblesMedico> buscarCitasDisponiblesPaciente(
+            @QueryParam("idEspecialidad") long idEspecialidad,
+            @QueryParam("idEps") long idEps,
+            @DefaultValue("null")
+            @QueryParam("fechaBusqueda") String fechaBusqueda) {
+
+        Map<Long, ResponseCitasDisponiblesMedico> response = new HashMap<Long, ResponseCitasDisponiblesMedico>();
+         List<ResponseCitasDisponiblesMedico> list =null;
+        try {
+            List<Cita> listCitas;
+            if (fechaBusqueda.equals("null")) {
+                listCitas = facadeCita.buscarCitasDisponiblesPaciente(idEspecialidad, idEps, null);
+            } else {
+                listCitas = facadeCita.buscarCitasDisponiblesPaciente(idEspecialidad, idEps, fechaBusqueda);
+            }
+            for (Cita cita : listCitas) {
+
+                CitaDisponible e = new CitaDisponible();
+                e.setCiudad(cita.getAgenda().getCiudad());
+                e.setDireccion(cita.getAgenda().getDireccion());
+                e.setEstadoCita(cita.getEstadoCita());
+                e.setFecha(AgendaUtil.parserDateToString(cita.getHoraInicio(), WebConstant.SIMPLE_DATE_FORMAT));
+                e.setHoraInicio(AgendaUtil.parserDateToString(cita.getHoraInicio(), WebConstant.SIMPLE_DATE_FORMAT_HOUR));
+                e.setHoraFin(AgendaUtil.parserDateToString(cita.getHoraFin(), WebConstant.SIMPLE_DATE_FORMAT_HOUR));
+                e.setLocalidad(cita.getAgenda().getLocalidad());
+                e.setNumeroConsultorio(cita.getAgenda().getNumeroConsultorio());
+
+                if (response.get(cita.getAgenda().getMedicoEps().getPersona().getIdPersona()) != null) {
+                    response.get(cita.getAgenda().getMedicoEps().getPersona().getIdPersona()).getCitasDisponibles().add(e);
+                } else {
+                    ResponseCitasDisponiblesMedico responseCitasDisponiblesMedico = new ResponseCitasDisponiblesMedico();
+                    responseCitasDisponiblesMedico.setCorreoElectronico(cita.getAgenda().getMedicoEps().getPersona().getCorreoElectronico());
+                    responseCitasDisponiblesMedico.setFotografia(cita.getAgenda().getMedicoEps().getPersona().getFotografia());
+                    responseCitasDisponiblesMedico.setIdMedico(cita.getAgenda().getMedicoEps().getPersona().getIdPersona());
+                    if (cita.getAgenda().getMedicoEps().getPersona().getNombres() != null) {
+                        responseCitasDisponiblesMedico.setNombreCompleto(cita.getAgenda().getMedicoEps().getPersona().getApellidos() != null
+                                ? cita.getAgenda().getMedicoEps().getPersona().getNombres() + " " + cita.getAgenda().getMedicoEps().getPersona().getApellidos()
+                                : cita.getAgenda().getMedicoEps().getPersona().getNombres());
+                    } else {
+                        responseCitasDisponiblesMedico.setNombreCompleto(cita.getAgenda().getMedicoEps().getPersona().getApellidos() != null ? cita.getAgenda().getMedicoEps().getPersona().getApellidos() : "");
+                    }
+                    responseCitasDisponiblesMedico.setNumeroIdentificacion(cita.getAgenda().getMedicoEps().getPersona().getNumeroIdentificacion()+"");
+                    responseCitasDisponiblesMedico.setTipoIdentificacion(cita.getAgenda().getMedicoEps().getPersona().getTipoIdentificacion().name());
+                    responseCitasDisponiblesMedico.getCitasDisponibles().add(e);
+
+                    response.put(responseCitasDisponiblesMedico.getIdMedico(), responseCitasDisponiblesMedico);
+                }
+
+            }
+            
+            list = new ArrayList<ResponseCitasDisponiblesMedico>(response.values());
+            
+            
+        } catch (NullPointerException e) {
+
+        }
+        
+        return list;
+
     }
 
 }

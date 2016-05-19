@@ -4,6 +4,10 @@ var app = angular.module('sisc_web');
 app.controller('menuController', function ($scope, $rootScope, $stateParams, $state, 
           menuService,modalService) {
   
+         
+            
+         alert('LLEGUE DESDE AGENDA MEDICO ID_CITA: '+$stateParams.cita.idCita+ '\n OBJ_CITA: '+JSON.stringify($stateParams.cita));
+  
   	$scope.menu={};
 
 	$scope.imprimir = function(){
