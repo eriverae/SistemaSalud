@@ -8,6 +8,8 @@ package com.acme.sisc.seguridad.rest;
 import com.acme.sisc.agenda.entidades.Usuario;
 import com.acme.sisc.seguridad.UsuarioFacadeLocal;
 import com.acme.sisc.common.pagination.PaginatedListWrapper;
+import com.acme.sisc.seguridad.GrupoUsuarioFacadeLocal;
+import com.acme.sisc.seguridad.dto.UsuarioCompleto;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -40,6 +42,9 @@ public class UsuarioResource {
     
     @EJB
     UsuarioFacadeLocal facadeUsuario;
+    
+    @EJB
+    GrupoUsuarioFacadeLocal facadeGrupoUsuario;
 
     public UsuarioResource() {
     }
@@ -77,9 +82,11 @@ public class UsuarioResource {
     @GET
     @Path("{usuaUsua}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Usuario consultarUsuario(@PathParam("usuaUsua") Long id){
-        return facadeUsuario.find(id);
-
+    public UsuarioCompleto consultarUsuario(@PathParam("usuaUsua") Long id){
+        UsuarioCompleto UC = new UsuarioCompleto();
+        UC.setUsuario(facadeUsuario.find(id));
+        UC.setGrupos(facadeGrupoUsuario.findByUsuaUsua(id));
+        return UC;
     }
     
     @DELETE
