@@ -6,6 +6,7 @@ app.controller('usuarioFormController', function ($scope, $rootScope, $statePara
   
   $scope.usuario={};
   $scope.items = [];
+  $scope.itemsmodificados = [];
   
   grupoService.get(null, function (data) {
       $scope.listaGrupo = data.list;
@@ -16,22 +17,14 @@ app.controller('usuarioFormController', function ($scope, $rootScope, $statePara
     console.log('Usuario a modificar, ID = '+ $stateParams.usuaUsua);
     usuarioService.get({usuaUsua: $stateParams.usuaUsua}).$promise.then(
       function (data) {
-        $scope.usuario = data;
+        $scope.usuario = data.usuario;
+        $scope.itemsmodificados = data.grupos;
         //A partir de Angular 1.3, ng-model requiere un objeto de tipo Date valido, no acepta un String
       },
       function () {
         // Broadcast the event for a server error.
         $rootScope.$broadcast('error');
       });
-//      grupoPorUsuarioServ.get({usuaUsua: $stateParams.usuaUsua}).$promise.then(
-//        function (data){
-//            //$scope.items = data;
-//            console.log(data);
-//            console.log(data.list);
-//        },
-//        function () {
-//          $rootScope.$broadcast('error');
-//        });
   }
   
   // Clears the form. Either by clicking the 'Clear' button in the form, or when a successfull save is performed.
