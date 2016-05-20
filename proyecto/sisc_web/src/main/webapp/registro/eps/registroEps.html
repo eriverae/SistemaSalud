@@ -18,7 +18,7 @@
                         <div class="col-md-6 col-xs-12">
                             <input id="razonSocial" name="razonSocial" type="text" class="form-control" maxlength="30"
                                    ng-model="eps.razonSocial" required ng-minlength="3" ng-maxlength="30"
-                                   placeholder="Nombres"/>                      
+                                   placeholder="Ingrese razón social"/>                      
                         </div>                    
                         <!-- Validation messages to be displayed on required, minlength and maxlength -->
                         <p class="help-block" ng-show="epsForm.razonSocial.$error.minlength">Debe tener al menos 3 digitos</p>
@@ -29,7 +29,7 @@
                         <label style="text-align:right" class="col-md-4 label-info control-label label label-form">Tipo Identificación:</label>
                         <!-- Display a check when the field is valid and was modified -->
                         <span ng-class="{'glyphicon glyphicon-ok' : epsForm.tipoIdentificacion.$valid && epsForm.tipoIdentificacion.$dirty}"></span>
-                        <div class="col-md-6 col-xs-12">
+                        <div class="col-md-6 col-xs-12" >
                             <select name="tipoIdentificacion" id="tipoIdentificacion" ng-model="eps.tipoIdentificacion" class="form-control" required>
                                 <option ng-repeat="option in listaTiposIdentificacion" value="{{option.id}}">{{option.name}}</option>
                             </select>                        
@@ -46,7 +46,7 @@
                         <div class="col-md-6 col-xs-12">
                             <input id="representanteLegal" name="representanteLegal" type="text" class="form-control" maxlength="30"
                                    ng-model="eps.representanteLegal" required ng-minlength="3" ng-maxlength="30"
-                                   placeholder="Representante legal"/>                      
+                                   placeholder="Ingrese representante legal"/>                      
                         </div>
 
                         <!-- Validation messages to be displayed on required, minlength and maxlength -->
@@ -63,7 +63,7 @@
                         <div class="col-md-6 col-xs-12">
                             <input id="identificacion" name="identificacion" type="number" class="form-control" maxlength="20"
                                    ng-model="eps.numeroIdentificacion" required ng-minlength="3" ng-maxlength="20"
-                                   placeholder="Ingrese el número de identificación"/>                     
+                                   placeholder="Ingrese NIT sin digito verificación"/>                     
                         </div>
 
                         <!-- Validation messages to be displayed on required, minlength and maxlength -->
@@ -79,10 +79,9 @@
                             <input id="fechaConstitucion" name="fechaConstitucion" type="date" class="form-control" placeholder="dd/MM/yyyy"
                                    ng-model="eps.fechaConstitucion"
                                    required ng-minlength="5" ng-maxlength="100"/>
-                        </div>
-
-                        <!-- Validation messages to be displayed on required, minlength and maxlength -->
+                            <!-- Validation messages to be displayed on required, minlength and maxlength -->
                         <p class="help-block" ng-show="epsForm.fechaConstitucion.$error.required">Ingrese fecha de nacimiento.</p>
+                        </div>
                     </div>
                 </div>
                 <!-- Datos básicos -->
