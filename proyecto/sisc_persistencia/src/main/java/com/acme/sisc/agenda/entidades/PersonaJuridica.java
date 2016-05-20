@@ -8,7 +8,9 @@ package com.acme.sisc.agenda.entidades;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -17,6 +19,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -41,8 +45,9 @@ public class PersonaJuridica extends Persona implements Serializable {
   private String razonSocial;
 
   @Column(name = "fecha_constitucion")
-  private String fechaConstitucion;
-
+  @Temporal(TemporalType.DATE)
+  private Date fechaConstitucion;
+    
   @Column(name = "representante_legal")
   private String representanteLegal;
 
@@ -61,11 +66,11 @@ public class PersonaJuridica extends Persona implements Serializable {
     this.razonSocial = razonSocial;
   }
 
-  public String getFechaConstitucion() {
+  public Date getFechaConstitucion() {
     return fechaConstitucion;
   }
 
-  public void setFechaConstitucion(String fechaConstitucion) {
+  public void setFechaConstitucion(Date fechaConstitucion) {
     this.fechaConstitucion = fechaConstitucion;
   }
 
