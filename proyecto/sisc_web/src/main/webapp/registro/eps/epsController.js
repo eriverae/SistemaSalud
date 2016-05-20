@@ -23,7 +23,6 @@ app.controller('epsController', function ($scope, $rootScope, $stateParams, $sta
   
   //TODO Reemplazar por consulta de items asociados a la enumeracion Java
   $scope.listaTiposIdentificacion = [
-      {id: 'NITE', name: 'NIT Extranjeria'},
       {id: 'NIT', name: 'NIT'}
     ];
 
