@@ -40,6 +40,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PersonaNatural.findAll", query = "SELECT p FROM PersonaNatural p"),
+    @NamedQuery(name = "PersonaNatural.findByAllPacientes", query = "SELECT p FROM PersonaNatural p WHERE p.rolPersonaNatural = 'PACIENTE' "),
+    @NamedQuery(name = "PersonaNatural.findByAllMedicos", query = "SELECT p FROM PersonaNatural p WHERE p.rolPersonaNatural = 'MEDICO' "),
     @NamedQuery(name = "PersonaNatural.findByCorreoElectronico", query = "SELECT p FROM PersonaNatural p WHERE p.correoElectronico = :correoElectronico"),
     @NamedQuery(name = "PersonaNatural.findByNombres", query = "SELECT p FROM PersonaNatural p WHERE p.nombres = :nombres"),
     @NamedQuery(name = "PersonaNatural.findByApellidos", query = "SELECT p FROM PersonaNatural p WHERE p.apellidos = :apellidos")
