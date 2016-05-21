@@ -51,7 +51,7 @@ public class PersonaJuridica extends Persona implements Serializable {
   @Column(name = "representante_legal")
   private String representanteLegal;
 
-  @OneToMany(mappedBy = "eps",fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "eps", fetch = FetchType.LAZY)
   private List<PersonaEps> listaAfiliados;
 
 

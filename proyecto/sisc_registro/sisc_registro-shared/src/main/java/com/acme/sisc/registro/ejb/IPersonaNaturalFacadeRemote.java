@@ -9,6 +9,7 @@ package com.acme.sisc.registro.ejb;
 
 import com.acme.sisc.agenda.entidades.PersonaNatural;
 import com.acme.sisc.agenda.entidades.TipoIdentificacion;
+import com.acme.sisc.common.exceptions.CustomException;
 import java.util.List;
 import javax.ejb.Remote;
 import javax.ejb.TransactionAttribute;
@@ -24,7 +25,7 @@ public interface IPersonaNaturalFacadeRemote {
     int count();
 
     
-    void crearPersonaNatural(PersonaNatural personaNatural) throws Exception;
+    void crearPersonaNatural(PersonaNatural personaNatural) throws CustomException;
 
     PersonaNatural find(Object id);
 
@@ -41,7 +42,7 @@ public interface IPersonaNaturalFacadeRemote {
 
     List<PersonaNatural> findRange(int startPosition, int maxResults, String sortFields, String sortDirections);
 
-    PersonaNatural modificarPersonaNatural(PersonaNatural personaNatural);
+    PersonaNatural modificarPersonaNatural(PersonaNatural personaNatural) throws CustomException;
 
     void remove(PersonaNatural entity);
         
