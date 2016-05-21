@@ -31,6 +31,8 @@ public interface IPersonaNaturalFacadeRemote {
     PersonaNatural find(Object id);
 
     List<PersonaNatural> findAll();
+    List<PersonaNatural> findByAllPacientes();
+    List<PersonaNatural> findByAllMedicos();
 
     @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
     PersonaNatural findByIdentificacion(TipoIdentificacion tId, long identificacion);
