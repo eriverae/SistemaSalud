@@ -45,7 +45,7 @@ public class PersonaJuridica extends Persona implements Serializable {
   private String razonSocial;
 
   @Column(name = "fecha_constitucion")
-  @Temporal(TemporalType.DATE)
+  @Temporal(TemporalType.TIMESTAMP)
   private Date fechaConstitucion;
     
   @Column(name = "representante_legal")
