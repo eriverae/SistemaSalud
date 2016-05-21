@@ -6,6 +6,7 @@ package com.acme.sisc.registro.ejb;
 
 import com.acme.sisc.agenda.entidades.PersonaNatural;
 import com.acme.sisc.agenda.entidades.TipoIdentificacion;
+import com.acme.sisc.common.exceptions.CustomException;
 //import com.acme.sisc.registro.queue.JMSUtil;
 import java.util.List;
 import java.util.logging.Level;
@@ -136,7 +137,7 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
     }
 
     @Override
-    public void crearPersonaNatural(PersonaNatural personaNatural) throws Exception {
+    public void crearPersonaNatural(PersonaNatural personaNatural) throws CustomException {
         try {
             LOGGER.info("Inicia crearPersonaNatural(...)");
            //Se verifica si ya existe
@@ -144,7 +145,7 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
             if(p!= null){
                 em.lock(p, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
                 LOGGER.warning("Persona natural "+ personaNatural.getNumeroIdentificacion() + " ya existe !!");
-                throw new Exception("La persona natural " + personaNatural.getTipoIdentificacion()+ "-" 
+                throw new CustomException("La persona natural " + personaNatural.getTipoIdentificacion()+ "-" 
                         + personaNatural.getNumeroIdentificacion() + " ya existe en el sistema");
             }
             em.persist(personaNatural);
@@ -152,7 +153,7 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
             //JMSUtil.sendMessage(personaNatural,"java:/jms/queue/BancoQueue");
             LOGGER.info("Finaliza crearPersonaNatural despues(...)");
         }
-        catch (Exception ex) {
+        catch (CustomException ex) {
             LOGGER.log(Level.WARNING, "No se encontró persona {0}", personaNatural.getTipoIdentificacion() + " " 
                     + personaNatural.getNumeroIdentificacion() + " Exception: " + ex.getLocalizedMessage());
         }

@@ -6,8 +6,12 @@
 package com.acme.sisc.registro.rest;
 
 import com.acme.sisc.agenda.entidades.PersonaNatural;
+import com.acme.sisc.common.errorhandling.ErrorMessage;
+import com.acme.sisc.common.exceptions.CustomException;
 import com.acme.sisc.registro.ejb.IPersonaNaturalFacadeLocal;
 import com.acme.sisc.registro.pagination.PaginatedListWrapperPN;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -16,6 +20,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  * REST Web Service
@@ -92,11 +97,11 @@ public class PersonaNaturalResource {
     @GET
     @Path("getByNumber/{numberId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public PersonaNatural consultarPersonaPorNumeroIdentificacion(@PathParam("numberId") Long numberId){
+    public PersonaNatural consultarPersonaPorNumeroIdentificacion(@PathParam("numberId") Long numberId) {
         LOGGER.log(Level.FINE, "Consultando persona natural con numero identificacion {0} \n\n\n", numberId);
         return facadePersonaNatural.findByNumeroIdentificacion(numberId);
     }
-    
+
     @DELETE
     @Path("{id}")
     public void eliminarPersona(@PathParam("id") Long id) {
@@ -111,27 +116,42 @@ public class PersonaNaturalResource {
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void guardarPersonaNatural(PersonaNatural personaNatural) {
+    public Response guardarPersonaNatural(PersonaNatural personaNatural) {
         try {
             if (personaNatural.getIdPersona() == null) {
                 facadePersonaNatural.crearPersonaNatural(personaNatural);
             } else {
                 facadePersonaNatural.modificarPersonaNatural(personaNatural);
             }
-        } catch (Exception e) {
-            //TODO Definir manejo
-            LOGGER.log(Level.SEVERE, "Houston, estamos en problemas...", e);
+        } catch (CustomException ex) {
+            ErrorMessage errorMessage = new ErrorMessage();
+            errorMessage.setCode(ex.getErrorCode());
+            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
+            errorMessage.setMessage(ex.getMessage());
+            StringWriter errorStackTrace = new StringWriter();
+            ex.printStackTrace(new PrintWriter(errorStackTrace));
+            errorMessage.setDeveloperMessage(errorStackTrace.toString());
+
+            return Response.status(errorMessage.getStatus())
+                .entity(errorMessage)
+                .type(MediaType.APPLICATION_JSON)
+                .build();
         }
+        return Response.ok().build();
     }
-    
-    @GET
-    @Path("medicosPorEspecialidad/{page}/{sortFields}/{sortDirections}/{especialidad}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public PaginatedListWrapperPN medicosPorEspecialidad(
-            @DefaultValue("1") @QueryParam("page") Integer page,
-            @DefaultValue("id") @QueryParam("sortFields") String sortFields,
-            @DefaultValue("asc") @QueryParam("sortDirections") String sortDirections,
-            @DefaultValue("0") @QueryParam("especialidad") Long especialidad) {
+
+@GET
+        @Path("medicosPorEspecialidad/{page}/{sortFields}/{sortDirections}/{especialidad}")
+        @Produces(MediaType.APPLICATION_JSON)
+        public PaginatedListWrapperPN medicosPorEspecialidad(
+            @DefaultValue("1")
+        @QueryParam("page") Integer page,
+            @DefaultValue("id")
+        @QueryParam("sortFields") String sortFields,
+            @DefaultValue("asc")
+        @QueryParam("sortDirections") String sortDirections,
+            @DefaultValue("0")
+        @QueryParam("especialidad") Long especialidad) {
         PaginatedListWrapperPN paginatedListWrapper = new PaginatedListWrapperPN();
         paginatedListWrapper.setCurrentPage(page);
         paginatedListWrapper.setSortFields(sortFields);
