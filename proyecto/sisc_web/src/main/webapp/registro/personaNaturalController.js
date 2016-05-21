@@ -60,7 +60,6 @@ $scope.listaTiposIdentificacion = [
         $scope.updatePaciente = function () {
             if ($scope.paciente){
             $scope.persona.rolPersonaNatural = "PACIENTE";
-            $scope.persona.direccion = "si pone al direccion de aqui ";
                 personaService.save($scope.persona).$promise.then(
                     function () {
                     // Broadcast the event to refresh the grid.
