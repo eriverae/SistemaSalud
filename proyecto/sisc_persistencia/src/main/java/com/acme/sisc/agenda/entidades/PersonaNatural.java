@@ -90,7 +90,7 @@ public class PersonaNatural extends Persona implements Serializable {
     private String tarjetaProfesional;
 
     @Column(name = "rol_persona_natural")
-    private String rolPersonaNatutal;
+    private String rolPersonaNatural;
 
     @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY)
     private List<PersonaEps> listaPersonasEps;
@@ -244,12 +244,12 @@ public class PersonaNatural extends Persona implements Serializable {
         this.listaPersonasEps = listaPersonasEps;
     }
 
-    public String getRolPersonaNatutal() {
-        return rolPersonaNatutal;
+    public String getRolPersonaNatural() {
+        return rolPersonaNatural;
     }
 
-    public void setRolPersonaNatutal(String rolPersonaNatutal) {
-        this.rolPersonaNatutal = rolPersonaNatutal;
+    public void setRolPersonaNatural(String rolPersonaNatural) {
+        this.rolPersonaNatural = rolPersonaNatural;
     }
 
     @JsonIgnore
