@@ -96,6 +96,20 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         Query q = em.createQuery("SELECT p FROM PersonaNatural p");
         return q.getResultList();
     }
+    
+    @Override
+    public List<PersonaNatural> findByAllPacientes() {
+        //Query  q = em.createNamedQuery("Cliente.findAll");
+        Query q = em.createQuery("SELECT p FROM PersonaNatural p WHERE p.rolPersonaNatural = 'PACIENTE' ");
+        return q.getResultList();
+    }
+    
+    @Override
+    public List<PersonaNatural> findByAllMedicos() {
+        //Query  q = em.createNamedQuery("Cliente.findAll");
+        Query q = em.createQuery("SELECT p FROM PersonaNatural p WHERE p.rolPersonaNatural = 'MEDICO' ");
+        return q.getResultList();
+    }
 
     @Override
     public void remove(PersonaNatural entity) {
