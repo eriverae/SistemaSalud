@@ -8,6 +8,7 @@ package com.acme.sisc.registro.ejb;
 
 
 import com.acme.sisc.agenda.entidades.PersonaNatural;
+import com.acme.sisc.agenda.entidades.PersonaNaturalBeneficiario;
 import com.acme.sisc.agenda.entidades.TipoIdentificacion;
 import com.acme.sisc.common.exceptions.CustomException;
 import java.util.List;
@@ -49,4 +50,10 @@ public interface IPersonaNaturalFacadeRemote {
     public void remove(Long id);
     
     List<PersonaNatural> medicosPorEspecialidadFindRange(int startPosition, int maxResults, String sortFields, String sortDirections, Long especialidad);
+    
+    List<PersonaNaturalBeneficiario> findBeneficiarios(int startPosition, int maxResults, String sortFields, String sortDirections, long cotizante);
+    
+    void asociarBeneficiario(PersonaNatural cotizante, PersonaNatural beneficiario, int parentezco);
+    
+    void removerBeneficiario(PersonaNaturalBeneficiario beneficiario);
 }

@@ -27,6 +27,7 @@
     <class>com.acme.sisc.agenda.entidades.PersonaJuridica</class>
     <class>com.acme.sisc.agenda.entidades.PersonaNatural</class>
     <class>com.acme.sisc.agenda.entidades.PersonaNaturalAlergia</class>
+    <class>com.acme.sisc.agenda.entidades.PersonaNaturalBeneficiario</class>
     <class>com.acme.sisc.agenda.entidades.PersonaNaturalEnfermedad</class>
     <class>com.acme.sisc.agenda.entidades.PersonaNaturalEspecialidad</class>
     <class>com.acme.sisc.agenda.entidades.PersonaNaturalOperacion</class>

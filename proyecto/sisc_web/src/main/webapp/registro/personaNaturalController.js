@@ -58,18 +58,18 @@ app.controller('personaNaturalController', function ($scope, $rootScope, $stateP
 
   // Calls the rest method to save a Paciente.
   $scope.updatePaciente = function () {
-    personaService.save($scope.persona).$promise.then(
-    function () {
-      // Broadcast the event to refresh the grid.
-      $rootScope.$broadcast('refreshGrid');
-      // Broadcast the event to display a save message.
-      $rootScope.$broadcast('pacienteSaved');
-      
-    },
-    function () {
-      // Broadcast the event for a server error.
-      $rootScope.$broadcast('error');
-    });
+        personaService.save($scope.persona).$promise.then(
+                function () {
+                    // Broadcast the event to refresh the grid.
+                    $rootScope.$broadcast('refreshGrid');
+                    // Broadcast the event to display a save message.
+                    $rootScope.$broadcast('pacienteSaved');
+
+                },
+                function () {
+                    // Broadcast the event for a server error.
+                    $rootScope.$broadcast('error');
+                });
   };
 
   // Picks up the event broadcasted when the person is selected from the grid and perform the person load by calling
