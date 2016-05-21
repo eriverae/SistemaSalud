@@ -8,6 +8,7 @@ package com.acme.sisc.registro.ejb;
 
 
 import com.acme.sisc.agenda.entidades.PersonaNatural;
+import com.acme.sisc.agenda.entidades.PersonaNaturalBeneficiario;
 import com.acme.sisc.agenda.entidades.TipoIdentificacion;
 import com.acme.sisc.common.exceptions.CustomException;
 import java.util.List;
@@ -29,6 +30,8 @@ public interface IPersonaNaturalFacadeLocal{
     PersonaNatural find(Object id);
 
     List<PersonaNatural> findAll();
+    List<PersonaNatural> findByAllPacientes();
+    List<PersonaNatural> findByAllMedicos();
 
     @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
     PersonaNatural findByIdentificacion(TipoIdentificacion tId, long identificacion);
@@ -49,4 +52,9 @@ public interface IPersonaNaturalFacadeLocal{
     
     List<PersonaNatural> medicosPorEspecialidadFindRange(int startPosition, int maxResults, String sortFields, String sortDirections, Long especialidad);
     
+    List<PersonaNaturalBeneficiario> findBeneficiarios(int startPosition, int maxResults, String sortFields, String sortDirections, long cotizante);
+    
+    void asociarBeneficiario(PersonaNatural cotizante, PersonaNatural beneficiario, int parentezco);
+    
+    void removerBeneficiario(PersonaNaturalBeneficiario beneficiario);
 }

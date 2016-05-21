@@ -6,8 +6,10 @@
 package com.acme.sisc.registro.rest;
 
 import com.acme.sisc.agenda.entidades.PersonaNatural;
+import com.acme.sisc.agenda.entidades.PersonaNaturalBeneficiario;
 import com.acme.sisc.common.errorhandling.ErrorMessage;
 import com.acme.sisc.common.exceptions.CustomException;
+import com.acme.sisc.common.pagination.PaginatedListWrapper;
 import com.acme.sisc.registro.ejb.IPersonaNaturalFacadeLocal;
 import com.acme.sisc.registro.pagination.PaginatedListWrapperPN;
 import java.io.PrintWriter;
@@ -72,13 +74,6 @@ public class PersonaNaturalResource {
         return wrapper;
     }
 
-//    @GET
-//    @Path("{id}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public PersonaNatural consultarPersona(@PathParam("id") Long id){
-//        LOGGER.log(Level.FINE, "Consultando persona natural con id {0} \n\n\n", id);
-//        return facadePersonaNatural.find(id);
-//    }
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -133,25 +128,75 @@ public class PersonaNaturalResource {
             errorMessage.setDeveloperMessage(errorStackTrace.toString());
 
             return Response.status(errorMessage.getStatus())
-                .entity(errorMessage)
-                .type(MediaType.APPLICATION_JSON)
-                .build();
+                    .entity(errorMessage)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
         }
         return Response.ok().build();
     }
 
-@GET
-        @Path("medicosPorEspecialidad/{page}/{sortFields}/{sortDirections}/{especialidad}")
-        @Produces(MediaType.APPLICATION_JSON)
-        public PaginatedListWrapperPN medicosPorEspecialidad(
+    @GET
+    @Path("beneficiarios/{page}/{sortFields}/{sortDirections}/{cotizante}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public PaginatedListWrapper beneficiarios(
             @DefaultValue("1")
-        @QueryParam("page") Integer page,
+            @QueryParam("page") Integer page,
             @DefaultValue("id")
-        @QueryParam("sortFields") String sortFields,
+            @QueryParam("sortFields") String sortFields,
             @DefaultValue("asc")
-        @QueryParam("sortDirections") String sortDirections,
+            @QueryParam("sortDirections") String sortDirections,
             @DefaultValue("0")
-        @QueryParam("especialidad") Long especialidad) {
+            @QueryParam("cotizante") Long cotizante) {
+        PaginatedListWrapper plw = new PaginatedListWrapper();
+        plw.setCurrentPage(page);
+        plw.setSortFields(sortFields);
+        plw.setSortDirections(sortDirections);
+        plw.setPageSize(10);
+        return beneficiariosWrapper(plw, cotizante);
+    }
+
+    private PaginatedListWrapper beneficiariosWrapper(PaginatedListWrapper wrapper, Long cotizante) {
+        int total = facadePersonaNatural.count();
+        wrapper.setTotalResults(total);
+        int start = (wrapper.getCurrentPage() - 1) * wrapper.getPageSize();
+        wrapper.setList(
+                facadePersonaNatural.findBeneficiarios(start,
+                        wrapper.getPageSize(),
+                        wrapper.getSortFields(),
+                        wrapper.getSortDirections(),
+                        cotizante)
+        );
+        return wrapper;
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("asociarBeneficiario")
+    public void asociarBeneficiario(PersonaNatural cotizante, 
+                                    PersonaNatural beneficiario,
+                                    int parentezco){
+        try{
+            facadePersonaNatural.asociarBeneficiario(cotizante, beneficiario, parentezco);
+        }
+        catch(Exception ex){
+            
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Servicios a módulos
+    @GET
+    @Path("medicosPorEspecialidad/{page}/{sortFields}/{sortDirections}/{especialidad}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public PaginatedListWrapperPN medicosPorEspecialidad(
+            @DefaultValue("1")
+            @QueryParam("page") Integer page,
+            @DefaultValue("id")
+            @QueryParam("sortFields") String sortFields,
+            @DefaultValue("asc")
+            @QueryParam("sortDirections") String sortDirections,
+            @DefaultValue("0")
+            @QueryParam("especialidad") Long especialidad) {
         PaginatedListWrapperPN paginatedListWrapper = new PaginatedListWrapperPN();
         paginatedListWrapper.setCurrentPage(page);
         paginatedListWrapper.setSortFields(sortFields);
@@ -166,10 +211,10 @@ public class PersonaNaturalResource {
         int start = (wrapper.getCurrentPage() - 1) * wrapper.getPageSize();
         wrapper.setList(
                 facadePersonaNatural.medicosPorEspecialidadFindRange(start,
-                    wrapper.getPageSize(),
-                    wrapper.getSortFields(),
-                    wrapper.getSortDirections(),
-                    especialidad)
+                        wrapper.getPageSize(),
+                        wrapper.getSortFields(),
+                        wrapper.getSortDirections(),
+                        especialidad)
         );
         return wrapper;
     }

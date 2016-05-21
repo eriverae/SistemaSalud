@@ -82,7 +82,7 @@
                     <label class="col-md-3 col-xs-12 label-info control-label label label-form">Parentezco</label>
                     <span ng-class="{'glyphicon glyphicon-ok' : BeneficiarioForm.parentezco.$valid && BeneficiarioForm.parentezco.$dirty}"></span>
                     <div class="col-md-6 col-xs-12">
-                        <select name="parentezco" id="parentezco" ng-model="beneficiario.parentezco" class="form-control select" required>
+                        <select name="parentezco" id="parentezco" ng-model="parentezco" class="form-control select" required>
                             <option ng-repeat="option in listaTiposParentezco" value="{{option.id}}">{{option.name}}</option>
                         </select>
                     </div>
@@ -99,7 +99,7 @@
                     <div class="gridStyle" ng-grid="gridOptions"></div>
                     <pagination direction-links="true" boundary-links="true"
                                 total-items="beneficiarios.totalResults" items-per-page="beneficiarios.pageSize"
-                                ng-model="usuarios.currentPage" ng-change="refreshGrid()">
+                                ng-model="beneficiarios.currentPage" ng-change="refreshGrid()">
                     </pagination>
                 </div>
             </div>
