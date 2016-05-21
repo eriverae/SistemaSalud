@@ -17,7 +17,8 @@ app.controller('loginFormController', function ($scope, $rootScope, $stateParams
   
   $scope.hacerLogin = function () {
     loginService.save($scope.credenciales).$promise.then(
-    function () {
+    function (data) {
+      console.log(data);
       // Broadcast the event to refresh the grid.
       $rootScope.$broadcast('refreshGrid');
       // Broadcast the event to display a save message.

@@ -133,5 +133,5 @@ public class GrupoFacade implements GrupoFacadeRemote, GrupoFacadeLocal {
         q.setParameter(1, usuario);
         return q.getResultList();
     }
-    
+
 }

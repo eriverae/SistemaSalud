@@ -8,7 +8,7 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
   $stateProvider
     .state('login',{
       url: '/login',
-      templateUrl: 'index.html',
+      templateUrl: 'login.html',
       controller: 'loginFormController'
     })
     
