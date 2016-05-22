@@ -20,6 +20,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -61,16 +63,18 @@ public class ExamenFacade implements IExamenFacadeLocal, IExamenFacadeRemote{
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void addExamenCita(List<CitaExamen> listaExamen) {
         try{
             icitaremote = (ICitaRemote) EJBLocator.lookup(REMOTE_EJB_CITA);
             for (int i=0; i<listaExamen.size(); i++) {
                 Cita c = icitaremote.find(listaExamen.get(i).getCita().getIdCita());
-                CitaExamen obj = listaExamen.get(i);
-                obj.setFechaGeneracion(new Date());
-                obj.setExamen(facadeExamen.find(listaExamen.get(i).getExamen().getIdExamen()));
-                obj.setCita(c);
-                em.persist(obj);
+                CitaExamen objectCE = findByCita_Examn(c.getIdCita(),
+                        listaExamen.get(i).getExamen().getIdExamen());
+                objectCE.setFechaGeneracion(new Date());
+                objectCE.setExamen(facadeExamen.find(listaExamen.get(i).getExamen().getIdExamen()));
+                objectCE.setCita(c);
+                em.merge(objectCE);
             }
         }catch(Exception e){
             LOGGER.log(Level.SEVERE,"No se encontro cliente {0} ", e);
@@ -94,6 +98,18 @@ public class ExamenFacade implements IExamenFacadeLocal, IExamenFacadeRemote{
             js.add(m);
         }
         return js;
+    }
+    
+    @Override
+    public CitaExamen findByCita_Examn(Long idcita, Long idexamen) {
+        Query q = em.createNativeQuery("SELECT * FROM cita_examen where id_cita = " + idcita + 
+                " AND id_examen = "+ idexamen, CitaExamen.class);
+        if (q.getResultList().isEmpty()){
+            CitaExamen obj = new CitaExamen();
+            return obj;
+        }else{
+            return (CitaExamen)q.getSingleResult();
+        }
     }
     
 }

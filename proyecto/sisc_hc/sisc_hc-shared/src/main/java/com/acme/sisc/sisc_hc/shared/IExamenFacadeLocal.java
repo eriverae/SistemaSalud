@@ -22,4 +22,5 @@ public interface IExamenFacadeLocal {
     List<Examen> findAll();   
     public void addExamenCita(List<CitaExamen> cita_examen);
     ArrayList<HashMap> findByCita(Long idcita);
+    CitaExamen findByCita_Examn(Long idcita, Long idexamen);
 }
