@@ -20,6 +20,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -63,16 +65,18 @@ public class CirugiaFacade implements ICirugiaFacadeLocal, ICirugiaFacadeRemote{
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void addCirugiaCita(List<CitaCirugia> listaCirugia) {
         try {
             icitaremote = (ICitaRemote) EJBLocator.lookup(REMOTE_EJB_CITA);
             for (int i=0; i<listaCirugia.size(); i++) {
                 Cita c = icitaremote.find(listaCirugia.get(i).getCita().getIdCita());
-                CitaCirugia obj = listaCirugia.get(i);
-                obj.setFechaGeneracion(new Date());
-                obj.setCirugia(facadeCirugia.find(listaCirugia.get(i).getCirugia().getIdCirugia()));
-                obj.setCita(c);
-                em.persist(obj);
+                CitaCirugia objectCC = findByCita_Ciru(c.getIdCita(),
+                        listaCirugia.get(i).getCirugia().getIdCirugia());
+                objectCC.setFechaGeneracion(new Date());
+                objectCC.setCirugia(facadeCirugia.find(listaCirugia.get(i).getCirugia().getIdCirugia()));
+                objectCC.setCita(c);
+                em.merge(objectCC);
             }
         } catch (NamingException ex) {
             Logger.getLogger(CirugiaFacade.class.getName()).log(Level.SEVERE, null, ex);
@@ -96,6 +100,18 @@ public class CirugiaFacade implements ICirugiaFacadeLocal, ICirugiaFacadeRemote{
             js.add(m);
         }
         return js;
+    }
+    
+    @Override
+    public CitaCirugia findByCita_Ciru(Long idcita, Long idcirugia) {
+        Query q = em.createNativeQuery("SELECT * FROM cita_cirugia where id_cita = " + idcita + 
+                " AND id_cirugia = "+ idcirugia, CitaCirugia.class);
+        if (q.getResultList().isEmpty()){
+            CitaCirugia obj = new CitaCirugia();
+            return obj;
+        }else{
+            return (CitaCirugia)q.getSingleResult();
+        }
     }
     
 }

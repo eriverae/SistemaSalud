@@ -43,8 +43,7 @@ app.controller('listaPacientesController', function ($scope, $rootScope, $stateP
         var listPacientesArgs = {
             page: $scope.pacientes.currentPage,
             sortFields: $scope.sortInfo.fields[0],
-            sortDirections: $scope.sortInfo.directions[0],
-            rol: 'PACIENTE'
+            sortDirections: $scope.sortInfo.directions[0]
         };
 
         personaService.get(listPacientesArgs, function (data) {

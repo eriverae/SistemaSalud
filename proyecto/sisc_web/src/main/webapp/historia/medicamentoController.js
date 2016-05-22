@@ -1,9 +1,29 @@
 var app = angular.module('sisc_web');
 // Create a controller with name clientesListController to bind to the grid section.
-app.controller('medicamentoController', function ($scope, $rootScope,$state ,$timeout, medicamentoService, modalService) {
+app.controller('medicamentoController', function ($scope, $rootScope,$state ,$timeout, medicamentoService,cabeceraService, modalService) {
     // Initialize required information: sorting, the first page to show and the grid options.
 
     $scope.myData = [];
+    
+    
+
+    cabeceraService.get({idcita:localStorage.getItem('idCita')}).$promise.then(
+      function (data) {
+    console.log("get cabeceraService");
+    $timeout(function() {
+     
+      $scope.nombre = data.data[0].nombre;
+      $scope.fechanac = data.data[0].fechanac;
+      $scope.identificacion = data.data[0].identificacion;
+      $scope.correo = data.data[0].correo;
+      $scope.$apply();
+    }, 300);
+      },
+
+      function () {
+    console.log("get FAIL cabeceraService");
+      });
+
 
     $scope.gridOptions = {
         
@@ -43,7 +63,7 @@ app.controller('medicamentoController', function ($scope, $rootScope,$state ,$ti
     var newRow = null;
 
     $scope.onAddRow = function(){
-        $scope.myData.push ( {cita : 1,
+        $scope.myData.push ( {cita : localStorage.getItem('idCita'),
         medicamento : '',
         formula : ''});
     };
@@ -89,7 +109,7 @@ app.controller('medicamentoController', function ($scope, $rootScope,$state ,$ti
     // Refresh the grid, calling the appropriate rest method.
     $scope.refreshGrid = function () {
         var listUsuariosArgs = {
-            idcita:1
+            idcita:localStorage.getItem('idCita')
         };
 
         medicamentoService.get(listUsuariosArgs, function (data) {

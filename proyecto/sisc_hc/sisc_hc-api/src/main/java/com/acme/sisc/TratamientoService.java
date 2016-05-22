@@ -37,9 +37,11 @@ public class TratamientoService {
             throws CustomException, CustomRunTimeException{
         try{
             if (idcita == null){
+                HashMap m = new HashMap();
+                m.put("data", facadeTratamiento.findAll());
                 return Response
                 .status(200)
-                .entity(facadeTratamiento.findAll())
+                .entity(m)
                 .build();
             }
             else{

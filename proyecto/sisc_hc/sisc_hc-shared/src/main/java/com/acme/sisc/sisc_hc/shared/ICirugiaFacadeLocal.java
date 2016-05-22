@@ -22,4 +22,5 @@ public interface ICirugiaFacadeLocal {
     List<Cirugia> findAll();   
     public void addCirugiaCita(List<CitaCirugia> cita_cirugia);
     ArrayList<HashMap> findByCita(Long idcita);
+    CitaCirugia findByCita_Ciru(Long idcita, Long idcirugia);
 }

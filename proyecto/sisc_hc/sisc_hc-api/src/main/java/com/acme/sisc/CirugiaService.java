@@ -37,9 +37,11 @@ public class CirugiaService {
             throws CustomException, CustomRunTimeException{
         try{
             if (idcita == null){
+                HashMap m = new HashMap();
+                m.put("data", facadeCirugia.findAll());
                 return Response
                 .status(200)
-                .entity(facadeCirugia.findAll())
+                .entity(m)
                 .build();
             }
             else{

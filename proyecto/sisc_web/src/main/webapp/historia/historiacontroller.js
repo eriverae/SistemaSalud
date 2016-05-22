@@ -6,7 +6,7 @@ app.controller('historiaController', function ($scope, $rootScope, $stateParams,
   	$scope.historias = [];
 
 
-  	filtroService.get({idcita:1}).$promise.then(
+  	filtroService.get({idcita:localStorage.getItem('idCita')}).$promise.then(
       function (data) {
 		console.log("get medicos");
 		$timeout(function() {

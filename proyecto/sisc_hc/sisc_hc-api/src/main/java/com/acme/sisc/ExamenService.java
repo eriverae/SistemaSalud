@@ -37,9 +37,11 @@ public class ExamenService {
             throws CustomException, CustomRunTimeException{
         try{
             if (idcita == null){
+                HashMap m = new HashMap();
+                m.put("data", facadeExamen.findAll());
                 return Response
                 .status(200)
-                .entity(facadeExamen.findAll())
+                .entity(m)
                 .build();
             }
             else{

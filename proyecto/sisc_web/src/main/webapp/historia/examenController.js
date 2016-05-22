@@ -1,6 +1,6 @@
 var app = angular.module('sisc_web');
 // Create a controller with name clientesListController to bind to the grid section.
-app.controller('examenController', function ($scope, $rootScope,$state ,examenService, modalService) {
+app.controller('examenController', function ($scope, $rootScope,$state ,examenService,cabeceraService,$timeout, modalService) {
     // Initialize required information: sorting, the first page to show and the grid options.
 
 
@@ -12,7 +12,22 @@ app.controller('examenController', function ($scope, $rootScope,$state ,examenSe
             observaciones:""          
             }
     ];
+   cabeceraService.get({idcita:localStorage.getItem('idCita')}).$promise.then(
+      function (data) {
+    console.log("get cabeceraService");
+    $timeout(function() {
+     
+      $scope.nombre = data.data[0].nombre;
+      $scope.fechanac = data.data[0].fechanac;
+      $scope.identificacion = data.data[0].identificacion;
+      $scope.correo = data.data[0].correo;
+      $scope.$apply();
+    }, 300);
+      },
 
+      function () {
+    console.log("get FAIL cabeceraService");
+      });
     $scope.gridOptions = {
 
         data: 'myData',

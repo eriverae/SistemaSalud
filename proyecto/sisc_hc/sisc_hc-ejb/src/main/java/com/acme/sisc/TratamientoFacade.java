@@ -21,6 +21,9 @@ import java.util.List;
 import java.util.logging.Level;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -62,19 +65,21 @@ public class TratamientoFacade implements ITratamientoFacadeLocal, ITratamientoF
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void addTratamientoCita(List<CitaTratamiento> listaTratamiento) {
-        try{
+        try {
             icitaremote = (ICitaRemote) EJBLocator.lookup(REMOTE_EJB_CITA);
             for (int i=0; i<listaTratamiento.size(); i++) {
                 Cita c = icitaremote.find(listaTratamiento.get(i).getCita().getIdCita());
-                CitaTratamiento obj = listaTratamiento.get(i);
-                obj.setFechaGeneracion(new Date());
-                obj.setTratamiento(facadeTratamiento.find(listaTratamiento.get(i).getTratamiento().getIdTratamiento()));
-                obj.setCita(c);
-                em.persist(obj);
+                CitaTratamiento objectCT = findByCita_Tratamient(c.getIdCita(),
+                        listaTratamiento.get(i).getTratamiento().getIdTratamiento());
+                objectCT.setFechaGeneracion(new Date());
+                objectCT.setTratamiento(facadeTratamiento.find(listaTratamiento.get(i).getTratamiento().getIdTratamiento()));
+                objectCT.setCita(c);
+                em.merge(objectCT);
             }
-        }catch(Exception e){
-            LOGGER.log(Level.SEVERE,"No se encontro cliente {0} ", e);
+        } catch (NamingException ex) {
+            Logger.getLogger(TratamientoFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -94,6 +99,18 @@ public class TratamientoFacade implements ITratamientoFacadeLocal, ITratamientoF
             js.add(m);
         }
         return js;
+    }
+    
+    @Override
+    public CitaTratamiento findByCita_Tratamient(Long idcita, Long idtratamiento) {
+        Query q = em.createNativeQuery("SELECT * FROM cita_tratamiento where id_cita = " + idcita + 
+                " AND id_tratamiento = "+ idtratamiento, CitaTratamiento.class);
+        if (q.getResultList().isEmpty()){
+            CitaTratamiento obj = new CitaTratamiento();
+            return obj;
+        }else{
+            return (CitaTratamiento)q.getSingleResult();
+        }
     }
     
 }

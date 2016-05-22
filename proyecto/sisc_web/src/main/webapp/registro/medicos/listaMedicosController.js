@@ -42,8 +42,7 @@ app.controller('listaMedicosController', function ($scope, $rootScope, $statePar
         var listMedicosArgs = {
             page: $scope.medicos.currentPage,
             sortFields: $scope.sortInfo.fields[0],
-            sortDirections: $scope.sortInfo.directions[0],
-            rol: 'MEDICO'
+            sortDirections: $scope.sortInfo.directions[0]
         };
 
         personaService.get(listMedicosArgs, function (data) {

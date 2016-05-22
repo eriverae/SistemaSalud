@@ -22,4 +22,5 @@ public interface ITratamientoFacadeRemote {
     List<Tratamiento> findAll();
     void addTratamientoCita(List<CitaTratamiento> listaTratamiento);
     ArrayList<HashMap> findByCita(Long idcita);
+    CitaTratamiento findByCita_Tratamient(Long idcita, Long idtratamiento);
 }
