@@ -23,6 +23,9 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import com.acme.sisc.common.ejbLocator.EJBLocator;
+import com.acme.sisc.agenda.shared.ICitaRemote;
+import javax.naming.NamingException;
 
 /**
  *
@@ -34,6 +37,9 @@ public class MedicamentoFacade implements IMedicamentoFacadeLocal, IMedicamentoF
     IMedicamentoFacadeRemote facadeMedicamento;
     
     private static final Logger LOGGER = Logger.getLogger(MedicamentoFacade.class.getName());
+    private static final String REMOTE_EJB_CITA = "java:global/sisc_agenda-ear-1.0-SNAPSHOT/sisc_agenda-ejb-1.0-SNAPSHOT/SessionBeanCitaPaciente!com.acme.sisc.agenda.shared.ICitaRemote";
+    
+    private ICitaRemote icitaremote;
     
     @PersistenceContext(unitName = "SistemaSaludPU")
     private EntityManager em;
@@ -60,18 +66,20 @@ public class MedicamentoFacade implements IMedicamentoFacadeLocal, IMedicamentoF
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void addMedicamentoCita(List<CitaMedicamento>listaMedicamentos) {
-        try{
-            Cita c = em.find(Cita.class, new Long("1"));
+        try {
+            icitaremote = (ICitaRemote) EJBLocator.lookup(REMOTE_EJB_CITA);
             for (int i=0; i<listaMedicamentos.size(); i++) {
-                CitaMedicamento obj = listaMedicamentos.get(i);
-                obj.setFechaGenracion(new Date());
-                obj.setMedicamento(facadeMedicamento.find(listaMedicamentos.get(i).getMedicamento().getIdMedicamento()));
-                obj.setCita(c);
-                //listaMedicamentos.get(i).setMedicamento(facadeCita.findById(listaMedicamentos.get(i).getCita().getId()));
-                em.persist(obj);
+                Cita c = icitaremote.find(listaMedicamentos.get(i).getCita().getIdCita());
+                CitaMedicamento objectCM = findByCita_Medicament(c.getIdCita(),
+                        listaMedicamentos.get(i).getMedicamento().getIdMedicamento());
+                objectCM.setFormula(listaMedicamentos.get(i).getFormula());
+                objectCM.setFechaGenracion(new Date());
+                objectCM.setMedicamento(facadeMedicamento.find(listaMedicamentos.get(i).getMedicamento().getIdMedicamento()));
+                objectCM.setCita(c);
+                em.merge(objectCM);
             }
-        }catch(Exception e){
-            LOGGER.log(Level.SEVERE,"No se encontro cliente {0} ", e);
+        } catch (NamingException ex) {
+            Logger.getLogger(MedicamentoFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -84,13 +92,26 @@ public class MedicamentoFacade implements IMedicamentoFacadeLocal, IMedicamentoF
 
         for (int i = 0; i<lista.size();i++ ){
             HashMap m = new HashMap();
-            m.put("idcita", lista.get(i).getCita().getIdCita());
-            m.put("idmedicamento", lista.get(i).getMedicamento().getIdMedicamento());
+            m.put("cita", lista.get(i).getCita().getIdCita());
+            m.put("medicamento", lista.get(i).getMedicamento().getIdMedicamento());
+            m.put("medicamento_name", lista.get(i).getMedicamento().getNombreMedicamento());
             m.put("fechageneracion", lista.get(i).getFechaGenracion());
             m.put("formula", lista.get(i).getFormula());
             js.add(m);
         }
         return js;
+    }
+
+    @Override
+    public CitaMedicamento findByCita_Medicament(Long idcita, Long idmedicamento) {
+        Query q = em.createNativeQuery("SELECT * FROM cita_medicamento where id_cita = " + idcita + 
+                " AND id_medicamento = "+ idmedicamento, CitaMedicamento.class);
+        if (q.getResultList().isEmpty()){
+            CitaMedicamento obj = new CitaMedicamento();
+            return obj;
+        }else{
+            return (CitaMedicamento)q.getSingleResult();
+        }
     }
     
 }

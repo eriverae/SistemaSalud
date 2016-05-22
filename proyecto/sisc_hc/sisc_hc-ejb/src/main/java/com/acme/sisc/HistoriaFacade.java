@@ -228,9 +228,8 @@ public class HistoriaFacade implements IHistoriaFacadeLocal, IHistoriaFacadeRemo
 
         Query q = em.createNativeQuery("select * from cita_medicamento \n" +
                 "where id_cita in (\n" +
-                "	select id_cita from persona_natural inner join cita\n" +
+                "	select max(id_cita) from persona_natural inner join cita\n" +
                 "	on persona_natural.id_persona = cita.id_paciente_eps\n" +
-                "	order by id_cita DESC \n" +
                 ")", CitaMedicamento.class);
         List<CitaMedicamento>listaCitaMedicamento = q.getResultList();
 
@@ -250,9 +249,8 @@ public class HistoriaFacade implements IHistoriaFacadeLocal, IHistoriaFacadeRemo
         
         Query q2 = em.createNativeQuery("select * from cita_cirugia \n" +
                 "where id_cita in (\n" +
-                "	select id_cita from persona_natural inner join cita\n" +
+                "	select max(id_cita) from persona_natural inner join cita\n" +
                 "	on persona_natural.id_persona = cita.id_paciente_eps\n" +
-                "	order by id_cita DESC \n" +
                 ")", CitaCirugia.class);
         List<CitaCirugia>listaCitaCirugia = q2.getResultList();
         
@@ -271,9 +269,8 @@ public class HistoriaFacade implements IHistoriaFacadeLocal, IHistoriaFacadeRemo
         
         Query q3 = em.createNativeQuery("select * from cita_examen \n" +
                 "where id_cita in (\n" +
-                "	select id_cita from persona_natural inner join cita\n" +
+                "	select max(id_cita) from persona_natural inner join cita\n" +
                 "	on persona_natural.id_persona = cita.id_paciente_eps\n" +
-                "	order by id_cita DESC \n" +
                 ")", CitaExamen.class);
         List<CitaExamen>listaCitaExamen = q3.getResultList();
         
@@ -292,9 +289,8 @@ public class HistoriaFacade implements IHistoriaFacadeLocal, IHistoriaFacadeRemo
         
         Query q4 = em.createNativeQuery("select * from cita_tratamiento \n" +
                 "where id_cita in (\n" +
-                "	select id_cita from persona_natural inner join cita\n" +
+                "	select max(id_cita) from persona_natural inner join cita\n" +
                 "	on persona_natural.id_persona = cita.id_paciente_eps\n" +
-                "	order by id_cita DESC \n" +
                 ")", CitaTratamiento.class);
         List<CitaTratamiento>listaCitaTratamiento = q4.getResultList();
         

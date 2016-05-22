@@ -8,6 +8,8 @@ package com.acme.sisc;
 import com.acme.sisc.agenda.entidades.Cita;
 import com.acme.sisc.agenda.entidades.CitaExamen;
 import com.acme.sisc.agenda.entidades.Examen;
+import com.acme.sisc.agenda.shared.ICitaRemote;
+import com.acme.sisc.common.ejbLocator.EJBLocator;
 import com.acme.sisc.sisc_hc.shared.IExamenFacadeLocal;
 import com.acme.sisc.sisc_hc.shared.IExamenFacadeRemote;
 import java.util.ArrayList;
@@ -32,6 +34,9 @@ public class ExamenFacade implements IExamenFacadeLocal, IExamenFacadeRemote{
     IExamenFacadeRemote facadeExamen;
     
     private static final Logger LOGGER = Logger.getLogger(MedicamentoFacade.class.getName());
+    private static final String REMOTE_EJB_CITA = "java:global/sisc_agenda-ear-1.0-SNAPSHOT/sisc_agenda-ejb-1.0-SNAPSHOT/SessionBeanCitaPaciente!com.acme.sisc.agenda.shared.ICitaRemote";
+    
+    private ICitaRemote icitaremote;
     
     @PersistenceContext(unitName = "SistemaSaludPU")
     private EntityManager em;
@@ -58,13 +63,13 @@ public class ExamenFacade implements IExamenFacadeLocal, IExamenFacadeRemote{
     @Override
     public void addExamenCita(List<CitaExamen> listaExamen) {
         try{
-            Cita c = em.find(Cita.class, new Long("1"));
+            icitaremote = (ICitaRemote) EJBLocator.lookup(REMOTE_EJB_CITA);
             for (int i=0; i<listaExamen.size(); i++) {
+                Cita c = icitaremote.find(listaExamen.get(i).getCita().getIdCita());
                 CitaExamen obj = listaExamen.get(i);
                 obj.setFechaGeneracion(new Date());
                 obj.setExamen(facadeExamen.find(listaExamen.get(i).getExamen().getIdExamen()));
                 obj.setCita(c);
-                //listaMedicamentos.get(i).setMedicamento(facadeCita.findById(listaMedicamentos.get(i).getCita().getId()));
                 em.persist(obj);
             }
         }catch(Exception e){

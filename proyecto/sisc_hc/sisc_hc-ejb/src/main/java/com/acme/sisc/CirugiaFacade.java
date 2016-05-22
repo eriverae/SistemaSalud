@@ -8,6 +8,8 @@ package com.acme.sisc;
 import com.acme.sisc.agenda.entidades.Cirugia;
 import com.acme.sisc.agenda.entidades.Cita;
 import com.acme.sisc.agenda.entidades.CitaCirugia;
+import com.acme.sisc.agenda.shared.ICitaRemote;
+import com.acme.sisc.common.ejbLocator.EJBLocator;
 import com.acme.sisc.sisc_hc.shared.ICirugiaFacadeLocal;
 import com.acme.sisc.sisc_hc.shared.ICirugiaFacadeRemote;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -32,6 +35,10 @@ public class CirugiaFacade implements ICirugiaFacadeLocal, ICirugiaFacadeRemote{
     ICirugiaFacadeRemote facadeCirugia;
     
     private static final Logger LOGGER = Logger.getLogger(MedicamentoFacade.class.getName());
+    
+    private static final String REMOTE_EJB_CITA = "java:global/sisc_agenda-ear-1.0-SNAPSHOT/sisc_agenda-ejb-1.0-SNAPSHOT/SessionBeanCitaPaciente!com.acme.sisc.agenda.shared.ICitaRemote";
+    
+    private ICitaRemote icitaremote;
     
     @PersistenceContext(unitName = "SistemaSaludPU")
     private EntityManager em;
@@ -57,14 +64,18 @@ public class CirugiaFacade implements ICirugiaFacadeLocal, ICirugiaFacadeRemote{
 
     @Override
     public void addCirugiaCita(List<CitaCirugia> listaCirugia) {
-        Cita c = em.find(Cita.class, new Long("1"));
-        for (int i=0; i<listaCirugia.size(); i++) {
-            CitaCirugia obj = listaCirugia.get(i);
-            obj.setFechaGeneracion(new Date());
-            obj.setCirugia(facadeCirugia.find(listaCirugia.get(i).getCirugia().getIdCirugia()));
-            obj.setCita(c);
-            //listaMedicamentos.get(i).setMedicamento(facadeCita.findById(listaMedicamentos.get(i).getCita().getId()));
-            em.persist(obj);
+        try {
+            icitaremote = (ICitaRemote) EJBLocator.lookup(REMOTE_EJB_CITA);
+            for (int i=0; i<listaCirugia.size(); i++) {
+                Cita c = icitaremote.find(listaCirugia.get(i).getCita().getIdCita());
+                CitaCirugia obj = listaCirugia.get(i);
+                obj.setFechaGeneracion(new Date());
+                obj.setCirugia(facadeCirugia.find(listaCirugia.get(i).getCirugia().getIdCirugia()));
+                obj.setCita(c);
+                em.persist(obj);
+            }
+        } catch (NamingException ex) {
+            Logger.getLogger(CirugiaFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

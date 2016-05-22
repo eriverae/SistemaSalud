@@ -37,9 +37,11 @@ public class MedicamentoService {
             throws CustomException, CustomRunTimeException{
         try{
             if (idcita == null){
+                HashMap m = new HashMap();
+                m.put("data", facadeMedicamento.findAll());
                 return Response
                 .status(200)
-                .entity(facadeMedicamento.findAll())
+                .entity(m)
                 .build();
             }
             else{

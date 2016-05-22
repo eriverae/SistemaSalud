@@ -8,6 +8,8 @@ package com.acme.sisc;
 import com.acme.sisc.agenda.entidades.Cita;
 import com.acme.sisc.agenda.entidades.CitaTratamiento;
 import com.acme.sisc.agenda.entidades.Tratamiento;
+import com.acme.sisc.agenda.shared.ICitaRemote;
+import com.acme.sisc.common.ejbLocator.EJBLocator;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import com.acme.sisc.sisc_hc.shared.ITratamientoFacadeLocal;
@@ -33,6 +35,9 @@ public class TratamientoFacade implements ITratamientoFacadeLocal, ITratamientoF
     ITratamientoFacadeRemote facadeTratamiento;
     
     private static final Logger LOGGER = Logger.getLogger(MedicamentoFacade.class.getName());
+    private static final String REMOTE_EJB_CITA = "java:global/sisc_agenda-ear-1.0-SNAPSHOT/sisc_agenda-ejb-1.0-SNAPSHOT/SessionBeanCitaPaciente!com.acme.sisc.agenda.shared.ICitaRemote";
+    
+    private ICitaRemote icitaremote;
     
     @PersistenceContext(unitName = "SistemaSaludPU")
     private EntityManager em;
@@ -59,13 +64,13 @@ public class TratamientoFacade implements ITratamientoFacadeLocal, ITratamientoF
     @Override
     public void addTratamientoCita(List<CitaTratamiento> listaTratamiento) {
         try{
-            Cita c = em.find(Cita.class, new Long("1"));
+            icitaremote = (ICitaRemote) EJBLocator.lookup(REMOTE_EJB_CITA);
             for (int i=0; i<listaTratamiento.size(); i++) {
+                Cita c = icitaremote.find(listaTratamiento.get(i).getCita().getIdCita());
                 CitaTratamiento obj = listaTratamiento.get(i);
                 obj.setFechaGeneracion(new Date());
                 obj.setTratamiento(facadeTratamiento.find(listaTratamiento.get(i).getTratamiento().getIdTratamiento()));
                 obj.setCita(c);
-                //listaMedicamentos.get(i).setMedicamento(facadeCita.findById(listaMedicamentos.get(i).getCita().getId()));
                 em.persist(obj);
             }
         }catch(Exception e){

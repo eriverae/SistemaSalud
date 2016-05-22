@@ -6,23 +6,19 @@
 package com.acme.sisc;
 
 import com.acme.sisc.agenda.entidades.Cita;
-import com.acme.sisc.agenda.entidades.CitaCirugia;
-import com.acme.sisc.agenda.entidades.CitaMedicamento;
-import com.acme.sisc.agenda.entidades.Medicamento;
+import com.acme.sisc.agenda.shared.ICitaRemote;
+import com.acme.sisc.common.ejbLocator.EJBLocator;
 import com.acme.sisc.sisc_hc.shared.IDiagnosticoFacadeLocal;
 import com.acme.sisc.sisc_hc.shared.IDiagnosticoFacadeRemote;
-import com.acme.sisc.sisc_hc.shared.IMedicamentoFacadeLocal;
-import com.acme.sisc.sisc_hc.shared.IMedicamentoFacadeRemote;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -38,6 +34,10 @@ public class DiagnosticoFacade implements IDiagnosticoFacadeLocal, IDiagnosticoF
     IDiagnosticoFacadeRemote facadeDiagnostico;
 
     private static final Logger LOGGER = Logger.getLogger(DiagnosticoFacade.class.getName());
+    
+    private static final String REMOTE_EJB_CITA = "java:global/sisc_agenda-ear-1.0-SNAPSHOT/sisc_agenda-ejb-1.0-SNAPSHOT/SessionBeanCitaPaciente!com.acme.sisc.agenda.shared.ICitaRemote";
+    
+    private ICitaRemote icitaremote;
 
     @PersistenceContext(unitName = "SistemaSaludPU")
     private EntityManager em;
@@ -53,9 +53,15 @@ public class DiagnosticoFacade implements IDiagnosticoFacadeLocal, IDiagnosticoF
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void addDiagnosticoCita(Long id_cita, String diagnostico) {
-        Cita c = em.find(Cita.class, new Long("1"));
-        c.setObservaciones(diagnostico);
-        em.merge(c);
+        try {
+            icitaremote = (ICitaRemote) EJBLocator.lookup(REMOTE_EJB_CITA);
+//            Cita c = em.find(Cita.class, new Long("1"));
+            Cita c = icitaremote.find(id_cita);
+            c.setObservaciones(diagnostico);
+            em.merge(c);
+        } catch (NamingException ex) {
+            Logger.getLogger(DiagnosticoFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

@@ -7,6 +7,7 @@ package com.acme.sisc;
 
 import com.acme.sisc.agenda.entidades.Cita;
 import com.acme.sisc.agenda.entidades.Incapacidad;
+import com.acme.sisc.agenda.shared.ICitaRemote;
 import com.acme.sisc.sisc_hc.shared.IIncapacidadFacadeLocal;
 import com.acme.sisc.sisc_hc.shared.IIncapacidadFacadeRemote;
 import java.util.ArrayList;
@@ -31,6 +32,9 @@ public class IncapacidadFacade implements IIncapacidadFacadeLocal, IIncapacidadF
     IIncapacidadFacadeRemote facadeIncapacidad;
     
     private static final Logger LOGGER = Logger.getLogger(MedicamentoFacade.class.getName());
+    private static final String REMOTE_EJB_CITA = "java:global/sisc_agenda-ear-1.0-SNAPSHOT/sisc_agenda-ejb-1.0-SNAPSHOT/SessionBeanCitaPaciente!com.acme.sisc.agenda.shared.ICitaRemote";
+    
+    private ICitaRemote icitaremote;
 
     @PersistenceContext(unitName = "SistemaSaludPU")
     private EntityManager em;
@@ -58,11 +62,10 @@ public class IncapacidadFacade implements IIncapacidadFacadeLocal, IIncapacidadF
     public void addIncapacidad(Object incapacidad) {
         try{
             facadeIncapacidad.findAll();
-            Cita c = em.find(Cita.class, new Long("1"));
             Incapacidad obj = (Incapacidad) incapacidad;
+            Cita c = icitaremote.find(obj.getCita().getIdCita());
             obj.setFechaGeneracion(new Date());
             obj.setCita(c);
-            //listaMedicamentos.get(i).setMedicamento(facadeCita.findById(listaMedicamentos.get(i).getCita().getId()));
             em.persist(obj);
         }catch(Exception e){
             LOGGER.log(Level.SEVERE,"No se encontro cliente {0} ", e);
