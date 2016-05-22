@@ -6,7 +6,6 @@ app.controller('medicamentoController', function ($scope, $rootScope,$state ,$ti
     $scope.myData = [];
 
     $scope.gridOptions = {
-
         
         data: 'myData',
         columnDefs: [
@@ -39,12 +38,6 @@ app.controller('medicamentoController', function ($scope, $rootScope,$state ,$ti
             }
         }
     };
-
-
- 
-
-
-
 
     rowCount = 0;
     var newRow = null;
@@ -204,3 +197,4 @@ app.controller('alertMessagesController', function ($scope) {
         $scope.alerts.splice(index, 1);
     };
 });
+

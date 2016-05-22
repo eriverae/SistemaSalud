@@ -1,15 +1,53 @@
 <div class="col-md-6 col-md-offset-3">
-  <div>
+    
+
+     <form class="form-horizontal" style="padding-top: 20px;" name="diagnosticoForm" ng-submit="insertIncapacidad()" novalidate>
+        <div class="form-group" ng-class="{'has-error' : diagnosticoForm.diagnostico.$invalid && diagnosticoForm.diagnostico.$dirty}">
+        <div style="padding-top: 10px;  border-radius: 10px 10px 10px 10px;
+            -moz-border-radius: 10px 10px 10px 10px;
+            -webkit-border-radius: 10px 10px 10px 10px;
+            border: 0 solid #000000;width: 100%; height: 150px">                                      
+            <div class="form-group" style="padding-left: 20px;">                                                                                        
+                <!--h4>Datos del Paciente <h4>
+                 <a><label for="nombre">Nombre:{{ nombre }}</label><a>
+                 <a><label for="identificacion">Identificaci&oacute;n: {{ identificacion }}</label><a>
+                 <p><label for="fechanac">Fecha de Nacimiento: {{ fechanac }}</label><p>
+                 <p><label for="correo">E-mail: {{ correo }}</label><p!-->
+                <h4><b>DATOS DEL PACIENTE <b><h4>
+                <br>
+                 <table style="width:80%;padding-left: 40px;">
+                  <tr>
+                    <td><label>Nombre: </label></td>
+                    <td><label for="nombre">{{ nombre }}</label></td>
+                  </tr>
+                  <tr>
+                    <td><label>Identificaci&oacute;n:</label></td>
+                    <td><label for="identificacion"> {{ identificacion }}</label></td>
+                  </tr>
+                  <tr>
+                    <td><label>Fecha de Nacimiento:</label></td>
+                    <td><label for="fechanac"> {{ fechanac }}</td>
+                  </tr>
+                  <tr>
+                    <td><label>E-mail:</label></td>
+                    <td><label for="correo"> {{ correo }}</label></td>
+                  </tr>
+                </table> 
+            </div>                
+        </div>
+
+
+
     <!-- Specify the function to be called on submit and disable HTML5 validation, since we're using Angular validation-->
-    <form class="form-horizontal" name="diagnosticoForm" ng-submit="insertIncapacidad()" novalidate>
+   
       
       <!-- Correo electronico-->
-      <div class="form-group" ng-class="{'has-error' : diagnosticoForm.diagnostico.$invalid && diagnosticoForm.diagnostico.$dirty}">
-        <label for="motivo">Ingrese el Diagn&oacute;stico Inicial:</label>
+  
+        <h3> Ingrese el Diagn&oacute;stico Inicial:<h3>
         <!-- Display a check when the field is valid and was modified -->
         <span ng-class="{'glyphicon glyphicon-ok' : diagnosticoForm.diagnostico.$valid && diagnosticoForm.diagnostico.$dirty}"></span>
         
-        <textarea id="diagnostico" name="diagnostico" type="textarea" ng-model="diagnostico" style="width:100%;height:400px " > </textarea>
+        <textarea id="diagnostico2" name="diagnostico2" type="textarea" ng-model="diagnostico" style="width:100%;height:400px " > </textarea>
       </div>  
 
       <!-- Form buttons. The 'Save' button is only enabled when the form is valid. -->
