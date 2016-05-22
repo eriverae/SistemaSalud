@@ -5,18 +5,19 @@
  */
 package com.acme.sisc.sisc_hc.shared;
 
+import com.acme.sisc.agenda.entidades.CitaMedicamento;
+import com.acme.sisc.agenda.entidades.Medicamento;
 import java.util.ArrayList;
 import java.util.HashMap;
-import javax.ejb.Remote;
+import java.util.List;
+import javax.ejb.Local;
+import org.json.*;
 
 /**
  *
  * @author GABRIEL
  */
-@Remote
-public interface IHistoriaFacadeRemote {
-    ArrayList<HashMap> findAll();
+@Local
+public interface IFiltroFacadeLocal {
     ArrayList<HashMap> findByCita(Long idcita);
-    ArrayList<HashMap> find_last_cita();
-    ArrayList<HashMap> findWithFilter(String idcita,String medico,String fechainicio, String fechafin);
 }

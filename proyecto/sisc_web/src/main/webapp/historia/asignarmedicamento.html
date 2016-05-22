@@ -5,7 +5,7 @@
     <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
 </div>
 -->
-<!--div class="row">
+<!-- <div class="row">
     <form class="navbar-form navbar-left">
         <div class="container-fluid">
             <div class="form-group">
@@ -16,19 +16,17 @@
                            data-ng-change="searchTextChanged()"
                            class="novalidate form-control" />
                 </div>
-                <a href="#"><span class="glyphicon glyphicon-plus"></span> Nuevo Cliente</a>
+                <a href="#/menuhc"><span class="glyphicon glyphicon-plus"></span> Nuevo Cliente</a>
+
             </div>
         </div>
     </form>
-<div-->
+<div> -->
 
 <!-- Specify a Angular controller script that binds Javascript variables to the grid.-->
 <div class="panel panel-default" border="1">
     <div class="panel-heading">
-        <div class="col-xs-4">
-            
-        </div>  
-        
+        <div class="col-xs-4"></div>  
     </div>
     <div class="panel-body">
         <div class="grid" >
@@ -46,7 +44,10 @@
                         total-items="usuarios.totalResults" items-per-page="usuarios.pageSize"
                         ng-model="usuarios.currentPage" ng-change="refreshGrid()">
             </pagination-->
+            </div>
         </div>
     </div>
-</div>
+    <div class="panel-body">
+        <a href="#/menuhc" class="btn btn-success btn-rounded" role="button">Atras</a>
+    </div>
 

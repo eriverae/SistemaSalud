@@ -23,46 +23,66 @@ import javax.ws.rs.core.Response;
  */
 @Path("/historia/")
 public class HistoriaService {
+
     @EJB
     IHistoriaFacadeRemote facadeHistoria;
-    
+
     @GET
     @Produces({"application/json"})
-    public Response GetHistoriaALL(@QueryParam("idcita") String idcita) 
-            throws CustomException, CustomRunTimeException{
-        try{
+    public Response GetHistoriaALL(@QueryParam("idcita") String idcita)
+            throws CustomException, CustomRunTimeException {
+        try {
             HashMap m = new HashMap();
-            if (idcita == null){
+            if (idcita == null) {
                 m.put("data", facadeHistoria.findAll());
                 return Response
-                .status(200)
-                .entity(m)
-                .build();
-            }
-            else{
+                        .status(200)
+                        .entity(m)
+                        .build();
+            } else {
                 m.put("data", facadeHistoria.findByCita(Long.parseLong(idcita)));
                 return Response
-                .status(200)
-                .entity(m)
-                .build();
+                        .status(200)
+                        .entity(m)
+                        .build();
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             throw new CustomException(Response.Status.BAD_REQUEST.getStatusCode(), 503, "Error accediendo a los datos de la historia... ");
         }
     }
-    
+
     @GET
     @Produces({"application/json"})
     @Path("/lastcita/")
-    public Response GetLastHistory() throws CustomException, CustomRunTimeException{
-        try{
+    public Response GetLastHistory() throws CustomException, CustomRunTimeException {
+        try {
             HashMap m = new HashMap();
             m.put("data", facadeHistoria.find_last_cita());
             return Response
-            .status(200)
-            .entity(m)
-            .build();
-        }catch(Exception ex){
+                    .status(200)
+                    .entity(m)
+                    .build();
+        } catch (Exception ex) {
+            throw new CustomException(Response.Status.BAD_REQUEST.getStatusCode(), 503, "Error accediendo a los datos de la ultima historia... ");
+        }
+    }
+
+    @GET
+    @Produces({"application/json"})
+    @Path("/filtro/")
+    public Response GetFilterHistory(
+            @QueryParam("idcita") String idcita,
+            @QueryParam("medico") String medico,
+            @QueryParam("fechainicio") String fechainicio,
+            @QueryParam("fechafin") String fechafin) throws CustomException, CustomRunTimeException {
+        HashMap m = new HashMap();
+        try {
+            m.put("data", facadeHistoria.findWithFilter(idcita, medico, fechainicio, fechafin));
+            return Response
+                    .status(200)
+                    .entity(m)
+                    .build();
+        } catch (Exception ex) {
             throw new CustomException(Response.Status.BAD_REQUEST.getStatusCode(), 503, "Error accediendo a los datos de la ultima historia... ");
         }
     }
