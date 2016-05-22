@@ -1,22 +1,22 @@
 var app = angular.module('sisc_web');
 // Create a controller with name clientesListController to bind to the grid section.
-app.controller('medicamentoController', function ($scope, $rootScope,$state ,medicamentoService, modalService) {
+app.controller('medicamentoController', function ($scope, $rootScope,$state ,$timeout, medicamentoService, modalService) {
     // Initialize required information: sorting, the first page to show and the grid options.
 
     $scope.myData = [];
 
     $scope.gridOptions = {
-
         
         data: 'myData',
         columnDefs: [
-            { field: 'idcita', displayName: 'Cita' ,   visible: false},            
-            { field: 'idmedicamento', 
-                      displayField : 'nombreMedicamento',
-                      valueField: 'idmedicamento',
+            { field: 'cita', displayName: 'cita' ,   visible: false},            
+            { field: 'medicamento', displayName: 'medicamento',
                       enableCellEdit: true,
+                      displayField : 'medicamento',
+                      valueField: 'medicamento',
                       width: 140,
-                      editableCellTemplate: 'wgMedicamentos.html',
+                      editableCellTemplate: '<select id="s2" name="s2" ng-model="COL_FIELD" class="dropdown-toggle" style="height: 100%;width: 100%;"> ' +
+                      '<option ng-repeat="mc in medicament" value={{mc.idMedicamento}}>{{mc.nombreMedicamento}}</option></select>'
             },    
 
             { field: 'formula', displayName: 'Formula', enableCellEdit: true},
@@ -39,12 +39,6 @@ app.controller('medicamentoController', function ($scope, $rootScope,$state ,med
         }
     };
 
-
- 
-
-
-
-
     rowCount = 0;
     var newRow = null;
 
@@ -58,13 +52,19 @@ app.controller('medicamentoController', function ($scope, $rootScope,$state ,med
 
         var i = 0;
         for(i=0;i< $scope.myData.length; i++){
-            $scope.myData[i].medicamento = parseInt($scope.myData[i].medicamento);
+          if ($scope.myData[i].medicamento_name !== undefined){
+            $scope.myData[i].medicamento = $scope.myData[i].medicamento_name;
+          }
+          $scope.myData[i].medicamento = parseInt($scope.myData[i].medicamento);
+          delete $scope.myData[i].fechageneracion;
+          delete $scope.myData[i].medicamento_name;
         }
         medicamentoService.save($scope.myData).$promise.then(
         function () {
-          // Broadcast the event to refresh the grid.
+          // // Broadcast the event to refresh the grid.
+          // $("#s2").hide();
           $rootScope.$broadcast('refreshGrid');
-          // Broadcast the event to display a save message.
+          // // Broadcast the event to display a save message.
           $rootScope.$broadcast('usuarioSaved');
           
         },
@@ -93,10 +93,14 @@ app.controller('medicamentoController', function ($scope, $rootScope,$state ,med
         };
 
         medicamentoService.get(listUsuariosArgs, function (data) {
-          /*console.log(data);
-          myData.
-          $scope.myData = data*/
+          var medicamento_id = 0;
+          for (var i = 0; i < data.data.length; i++) {
+            medicamento_id = data.data[i].medicamento;
+            data.data[i].medicamento = data.data[i].medicamento_name
+            data.data[i].medicamento_name = medicamento_id
+          };
           $scope.myData = data.data;
+          console.log(data.data)
           
         });
     };
@@ -151,6 +155,19 @@ app.controller('medicamentoController', function ($scope, $rootScope,$state ,med
               $rootScope.$broadcast('error');
           });
     });
+
+    medicamentoService.get().$promise.then(
+      function (data) {
+        console.log("get medicamentoService");
+        $timeout(function() {
+          $scope.medicament = data.data;
+          console.log($scope.medicament);
+          $scope.$apply();
+        }, 300);
+      },
+      function () {
+        console.log("get FAIL");
+      });
 });
 
 // Create a controller with name alertMessagesController to bind to the feedback messages section.
@@ -180,3 +197,4 @@ app.controller('alertMessagesController', function ($scope) {
         $scope.alerts.splice(index, 1);
     };
 });
+

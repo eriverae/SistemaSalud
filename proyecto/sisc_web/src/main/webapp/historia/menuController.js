@@ -3,9 +3,7 @@ var app = angular.module('sisc_web');
 // Create a controller with name personsFormController to bind to the form section.
 app.controller('menuController', function ($scope, $rootScope, $stateParams, $state, 
           menuService,modalService) {
-  
-         
-            
+   
          alert('LLEGUE DESDE AGENDA MEDICO ID_CITA: '+$stateParams.cita.idCita+ '\n OBJ_CITA: '+JSON.stringify($stateParams.cita));
   
   	$scope.menu={};
@@ -19,5 +17,4 @@ app.controller('menuController', function ($scope, $rootScope, $stateParams, $st
 	            x_navigation_minimize("close");            
 	});
 	  
-
 });

@@ -1,17 +1,21 @@
 'use strict';
 var app = angular.module('sisc_web');
-app.controller('diagnosticoController', function ($scope, $rootScope, $stateParams, $state, $timeout, diagnosticoService, modalService) {
+app.controller('diagnosticoController', function ($scope, $rootScope, $stateParams, $state, $timeout, diagnosticoService,cabeceraService, modalService) {
   	
   	$scope.myData = [];
 
   	$scope.diagnostico = "";
   	$scope.idcita = 1;
 
+
+
+
 	diagnosticoService.get({idcita:1}).$promise.then(
       function (data) {
 		console.log("get historiaService");
 		$timeout(function() {
-			$scope.diagnostico = data.data[0].diagnostico;		
+			$scope.diagnostico = data.data[0].diagnostico;
+
 			$scope.$apply();
 		}, 300);
       },
@@ -19,6 +23,26 @@ app.controller('diagnosticoController', function ($scope, $rootScope, $statePara
       function () {
 		console.log("get FAIL");
       });
+
+  cabeceraService.get({idcita:1}).$promise.then(
+      function (data) {
+    console.log("get cabeceraService");
+    $timeout(function() {
+     
+      $scope.nombre = data.data[0].nombre;
+      $scope.fechanac = data.data[0].fechanac;
+      $scope.identificacion = data.data[0].identificacion;
+      $scope.correo = data.data[0].correo;
+      $scope.$apply();
+    }, 300);
+      },
+
+      function () {
+    console.log("get FAIL cabeceraService");
+      });
+
+
+
 
  
  $scope.guardar = function(){
