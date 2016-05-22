@@ -156,7 +156,7 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
 //        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
 //        cq.select(cq.from(Usuario.class));
 //        javax.persistence.Query q = em.createQuery(cq);
-////        javax.persistence.Query q = em.createNativeQuery("Select * from Usuario where Usuario.usua_esta = 'Activo'");
+//        javax.persistence.Query q = em.createNativeQuery("Select * from Usuario where Usuario.usua_esta = 'Activo'");
 //        q.setFirstResult(startPosition);
 //        q.setMaxResults(maxResults);
 

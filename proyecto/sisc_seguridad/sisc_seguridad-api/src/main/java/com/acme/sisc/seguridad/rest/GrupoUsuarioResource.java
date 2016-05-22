@@ -6,9 +6,11 @@
 package com.acme.sisc.seguridad.rest;
 
 
+import com.acme.sisc.agenda.entidades.Grupo;
 import com.acme.sisc.agenda.entidades.GrupoUsuario;
+import com.acme.sisc.agenda.entidades.Usuario;
 import com.acme.sisc.common.pagination.PaginatedListWrapper;
-import com.acme.sisc.seguridad.GrupoUsuarioFacadeLocal;
+import com.acme.sisc.seguridad.GrupoFacadeLocal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -26,6 +28,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 import com.acme.sisc.seguridad.GrupoUsuarioFacadeLocal;
+import com.acme.sisc.seguridad.UsuarioFacadeLocal;
 import javax.ws.rs.core.Response;
 /**
  *
@@ -33,16 +36,20 @@ import javax.ws.rs.core.Response;
  */
 @Path("grupoUsuario")
 @RequestScoped
-public class grupoUsuarioResource {
-    private static final Logger LOGGER = Logger.getLogger(grupoUsuarioResource.class.getName());
+public class GrupoUsuarioResource {
+    private static final Logger LOGGER = Logger.getLogger(GrupoUsuarioResource.class.getName());
     
     @Context
     private UriInfo context;
     
     @EJB
     GrupoUsuarioFacadeLocal facadeGrupoUsuario;
+    @EJB
+    UsuarioFacadeLocal usuarioFacade;
+    @EJB
+    GrupoFacadeLocal grupoFacade;
 
-    public grupoUsuarioResource() {
+    public GrupoUsuarioResource() {
     }
     
     @GET
@@ -109,6 +116,24 @@ public class grupoUsuarioResource {
         }else{
           facadeGrupoUsuario.modificarGrupoUsuario(grupoUsuario);
         }
+      }catch (Exception e){
+          //TODO Definir manejo
+          LOGGER.log(Level.SEVERE, "Houston, estamos en problemas ...", e);
+      }
+    }
+    
+    @POST
+    @Path("actUsGr/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void actualizaGrupoUsuario(String req) {
+        String[] spl = req.split("-");
+        System.out.println(req);
+        LOGGER.log(Level.FINE,"Post para actualizat GrupoUsuario con {1}", req);
+        Usuario usua = usuarioFacade.find(Long.parseLong(spl[0]));
+        Grupo grup = grupoFacade.find(Long.parseLong(spl[1]));
+      try {
+          facadeGrupoUsuario.actualizaGrupoUsuario(usua,grup,Boolean.parseBoolean(spl[2]));
+//          facadeGrupoUsuario.actualizaGrupoUsuario(usua,grup,estado);
       }catch (Exception e){
           //TODO Definir manejo
           LOGGER.log(Level.SEVERE, "Houston, estamos en problemas ...", e);

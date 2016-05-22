@@ -5,9 +5,13 @@
  */
 package com.acme.sisc.seguridad.rest;
 
+import com.acme.sisc.agenda.entidades.Acceso;
 import com.acme.sisc.agenda.entidades.AccesoGrupo;
+import com.acme.sisc.agenda.entidades.Grupo;
 import com.acme.sisc.common.pagination.PaginatedListWrapper;
+import com.acme.sisc.seguridad.AccesoFacadeLocal;
 import com.acme.sisc.seguridad.AccesoGrupoFacadeLocal;
+import com.acme.sisc.seguridad.GrupoFacadeLocal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -40,6 +44,10 @@ public class AccesoGrupoResource {
     
     @EJB
     AccesoGrupoFacadeLocal facadeAccesoGrupo;
+    @EJB
+    GrupoFacadeLocal grupoFacade;
+    @EJB
+    AccesoFacadeLocal accesoFacade;
 
     public AccesoGrupoResource() {
     }
@@ -98,6 +106,24 @@ public class AccesoGrupoResource {
         }else{
           facadeAccesoGrupo.modificarGrupoAcceso(accgrup);
         }
+      }catch (Exception e){
+          //TODO Definir manejo
+          LOGGER.log(Level.SEVERE, "Houston, estamos en problemas ...", e);
+      }
+    }
+    
+    @POST
+    @Path("actAccGr/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void actualizaAccesoGrupo(String req) {
+        String[] spl = req.split("-");
+        System.out.println(req);
+        LOGGER.log(Level.FINE,"Post para actualizat GrupoUsuario con {1}", req);
+        Grupo grup = grupoFacade.find(Long.parseLong(spl[0]));
+        Acceso acc = accesoFacade.find(Long.parseLong(spl[1]));
+      try {
+          facadeAccesoGrupo.actualizaAccesoGrupo(grup,acc,Boolean.parseBoolean(spl[2]));
+//          facadeGrupoUsuario.actualizaGrupoUsuario(usua,grup,estado);
       }catch (Exception e){
           //TODO Definir manejo
           LOGGER.log(Level.SEVERE, "Houston, estamos en problemas ...", e);

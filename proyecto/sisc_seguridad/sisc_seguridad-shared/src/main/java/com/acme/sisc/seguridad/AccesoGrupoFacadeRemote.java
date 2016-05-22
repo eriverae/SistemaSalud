@@ -5,7 +5,9 @@
  */
 package com.acme.sisc.seguridad;
 
+import com.acme.sisc.agenda.entidades.Acceso;
 import com.acme.sisc.agenda.entidades.AccesoGrupo;
+import com.acme.sisc.agenda.entidades.Grupo;
 import com.acme.sisc.seguridad.exceptions.SeguridadException;
 import javax.ejb.Remote;
 
@@ -33,5 +35,9 @@ public interface AccesoGrupoFacadeRemote {
     int count();
 
     java.util.List<com.acme.sisc.agenda.entidades.AccesoGrupo> findRange(int startPosition, int maxResults, String sortFields, String sortDirections);
-    
+
+    java.util.List<Acceso> findByGrupGrup(Long grupGrup);
+
+    void actualizaAccesoGrupo(Grupo grupGrup, Acceso acceAcce, Boolean estado);
+
 }

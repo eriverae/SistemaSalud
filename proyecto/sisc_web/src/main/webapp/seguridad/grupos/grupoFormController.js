@@ -2,10 +2,11 @@
 var app = angular.module('sisc_web');
 // Create a controller with name personsFormController to bind to the form section.
 app.controller('grupoFormController', function ($scope, $rootScope, $stateParams, $state,
-        grupoService, modalService, accesoService, accesoGrupoService) {
+        grupoService, modalService, accesoService, accesoGrupoService, accesoGrupoSelection) {
 
     $scope.grupo = {};
     $scope.items = [];
+    $scope.itemsmodificados = [];
 
     accesoService.get(null, function (data) {
         $scope.listaAcceso = data.list;
@@ -16,7 +17,8 @@ app.controller('grupoFormController', function ($scope, $rootScope, $stateParams
         console.log('Grupo a modificar, ID = ' + $stateParams.grupGrup);
         grupoService.get({grupGrup: $stateParams.grupGrup}).$promise.then(
                 function (data) {
-                    $scope.grupo = data;
+                    $scope.grupo = data.grupo;
+                    $scope.itemsmodificados = data.accesos;
                     //A partir de Angular 1.3, ng-model requiere un objeto de tipo Date valido, no acepta un String
                 },
                 function () {
@@ -49,7 +51,29 @@ app.controller('grupoFormController', function ($scope, $rootScope, $stateParams
         } else { //Si no existen en el arreglo se adiciona
             $scope.items.push(idRol);
         }
-    }
+    };
+    
+    $scope.toggleSelection_Modificar = function (idRol) {
+        var index = $scope.items.indexOf(idRol);
+        if (index > -1) { //Ya existe en los items seleccionados, >> se debe eliminar
+            $scope.items.splice(index, 1);
+            //console.log($scope.items);
+            accesoGrupoSelection.save($scope.grupo.grupGrup + "-" + idRol.acceAcce + "-" + false);
+        } else { //Si no existen en el arreglo se adiciona
+            $scope.items.push(idRol);
+            //console.log($scope.items);
+            accesoGrupoSelection.save($scope.grupo.grupGrup + "-" + idRol.acceAcce + "-" + true);
+        }
+    };
+    
+    $scope.estaSeleccionado = function (idRol) {
+        for (var j = 0; j < $scope.itemsmodificados.length; j++) {
+            if ($scope.itemsmodificados[j].acceAcce == idRol.acceAcce) {
+                return true;
+            }
+        }
+        return false;
+    };
 
     // Calls the rest method to save a Grupo.
     $scope.updateGrupo = function () {

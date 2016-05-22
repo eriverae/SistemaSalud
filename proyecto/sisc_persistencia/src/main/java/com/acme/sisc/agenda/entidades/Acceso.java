@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Acceso.findAll", query = "SELECT a FROM Acceso a"),
     @NamedQuery(name = "Acceso.findByAcceAcce", query = "SELECT a FROM Acceso a WHERE a.acceAcce = :acceAcce"),
+    @NamedQuery(name = "Acceso.findByGrupGrup", query = "SELECT a FROM Acceso a WHERE a.acceAcce IN (SELECT m.acceso.acceAcce FROM AccesoGrupo m WHERE m.grupo.grupGrup = :grupGrup)"),
     @NamedQuery(name = "Acceso.findByAcceNombre", query = "SELECT a FROM Acceso a WHERE a.acceNombre = :acceNombre")})
 public class Acceso implements Serializable {
 

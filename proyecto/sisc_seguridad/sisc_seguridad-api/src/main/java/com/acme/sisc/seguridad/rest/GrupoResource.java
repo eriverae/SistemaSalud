@@ -9,6 +9,8 @@ import com.acme.sisc.agenda.entidades.Grupo;
 import com.acme.sisc.seguridad.GrupoFacadeLocal;
 import com.acme.sisc.common.pagination.PaginatedListWrapper;
 import com.acme.sisc.seguridad.AccesoFacadeLocal;
+import com.acme.sisc.seguridad.AccesoGrupoFacadeLocal;
+import com.acme.sisc.seguridad.dto.GrupoCompleto;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,7 +46,7 @@ public class GrupoResource {
     GrupoFacadeLocal facadeGrupo;
     
     @EJB
-    AccesoFacadeLocal facadeAcceso;
+    AccesoGrupoFacadeLocal facadeAccesoGrupo;
 
     public GrupoResource() {
     }
@@ -82,8 +84,11 @@ public class GrupoResource {
     @GET
     @Path("{grupGrup}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Grupo consultarAcceso(@PathParam("grupGrup") Long id){
-        return facadeGrupo.find(id);
+    public GrupoCompleto consultarGrupo(@PathParam("grupGrup") Long id){
+        GrupoCompleto GC = new GrupoCompleto();
+        GC.setGrupo(facadeGrupo.find(id));
+        GC.setAccesos(facadeAccesoGrupo.findByGrupGrup(id));
+        return GC;
 
     }
     

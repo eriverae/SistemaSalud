@@ -52,18 +52,34 @@
                 <p class="help-block" ng-show="usuarioForm.usuaPass1.$error.wjValidationError">No coincide la contraseña.</p>
             </div>
 
-            <div class="panel">
+            <div class="panel" ng-if="usuario.usuaUsua==null">
                 <p>Seleccione Perfiles del Usuario:<p>
                 <div ng-repeat="perfil in listaGrupo">
-                    <div class="action-checkbox">
-                        <input id="{{perfil.grupGrup}}" type="checkbox" value="perfil" ng-checked="items.indexOf(perfil) > -1"
-                               ng-click="toggleSelection(perfil)"/>{{perfil.grupNombr}}
+                    <div class="action-checkbox" >
+                        <label class="switch">
+                            <input id="{{perfil.grupGrup}}" type="checkbox"  value="perfil" 
+                                   ng-click="toggleSelection(perfil)" ng-checked="estaSeleccionado(perfil)" />{{perfil.grupNombr}}
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel" ng-if="usuario.usuaUsua!=null">
+                <p>Seleccione Perfiles del Usuario a modificar:<p>
+                <div ng-repeat="perfil in listaGrupo">
+                    <div class="action-checkbox" >
+                        <label class="switch">
+                            <input id="{{perfil.grupGrup}}" type="checkbox"  value="perfil" 
+                                   ng-click="toggleSelection_Modificar(perfil)" ng-checked="estaSeleccionado(perfil)" />{{perfil.grupNombr}}
+                            <span></span>
+                        </label>
                     </div>
                 </div>
             </div>
             
             <!-- Form buttons. The 'Save' button is only enabled when the form is valid. -->
-            <div class="buttons">
+            <div class="buttons" ng-if="usuario.usuaUsua==null">
                 <button type="button" class="btn btn-primary" ng-click="cancelar()">Cancelar</button>
                 <button type="submit" class="btn btn-primary" ng-disabled="usuarioForm.$invalid">Guardar</button>
             </div>

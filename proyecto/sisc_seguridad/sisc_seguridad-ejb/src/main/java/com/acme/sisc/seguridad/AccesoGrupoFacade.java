@@ -5,7 +5,9 @@
  */
 package com.acme.sisc.seguridad;
 
+import com.acme.sisc.agenda.entidades.Acceso;
 import com.acme.sisc.agenda.entidades.AccesoGrupo;
+import com.acme.sisc.agenda.entidades.Grupo;
 import com.acme.sisc.seguridad.exceptions.SeguridadException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -118,7 +120,27 @@ public class AccesoGrupoFacade implements AccesoGrupoFacadeRemote, AccesoGrupoFa
 
         return q.getResultList();
     }
-    
-    
 
+    @Override
+    public java.util.List<Acceso> findByGrupGrup(Long grupGrup) {
+        LOGGER.log(Level.FINE, "Consulta findByGrupGrup {0}", new Object[]{grupGrup});
+        Query q = em.createNamedQuery("Acceso.findByGrupGrup");
+        q.setParameter("grupGrup", grupGrup);
+        return q.getResultList();
+    }
+    
+    @Override
+    public void actualizaAccesoGrupo(Grupo grupGrup, Acceso acceAcce, Boolean estado) {
+        if (estado == true){
+            AccesoGrupo a = new AccesoGrupo();
+            a.setGrupo(grupGrup);
+            a.setAcceso(acceAcce);
+            em.persist(a);
+        }else{
+            AccesoGrupo a = findByAcceGrup(acceAcce.getAcceAcce(), grupGrup.getGrupGrup());
+            em.remove(a);
+        }
+    }
+    
+    
 }

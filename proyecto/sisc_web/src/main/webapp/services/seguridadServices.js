@@ -30,6 +30,10 @@ myModule.factory('grupoUsuarioService', function ($resource) {
     return $resource('/sisc_seguridad/api/grupoUsuario/:idGrupusu');
 });
 
-myModule.factory('grupoPorUsuarioServ', function ($resource) {
-    return $resource('/sisc_seguridad/api/grupoUsuario/idusua/:usuaUsua');
+myModule.factory('grupoUsuarioSelection', function ($resource) {
+    return $resource('/sisc_seguridad/api/grupoUsuario/actUsGr/');
+});
+
+myModule.factory('accesoGrupoSelection', function ($resource) {
+    return $resource('/sisc_seguridad/api/accesoGrupo/actAccGr/');
 });

@@ -62,7 +62,35 @@
                 </div>
                 <p class="help-block" ng-show="grupoForm.acceso.$error.size() === 0">Debe seleccionar al menos un acceso.</p>
             </div>
-            -->         
+            -->   
+            
+            <div class="panel" ng-if="grupo.grupGrup==null">
+                <p>Seleccione accesos del perfil:<p>
+                <div ng-repeat="rol in listaAcceso">
+                    <div class="action-checkbox" >
+                        <label class="switch">
+                            <input id="{{rol.acceAcce}}" type="checkbox"  value="rol" 
+                                   ng-click="toggleSelection(rol)" ng-checked="estaSeleccionado(rol)" />{{rol.acceNombre}}
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel" ng-if="grupo.grupGrup!=null">
+                <p>Seleccione accesos del perfil a modificar:<p>
+                <div ng-repeat="rol in listaAcceso">
+                    <div class="action-checkbox" >
+                        <label class="switch">
+                            <input id="{{rol.acceAcce}}" type="checkbox"  value="rol" 
+                                   ng-click="toggleSelection_Modificar(rol)" ng-checked="estaSeleccionado(rol)" />{{rol.acceNombre}}
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!--
             <div class="panel">
                 <p>Seleccione accesos del perfil:<p>
                 <div ng-repeat="rol in listaAcceso">
@@ -72,9 +100,10 @@
                     </div>
                 </div>
             </div>
+            -->
 
             <!-- Form buttons. The 'Save' button is only enabled when the form is valid. -->
-            <div class="buttons">
+            <div class="buttons" ng-if="grupo.grupGrup==null">
                 <button type="button" class="btn btn-primary" ng-click="cancelar()">Cancelar</button>
                 <button type="submit" class="btn btn-primary" ng-disabled="grupoForm.$invalid">Guardar</button>
             </div>
