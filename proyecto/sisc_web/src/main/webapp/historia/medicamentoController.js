@@ -1,6 +1,6 @@
 var app = angular.module('sisc_web');
 // Create a controller with name clientesListController to bind to the grid section.
-app.controller('medicamentoController', function ($scope, $rootScope,$state ,$timeout, medicamentoService,cabeceraService, modalService) {
+app.controller('medicamentoController', function ($scope, $rootScope,$state ,$timeout, medicamentoService,$modal,cabeceraService, modalService) {
     // Initialize required information: sorting, the first page to show and the grid options.
 
     $scope.myData = [];
@@ -31,7 +31,7 @@ app.controller('medicamentoController', function ($scope, $rootScope,$state ,$ti
         columnDefs: [
             { field: 'cita', displayName: 'cita' ,   visible: false},            
             { field: 'medicamento', displayName: 'medicamento',
-                      enableCellEdit: true,
+                      enableCellEdit: false,
                       displayField : 'medicamento',
                       valueField: 'medicamento',
                       width: 140,
@@ -63,9 +63,17 @@ app.controller('medicamentoController', function ($scope, $rootScope,$state ,$ti
     var newRow = null;
 
     $scope.onAddRow = function(){
-        $scope.myData.push ( {cita : localStorage.getItem('idCita'),
-        medicamento : '',
-        formula : ''});
+
+    var modalInstance = $modal.open({
+      templateUrl: 'historia/modalmedicamentos.html',
+      controller: 'modalmedicamentoController',
+
+    });
+    modalInstance.result.then(function(data){
+      $rootScope.$broadcast('refreshGrid');
+    });
+
+
     };
 
     $scope.guardar = function(){
@@ -188,6 +196,42 @@ app.controller('medicamentoController', function ($scope, $rootScope,$state ,$ti
       function () {
         console.log("get FAIL");
       });
+});
+
+app.controller('modalmedicamentoController',function($scope, $rootScope, $state, $timeout, medicamentoService, modalService, $modalInstance){
+  $scope.medicamentos = "";
+  $scope.mod = {};
+
+    medicamentoService.get().$promise.then(
+          function (data) {
+            $timeout(function() {
+              $scope.medicamentos = data.data;
+              $scope.$apply();
+            }, 300);
+          },
+          function () {
+            console.log("get FAIL");
+    });
+
+    $scope.salvarnuevomedicamento = function(){
+      $scope.mod.cita = parseInt(localStorage.getItem('idCita'));
+        console.log($scope.mod);
+        $scope.mod.medicamento = parseInt($scope.mod.medicamento);
+        medicamentoService.save([$scope.mod]).$promise.then(
+        function () {
+         $modalInstance.close($scope.mod);
+          
+        },
+        function () {
+          console.log("FAIL");
+          // Broadcast the event for a server error.
+          $rootScope.$broadcast('error');
+        });
+         //alert($scope.formulaModal + $scope.medicamentoModal);
+
+    };
+
+
 });
 
 // Create a controller with name alertMessagesController to bind to the feedback messages section.
