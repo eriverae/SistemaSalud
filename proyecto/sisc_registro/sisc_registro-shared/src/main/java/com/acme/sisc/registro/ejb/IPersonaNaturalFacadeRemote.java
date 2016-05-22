@@ -31,8 +31,8 @@ public interface IPersonaNaturalFacadeRemote {
     PersonaNatural find(Object id);
 
     List<PersonaNatural> findAll();
-    List<PersonaNatural> findByAllPacientes();
-    List<PersonaNatural> findByAllMedicos();
+    
+    List<PersonaNatural> findPersonaNaturalPorRol(int startPosition, int maxResults, String sortFields, String sortDirections, String rol);
 
     @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
     PersonaNatural findByIdentificacion(TipoIdentificacion tId, long identificacion);
@@ -51,11 +51,11 @@ public interface IPersonaNaturalFacadeRemote {
         
     public void remove(Long id);
     
-    List<PersonaNatural> medicosPorEspecialidadFindRange(int startPosition, int maxResults, String sortFields, String sortDirections, Long especialidad);
-    
     List<PersonaNaturalBeneficiario> findBeneficiarios(int startPosition, int maxResults, String sortFields, String sortDirections, long cotizante);
     
     void asociarBeneficiario(PersonaNatural cotizante, PersonaNatural beneficiario, int parentezco);
     
     void removerBeneficiario(PersonaNaturalBeneficiario beneficiario);
+    
+    List<PersonaNatural> medicosPorEspecialidadFindRange(int startPosition, int maxResults, String sortFields, String sortDirections, Long especialidad, Long eps);
 }

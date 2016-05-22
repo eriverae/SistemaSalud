@@ -92,22 +92,16 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
 
     @Override
     public List<PersonaNatural> findAll() {
-        //Query  q = em.createNamedQuery("Cliente.findAll");
         Query q = em.createQuery("SELECT p FROM PersonaNatural p");
         return q.getResultList();
     }
     
     @Override
-    public List<PersonaNatural> findByAllPacientes() {
-        //Query  q = em.createNamedQuery("Cliente.findAll");
-        Query q = em.createQuery("SELECT p FROM PersonaNatural p WHERE p.rolPersonaNatural = 'PACIENTE' ");
-        return q.getResultList();
-    }
-    
-    @Override
-    public List<PersonaNatural> findByAllMedicos() {
-        //Query  q = em.createNamedQuery("Cliente.findAll");
-        Query q = em.createQuery("SELECT p FROM PersonaNatural p WHERE p.rolPersonaNatural = 'MEDICO' ");
+    public List<PersonaNatural> findPersonaNaturalPorRol(int startPosition, int maxResults, String sortFields,
+            String sortDirections, String rol) {
+        Query q = em.createQuery("SELECT p FROM PersonaNatural p WHERE p.rolPersonaNatural = '" + rol + "' ");
+        q.setFirstResult(startPosition);
+        q.setMaxResults(maxResults);
         return q.getResultList();
     }
 
@@ -176,7 +170,8 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
 
     @Override
     public List<PersonaNatural> medicosPorEspecialidadFindRange(int startPosition, int maxResults, String sortFields,
-            String sortDirections, Long especialidad) {
+            String sortDirections, Long especialidad, Long eps) {
+        //TODO: ARREGLAR ESTA MIERDA
         Query q = em.createQuery("SELECT p FROM PersonaNatural p INNER JOIN FETCH p.listaEspecialidadesMedico e WHERE e.especialidad = :idesp");
         q.setParameter("idesp", especialidad);
         q.setFirstResult(startPosition);

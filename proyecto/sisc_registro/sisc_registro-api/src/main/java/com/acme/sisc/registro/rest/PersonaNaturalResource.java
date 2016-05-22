@@ -49,21 +49,26 @@ public class PersonaNaturalResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public PaginatedListWrapperPN listPersonaNatural(@DefaultValue("1")
+    public PaginatedListWrapper<PersonaNatural> listPersonaNatural(@DefaultValue("1")
             @QueryParam("page") Integer page,
             @DefaultValue("id")
             @QueryParam("sortFields") String sortFields,
             @DefaultValue("asc")
-            @QueryParam("sortDirections") String sortDirections) {
-        PaginatedListWrapperPN paginatedListWrapper = new PaginatedListWrapperPN();
+            @QueryParam("sortDirections") String sortDirections,
+            @DefaultValue("ADMIN")
+            @QueryParam("rol") String rol) {
+        PaginatedListWrapper<PersonaNatural> paginatedListWrapper = new PaginatedListWrapper<>();
         paginatedListWrapper.setCurrentPage(page);
         paginatedListWrapper.setSortFields(sortFields);
         paginatedListWrapper.setSortDirections(sortDirections);
         paginatedListWrapper.setPageSize(10);
+        if(!rol.equals("ADMIN") && !rol.isEmpty()){
+            return personasPorRolWrapper(paginatedListWrapper, rol);
+        }
         return findPersonaNatural(paginatedListWrapper);
     }
 
-    private PaginatedListWrapperPN findPersonaNatural(PaginatedListWrapperPN wrapper) {
+    private PaginatedListWrapper<PersonaNatural> findPersonaNatural(PaginatedListWrapper<PersonaNatural> wrapper) {
         int total = facadePersonaNatural.count();
         wrapper.setTotalResults(total);
         int start = (wrapper.getCurrentPage() - 1) * wrapper.getPageSize();
@@ -71,6 +76,20 @@ public class PersonaNaturalResource {
                 wrapper.getPageSize(),
                 wrapper.getSortFields(),
                 wrapper.getSortDirections()));
+        return wrapper;
+    }
+    
+    private PaginatedListWrapper<PersonaNatural> personasPorRolWrapper(PaginatedListWrapper<PersonaNatural> wrapper, String rol) {
+        int total = facadePersonaNatural.count();
+        wrapper.setTotalResults(total);
+        int start = (wrapper.getCurrentPage() - 1) * wrapper.getPageSize();
+        wrapper.setList(
+                facadePersonaNatural.findPersonaNaturalPorRol(start,
+                        wrapper.getPageSize(),
+                        wrapper.getSortFields(),
+                        wrapper.getSortDirections(),
+                        rol)
+        );
         return wrapper;
     }
 
@@ -186,7 +205,7 @@ public class PersonaNaturalResource {
     ////////////////////////////////////////////////////////////////////////////
     // Servicios a módulos
     @GET
-    @Path("medicosPorEspecialidad/{page}/{sortFields}/{sortDirections}/{especialidad}")
+    @Path("medicosPorEspecialidad/{page}/{sortFields}/{sortDirections}/{especialidad}/{eps}")
     @Produces(MediaType.APPLICATION_JSON)
     public PaginatedListWrapperPN medicosPorEspecialidad(
             @DefaultValue("1")
@@ -196,16 +215,18 @@ public class PersonaNaturalResource {
             @DefaultValue("asc")
             @QueryParam("sortDirections") String sortDirections,
             @DefaultValue("0")
-            @QueryParam("especialidad") Long especialidad) {
+            @QueryParam("especialidad") Long especialidad,
+            @DefaultValue("0")
+            @QueryParam("eps") Long eps) {
         PaginatedListWrapperPN paginatedListWrapper = new PaginatedListWrapperPN();
         paginatedListWrapper.setCurrentPage(page);
         paginatedListWrapper.setSortFields(sortFields);
         paginatedListWrapper.setSortDirections(sortDirections);
         paginatedListWrapper.setPageSize(10);
-        return medicosPorEspecialidadWrapper(paginatedListWrapper, especialidad);
+        return medicosPorEspecialidadWrapper(paginatedListWrapper, especialidad, eps);
     }
 
-    private PaginatedListWrapperPN medicosPorEspecialidadWrapper(PaginatedListWrapperPN wrapper, Long especialidad) {
+    private PaginatedListWrapperPN medicosPorEspecialidadWrapper(PaginatedListWrapperPN wrapper, Long especialidad, Long eps) {
         int total = facadePersonaNatural.count();
         wrapper.setTotalResults(total);
         int start = (wrapper.getCurrentPage() - 1) * wrapper.getPageSize();
@@ -214,7 +235,7 @@ public class PersonaNaturalResource {
                         wrapper.getPageSize(),
                         wrapper.getSortFields(),
                         wrapper.getSortDirections(),
-                        especialidad)
+                        especialidad, eps)
         );
         return wrapper;
     }

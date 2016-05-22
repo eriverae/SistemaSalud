@@ -17,6 +17,11 @@ myModule.factory('personaService', function ($resource) {
         asociarBeneficiario: $resource({
             method: 'POST',
             url: '/sisc_registro/api/personaNatural/asociarBeneficiario/'
+        }),
+        personasPorRol: $resource({
+            method: 'GET',
+            url: '/sisc_registro/api/personaNatural/personasPorRol/:page/:sortFields/:sortDirections/:rol',
+            params:{page:'page', sortFields:'sortFields', sortDirections:'sortDirections', rol:'rol'}
         })
     });
 });

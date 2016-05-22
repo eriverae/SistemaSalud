@@ -57,73 +57,48 @@ app.controller('personaNaturalController', function ($scope, $rootScope, $stateP
 
     // Calls the rest method to save a Paciente.
     $scope.updatePaciente = function () {
+        if ($scope.paciente) {
+            $scope.persona.rolPersonaNatural = "PACIENTE";
+        } else {
+            $scope.persona.rolPersonaNatural = "MEDICO";
+        }
+
         personaService.save($scope.persona).$promise.then(
-                function () {
-                    // Broadcast the event to refresh the grid.
-                    $rootScope.$broadcast('refreshGrid');
-                    // Broadcast the event to display a save message.
-                    $rootScope.$broadcast('pacienteSaved');
-                },
-                function () {
-                    // Broadcast the event for a server error.
-                    $rootScope.$broadcast('error');
-                });
+            function () {
+                // Broadcast the event to refresh the grid.
+                $rootScope.$broadcast('refreshGrid');
+                // Broadcast the event to display a save message.
+                $rootScope.$broadcast('pacienteSaved');
+            },
+            function () {
+                // Broadcast the event for a server error.
+                $rootScope.$broadcast('error');
+            }
+        );
     };
 
     // Picks up the event broadcasted when the person is selected from the grid and perform the person load by calling
     // the appropiate rest service.
     $scope.$on('pacienteSelected', function (event, id) {
-        // Calls the rest method to save a Paciente.
-        $scope.updatePaciente = function () {
-            if ($scope.paciente) {
-                $scope.persona.rolPersonaNatural = "PACIENTE";
-                personaService.save($scope.persona).$promise.then(
-                        function () {
-                            // Broadcast the event to refresh the grid.
-                            $rootScope.$broadcast('refreshGrid');
-                            // Broadcast the event to display a save message.
-                            $rootScope.$broadcast('pacienteSaved');
-                        },
-                        function () {
-                            // Broadcast the event for a server error.
-                            $rootScope.$broadcast('error');
-                        });
-            } else {
-                $scope.persona.rolPersonaNatural = "MEDICO";
-                personaService.save($scope.persona).$promise.then(
-                        function () {
-                            // Broadcast the event to refresh the grid.
-                            $rootScope.$broadcast('refreshGrid');
-                            // Broadcast the event to display a save message.
-                            $rootScope.$broadcast('pacienteSaved');
-                        },
-                        function () {
-                            // Broadcast the event for a server error.
-                            $rootScope.$broadcast('error');
-                        });
-            }
-        };
-        // Picks up the event broadcasted when the person is selected from the grid and perform the person load by calling
-        // the appropiate rest service.
-        $scope.$on('pacienteSelected', function (event, id) {
-            console.log('Paciente seleccionado, ID = ' + id);
-            $scope.persona = personaService.get({id: id});
-        });
-        $scope.$on('pacienteSaved', function () {
-            var modalOptions = {
-                //closeButtonText: 'Cancelar',
-                actionButtonText: 'Continuar',
-                headerText: 'Resultado de operación',
-                bodyText: 'Operación existosa!'
-            };
-
-            modalService.showModal({}, modalOptions).then(function () {
-                $scope.clearForm();
-                $state.go('registroPersonaNatural');
-            });
-        });
-        $scope.cancelar = function () {
-            $state.go('registroPersonaNatural');
-        };
+        console.log('Paciente seleccionado, ID = ' + id);
+        $scope.persona = personaService.get({id: id});
     });
+
+    $scope.$on('pacienteSaved', function () {
+        var modalOptions = {
+            //closeButtonText: 'Cancelar',
+            actionButtonText: 'Continuar',
+            headerText: 'Resultado de operación',
+            bodyText: 'Operación existosa!'
+        };
+
+        modalService.showModal({}, modalOptions).then(function () {
+            $scope.clearForm();
+            $state.go('registroPersonaNatural');
+        });
+    });
+
+    $scope.cancelar = function () {
+        $state.go('registroPersonaNatural');
+    };
 });
