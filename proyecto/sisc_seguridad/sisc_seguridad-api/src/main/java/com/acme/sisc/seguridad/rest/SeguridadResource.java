@@ -117,6 +117,7 @@ public class SeguridadResource {
 
     private PersonaNatural consultarPersona(String email) {
         PersonaNatural personaNatural = new PersonaNatural();
+        //com.acme.sisc.registro.ejb.PersonaNaturalFacade findByEmail
         return personaNatural;
     }
 

@@ -18,14 +18,14 @@
     </head>
     <body>
         <!-- START PAGE CONTAINER -->
-        <div class="page-container">
+        <div class="page-container" ng-hide="loginFormController.inSession">
 
             <!-- START PAGE SIDEBAR -->
             <div class="page-sidebar">
                 <!-- START X-NAVIGATION -->
                 <ul class="x-navigation">
                     <li class="xn-logo">
-                        <a href="index.html">SISC ADMIN</a>
+                        <a href="/home">SISC ADMIN</a>
                         <a href="#" class="x-navigation-control"></a>
                     </li>
                     <li class="xn-profile">
@@ -47,7 +47,7 @@
                     </li>
                     <li class="xn-title">Menu</li>
                     <li class="active">
-                        <a href="index.html"><span class="fa fa-desktop"></span> <span class="xn-text">Home</span></a>                        
+                        <a href="/home"><span class="fa fa-desktop"></span> <span class="xn-text">Home</span></a>                        
                     </li>
 
                     <li>
@@ -59,8 +59,6 @@
                         <ul>
                             <li><a ui-sref="usuarios">Listar usuarios</a></li>
                             <li><a ui-sref="crearUsuario">Crear usuario</a></li>
-                            <li><a ui-sref="login">Login</a></li>
-
                         </ul>
 
                     </li>
@@ -141,106 +139,15 @@
                     <!-- SEARCH -->
                     <li class="xn-search">
                         <form role="form">
-                            <input type="text" name="search" placeholder="Search..."/>
+                            <input type="text" name="search" placeholder="Buscar..."/>
                         </form>
                     </li>   
                     <!-- END SEARCH -->
                     <!-- SIGN OUT -->
                     <li class="xn-icon-button pull-right">
                         <a href="#" class="mb-control" data-box="#mb-signout"><span class="fa fa-sign-out"></span></a>                        
-                        <a href="#" class="mb-control" data-box="#mb-sigin"><span class="fa fa-sign-in"></span></a>                        
                     </li> 
                     <!-- END SIGN OUT -->
-                    <!-- MESSAGES -->
-                    <li class="xn-icon-button pull-right">
-                        <a href="#"><span class="fa fa-comments"></span></a>
-                        <div class="informer informer-danger">4</div>
-                        <div class="panel panel-primary animated zoomIn xn-drop-left xn-panel-dragging">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><span class="fa fa-comments"></span> Messages</h3>                                
-                                <div class="pull-right">
-                                    <span class="label label-danger">4 new</span>
-                                </div>
-                            </div>
-                            <div class="panel-body list-group list-group-contacts scroll" style="height: 200px;">
-                                <a href="#" class="list-group-item">
-                                    <div class="list-group-status status-online"></div>
-                                    <img src="assets/images/users/user2.jpg" class="pull-left" alt="John Doe"/>
-                                    <span class="contacts-title">John Doe</span>
-                                    <p>Praesent placerat tellus id augue condimentum</p>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <div class="list-group-status status-away"></div>
-                                    <img src="assets/images/users/user.jpg" class="pull-left" alt="Dmitry Ivaniuk"/>
-                                    <span class="contacts-title">Dmitry Ivaniuk</span>
-                                    <p>Donec risus sapien, sagittis et magna quis</p>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <div class="list-group-status status-away"></div>
-                                    <img src="assets/images/users/user3.jpg" class="pull-left" alt="Nadia Ali"/>
-                                    <span class="contacts-title">Nadia Ali</span>
-                                    <p>Mauris vel eros ut nunc rhoncus cursus sed</p>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <div class="list-group-status status-offline"></div>
-                                    <img src="assets/images/users/user6.jpg" class="pull-left" alt="Darth Vader"/>
-                                    <span class="contacts-title">Darth Vader</span>
-                                    <p>I want my money back!</p>
-                                </a>
-                            </div>     
-                            <div class="panel-footer text-center">
-                                <a href="pages-messages.html">Show all messages</a>
-                            </div>                            
-                        </div>                        
-                    </li>
-                    <!-- END MESSAGES -->
-                    <!-- TASKS -->
-                    <li class="xn-icon-button pull-right">
-                        <a href="#"><span class="fa fa-tasks"></span></a>
-                        <div class="informer informer-warning">3</div>
-                        <div class="panel panel-primary animated zoomIn xn-drop-left xn-panel-dragging">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><span class="fa fa-tasks"></span> Tasks</h3>                                
-                                <div class="pull-right">
-                                    <span class="label label-warning">3 active</span>
-                                </div>
-                            </div>
-                            <div class="panel-body list-group scroll" style="height: 200px;">                                
-                                <a class="list-group-item" href="#">
-                                    <strong>Phasellus augue arcu, elementum</strong>
-                                    <div class="progress progress-small progress-striped active">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">50%</div>
-                                    </div>
-                                    <small class="text-muted">John Doe, 25 Sep 2014 / 50%</small>
-                                </a>
-                                <a class="list-group-item" href="#">
-                                    <strong>Aenean ac cursus</strong>
-                                    <div class="progress progress-small progress-striped active">
-                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">80%</div>
-                                    </div>
-                                    <small class="text-muted">Dmitry Ivaniuk, 24 Sep 2014 / 80%</small>
-                                </a>
-                                <a class="list-group-item" href="#">
-                                    <strong>Lorem ipsum dolor</strong>
-                                    <div class="progress progress-small progress-striped active">
-                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%;">95%</div>
-                                    </div>
-                                    <small class="text-muted">John Doe, 23 Sep 2014 / 95%</small>
-                                </a>
-                                <a class="list-group-item" href="#">
-                                    <strong>Cras suscipit ac quam at tincidunt.</strong>
-                                    <div class="progress progress-small">
-                                        <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">100%</div>
-                                    </div>
-                                    <small class="text-muted">John Doe, 21 Sep 2014 /</small><small class="text-success"> Done</small>
-                                </a>                                
-                            </div>     
-                            <div class="panel-footer text-center">
-                                <a href="pages-tasks.html">Show all tasks</a>
-                            </div>                            
-                        </div>                        
-                    </li>
-                    <!-- END TASKS -->
                 </ul>
                 <!-- END X-NAVIGATION VERTICAL -->                     
 
@@ -258,77 +165,16 @@
         <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
             <div class="mb-container">
                 <div class="mb-middle">
-                    <div class="mb-title"><span class="fa fa-sign-out"></span> Log <strong>Out</strong> ?</div>
+                    <div class="mb-title"><span class="fa fa-sign-out"></span> Cerrar <strong>Sesi&oacute;n</strong> ?</div>
                     <div class="mb-content">
-                        <p>Are you sure you want to log out?</p>                    
-                        <p>Press No if youwant to continue work. Press Yes to logout current user.</p>
+                        <label>Esta seguro de cerrar sesi&oacute;n?</label>
                     </div>
                     <div class="mb-footer">
                         <div class="pull-right">
-                            <a href="pages-login.html" class="btn btn-success btn-lg">Yes</a>
+                            <a href="#" ng-click="loginFormController.doLogout" class="btn btn-success btn-lg">Si</a>
                             <button class="btn btn-default btn-lg mb-control-close">No</button>
+                            <button class="btn btn-default btn-lg mb-control-close">Cerrar</button>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- END MESSAGE BOX-->
-        
-        <!-- MESSAGE BOX-->
-        <div class="message-box animated fadeIn" data-sound="alert" id="mb-sigin" style="position: absolute !important">
-            <div class="mb-container">
-                <div class="mb-middle">
-                    <div class="login-container">
-
-                        <div class="login-box animated fadeInDown" >
-                            <div class="login-logo"></div>
-                            <div class="login-body">
-                                <div class="login-title"><strong>Bienvenido</strong>, Por favor inicie sesión</div>
-                                <form class="form-horizontal" name="credencialesForm" ng-submit="hacerLogin()" novalidate>
-
-                                    <!-- Correo electronico-->
-                                    <div class="form-group" ng-class="{'has-error' : credencialesForm.usuario.$invalid && credencialesForm.usuario.$dirty}">
-                                      <label for="usuaEmail">Correo electronico:</label>
-                                      <!-- Display a check when the field is valid and was modified -->
-                                      <span ng-class="{'glyphicon glyphicon-ok' : credencialesForm.usuario.$valid && credencialesForm.usuario.$dirty}"></span>
-                                      <input id="usuaEmail" name="usuaEmail" type="email" class="form-control" maxlength="50"
-                                             ng-model="credenciales.usuario" required ng-minlength="2" ng-maxlength="50" placeholder="Ingrese un correo valido"/>
-
-                                      <!-- Validation messages to be displayed on required, minlength and maxlength -->
-                                      <p class="help-block" ng-show="credencialesForm.usuario.$error.minlength">Debe tener al menos 2 caracteres.</p>
-                                      <p class="help-block" ng-show="credencialesForm.usuario.$error.maxlength">El correo no debe superar 50 characters.</p>
-                                    </div>  
-
-                                    <!-- Password -->
-                                    <div class="form-group" ng-class="{'has-error' : credencialesForm.password.$invalid && credencialesForm.password.$dirty}">
-                                      <label for="usuaPass">Constraseña:</label>
-                                      <!-- Display a check when the field is valid and was modified -->
-                                      <span ng-class="{'glyphicon glyphicon-ok' : credencialesForm.password.$valid && credencialesForm.password.$dirty}"></span>
-                                      <input id="usuaPass" name="usuaPass" type="password" class="form-control" maxlength="50"
-                                             ng-model="credenciales.password" required ng-minlength="5" ng-maxlength="50" placeholder="Ingrese una contrasena valida"/>
-
-                                      <!-- Validation messages to be displayed on required, minlength and maxlength -->
-                                      <p class="help-block" ng-show="credencialesForm.password.$error.minlength">Debe tener al menos 5 caracteres.</p>
-                                      <p class="help-block" ng-show="credencialesForm.password.$error.maxlength">La contrasena no debe superar 50 characters.</p>
-                                    </div>
-
-                                    <div class="buttons">
-                                        <button type="button" class="btn btn-primary mb-control-close" ng-click="clearForm()">Cancelar</button>
-                                      <button type="submit" class="btn btn-primary" ng-disabled="credencialesForm.$invalid">Iniciar Sesión</button>
-                                    </div>
-                                  </form>
-                            </div>
-                            <div class="login-footer">
-                                <div class="pull-left">
-                                    &copy; 2016 Sistema Integrado de Salud de Colombia
-                                </div>
-                                <div class="pull-right">
-                                    <a href="#">Acerca de ...</a> |
-                                    <a href="#">Contáctenos</a>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
@@ -394,8 +240,14 @@
         <script src="lib/dependencies/ui-bootstrap-tpls.min.js"></script>
 
         <!--Librerias de angular-->
+        
+        <!-- Librerias del storage-->
+        <script src="js/angular-storage.js"></script>
+        
         <script src="app.js"></script>
         <script src="utils/utils.js"></script>
+        
+        <!--Librerias de seguridad -->
         <script src="services/seguridadServices.js"></script>
         <script src="seguridad/usuarios/usuarios.js"></script>
         <script src="seguridad/usuarios/usuarioFormController.js"></script>
@@ -403,6 +255,8 @@
         <script src="seguridad/accesos/accesoFormController.js"></script>
         <script src="seguridad/grupos/grupos.js"></script>
         <script src="seguridad/grupos/grupoFormController.js"></script>
+        <script src="seguridad/loginFormController.js"></script>
+        <script src="seguridad/lib/login_factory.js"></script>
 
 
         <!-- scrips y controllers Agenda y Cita -->  
@@ -443,7 +297,6 @@
         <script src="historia/diagnosticoController.js"></script>
         <script src="services/hcServices.js"></script>
         <!-- END SCRIPTS -->
-        <script src="loginFormController.js"></script>
 
     </body>
 </html>
