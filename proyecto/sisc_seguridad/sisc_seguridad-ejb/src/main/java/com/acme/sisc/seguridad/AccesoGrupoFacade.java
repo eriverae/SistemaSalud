@@ -137,8 +137,12 @@ public class AccesoGrupoFacade implements AccesoGrupoFacadeRemote, AccesoGrupoFa
             a.setAcceso(acceAcce);
             em.persist(a);
         }else{
-            AccesoGrupo a = findByAcceGrup(acceAcce.getAcceAcce(), grupGrup.getGrupGrup());
-            em.remove(a);
+//            AccesoGrupo a = findByAcceGrup(acceAcce.getAcceAcce(), grupGrup.getGrupGrup());
+//            em.remove(a);
+        Query q = em.createNativeQuery("delete from accgrup where acce_acce = ? and grup_grup = ?");
+        q.setParameter(1, acceAcce.getAcceAcce());
+        q.setParameter(2, grupGrup.getGrupGrup());
+        q.executeUpdate();
         }
     }
     

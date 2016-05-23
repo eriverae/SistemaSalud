@@ -138,8 +138,12 @@ public class GrupoUsuarioFacade implements GrupoUsuarioFacadeRemote, GrupoUsuari
             a.setUsuario(usuaUsua);
             em.persist(a);
         }else{
-            GrupoUsuario a = findByGrupUsua(usuaUsua.getUsuaUsua(), grupgrup.getGrupGrup());
-            em.remove(a);
+//            GrupoUsuario a = findByGrupUsua(usuaUsua.getUsuaUsua(), grupgrup.getGrupGrup());
+//            em.remove(a);
+        Query q = em.createNativeQuery("delete from grupusu where usua_usua = ? and grup_grup = ?");
+        q.setParameter(1, usuaUsua.getUsuaUsua());
+        q.setParameter(2, grupgrup.getGrupGrup());
+        q.executeUpdate();
         }
     }
 }
