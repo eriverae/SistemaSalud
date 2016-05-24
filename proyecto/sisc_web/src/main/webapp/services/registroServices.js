@@ -3,22 +3,37 @@
 var myModule = angular.module('sisc_web');
 // Service that provides persons operations
 myModule.factory('personaService', function ($resource) {
-    return $resource('/sisc_registro/api/personaNatural/:id',{},
-    {
-        getByNumber: $resource({
-            method: 'GET',
-            url: '/sisc_registro/api/personaNatural/getByNumber/:numberId',
-            params:{numberId:'@numberID'}
-        }),
-        beneficiarios: $resource({
-            method: 'POST',
-            url: '/sisc_registro/api/personaNatural/beneficiarios/'
-        }),
-        asociarBeneficiario: $resource({
-            method: 'POST',
-            url: '/sisc_registro/api/personaNatural/asociarBeneficiario/'
-        })
-    });
+    return $resource('/sisc_registro/api/personaNatural/:id', {},
+            {
+                getByNumber: {
+                    method: 'GET',
+                    url: '/sisc_registro/api/personaNatural/getByNumber/:numberId',
+                    params: {numberId: '@numberID'}
+                },
+                beneficiarios: {
+                    method: 'GET',
+                    url: '/sisc_registro/api/personaNatural/beneficiarios/'
+                },
+                asociarBeneficiario: {
+                    method: 'POST',
+                    url: '/sisc_registro/api/personaNatural/asociarBeneficiario/'
+                },
+                listaEPS: {
+                    method: 'GET',
+                    url: '/sisc_registro/api/personaNatural/listaEPS/',
+                    isArray: true
+                },
+                asociarPacienteEPS: {
+                    method: 'POST',
+                    url: '/sisc_registro/api/personaNatural/asociarPacienteEPS',
+                    params: {paciente: '@paciente', eps: '@eps'}
+                },
+                getPacienteEPS: {
+                    method: 'GET',
+                    url: '/sisc_registro/api/personaNatural/getPacienteEPS/:paciente',
+                    params: {paciente: '@paciente'}
+                }
+            });
 });
 
 myModule.factory('epsService', function ($resource) {

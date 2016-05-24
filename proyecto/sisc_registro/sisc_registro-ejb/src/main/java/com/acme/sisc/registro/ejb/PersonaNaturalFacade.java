@@ -4,11 +4,13 @@
  */
 package com.acme.sisc.registro.ejb;
 
+import com.acme.sisc.agenda.entidades.PersonaEps;
+import com.acme.sisc.agenda.entidades.PersonaJuridica;
 import com.acme.sisc.agenda.entidades.PersonaNatural;
 import com.acme.sisc.agenda.entidades.PersonaNaturalBeneficiario;
 import com.acme.sisc.agenda.entidades.TipoIdentificacion;
 import com.acme.sisc.common.exceptions.CustomException;
-//import com.acme.sisc.registro.queue.JMSUtil;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -95,7 +97,7 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         Query q = em.createQuery("SELECT p FROM PersonaNatural p");
         return q.getResultList();
     }
-    
+
     @Override
     public List<PersonaNatural> findPersonaNaturalPorRol(int startPosition, int maxResults, String sortFields,
             String sortDirections, String rol) {
@@ -147,18 +149,19 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
     }
 
     @Override
-    public void crearPersonaNatural(PersonaNatural personaNatural) throws CustomException {
+    public PersonaNatural crearPersonaNatural(PersonaNatural personaNatural) throws CustomException {
         try {
             LOGGER.info("Inicia crearPersonaNatural(...)");
             //Se verifica si ya existe
             PersonaNatural p = findByIdentificacion(personaNatural.getTipoIdentificacion(), personaNatural.getNumeroIdentificacion());
             if (p != null) {
                 em.lock(p, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
-                LOGGER.warning("Persona natural " + personaNatural.getNumeroIdentificacion() + " ya existe !!");
+                LOGGER.log(Level.WARNING, "Persona natural {0} ya existe !!", personaNatural.getNumeroIdentificacion());
                 throw new CustomException("La persona natural " + personaNatural.getTipoIdentificacion() + "-"
                         + personaNatural.getNumeroIdentificacion() + " ya existe en el sistema");
             }
             em.persist(personaNatural);
+            LOGGER.log(Level.INFO, "Persona natural creada con id: {0}", personaNatural.getIdPersona());
             //Prueba queues
             //JMSUtil.sendMessage(personaNatural,"java:/jms/queue/BancoQueue");
             LOGGER.info("Finaliza crearPersonaNatural despues(...)");
@@ -166,6 +169,7 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
             LOGGER.log(Level.WARNING, "No se encontró persona {0}", personaNatural.getTipoIdentificacion() + " "
                     + personaNatural.getNumeroIdentificacion() + " Exception: " + ex.getLocalizedMessage());
         }
+        return personaNatural;
     }
 
     @Override
@@ -206,7 +210,7 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
             em.persist(b);
             LOGGER.info("Finaliza asociarBeneficiario despues(...)");
         } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, "Error al guardar beneficiario {0}", cotizante.getCorreoElectronico()+ " "
+            LOGGER.log(Level.WARNING, "Error al guardar beneficiario {0}", cotizante.getCorreoElectronico() + " "
                     + beneficiario.getCorreoElectronico() + " Exception: " + ex.getLocalizedMessage());
         }
     }
@@ -214,5 +218,59 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
     @Override
     public void removerBeneficiario(PersonaNaturalBeneficiario beneficiario) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<PersonaJuridica> listaEPS() {
+        Query q = em.createQuery("SELECT p FROM PersonaJuridica p");
+        return q.getResultList();
+    }
+
+    @Override
+    public void asociarPaciente_EPS(Long paciente, Long eps) throws CustomException {
+        try {
+            LOGGER.info("Inicia asociarPacienteEPS(...)");
+            Query q = em.createQuery("SELECT a FROM PersonaEps a WHERE a.persona.idPersona=:paciente AND a.fechaFin=NULL");
+            q.setParameter("paciente", paciente);
+            List listaEps = q.getResultList();
+            if (listaEps != null) {
+                if (!listaEps.isEmpty()) {
+                    for (Object o : listaEps) {
+                        PersonaEps pe = (PersonaEps) o;
+                        pe.setFechaFin(new Date());
+                        em.persist(pe);
+                    }
+                }
+            }
+            PersonaEps pe = new PersonaEps();
+            pe.setEps(em.find(PersonaJuridica.class, eps));
+            pe.setPersona(em.find(PersonaNatural.class, paciente));
+            pe.setFechaInicio(new Date());
+            em.persist(pe);
+            LOGGER.info("Finaliza asociarPacienteEPS(...)");
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Error al asociar paciente-eps {0}", paciente + "-"
+                    + eps + " Exception: " + ex.getLocalizedMessage());
+        }
+    }
+
+    @Override
+    public PersonaJuridica getPaciente_EPS(Long paciente) throws CustomException {
+        PersonaJuridica response = null;
+        try {
+            LOGGER.info("Inicia getPaciente_EPS(...)");
+            Query q = em.createQuery("SELECT a FROM PersonaEps a WHERE a.persona.idPersona=:paciente AND a.fechaFin=NULL");
+            q.setParameter("paciente", paciente);
+            PersonaEps eps = (PersonaEps)q.getSingleResult();
+            if (eps != null) {
+                response = eps.getEps();
+            }
+            
+            LOGGER.info("Finaliza getPaciente_EPS(...)");
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Error en getPaciente_EPS {0}", paciente + "-"
+                    + " Exception: " + ex.getLocalizedMessage());
+        }
+        return response;
     }
 }

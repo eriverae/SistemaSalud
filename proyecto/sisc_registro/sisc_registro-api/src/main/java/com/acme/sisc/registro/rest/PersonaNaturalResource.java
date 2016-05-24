@@ -5,6 +5,7 @@
  */
 package com.acme.sisc.registro.rest;
 
+import com.acme.sisc.agenda.entidades.PersonaJuridica;
 import com.acme.sisc.agenda.entidades.PersonaNatural;
 import com.acme.sisc.agenda.entidades.PersonaNaturalBeneficiario;
 import com.acme.sisc.common.errorhandling.ErrorMessage;
@@ -14,6 +15,7 @@ import com.acme.sisc.registro.ejb.IPersonaNaturalFacadeLocal;
 import com.acme.sisc.registro.pagination.PaginatedListWrapperPN;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -133,9 +135,9 @@ public class PersonaNaturalResource {
     public Response guardarPersonaNatural(PersonaNatural personaNatural) {
         try {
             if (personaNatural.getIdPersona() == null) {
-                facadePersonaNatural.crearPersonaNatural(personaNatural);
+                personaNatural = facadePersonaNatural.crearPersonaNatural(personaNatural);
             } else {
-                facadePersonaNatural.modificarPersonaNatural(personaNatural);
+                personaNatural = facadePersonaNatural.modificarPersonaNatural(personaNatural);
             }
         } catch (CustomException ex) {
             ErrorMessage errorMessage = new ErrorMessage();
@@ -151,13 +153,13 @@ public class PersonaNaturalResource {
                     .type(MediaType.APPLICATION_JSON)
                     .build();
         }
-        return Response.ok().build();
+        return Response.ok(personaNatural).build();
     }
 
     @GET
     @Path("beneficiarios/{page}/{sortFields}/{sortDirections}/{cotizante}")
     @Produces(MediaType.APPLICATION_JSON)
-    public PaginatedListWrapper beneficiarios(
+    public PaginatedListWrapper<PersonaNaturalBeneficiario> beneficiarios(
             @DefaultValue("1")
             @QueryParam("page") Integer page,
             @DefaultValue("id")
@@ -166,7 +168,7 @@ public class PersonaNaturalResource {
             @QueryParam("sortDirections") String sortDirections,
             @DefaultValue("0")
             @QueryParam("cotizante") Long cotizante) {
-        PaginatedListWrapper plw = new PaginatedListWrapper();
+        PaginatedListWrapper<PersonaNaturalBeneficiario> plw = new PaginatedListWrapper<>();
         plw.setCurrentPage(page);
         plw.setSortFields(sortFields);
         plw.setSortDirections(sortDirections);
@@ -174,7 +176,7 @@ public class PersonaNaturalResource {
         return beneficiariosWrapper(plw, cotizante);
     }
 
-    private PaginatedListWrapper beneficiariosWrapper(PaginatedListWrapper wrapper, Long cotizante) {
+    private PaginatedListWrapper<PersonaNaturalBeneficiario> beneficiariosWrapper(PaginatedListWrapper wrapper, Long cotizante) {
         int total = facadePersonaNatural.count();
         wrapper.setTotalResults(total);
         int start = (wrapper.getCurrentPage() - 1) * wrapper.getPageSize();
@@ -201,7 +203,59 @@ public class PersonaNaturalResource {
             
         }
     }
+    
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("listaEPS")
+    public List<PersonaJuridica> listaEPS(){
+        return facadePersonaNatural.listaEPS();
+    }
 
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("asociarPacienteEPS")
+    public Response asociarPacienteEPS(@QueryParam("paciente") Long paciente, @QueryParam("eps") Long eps) {
+        try {
+            facadePersonaNatural.asociarPaciente_EPS(paciente, eps);
+        } catch (CustomException ex) {
+            ErrorMessage errorMessage = new ErrorMessage();
+            errorMessage.setCode(ex.getErrorCode());
+            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
+            errorMessage.setMessage(ex.getMessage());
+            StringWriter errorStackTrace = new StringWriter();
+            ex.printStackTrace(new PrintWriter(errorStackTrace));
+            errorMessage.setDeveloperMessage(errorStackTrace.toString());
+
+            return Response.status(errorMessage.getStatus())
+                    .entity(errorMessage)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        }
+        return Response.ok(paciente).build();
+    }
+
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("getPacienteEPS/{paciente}")
+    public PersonaJuridica getPacienteEPS(@PathParam("paciente") Long paciente) {
+        PersonaJuridica response = null;
+        try {
+            response = facadePersonaNatural.getPaciente_EPS(paciente);
+        } catch (CustomException ex) {
+            ErrorMessage errorMessage = new ErrorMessage();
+            errorMessage.setCode(ex.getErrorCode());
+            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
+            errorMessage.setMessage(ex.getMessage());
+            StringWriter errorStackTrace = new StringWriter();
+            ex.printStackTrace(new PrintWriter(errorStackTrace));
+            errorMessage.setDeveloperMessage(errorStackTrace.toString());
+
+        }
+        return response;
+    }
+    
     ////////////////////////////////////////////////////////////////////////////
     // Servicios a módulos
     @GET
