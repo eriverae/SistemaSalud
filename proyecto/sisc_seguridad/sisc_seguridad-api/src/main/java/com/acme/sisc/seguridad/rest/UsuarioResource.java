@@ -113,4 +113,20 @@ public class UsuarioResource {
       return null;
     }
     
+    @POST
+    @Path("actCon/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void cambiarContrasena(String req) {
+        String[] spl = req.split("-");
+        System.out.println(req);
+        LOGGER.log(Level.FINE,"Post para cambiarContrasena con {1}", req);
+      try {
+          //facadeAccesoGrupo.actualizaAccesoGrupo(grup,acc,Boolean.parseBoolean(spl[2]));
+//          facadeGrupoUsuario.actualizaGrupoUsuario(usua,grup,estado);
+      }catch (Exception e){
+          //TODO Definir manejo
+          LOGGER.log(Level.SEVERE, "Houston, estamos en problemas ...", e);
+      }
+    }
+    
 }

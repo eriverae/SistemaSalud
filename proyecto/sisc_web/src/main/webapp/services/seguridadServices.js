@@ -35,5 +35,9 @@ myModule.factory('grupoUsuarioSelection', function ($resource) {
 });
 
 myModule.factory('accesoGrupoSelection', function ($resource) {
-    return $resource('/sisc_seguridad/api/accesoGrupo/actAccGr/');
+    return $resource('/sisc_seguridad/api/accesoGrupo/actAccGr/:usuaUsua');
+});
+
+myModule.factory('contrasenaService', function ($resource) {
+    return $resource('/sisc_seguridad/api/usuarios/actCon/:usuaUsua');
 });
