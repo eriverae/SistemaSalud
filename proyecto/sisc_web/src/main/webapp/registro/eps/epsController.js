@@ -76,5 +76,4 @@ app.controller('epsController', function ($scope, $rootScope, $stateParams, $sta
   $scope.cancelar = function(){
     $state.go('registroEPS');
   };
-  
 });
