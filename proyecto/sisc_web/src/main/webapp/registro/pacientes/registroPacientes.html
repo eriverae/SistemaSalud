@@ -5,7 +5,7 @@
         </div>
     </div>
     <div class="page-title" ng-if="paciente.idPersona != null">
-        <h2>Modificar Paciente</h2>
+        <h2>     Modificar Paciente</h2>
     </div>
 
     <div>
@@ -194,27 +194,13 @@
                 </div>
                 <div>
                     <div class="col-md-6">
-                        <!-- Tarjeta profesional -->
-                        <div class="form-group" ng-hide="paciente">
-                            <label class="col-md-3 col-xs-12 label-info control-label label label-form">Tarjeta profesional:</label>
-                            <div class="col-md-6 col-xs-12">
-                                <input id="tarjetaProfesional" name="tarjetaProfesional" type="number" class="form-control" maxlength="20"
-                                       ng-model="paciente.tarjetaProfesional" ng-required="!paciente" ng-minlength="3" ng-maxlength="20"
-                                       placeholder="Ingrese el número de su tarjeta profesional"/>
-                            </div>              
-                            <span ng-class="{'glyphicon glyphicon-ok' : pacienteForm.tarjetaProfesional.$valid && pacienteForm.tarjetaProfesional.$dirty}"></span>
-                            <p class="help-block" ng-show="pacienteForm.tarjetaProfesional.$error.minlength">Debe tener al menos 3 digitos.</p>
-                            <p class="help-block" ng-show="pacienteForm.tarjetaProfesional.$error.maxlength">No debe superar los 20 digitos.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
                         <!-- EPS -->
                         <div class="form-group" ng-class="{'has-error' : pacienteForm.eps.$invalid && pacienteForm.eps.$dirty}">
                             <label class="col-md-3 col-xs-12 label-info control-label label label-form">EPS:</label>
                             <span ng-class="{'glyphicon glyphicon-ok' : pacienteForm.eps.$valid && pacienteForm.eps.$dirty}"></span>
                             <div class="col-md-6 col-xs-12">
-                                <select class="form-control select" name="eps" ng-model="eps" ng-selected="eps == e.idPersona" required>
-                                    <option ng-repeat="e in listaEPS" 
+                                <select class="form-control select" name="eps" ng-model="eps" required>
+                                    <option ng-repeat="e in listaEPS" ng-selected="eps == e.idPersona"
                                             ng-value="e.idPersona">{{e.razonSocial}} [{{e.tipoIdentificacion}} - {{e.numeroIdentificacion}}]</option>
                                 </select>
                             </div>
