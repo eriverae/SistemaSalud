@@ -257,7 +257,7 @@ public class PersonaNaturalResource {
     }
     
     ////////////////////////////////////////////////////////////////////////////
-    // Servicios a módulos
+    // Servicios a módulos, SE NECESITA RECIBIR EL ID DE LA ESPECIALIDAD Y ID EPS
     @GET
     @Path("medicosPorEspecialidad/{page}/{sortFields}/{sortDirections}/{especialidad}/{eps}")
     @Produces(MediaType.APPLICATION_JSON)
