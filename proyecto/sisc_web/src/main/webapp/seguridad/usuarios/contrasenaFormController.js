@@ -7,10 +7,10 @@ app.controller('contrasenaFormController', function ($scope, $rootScope, $stateP
     $scope.usuario = {};
 
     if (angular.isDefined($stateParams.usuaUsua)) {
-        console.log('Usuario a modificar, ID = ' + $stateParams.usuaUsua);
+        console.log('Usuario a cambiar contrasena, ID = ' + $stateParams.usuaUsua);
         usuarioService.get({usuaUsua: $stateParams.usuaUsua}).$promise.then(
                 function (data) {
-                    $scope.usuario = data;
+                    $scope.usuario = data.usuario;
                     //A partir de Angular 1.3, ng-model requiere un objeto de tipo Date valido, no acepta un String
                 },
                 function () {
@@ -30,10 +30,9 @@ app.controller('contrasenaFormController', function ($scope, $rootScope, $stateP
 
     // Calls the rest method to save a Usuario.
     $scope.updateUsuario = function () {
-        usuarioService.get({usuaUsua: $stateParams.usuaUsua}).$promise.then(
+        contrasenaService.save($scope.usuario.usuaUsua + "-" + $scope.usuario.usuaPass0 + "-" + $scope.usuario.usuaPass + "-" + $scope.usuario.usuaPass1).$promise.then(
                 function () {
-                    contrasenaService.save($scope.usuario.usuaUsua + "-" + $scope.usuario.usuaPass0 + "-" + $scope.usuario.usuaPass + "-" + $scope.usuario.usuaPass1);
-                    $rootScope.$broadcast('refreshGrid');
+                    //$rootScope.$broadcast('refreshGrid');
                     // Broadcast the event to display a save message.
                     $rootScope.$broadcast('usuarioSaved');
                 },

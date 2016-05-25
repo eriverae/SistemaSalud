@@ -120,9 +120,11 @@ public class UsuarioResource {
         String[] spl = req.split("-");
         System.out.println(req);
         LOGGER.log(Level.FINE,"Post para cambiarContrasena con {1}", req);
+        Usuario usua = facadeUsuario.find(Long.parseLong(spl[0]));
+        String passOld = spl[1];
+        String passNew = spl[2];
       try {
-          //facadeAccesoGrupo.actualizaAccesoGrupo(grup,acc,Boolean.parseBoolean(spl[2]));
-//          facadeGrupoUsuario.actualizaGrupoUsuario(usua,grup,estado);
+          facadeUsuario.cambiarContrasena(usua, passOld, passNew);
       }catch (Exception e){
           //TODO Definir manejo
           LOGGER.log(Level.SEVERE, "Houston, estamos en problemas ...", e);

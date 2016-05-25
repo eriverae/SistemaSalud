@@ -87,7 +87,7 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                 
                 .state('cambiarContrasena', {
                     url: '/cambiarContrasena',
-                    templateUrl: 'seguridad/usuarios/formularioContrasena.html',
+                    templateUrl: 'seguridad/usuarios/formularioContrasena_Admin.html',
                     controller: 'contrasenaFormController',
                     params: {'usuaUsua': null},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}

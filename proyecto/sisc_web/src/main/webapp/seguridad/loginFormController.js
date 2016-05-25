@@ -24,6 +24,7 @@ app.controller('loginFormController', function ($scope, $rootScope, $stateParams
         store.set('listaGrupos', data.listaGrupos);
         store.set('personaNatural', data.personaNatural);
         store.set('token', data.token);
+        store.set('login', $scope.credenciales.usuario);
         // Broadcast the event to refresh the grid.
         $rootScope.$broadcast('refreshGrid');
         // Broadcast the event to display a save message.

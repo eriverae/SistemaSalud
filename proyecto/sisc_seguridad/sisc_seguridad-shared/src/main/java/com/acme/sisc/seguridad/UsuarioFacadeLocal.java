@@ -36,4 +36,6 @@ public interface UsuarioFacadeLocal {
 
     boolean autenticar(String usuario, String password);
 
+    void cambiarContrasena(Usuario usuario, String passOld, String passNew);
+
 }
