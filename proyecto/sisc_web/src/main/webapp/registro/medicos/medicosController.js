@@ -4,21 +4,48 @@ var app = angular.module('sisc_web');
 app.controller('medicosController', function ($scope, $rootScope, $stateParams, $state, personaService, modalService) {
 
     $scope.medico = {};
+    $scope.epsDisponibles = [];
+    $scope.epsSeleccionadas = [];
+    personaService.listaEPS().$promise.then(
+        function (data) {
+            $scope.epsDisponibles = data;
+        },
+        function () {
+            // Broadcast the event for a server error.
+            $rootScope.$broadcast('error');
+        }
+    );
+
+    $scope.moveItem = function (item, from, to) {
+        var idx = from.indexOf(item);
+        if (idx != -1) {
+            from.splice(idx, 1); // Remove the selected item from 'from' list
+            to.push(item); // Add the selected item from 'to' list
+        }
+    }
+
+    $scope.moveAll = function (from, to) {
+        // Add all elements from 'from' list to 'to' list
+        angular.forEach(from, function (item) {
+            to.push(item);
+        });
+        from.length = 0; // clean the list
+    }
 
     if (angular.isDefined($stateParams.idPersona)) {
         console.log('Médico a modificar, ID = ' + $stateParams.idPersona);
         personaService.get({id: $stateParams.idPersona}).$promise.then(
-                function (data) {
-                    console.log('Datos de médico encontrados');
-                    $scope.medico = data;
-                    //A partir de Angular 1.3, ng-model requiere un objeto de tipo Date valido, no acepta un String
-                    $scope.medico.fechaNacimiento = new Date($scope.medico.fechaNacimiento);
-                },
-                function () {
-                    console.log('Datos paila :(');
-                    // Broadcast the event for a server error.
-                    $rootScope.$broadcast('error');
-                });
+            function (data) {
+                console.log('Datos de médico encontrados');
+                $scope.medico = data;
+                //A partir de Angular 1.3, ng-model requiere un objeto de tipo Date valido, no acepta un String
+                $scope.medico.fechaNacimiento = new Date($scope.medico.fechaNacimiento);
+            },
+            function () {
+                console.log('Datos paila :(');
+                // Broadcast the event for a server error.
+                $rootScope.$broadcast('error');
+            });
     }
 
     //TODO Reemplazar por consulta de items asociados a la enumeracion Java
@@ -58,18 +85,18 @@ app.controller('medicosController', function ($scope, $rootScope, $stateParams, 
     // Calls the rest method to save a Medico.
     $scope.updateMedico = function () {
         personaService.save($scope.medico).$promise.then(
-            function () {
-                // Broadcast the event to refresh the grid.
-                $rootScope.$broadcast('refreshGrid');
-                // Broadcast the event to display a save message.
-                $rootScope.$broadcast('medicoSaved');
+                function () {
+                    // Broadcast the event to refresh the grid.
+                    $rootScope.$broadcast('refreshGrid');
+                    // Broadcast the event to display a save message.
+                    $rootScope.$broadcast('medicoSaved');
 
-            },
-            function () {
-                // Broadcast the event for a server error.
-                $rootScope.$broadcast('error');
-            }
-                    );
+                },
+                function () {
+                    // Broadcast the event for a server error.
+                    $rootScope.$broadcast('error');
+                }
+        );
     };
 
     // Picks up the event broadcasted when the person is selected from the grid and perform the person load by calling

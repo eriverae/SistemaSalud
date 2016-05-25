@@ -9,7 +9,7 @@
     </div>
 
     <div>
-        <form class="form-horizontal" name="medicoForm" ng-submit="updateMédico()" novalidate>
+        <form class="form-horizontal" name="medicoForm" ng-submit="updateMedico()" novalidate>
             <div class="col-xs-12" style="margin-bottom: 3em">
                 <div>
                     <div class="col-md-6">
@@ -111,9 +111,9 @@
                                                value="{{item.id}}"/>{{item.label}}
                                     </label>
                                 </div>
-<!--                                <input id="grupoSanguineo" name="grupoSanguineo" type="text" class="form-control" maxlength="1"
-                                       ng-model="medico.grupoSanguineo" required ng-minlength="1" ng-maxlength="1"
-                                       placeholder="A"/>-->
+                                <!--                                <input id="grupoSanguineo" name="grupoSanguineo" type="text" class="form-control" maxlength="1"
+                                                                       ng-model="medico.grupoSanguineo" required ng-minlength="1" ng-maxlength="1"
+                                                                       placeholder="A"/>-->
                             </div>
                             <p class="help-block" ng-show="medicoForm.grupoSanguineo.$error.minlength">Debe tener 1 caracter</p>
                             <p class="help-block" ng-show="medicoForm.grupoSanguineo.$error.maxlength">Debe tener un caracter</p>
@@ -209,16 +209,27 @@
                     </div>
                 </div>
                 <div>
+                    <!-- EPS -->
                     <div class="col-md-8">
-                        <!-- EPS -->
+                        <label class="col-md-3 col-xs-12 label-info control-label label label-form">EPS:</label>
                         <div class="form-group" ng-class="{'has-error' : medicoForm.eps.$invalid && medicoForm.eps.$dirty}">
-                            <label class="col-md-3 col-xs-12 label-info control-label label label-form">EPS:</label>
+                            <select class="form-control select" name="eps" ng-model="selectedEPSDisponibles" multiple required>
+                                <option ng-repeat="e in epsDisponibles" 
+                                    ng-value="e.idPersona">{{e.razonSocial}} [{{e.tipoIdentificacion}} - {{e.numeroIdentificacion}}]</option>
+                            </select>
+                            <input id="moveright" type="button" value=">" ng-click="moveItem(selectedEPSDisponibles[0], epsDisponibles, epsSeleccionadas)" />
+                            <input id="moverightall" type="button" value=">>" ng-click="moveAll(epsDisponibles, epsSeleccionadas)" />
+                            <input id="moveleft" type="button" value="<" ng-click="moveItem(selectedEPSSeleccionadas[0], epsSeleccionadas, epsDisponibles)" />
+                            <input id="moveleftall" type="button" value="<<" ng-click="moveAll(epsSeleccionadas, epsDisponibles)" />
+                            <select class="form-control select" name="eps" ng-model="selectedEPSSeleccionadas" multiple required>
+                                <option ng-repeat="e in epsSeleccionadas" 
+                                    ng-value="e.idPersona">{{e.razonSocial}} [{{e.tipoIdentificacion}} - {{e.numeroIdentificacion}}]</option>
+                            </select>
+                        </div>>
+                        <div class="form-group" ng-class="{'has-error' : medicoForm.eps.$invalid && medicoForm.eps.$dirty}">
                             <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.eps.$valid && medicoForm.eps.$dirty}"></span>
                             <div class="col-md-6 col-xs-12">
-                                <select class="form-control select" name="eps" ng-model="eps" ng-selected="eps == e.idPersona" required>
-                                    <option ng-repeat="e in listaEPS" 
-                                            ng-value="e.idPersona">{{e.razonSocial}} [{{e.tipoIdentificacion}} - {{e.numeroIdentificacion}}]</option>
-                                </select>
+                                
                             </div>
                         </div>
                     </div>
