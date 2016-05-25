@@ -174,7 +174,7 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                 })
 
                 .state('modificarMedicos', {
-                    url: '/medicos',
+                    url: '/modificarMedicos',
                     templateUrl: 'registro/medicos/registroMedicos.html',
                     controller: 'medicosController',
                     params: {idPersona: null},
@@ -196,7 +196,7 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                 })
 
                 .state('modificarPacientes', {
-                    url: '/pacientes',
+                    url: '/modificarPacientes',
                     templateUrl: 'registro/pacientes/registroPacientes.html',
                     controller: 'pacientesController',
                     params: {idPersona: null},

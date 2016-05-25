@@ -43,7 +43,8 @@ app.controller('listaPacientesController', function ($scope, $rootScope, $stateP
         var listPacientesArgs = {
             page: $scope.pacientes.currentPage,
             sortFields: $scope.sortInfo.fields[0],
-            sortDirections: $scope.sortInfo.directions[0]
+            sortDirections: $scope.sortInfo.directions[0],
+            rol: 'PACIENTE'
         };
 
         personaService.get(listPacientesArgs, function (data) {
@@ -69,8 +70,8 @@ app.controller('listaPacientesController', function ($scope, $rootScope, $stateP
     
     $scope.updateRow = function(row){
       var idP = row.entity.idPersona;
-      console.log('Modificar persona: ' & idP);
-      $state.go("modificarPersonaNatural", {idPersona: idP});
+      console.log('Modificar paciente: ' & idP);
+      $state.go("modificarPacientes", {idPersona: idP});
     };
     
     $scope.beneficiarios = function(row){
@@ -78,22 +79,6 @@ app.controller('listaPacientesController', function ($scope, $rootScope, $stateP
       $state.go("registroBeneficiarios", {idPersona: idP});
     };
     
-    $scope.autenticar = function () {
-    authService.save('ljygkvy', 'jygyukg').$promise.then(
-        function () {
-          var modalOptions = {
-            closeButtonText: 'jhfy',
-            actionButtonText: 'jysgdluwdgjeyglwew',
-            headerText: 'asjdk ',
-            bodyText: 'Ingreso exitoso'
-        };
-        },
-        function () {
-          // Broadcast the event for a server error.
-          $rootScope.$broadcast('error');
-        });
-  };
-
     // Watch the sortInfo variable. If changes are detected than we need to refresh the grid.
     // This also works for the first page access, since we assign the initial sorting in the initialize section.
     $scope.$watch('sortInfo', function () {

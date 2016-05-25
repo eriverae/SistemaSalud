@@ -31,7 +31,7 @@ app.controller('pacientesController', function ($scope, $rootScope, $stateParams
                 personaService.getPacienteEPS({paciente: $scope.paciente.idPersona}).$promise.then(
                     function (dataEPS) {
                         console.log('Datos de asociación paciente-eps encontrados');
-                        $scope.eps = dataEPS;
+                        $scope.eps = dataEPS.idPersona;
                     },
                     function () {
                         console.log('Datos paila');
