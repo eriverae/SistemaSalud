@@ -177,6 +177,23 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
             String sortDirections, Long especialidad, Long eps) {
         //TODO: ARREGLAR ESTA MIERDA
         Query q = em.createQuery("SELECT p FROM PersonaNatural p INNER JOIN FETCH p.listaEspecialidadesMedico e WHERE e.especialidad = :idesp");
+        //QUERY PARA TRAER LOS MEDICOS QUE PERTENECEN A UNA EPS DEPENDIENDO DE SU ESPECIALIDAD
+        /*
+            SELECT * FROM 
+                public.persona_natural "ListadoMedicos", 
+                public.persona_natural_especialidad "EspecialidadesPersona", 
+                public.persona_eps "personaAsociadaEPS"
+              WHERE 
+                "ListadoMedicos".id_persona = "EspecialidadesPersona".id_medico AND
+                "ListadoMedicos".id_persona = "personaAsociadaEPS".id_persona AND
+                "EspecialidadesPersona".id_especialidad = 1 AND 
+                "personaAsociadaEPS".id_eps = 1
+              ORDER BY
+                "ListadoMedicos".nombres ASC, 
+                "ListadoMedicos".apellidos ASC, 
+                "ListadoMedicos".rol_persona_natural ASC;    
+
+        */
         q.setParameter("idesp", especialidad);
         q.setFirstResult(startPosition);
         q.setMaxResults(maxResults);
