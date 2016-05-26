@@ -74,6 +74,7 @@ public class TratamientoFacade implements ITratamientoFacadeLocal, ITratamientoF
                 CitaTratamiento objectCT = findByCita_Tratamient(c.getIdCita(),
                         listaTratamiento.get(i).getTratamiento().getIdTratamiento());
                 objectCT.setFechaGeneracion(new Date());
+                objectCT.setObservaciones(listaTratamiento.get(i).getObservaciones());
                 objectCT.setTratamiento(facadeTratamiento.find(listaTratamiento.get(i).getTratamiento().getIdTratamiento()));
                 objectCT.setCita(c);
                 em.merge(objectCT);
@@ -92,8 +93,9 @@ public class TratamientoFacade implements ITratamientoFacadeLocal, ITratamientoF
 
         for (int i = 0; i<lista.size();i++ ){
             HashMap m = new HashMap();
-            m.put("idcita", lista.get(i).getCita().getIdCita());
-            m.put("idtratamiento", lista.get(i).getTratamiento().getIdTratamiento());
+            m.put("cita", lista.get(i).getCita().getIdCita());
+            m.put("tratamiento", lista.get(i).getTratamiento().getIdTratamiento());
+            m.put("tratamiento_name", lista.get(i).getTratamiento().getNombreTratamiento());
             m.put("fechageneracion", lista.get(i).getFechaGeneracion());
             m.put("observaciones", lista.get(i).getObservaciones());
             js.add(m);
