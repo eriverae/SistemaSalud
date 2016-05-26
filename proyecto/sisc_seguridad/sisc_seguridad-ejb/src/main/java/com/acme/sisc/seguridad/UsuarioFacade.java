@@ -185,4 +185,23 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
         }
         return false;
     }
+
+    @Override
+    public void cambiarContrasena(Usuario usuario, String passOld, String passNew) {
+        LOGGER.info("Inicia cambiarContrasena(...)");
+        LOGGER.info(usuario.getUsuaUsua() + " - " + passOld + " - " + passNew);
+        String contrasenaEcriptada = "";
+        try {
+            contrasenaEcriptada = encriptar(passNew);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(UsuarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        Query q = em.createNativeQuery("UPDATE usuario SET usua_pass = ? where usua_usua = ?");
+        q.setParameter(1, contrasenaEcriptada);
+        q.setParameter(2, usuario.getUsuaUsua());
+        q.executeUpdate();
+    }
+    
+    
 }

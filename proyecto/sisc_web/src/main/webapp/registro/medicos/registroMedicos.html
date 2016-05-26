@@ -1,218 +1,263 @@
-<div class="col-md-6 col-md-offset-3">
-  <div ng-if="medico.idPersona == null">
-    <h3>Crear nuevo Médico</h3>
-  </div>
-  <div ng-if="medico.idPersona != null">
-    <h3>Modificar Médico</h3>
-  </div>
+<div class="col-md-11">     
+    <div class="page-title" ng-if="medico.idPersona == null">
+        <div class="col-md-11">     
+            <h2>     Crear Médico</h2>                                     
+        </div>
+    </div>
+    <div class="page-title" ng-if="medico.idPersona != null">
+        <h2>     Modificar Médico</h2>
+    </div>
 
-  <div>
-    <form name="medicoForm" ng-submit="updateMedico()" novalidate>
-      <!--<uib-tabset active="activeForm">
-        <uib-tab index="0" heading="Datos básicos">
-          <ng-form name="nestedForm">
-            <div class="form-group"> -->
-                <!-- Datos básicos -->
-                <!-- Nombres -->
-                <div class="form-group" ng-class="{'has-error' : medicoForm.nombres.$invalid && medicoForm.nombres.$dirty}">
-                  <label for="nombres">Nombres:</label>
-                  <!-- Display a check when the field is valid and was modified -->
-                  <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.nombres.$valid && medicoForm.nombres.$dirty}"></span>
-                  <input id="nombres" name="nombres" type="text" class="form-control" maxlength="30"
-                         ng-model="medico.nombres" required ng-minlength="3" ng-maxlength="30"
-                         placeholder="Nombres"/>
-                  <!-- Validation messages to be displayed on required, minlength and maxlength -->
-                  <p class="help-block" ng-show="medicoForm.nombres.$error.minlength">Debe tener al menos 3 digitos</p>
-                  <p class="help-block" ng-show="medicoForm.nombres.$error.maxlength">No debe superar los 30 digitos</p>
+    <div>
+        <form class="form-horizontal" name="medicoForm" ng-submit="updateMedico()" novalidate>
+            <div class="col-xs-12" style="margin-bottom: 3em">
+                <div>
+                    <div class="col-md-6">
+                        <!--Nombres -->
+                        <div class="form-group" ng-class="{'has-error' : medicoForm.nombres.$invalid && medicoForm.nombres.$dirty}">
+                            <label class="col-md-3 col-xs-12 control-label label-info label label-form">Nombres:</label>
+                            <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.nombres.$valid && medicoForm.nombres.$dirty}"></span>
+                            <div class="col-md-6 col-xs-12">
+                                <input id="nombres" name="nombres" type="text" class="form-control" maxlength="30"
+                                       ng-model="medico.nombres" required ng-minlength="3" ng-maxlength="30" 
+                                       placeholder="Ingrese sus nombres"/>
+                            </div>
+                            <p class="help-block" ng-show="medicoForm.nombres.$error.minlength">Debe tener al menos 3 digitos.</p>
+                            <p class="help-block" ng-show="medicoForm.nombres.$error.maxlength">No debe superar los 30 digitos</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">            
+                        <!--Apellidos -->
+                        <div class="form-group" ng-class="{'has-error' : medicoForm.apellidos.$invalid && medicoForm.apellidos.$dirty}">
+                            <label class="col-md-3 label-info control-label label label-form">Apellidos:</label>
+                            <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.apellidos.$valid && medicoForm.apellidos.$dirty}"></span>
+                            <div class="col-md-6 col-xs-12">
+                                <input id="apellidos" name="apellidos" type="text" class="form-control" maxlength="30"
+                                       ng-model="medico.apellidos" required ng-minlength="3" ng-maxlength="30"
+                                       placeholder="Apellidos"/>
+                            </div>
+                            <p class="help-block" ng-show="medicoForm.apellidos.$error.minlength">Debe tener al menos 3 digitos</p>
+                            <p class="help-block" ng-show="medicoForm.apellidos.$error.maxlength">No debe superar los 30 digitos</p>
+                        </div>
+                    </div>
                 </div>
-
-                <!-- Apellidos -->
-                <div class="form-group" ng-class="{'has-error' : medicoForm.apellidos.$invalid && medicoForm.apellidos.$dirty}">
-                  <label for="apellidos">Apellidos:</label>
-                  <!-- Display a check when the field is valid and was modified -->
-                  <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.apellidos.$valid && medicoForm.apellidos.$dirty}"></span>
-                  <input id="apellidos" name="apellidos" type="text" class="form-control" maxlength="30"
-                         ng-model="medico.apellidos" required ng-minlength="3" ng-maxlength="30"
-                         placeholder="Apellidos"/>
-
-                  <!-- Validation messages to be displayed on required, minlength and maxlength -->
-                  <p class="help-block" ng-show="medicoForm.apellidos.$error.minlength">Debe tener al menos 3 digitos</p>
-                  <p class="help-block" ng-show="medicoForm.apellidos.$error.maxlength">No debe superar los 30 digitos</p>
+                <div>
+                    <div class="col-md-6">
+                        <!--Tipo ID -->
+                        <div class="form-group" ng-class="{'has-error' : medicoForm.tipoIdentificacion.$invalid && medicoForm.tipoIdentificacion.$dirty}">
+                            <label class="col-md-3 col-xs-12 label-info control-label label label-form">Tipo identificaci&oacute;n:</label>
+                            <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.tipoIdentificacion.$valid && medicoForm.tipoIdentificacion.$dirty}"></span>
+                            <div class="col-md-6 col-xs-12">
+                                <select class="form-control select" name="tipoIdentificacion" ng-model="medico.tipoIdentificacion" required>
+                                    <option ng-repeat="option in listaTiposIdentificacion" value="{{option.id}}">{{option.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <!--Numero Id -->
+                        <div class="form-group" ng-class="{'has-error' : medicoForm.identificacion.$invalid && medicoForm.identificacion.$dirty}">
+                            <label class="col-md-3 col-xs-12 label-info control-label label label-form">Identificaci&oacute;n:</label>
+                            <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.identificacion.$valid && medicoForm.identificacion.$dirty}"></span>
+                            <div class="col-md-6 col-xs-12">
+                                <input id="identificacion" name="identificacion" type="number" class="form-control" maxlength="20"
+                                       ng-model="medico.numeroIdentificacion" required ng-minlength="3" ng-maxlength="20"
+                                       placeholder="Ingrese el número de identificación"/>
+                            </div>
+                            <p class="help-block" ng-show="medicoForm.identificacion.$error.minlength">Debe tener al menos 3 digitos.</p>
+                            <p class="help-block" ng-show="medicoForm.identificacion.$error.maxlength">La identifiacion no debe superar 20 digitos.</p>
+                        </div>
+                    </div>
                 </div>
-
-                <!-- Grupo sanguineo -->
-                <div class="form-group" ng-class="{'has-error' : medicoForm.grupoSanguineo.$invalid && medicoForm.grupoSanguineo.$dirty}">
-                  <label for="grupoSanguineo">Grupo sanguineo:</label>
-                  <!-- Display a check when the field is valid and was modified -->
-                  <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.grupoSanguineo.$valid && medicoForm.grupoSanguineo.$dirty}"></span>
-                  <input id="grupoSanguineo" name="grupoSanguineo" type="text" class="form-control" maxlength="1"
-                         ng-model="medico.grupoSanguineo" required ng-minlength="1" ng-maxlength="1"
-                         placeholder="A"/>
-
-                  <!-- Validation messages to be displayed on required, minlength and maxlength -->
-                  <p class="help-block" ng-show="medicoForm.grupoSanguineo.$error.minlength">Debe tener 1 caracter</p>
-                  <p class="help-block" ng-show="medicoForm.grupoSanguineo.$error.maxlength">Debe tener un caracter</p>
+                <div>
+                    <div class="col-md-6">
+                        <!--Genero -->
+                        <div class="form-group" ng-class="{'has-error' : medicoForm.genero.$invalid && medicoForm.genero.$dirty}">
+                            <label class="col-md-3 col-xs-12 label-info control-label label label-form">G&eacute;nero:</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div ng-repeat="item in listaGeneros">
+                                    <label class="radio-inline">
+                                        <input id="genero" name="genero" type="radio" ng-model="medico.genero"  value="{{item.id}}"/>{{item.label}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>  
+                    </div>
+                    <div class="col-md-6">
+                        <!--Fecha nacimiento -->
+                        <div class="form-group" ng-class="{'has-error' : medicoForm.fechaNacimiento.$invalid && medicoForm.fechaNacimiento.$dirty}">
+                            <label class="col-md-3 col-xs-12 label-info control-label label label-form">Fecha de nacimiento:</label>
+                            <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.fechaNacimiento.$valid && medicoForm.fechaNacimiento.$dirty}"></span>
+                            <div class="col-md-6 col-xs-12">
+                                <input type="date" class="form-control datepicker"
+                                       id="fechaNacimiento" name="fechaNacimiento" 
+                                       ng-model="medico.fechaNacimiento"
+                                       required ng-minlength="5" ng-maxlength="100"/>
+                            </div>
+                            <p class="help-block" ng-show="medicoForm.fechaNacimiento.$error.required">Ingrese fecha de nacimiento.</p>
+                        </div>
+                    </div>
                 </div>
-
-                <!-- RH -->
-                <div class="form-group" ng-class="{'has-error' : medicoForm.rh.$invalid && medicoForm.rh.$dirty}">
-                  <label for="rh">RH</label>
-                  <!-- Display a check when the field is valid and was modified -->
-                  <!--
-                  <span ng-class="{'glyphicon glyphicon-ok' : clienteForm.gender.$valid && clienteForm.gender.$dirty}"></span>
-                  -->
-                  <div ng-repeat="item in listaRH">
-                    <label class="radio-inline">
-                      <input id="genero" name="rh" type="radio" ng-model="medico.rh"  value="{{item.id}}"/>{{item.label}}
-                    </label>
-                  </div>
-                  <!-- Validation messages to be displayed on required, minlength and maxlength -->
-                  <p class="help-block" ng-show="medicoForm.rh.$error.required">Seleccione RH.</p>
+                <div>
+                    <div class="col-md-6">
+                        <!-- Grupo sanguineo -->
+                        <div class="form-group" ng-class="{'has-error' : medicoForm.grupoSanguineo.$invalid && medicoForm.grupoSanguineo.$dirty}">
+                            <label class="col-md-3 col-xs-12 label-info control-label label label-form">Grupo sanguineo:</label>
+                            <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.grupoSanguineo.$valid && medicoForm.grupoSanguineo.$dirty}"></span>
+                            <div class="col-md-6 col-xs-12">
+                                <div ng-repeat="item in listaGrupoSanguineo">
+                                    <label class="radio-inline">
+                                        <input id="grupoSanguineo" name="grupoSanguineo" type="radio" ng-model="medico.grupoSanguineo"
+                                               value="{{item.id}}"/>{{item.label}}
+                                    </label>
+                                </div>
+                                <!--                                <input id="grupoSanguineo" name="grupoSanguineo" type="text" class="form-control" maxlength="1"
+                                                                       ng-model="medico.grupoSanguineo" required ng-minlength="1" ng-maxlength="1"
+                                                                       placeholder="A"/>-->
+                            </div>
+                            <p class="help-block" ng-show="medicoForm.grupoSanguineo.$error.minlength">Debe tener 1 caracter</p>
+                            <p class="help-block" ng-show="medicoForm.grupoSanguineo.$error.maxlength">Debe tener un caracter</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">  
+                        <!-- RH -->
+                        <div class="form-group" ng-class="{'has-error' : medicoForm.rh.$invalid && medicoForm.rh.$dirty}">
+                            <label class="col-md-3 col-xs-12 label-info control-label label label-form">RH</label>
+                            <div class="col-md-6 col-xs-12" ng-repeat="item in listaRH">
+                                <label class="radio-inline">
+                                    <input id="genero" name="rh" type="radio" ng-model="medico.rh"  value="{{item.id}}"/>{{item.label}}
+                                </label>
+                            </div>
+                            <p class="help-block" ng-show="medicoForm.rh.$error.required">Seleccione RH.</p>
+                        </div>
+                    </div>
                 </div>
-
-                <!-- Tipo de identificación -->
-                <div class="form-group" ng-class="{'has-error' : medicoForm.tipoIdentificacion.$invalid && medicoForm.tipoIdentificacion.$dirty}">
-                  <label for="tipoIdentificacion">Tipo Identificacion</label>
-                  <!-- Display a check when the field is valid and was modified -->
-                  <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.tipoIdentificacion.$valid && medicoForm.tipoIdentificacion.$dirty}"></span>
-                  <select name="tipoIdentificacion" id="tipoIdentificacion" ng-model="medico.tipoIdentificacion" required>
-                    <option ng-repeat="option in listaTiposIdentificacion" value="{{option.id}}">{{option.name}}</option>
-                  </select>
-                  <!--
-                  <p class="help-block" ng-show="clienteForm.IdType.$error.required">Seleccione tipo de identificacion.</p>
-                  -->
+                <div>
+                    <div class="col-md-6">
+                        <!-- Teléfono celular -->
+                        <div class="form-group" ng-class="{'has-error' : medicoForm.celular.$invalid && medicoForm.celular.$dirty}">
+                            <label class="col-md-3 col-xs-12 label-info control-label label label-form">Teléfono celular:</label>
+                            <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.celular.$valid && medicoForm.celular.$dirty}"></span>
+                            <div class="col-md-6 col-xs-12">
+                                <input id="celular" name="celular" type="number" class="form-control" maxlength="20"
+                                       ng-model="medico.telefonoCelular" required ng-minlength="10" ng-maxlength="20"
+                                       placeholder="Teléfono celular"/>
+                            </div>
+                            <p class="help-block" ng-show="medicoForm.celular.$error.minlength">Debe tener al menos 10 digitos.</p>
+                            <p class="help-block" ng-show="medicoForm.celular.$error.maxlength">No debe superar 20 digitos.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <!-- Teléfono fijo -->
+                        <div class="form-group" ng-class="{'has-error' : medicoForm.fijo.$invalid && medicoForm.fijo.$dirty}">
+                            <label class="col-md-3 col-xs-12 label-info control-label label label-form">Teléfono fijo:</label>
+                            <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.fijo.$valid && medicoForm.fijo.$dirty}"></span>
+                            <div class="col-md-6 col-xs-12">
+                                <input id="fijo" name="fijo" type="number" class="form-control" maxlength="20"
+                                       ng-model="medico.telefonoFijo" required ng-minlength="5" ng-maxlength="20"
+                                       placeholder="Teléfono fijo"/>
+                            </div>
+                            <p class="help-block" ng-show="medicoForm.fijo.$error.minlength">Debe tener al menos 5 digitos.</p>
+                            <p class="help-block" ng-show="medicoForm.fijo.$error.maxlength">No debe superar 20 digitos.</p>
+                        </div>
+                    </div>
                 </div>
-
-                <!-- Número de identificación -->
-                <div class="form-group" ng-class="{'has-error' : medicoForm.identificacion.$invalid && medicoForm.identificacion.$dirty}">
-                  <label for="identification">Identificacion:</label>
-                  <!-- Display a check when the field is valid and was modified -->
-                  <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.identificacion.$valid && medicoForm.identificacion.$dirty}"></span>
-
-                  <input id="identificacion" name="identificacion" type="number" class="form-control" maxlength="20"
-                         ng-model="medico.numeroIdentificacion" required ng-minlength="3" ng-maxlength="20"
-                         placeholder="Ingrese el número de identificación"/>
-
-                  <!-- Validation messages to be displayed on required, minlength and maxlength -->
-                  <p class="help-block" ng-show="medicoForm.identificacion.$error.minlength">Debe tener al menos 3 digitos.</p>
-                  <p class="help-block" ng-show="medicoForm.identificacion.$error.maxlength">La identifiacion no debe superar 20 digitos.</p>
+                <div>
+                    <div class="col-md-6">
+                        <!-- Correo electrónico -->
+                        <div class="form-group" ng-class="{'has-error' : medicoForm.correo.$invalid && medicoForm.correo.$dirty}">
+                            <label class="col-md-3 col-xs-12 label-info control-label label label-form">Correo electrónico:</label>
+                            <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.correo.$valid && medicoForm.correo.$dirty}"></span>
+                            <div class="col-md-6 col-xs-12">
+                                <input id="correo" name="correo" type="text" class="form-control" maxlength="30"
+                                       ng-model="medico.correoElectronico" required ng-minlength="3" ng-maxlength="30"
+                                       placeholder="Correo electrónico"/>
+                            </div>
+                            <p class="help-block" ng-show="medicoForm.correo.$error.minlength">Debe tener al menos 3 digitos</p>
+                            <p class="help-block" ng-show="medicoForm.correo.$error.maxlength">No debe superar los 30 digitos</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6"> 
+                        <!-- Dirección -->
+                        <div class="form-group" ng-class="{'has-error' : medicoForm.direccion.$invalid && medicoForm.direccion.$dirty}">
+                            <label class="col-md-3 col-xs-12 label-info control-label label label-form">Dirección:</label>
+                            <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.direccion.$valid && medicoForm.direccion.$dirty}"></span>
+                            <div class="col-md-6 col-xs-12">
+                                <input id="direccion" name="direccion" type="text" class="form-control" maxlength="30"
+                                       ng-model="medico.direccion" required ng-minlength="3" ng-maxlength="30"
+                                       placeholder="Direccion"/>
+                            </div>
+                            <p class="help-block" ng-show="medicoForm.direccion.$error.minlength">Debe tener al menos 3 digitos</p>
+                            <p class="help-block" ng-show="medicoForm.direccion.$error.maxlength">No debe superar los 30 digitos</p>
+                        </div>
+                    </div>
                 </div>
-
-                <!-- Género -->
-                <div class="form-group" ng-class="{'has-error' : medicoForm.genero.$invalid && medicoForm.genero.$dirty}">
-                  <label for="genero">Genero:</label>
-                  <!-- Display a check when the field is valid and was modified -->
-                  <!--
-                  <span ng-class="{'glyphicon glyphicon-ok' : clienteForm.gender.$valid && clienteForm.gender.$dirty}"></span>
-                  -->
-                  <div ng-repeat="item in listaGeneros">
-                    <label class="radio-inline">
-                      <input id="genero" name="genero" type="radio" ng-model="medico.genero"  value="{{item.id}}"/>{{item.label}}
-                    </label>
-                  </div>
-                  <!-- Validation messages to be displayed on required, minlength and maxlength -->
-                  <p class="help-block" ng-show="medicoForm.genero.$error.required">Seleccione genero.</p>
+                <div>
+                    <div class="col-md-6">
+                        <!-- Tarjeta profesional -->
+                        <div class="form-group" ng-hide="paciente">
+                            <label class="col-md-3 col-xs-12 label-info control-label label label-form">Tarjeta profesional:</label>
+                            <div class="col-md-6 col-xs-12">
+                                <input id="tarjetaProfesional" name="tarjetaProfesional" type="number" class="form-control" maxlength="20"
+                                       ng-model="medico.tarjetaProfesional" ng-required="!paciente" ng-minlength="3" ng-maxlength="20"
+                                       placeholder="Ingrese el número de su tarjeta profesional"/>
+                            </div>              
+                            <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.tarjetaProfesional.$valid && medicoForm.tarjetaProfesional.$dirty}"></span>
+                            <p class="help-block" ng-show="medicoForm.tarjetaProfesional.$error.minlength">Debe tener al menos 3 digitos.</p>
+                            <p class="help-block" ng-show="medicoForm.tarjetaProfesional.$error.maxlength">No debe superar los 20 digitos.</p>
+                        </div>
+                    </div>
                 </div>
-
-                <!-- Fecha de nacimiento -->
-                <div class="form-group" ng-class="{'has-error' : medicoForm.dateBirth.$invalid && medicoForm.dateBirth.$dirty}">
-                  <label for="dateBirth">Fecha de nacimiento:</label>
-                  <!-- Display a check when the field is valid and was modified -->
-                  <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.dateBirth.$valid && medicoForm.dateBirth.$dirty}"></span>
-
-                  <input id="dateBirth" name="dateBirth" type="text" class="form-control datepicker" placeholder="dd/MM/yyyy"
-                         ng-model="medico.fechaNacimiento"
-                         required ng-minlength="5" ng-maxlength="100"/>
-
-                  <!-- Validation messages to be displayed on required, minlength and maxlength -->
-                  <p class="help-block" ng-show="medicoForm.dateBirth.$error.required">Ingrese fecha de nacimiento.</p>
+                <div>
+                    <!-- EPS -->
+                    <div class="col-md-8">
+                        <label class="col-md-3 col-xs-12 label-info control-label label label-form">EPS:</label>
+                        <div class="form-group" ng-class="{'has-error' : medicoForm.eps.$invalid && medicoForm.eps.$dirty}">
+                            <select class="form-control select" name="eps" ng-model="selectedEPSDisponibles" multiple required>
+                                <option ng-repeat="e in epsDisponibles" 
+                                    ng-value="e.idPersona">{{e.razonSocial}} [{{e.tipoIdentificacion}} - {{e.numeroIdentificacion}}]</option>
+                            </select>
+                            <input id="moveright" type="button" value=">" ng-click="moveItem(selectedEPSDisponibles[0], epsDisponibles, epsSeleccionadas)" />
+                            <input id="moverightall" type="button" value=">>" ng-click="moveAll(epsDisponibles, epsSeleccionadas)" />
+                            <input id="moveleft" type="button" value="<" ng-click="moveItem(selectedEPSSeleccionadas[0], epsSeleccionadas, epsDisponibles)" />
+                            <input id="moveleftall" type="button" value="<<" ng-click="moveAll(epsSeleccionadas, epsDisponibles)" />
+                            <select class="form-control select" name="eps" ng-model="selectedEPSSeleccionadas" multiple required>
+                                <option ng-repeat="e in epsSeleccionadas" 
+                                    ng-value="e.idPersona">{{e.razonSocial}} [{{e.tipoIdentificacion}} - {{e.numeroIdentificacion}}]</option>
+                            </select>
+                        </div>>
+                        <div class="form-group" ng-class="{'has-error' : medicoForm.eps.$invalid && medicoForm.eps.$dirty}">
+                            <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.eps.$valid && medicoForm.eps.$dirty}"></span>
+                            <div class="col-md-6 col-xs-12">
+                                
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <div class="panel-footer" align="right">
+                <button type="button" class="btn btn-primary" ng-click="cancelar()">Cancelar 
+                    <span class="glyphicon glyphicon-floppy-remove"></span>
+                </button>                                                                        
+                <button type="submit" class="btn btn-primary" ng-disabled="medicoForm.$invalid">
+                    Guardar 
+                    <span class="fa fa-floppy-o"></span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 
-                <!-- Tarjeta profesional -->
-                <div class="form-group" ng-class="{'has-error' : medicoForm.tarjetaProfesional.$invalid && medicoForm.tarjetaProfesional.$dirty}">
-                  <label for="tarjetaProfesional">Tarjeta profesional:</label>
-                  <!-- Display a check when the field is valid and was modified -->
-                  <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.tarjetaProfesional.$valid && medicoForm.tarjetaProfesional.$dirty}"></span>
-
-                  <input id="tarjetaProfesional" name="tarjetaProfesional" type="number" class="form-control" maxlength="20"
-                         ng-model="medico.tarjetaProfesional" required ng-minlength="3" ng-maxlength="20"
-                         placeholder="Ingrese el número de su tarjeta profesional"/>
-
-                  <!-- Validation messages to be displayed on required, minlength and maxlength -->
-                  <p class="help-block" ng-show="medicoForm.tarjetaProfesional.$error.minlength">Debe tener al menos 3 digitos.</p>
-                  <p class="help-block" ng-show="medicoForm.tarjetaProfesional.$error.maxlength">No debe superar los 20 digitos.</p>
-                </div>
-            <!--</div>
-          </ng-form>
-        </uib-tab>
-        <uib-tab index="1" heading="Datos de contacto">
-          <ng-form name="nestedForm">
-            <div class="form-group">-->
-                <!-- Correo electrónico -->
-                <div class="form-group" ng-class="{'has-error' : medicoForm.correo.$invalid && medicoForm.correo.$dirty}">
-                  <label for="correo">Correo electrónico:</label>
-                  <!-- Display a check when the field is valid and was modified -->
-                  <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.correo.$valid && medicoForm.correo.$dirty}"></span>
-                  <input id="correo" name="correo" type="text" class="form-control" maxlength="30"
-                         ng-model="medico.correoElectronico" required ng-minlength="3" ng-maxlength="30"
-                         placeholder="Correo electrónico"/>
-                  <!-- Validation messages to be displayed on required, minlength and maxlength -->
-                  <p class="help-block" ng-show="medicoForm.correo.$error.minlength">Debe tener al menos 3 digitos</p>
-                  <p class="help-block" ng-show="medicoForm.correo.$error.maxlength">No debe superar los 30 digitos</p>
-                </div>
-
-                <!-- Teléfono celular -->
-                <div class="form-group" ng-class="{'has-error' : medicoForm.celular.$invalid && medicoForm.celular.$dirty}">
-                  <label for="celular">Teléfono celular:</label>
-                  <!-- Display a check when the field is valid and was modified -->
-                  <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.celular.$valid && medicoForm.celular.$dirty}"></span>
-
-                  <input id="celular" name="celular" type="number" class="form-control" maxlength="20"
-                         ng-model="medico.telefonoCelular" required ng-minlength="10" ng-maxlength="20"
-                         placeholder="Teléfono celular"/>
-
-                  <!-- Validation messages to be displayed on required, minlength and maxlength -->
-                  <p class="help-block" ng-show="medicoForm.celular.$error.minlength">Debe tener al menos 10 digitos.</p>
-                  <p class="help-block" ng-show="medicoForm.celular.$error.maxlength">No debe superar 20 digitos.</p>
-                </div>
-
-                <!-- Teléfono fijo -->
-                <div class="form-group" ng-class="{'has-error' : medicoForm.fijo.$invalid && medicoForm.fijo.$dirty}">
-                  <label for="fijo">Teléfono fijo:</label>
-                  <!-- Display a check when the field is valid and was modified -->
-                  <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.fijo.$valid && medicoForm.fijo.$dirty}"></span>
-
-                  <input id="fijo" name="fijo" type="number" class="form-control" maxlength="20"
-                         ng-model="medico.telefonoFijo" required ng-minlength="5" ng-maxlength="20"
-                         placeholder="Teléfono fijo"/>
-
-                  <!-- Validation messages to be displayed on required, minlength and maxlength -->
-                  <p class="help-block" ng-show="medicoForm.fijo.$error.minlength">Debe tener al menos 5 digitos.</p>
-                  <p class="help-block" ng-show="medicoForm.fijo.$error.maxlength">No debe superar 20 digitos.</p>
-                </div>
-                
-                <!-- Dirección -->
-                <div class="form-group" ng-class="{'has-error' : medicoForm.direccion.$invalid && medicoForm.direccion.$dirty}">
-                  <label for="direccion">Dirección:</label>
-                  <!-- Display a check when the field is valid and was modified -->
-                  <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.direccion.$valid && medicoForm.direccion.$dirty}"></span>
-                  <input id="direccion" name="direccion" type="text" class="form-control" maxlength="30"
-                         ng-model="medico.direccion" required ng-minlength="3" ng-maxlength="30"
-                         placeholder="Direccion"/>
-                  <!-- Validation messages to be displayed on required, minlength and maxlength -->
-                  <p class="help-block" ng-show="medicoForm.direccion.$error.minlength">Debe tener al menos 3 digitos</p>
-                  <p class="help-block" ng-show="medicoForm.direccion.$error.maxlength">No debe superar los 30 digitos</p>
-                </div>
-            <!--</div>
-          </ng-form>
-        </uib-tab>
-      </uib-tabset>-->
-        
-      <!-- Form buttons. The 'Save' button is only enabled when the form is valid. -->
-      <div class="buttons">
-        <button type="button" class="btn btn-primary" ng-click="cancelar()">Cancelar</button>
-        <button type="submit" class="btn btn-primary" ng-disabled="medicoForm.$invalid">Guardar</button>
-      </div>
-    </form>
-  </div>
+<div class="message-box message-box-success animated fadeIn" id="message-box-success">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-check"></span> Médico almacenado correctamente</div>
+            <div class="mb-content">
+                <p>  </p>
+            </div>
+            <div class="mb-footer">
+                <button class="btn btn-default btn-lg pull-right mb-control-close" ng-click="closepopup()">Aceptar</button>
+            </div>
+        </div>
+    </div>
 </div>

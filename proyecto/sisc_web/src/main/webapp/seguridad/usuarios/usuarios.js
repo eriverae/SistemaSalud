@@ -18,7 +18,8 @@ app.controller('usuariosListController', function ($scope, $rootScope,$state ,us
             { field: 'usuaEsta', displayName: 'Estado'},
             { field: '', width: 80, 
                 cellTemplate: '<span class="glyphicon glyphicon-trash remove" ng-click="deleteRow(row)"></span>'+
-                '<span class="glyphicon glyphicon-edit modify" ng-click="updateRow(row)"></span>' }
+                '<span class="glyphicon glyphicon-edit remove" ng-click="updateRow(row)"></span>'+
+                '<span class="glyphicon glyphicon-lock remove" ng-click="changePasswordRow(row)"></span>' }
         ],
 
         multiSelect: false,
@@ -69,6 +70,11 @@ app.controller('usuariosListController', function ($scope, $rootScope,$state ,us
     $scope.updateRow = function(row){
       var usuaUsua = row.entity.usuaUsua;
       $state.go("modificarUsuario", {'usuaUsua':usuaUsua});
+    };
+    
+    $scope.changePasswordRow = function(row){
+      var usuaUsua = row.entity.usuaUsua;
+      $state.go("cambiarContrasena", {'usuaUsua':usuaUsua});
     };
 
     // Watch the sortInfo variable. If changes are detected than we need to refresh the grid.

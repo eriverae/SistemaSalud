@@ -7,6 +7,7 @@ package com.acme.sisc.registro.ejb;
  */
 
 
+import com.acme.sisc.agenda.entidades.PersonaJuridica;
 import com.acme.sisc.agenda.entidades.PersonaNatural;
 import com.acme.sisc.agenda.entidades.PersonaNaturalBeneficiario;
 import com.acme.sisc.agenda.entidades.TipoIdentificacion;
@@ -25,8 +26,7 @@ public interface IPersonaNaturalFacadeRemote {
 
     int count();
 
-    
-    void crearPersonaNatural(PersonaNatural personaNatural) throws CustomException;
+    PersonaNatural crearPersonaNatural(PersonaNatural personaNatural) throws CustomException;
 
     PersonaNatural find(Object id);
 
@@ -57,5 +57,11 @@ public interface IPersonaNaturalFacadeRemote {
     
     void removerBeneficiario(PersonaNaturalBeneficiario beneficiario);
     
+    List<PersonaJuridica> listaEPS();
+    
     List<PersonaNatural> medicosPorEspecialidadFindRange(int startPosition, int maxResults, String sortFields, String sortDirections, Long especialidad, Long eps);
+    
+    void asociarPaciente_EPS(Long paciente, Long eps) throws CustomException;
+    
+    PersonaJuridica getPaciente_EPS(Long paciente) throws CustomException;
 }
