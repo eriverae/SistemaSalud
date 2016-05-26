@@ -1,16 +1,11 @@
 var app = angular.module('sisc_web');
 // Create a controller with name clientesListController to bind to the grid section.
-app.controller('tratamientoController', function ($scope, $rootScope,$state ,tratamientoService,cabeceraService,$timeout, modalService) {
+app.controller('tratamientoController', function ($scope, $rootScope,$state ,$timeout, tratamientoService,$modal,cabeceraService, modalService) {
     // Initialize required information: sorting, the first page to show and the grid options.
 
+    $scope.myData = [];
 
-    $scope.myData = [
-            {
-            cita: "ffff",
-            tratamiento: "male",
-            observaciones:""        
-            }
-    ];
+
 
     cabeceraService.get({idcita:localStorage.getItem('idCita')}).$promise.then(
       function (data) {
@@ -29,21 +24,26 @@ app.controller('tratamientoController', function ($scope, $rootScope,$state ,tra
     console.log("get FAIL cabeceraService");
       });
 
+
     $scope.gridOptions = {
 
         data: 'myData',
         columnDefs: [
-            { field: 'cita', displayName: 'Cita' ,  enableCellEdit: true},
-            
-                { field: 'tratamiento', 
-                    displayField : 'idTratamiento',
-                    valueField: 'nombreTratamiento',
-                    enableCellEdit: true,
-                    editableCellTemplate: 'wgTratamientos.html',
-                    
+            { field: 'cita', displayName: 'cita' ,   visible: false},
+            { field: 'tratamiento', displayName: 'tratamiento',
+                      enableCellEdit: false,
+                      displayField : 'tratamiento',
+                      valueField: 'tratamiento',
+                      width: 140,
+                      editableCellTemplate: '<select id="s2" name="s2" ng-model="COL_FIELD" class="dropdown-toggle" style="height: 100%;width: 100%;"> ' +
+                      '<option ng-repeat="mc in tratamient" value={{mc.idMedicamento}}>{{mc.nombreMedicamento}}</option></select>'
+            },
 
-                 },
-                 { field: 'observaciones', displayName: 'observaciones' ,  enableCellEdit: true}
+            { field: 'observaciones', displayName: 'observaciones',  enableCellEdit: true},
+
+            {field: 'Eliminar', displayName:'', width: 115,
+                cellTemplate : '<div class="ui-grid-cell-contents"> <button ng-click="deleteRow()" style="margin-left: 10px;" class="btn btn-danger btn-rounded btn-sm"><span class="fa fa-times"></span>Eliminar</button></div>'
+            }
         ],
 
         canSelectRows : false,
@@ -59,29 +59,40 @@ app.controller('tratamientoController', function ($scope, $rootScope,$state ,tra
         }
     };
 
-
- 
-
-
-
-
     rowCount = 0;
     var newRow = null;
 
     $scope.onAddRow = function(){
-        $scope.myData.push ( {
-            cita: "",
-            tratamiento: "",
-            observaciones:""        
-            });
+
+    var modalInstance = $modal.open({
+      templateUrl: 'historia/modaltratamiento.html',
+      controller: 'modaltratamientoController',
+
+    });
+    modalInstance.result.then(function(data){
+      $rootScope.$broadcast('refreshGrid');
+    });
+
+
     };
 
     $scope.guardar = function(){
+
+        var i = 0;
+        for(i=0;i< $scope.myData.length; i++){
+          if ($scope.myData[i].tratamiento_name !== undefined){
+            $scope.myData[i].tratamiento = $scope.myData[i].tratamiento_name;
+          }
+          $scope.myData[i].tratamiento = parseInt($scope.myData[i].tratamiento);
+          delete $scope.myData[i].fechageneracion;
+          delete $scope.myData[i].tratamiento_name;
+        }
         tratamientoService.save($scope.myData).$promise.then(
         function () {
-          // Broadcast the event to refresh the grid.
+          // // Broadcast the event to refresh the grid.
+          // $("#s2").hide();
           $rootScope.$broadcast('refreshGrid');
-          // Broadcast the event to display a save message.
+          // // Broadcast the event to display a save message.
           $rootScope.$broadcast('usuarioSaved');
           
         },
@@ -91,6 +102,13 @@ app.controller('tratamientoController', function ($scope, $rootScope,$state ,tra
         });
     };
 
+    $scope.deleteRow = function() {
+       var index = this.row.rowIndex;
+       $scope.gridOptions.selectItem(index, false);
+       $scope.myData.splice(index, 1);
+    };
+
+
 
     $scope.searchTextChanged = function(){
       console.log('Ingreso a funcion searchTextChanged');
@@ -99,29 +117,24 @@ app.controller('tratamientoController', function ($scope, $rootScope,$state ,tra
     // Refresh the grid, calling the appropriate rest method.
     $scope.refreshGrid = function () {
         var listUsuariosArgs = {
-            
+            idcita:localStorage.getItem('idCita')
         };
 
-       /* medicamentoService.get(listUsuariosArgs, function (data) {
-            $scope.usuarios = data;
-        });*/
+        tratamientoService.get(listUsuariosArgs, function (data) {
+          var tratamiento_id = 0;
+          for (var i = 0; i < data.data.length; i++) {
+            tratamiento_id = data.data[i].tratamiento;
+            data.data[i].tratamiento = data.data[i].tratamiento_name
+            data.data[i].tratamiento_name = tratamiento_id
+          };
+          $scope.myData = data.data;
+          console.log(data.data)
+          
+        });
     };
 
     // Broadcast an event when an element in the grid is deleted. No real deletion is perfomed at this point.
-    $scope.deleteRow = function (row) {
-      var usarName = row.entity.usuaEmail;
-      var modalOptions = {
-          closeButtonText: 'Cancelar',
-          actionButtonText: 'Eliminar Usuario',
-          headerText: 'Eliminar ' + usarName,
-          bodyText: '¿Esta seguro de eliminar este usuario?'
-      };
 
-      modalService.showModal({}, modalOptions).then(function (result) {
-        $rootScope.$broadcast('deleteUsuario', row.entity.usuaUsua);
-      });
-      
-    };
     
     $scope.updateRow = function(row){
       var usuaUsua = row.entity.usuaUsua;
@@ -157,7 +170,7 @@ app.controller('tratamientoController', function ($scope, $rootScope,$state ,tra
     // calling the appropiate rest service.
     $scope.$on('deleteUsuario', function (event, id) {
       console.log('Evento eliminar usuario :' + id);
-      medicamentoService.delete({usuaUsua: id}).$promise.then(
+      tratamientoService.delete({usuaUsua: id}).$promise.then(
           function () {
               // Broadcast the event to refresh the grid.
               $rootScope.$broadcast('refreshGrid');
@@ -170,6 +183,55 @@ app.controller('tratamientoController', function ($scope, $rootScope,$state ,tra
               $rootScope.$broadcast('error');
           });
     });
+
+    tratamientoService.get().$promise.then(
+      function (data) {
+        console.log("get tratamientoService");
+        $timeout(function() {
+          $scope.tratamient = data.data;
+          console.log($scope.tratamient);
+          $scope.$apply();
+        }, 300);
+      },
+      function () {
+        console.log("get FAIL");
+      });
+});
+
+app.controller('modaltratamientoController',function($scope, $rootScope, $state, $timeout, tratamientoService, modalService, $modalInstance){
+  $scope.tratamientos = "";
+  $scope.mod = {};
+
+    tratamientoService.get().$promise.then(
+          function (data) {
+            $timeout(function() {
+              $scope.tratamientos = data.data;
+              $scope.$apply();
+            }, 300);
+          },
+          function () {
+            console.log("get FAIL");
+    });
+
+    $scope.salvarnuevotratamiento = function(){
+      $scope.mod.cita = parseInt(localStorage.getItem('idCita'));
+        console.log($scope.mod);
+        $scope.mod.tratamiento = parseInt($scope.mod.tratamiento);
+        tratamientoService.save([$scope.mod]).$promise.then(
+        function () {
+         $modalInstance.close($scope.mod);
+          
+        },
+        function () {
+          console.log("FAIL");
+          // Broadcast the event for a server error.
+          $rootScope.$broadcast('error');
+        });
+         //alert($scope.formulaModal + $scope.medicamentoModal);
+
+    };
+
+
 });
 
 // Create a controller with name alertMessagesController to bind to the feedback messages section.

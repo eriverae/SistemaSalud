@@ -1,19 +1,13 @@
 var app = angular.module('sisc_web');
 // Create a controller with name clientesListController to bind to the grid section.
-app.controller('cirugiaController', function ($scope, $rootScope,$state ,cirugiaService,cabeceraService,$timeout ,modalService) {
+app.controller('cirugiaController', function ($scope, $rootScope,$state ,cirugiaService,cabeceraService,$timeout ,$modal,modalService) {
     // Initialize required information: sorting, the first page to show and the grid options.
 
+    $scope.myData = [];
 
-    $scope.myData = [
-            {
-            cita: "ffff",
-            cirugia: "male",
-            detalles:"",
-            observaciones:""         
-            }
-    ];
 
-   cabeceraService.get({idcita:localStorage.getItem('idCita')}).$promise.then(
+
+    cabeceraService.get({idcita:localStorage.getItem('idCita')}).$promise.then(
       function (data) {
     console.log("get cabeceraService");
     $timeout(function() {
@@ -30,22 +24,28 @@ app.controller('cirugiaController', function ($scope, $rootScope,$state ,cirugia
     console.log("get FAIL cabeceraService");
       });
 
+
     $scope.gridOptions = {
 
         data: 'myData',
         columnDefs: [
-            { field: 'cita', displayName: 'Cita' ,  enableCellEdit: true},
-            
-                { field: 'cirugia', 
-                    displayField : 'idcirugia',
-                    valueField: 'nombrecirugia',
-                    enableCellEdit: true,
-                    editableCellTemplate: 'wgCirugias.html',
-                    
+            { field: 'cita', displayName: 'cita' ,   visible: false},
+            { field: 'cirugia', displayName: 'cirugia',
+                      enableCellEdit: false,
+                      displayField : 'cirugia',
+                      valueField: 'cirugia',
+                      width: 140,
+                      editableCellTemplate: '<select id="s2" name="s2" ng-model="COL_FIELD" class="dropdown-toggle" style="height: 100%;width: 100%;"> ' +
+                      '<option ng-repeat="cg in cirug" value={{cg.idCirugia}}>{{cg.nombreCirugia}}</option></select>'
+            },
 
-                 },
-                 {field: 'detalles', displayName: 'Detalles' ,  enableCellEdit: true},
-                 {field: 'observaciones', displayName: 'observaciones' ,  enableCellEdit: true}
+            {field: 'detalles', displayName: 'Detalles' ,  enableCellEdit: true},
+            
+            {field: 'observaciones', displayName: 'observaciones' ,  enableCellEdit: true},
+
+            {field: 'Eliminar', displayName:'', width: 115,
+                cellTemplate : '<div class="ui-grid-cell-contents"> <button ng-click="deleteRow()" style="margin-left: 10px;" class="btn btn-danger btn-rounded btn-sm"><span class="fa fa-times"></span>Eliminar</button></div>'
+            }
         ],
 
         canSelectRows : false,
@@ -61,25 +61,34 @@ app.controller('cirugiaController', function ($scope, $rootScope,$state ,cirugia
         }
     };
 
-
- 
-
-
-
-
     rowCount = 0;
     var newRow = null;
 
     $scope.onAddRow = function(){
-        $scope.myData.push ( {
-            cita: "",
-            cirugia: "",
-            detalles:"",
-            observaciones:""         
-            });
+
+    var modalInstance = $modal.open({
+      templateUrl: 'historia/modalcirugias.html',
+      controller: 'modalcirugiaController',
+
+    });
+    modalInstance.result.then(function(data){
+      $rootScope.$broadcast('refreshGrid');
+    });
+
+
     };
 
     $scope.guardar = function(){
+
+        var i = 0;
+        for(i=0;i< $scope.myData.length; i++){
+          if ($scope.myData[i].cirugia_name !== undefined){
+            $scope.myData[i].cirugia = $scope.myData[i].cirugia_name;
+          }
+          $scope.myData[i].cirugia = parseInt($scope.myData[i].cirugia);
+          delete $scope.myData[i].fechageneracion;
+          delete $scope.myData[i].cirugia_name;
+        }
         cirugiaService.save($scope.myData).$promise.then(
         function () {
           // Broadcast the event to refresh the grid.
@@ -94,6 +103,13 @@ app.controller('cirugiaController', function ($scope, $rootScope,$state ,cirugia
         });
     };
 
+    $scope.deleteRow = function() {
+       var index = this.row.rowIndex;
+       $scope.gridOptions.selectItem(index, false);
+       $scope.myData.splice(index, 1);
+    };
+
+
 
     $scope.searchTextChanged = function(){
       console.log('Ingreso a funcion searchTextChanged');
@@ -102,29 +118,24 @@ app.controller('cirugiaController', function ($scope, $rootScope,$state ,cirugia
     // Refresh the grid, calling the appropriate rest method.
     $scope.refreshGrid = function () {
         var listUsuariosArgs = {
-            
+            idcita:localStorage.getItem('idCita')
         };
 
-       /* medicamentoService.get(listUsuariosArgs, function (data) {
-            $scope.usuarios = data;
-        });*/
+        cirugiaService.get(listUsuariosArgs, function (data) {
+          var cirugia_id = 0;
+          for (var i = 0; i < data.data.length; i++) {
+            cirugia_id = data.data[i].cirugia;
+            data.data[i].cirugia = data.data[i].cirugia_name
+            data.data[i].cirugia_name = cirugia_id
+          };
+          $scope.myData = data.data;
+          console.log(data.data)
+          
+        });
     };
 
     // Broadcast an event when an element in the grid is deleted. No real deletion is perfomed at this point.
-    $scope.deleteRow = function (row) {
-      var usarName = row.entity.usuaEmail;
-      var modalOptions = {
-          closeButtonText: 'Cancelar',
-          actionButtonText: 'Eliminar Usuario',
-          headerText: 'Eliminar ' + usarName,
-          bodyText: '¿Esta seguro de eliminar este usuario?'
-      };
 
-      modalService.showModal({}, modalOptions).then(function (result) {
-        $rootScope.$broadcast('deleteUsuario', row.entity.usuaUsua);
-      });
-      
-    };
     
     $scope.updateRow = function(row){
       var usuaUsua = row.entity.usuaUsua;
@@ -173,6 +184,55 @@ app.controller('cirugiaController', function ($scope, $rootScope,$state ,cirugia
               $rootScope.$broadcast('error');
           });
     });
+
+    cirugiaService.get().$promise.then(
+      function (data) {
+        console.log("get cirugiaService");
+        $timeout(function() {
+          $scope.cirug = data.data;
+          console.log($scope.cirug);
+          $scope.$apply();
+        }, 300);
+      },
+      function () {
+        console.log("get FAIL");
+      });
+});
+
+app.controller('modalcirugiaController',function($scope, $rootScope, $state, $timeout, cirugiaService, modalService, $modalInstance){
+  $scope.cirugias = "";
+  $scope.mod = {};
+
+    cirugiaService.get().$promise.then(
+          function (data) {
+            $timeout(function() {
+              $scope.cirugias = data.data;
+              $scope.$apply();
+            }, 300);
+          },
+          function () {
+            console.log("get FAIL");
+    });
+
+    $scope.salvarnuevacirugia = function(){
+      $scope.mod.cita = parseInt(localStorage.getItem('idCita'));
+        console.log($scope.mod);
+        $scope.mod.cirugia = parseInt($scope.mod.cirugia);
+        cirugiaService.save([$scope.mod]).$promise.then(
+        function () {
+         $modalInstance.close($scope.mod);
+          
+        },
+        function () {
+          console.log("FAIL");
+          // Broadcast the event for a server error.
+          $rootScope.$broadcast('error');
+        });
+         //alert($scope.formulaModal + $scope.medicamentoModal);
+
+    };
+
+
 });
 
 // Create a controller with name alertMessagesController to bind to the feedback messages section.
