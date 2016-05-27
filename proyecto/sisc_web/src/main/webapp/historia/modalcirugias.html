@@ -1,0 +1,23 @@
+<div>
+   <form class="form-horizontal" style="padding-top: 20px; padding-left: 40px; padding-right: 40px; padding-bottom: 40px;" name="modal" ng-submit="salvarnuevacirugia()" novalidate>
+
+	    <div class="form-group">
+	    	<label style="text-align:right" for="cirugia">Cirugia:</label>
+		    <select class="form-control" name="cirugia" id="cirugiaModal" ng-model="mod.cirugia" required>
+		        <option ng-repeat="option in cirugias" value="{{option.idCirugia}}">{{option.nombreCirugia}}</option>
+		    </select>
+	    </div>
+	    <div class="form-group">
+	    	<label style="text-align:right" for="detalles">Detalles</label>
+	    	<textarea type="text" class="form-control" style="height:100px " ng-model="mod.detalles"/>	
+	    </div>
+	    <div class="form-group">
+	    	<label style="text-align:right" for="observaciones">Observaciones</label>
+	    	<textarea type="text" class="form-control" style="height:100px " ng-model="mod.observaciones"/>	
+	    </div>
+		<div class"buttons">
+			<button type="submit"  class="btn btn-success">Añadir</button>
+		</div>
+	</form>
+
+<div>

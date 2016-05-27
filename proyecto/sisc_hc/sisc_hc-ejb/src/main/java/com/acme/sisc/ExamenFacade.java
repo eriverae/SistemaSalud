@@ -72,6 +72,8 @@ public class ExamenFacade implements IExamenFacadeLocal, IExamenFacadeRemote{
                 CitaExamen objectCE = findByCita_Examn(c.getIdCita(),
                         listaExamen.get(i).getExamen().getIdExamen());
                 objectCE.setFechaGeneracion(new Date());
+                objectCE.setObservaciones(listaExamen.get(i).getObservaciones());
+                objectCE.setDetalles(listaExamen.get(i).getDetalles());
                 objectCE.setExamen(facadeExamen.find(listaExamen.get(i).getExamen().getIdExamen()));
                 objectCE.setCita(c);
                 em.merge(objectCE);
@@ -90,8 +92,9 @@ public class ExamenFacade implements IExamenFacadeLocal, IExamenFacadeRemote{
 
         for (int i = 0; i<lista.size();i++ ){
             HashMap m = new HashMap();
-            m.put("idcita", lista.get(i).getCita().getIdCita());
-            m.put("idexamen", lista.get(i).getExamen().getIdExamen());
+            m.put("cita", lista.get(i).getCita().getIdCita());
+            m.put("examen", lista.get(i).getExamen().getIdExamen());
+            m.put("examen_name", lista.get(i).getExamen().getNombreExamen());
             m.put("fechageneracion", lista.get(i).getFechaGeneracion());
             m.put("observaciones", lista.get(i).getObservaciones());
             m.put("detalles", lista.get(i).getDetalles());

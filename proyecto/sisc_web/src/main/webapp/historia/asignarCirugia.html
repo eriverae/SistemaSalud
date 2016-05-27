@@ -23,17 +23,12 @@
 <div-->
 
 <!-- Specify a Angular controller script that binds Javascript variables to the grid.-->
-<div class="panel panel-default">
+<div class="panel panel-default" border="1">
     <div class="panel-heading">
-        <div class="col-xs-4">
-            <label for="filtro">Filtrar por Nombre:</label>
-            <input type="text" id="filtro"
-                   data-ng-model="searchText"
-                   data-ng-change="searchTextChanged()"
-                   />
-        </div>  
-        <a ui-sref="crearUsuario"><span class="glyphicon glyphicon-plus"></span> Nueva F&oacute;rmula</a>
-    </div>    <div style="padding-top: 10px;  border-radius: 10px 10px 10px 10px;
+        <div class="col-xs-4"></div>  
+    </div>    
+
+    <div style="padding-top: 10px;  border-radius: 10px 10px 10px 10px;
             -moz-border-radius: 10px 10px 10px 10px;
             -webkit-border-radius: 10px 10px 10px 10px;
             border: 0 solid #000000;width: 100%; height: 150px">       
@@ -67,13 +62,13 @@
             </div>       
 
     <div class="panel-body">
-        <div class="grid">
+        <div class="grid" >
             <div>
                 <h3>Lista de Cirugias a Asignar</h3>
             </div>
             <!-- Binds the grid component to be displayed. -->
-            <button class="btn btn-primary" ng-click = "onAddRow()">Adicionar</button>
-            <button class="btn btn-primary" ng-click = "guardar()">Guardar</button>
+            <button   ng-click = "onAddRow()"  class=" btn btn-success btn-rounded">Adicionar</button>
+            <button   ng-click = "guardar()"  class=" btn btn-success btn-rounded">Guardar Cirugia</button>
             <div class="gridStyle" external-scopes="clickHandler" ng-grid="gridOptions">
             
 
@@ -86,6 +81,6 @@
         </div>
     </div>
     <div class="panel-body">
-            <a href="#/menuhc" class="btn btn-success btn-rounded" role="button">Atras</a>
+      <a href="#/menuhc" class="btn btn-success btn-rounded" role="button">Atras</a>
     </div>
 </div>

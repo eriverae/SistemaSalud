@@ -179,6 +179,7 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
                                + " INNER JOIN p.listaPersonasEps m "
                                + " WHERE e.especialidad.idEspecialidad = :idesp "
                                + " AND m.eps.idPersona = :ideps");
+        
         q.setParameter("idesp", especialidad);
         q.setParameter("ideps", eps);
         q.setFirstResult(startPosition);

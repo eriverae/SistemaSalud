@@ -74,6 +74,8 @@ public class CirugiaFacade implements ICirugiaFacadeLocal, ICirugiaFacadeRemote{
                 CitaCirugia objectCC = findByCita_Ciru(c.getIdCita(),
                         listaCirugia.get(i).getCirugia().getIdCirugia());
                 objectCC.setFechaGeneracion(new Date());
+                objectCC.setObservaciones(listaCirugia.get(i).getObservaciones());
+                objectCC.setDetalles(listaCirugia.get(i).getDetalles());
                 objectCC.setCirugia(facadeCirugia.find(listaCirugia.get(i).getCirugia().getIdCirugia()));
                 objectCC.setCita(c);
                 em.merge(objectCC);
@@ -92,8 +94,9 @@ public class CirugiaFacade implements ICirugiaFacadeLocal, ICirugiaFacadeRemote{
 
         for (int i = 0; i<lista.size();i++ ){
             HashMap m = new HashMap();
-            m.put("idcita", lista.get(i).getCita().getIdCita());
-            m.put("idcirugia", lista.get(i).getCirugia().getIdCirugia());
+            m.put("cita", lista.get(i).getCita().getIdCita());
+            m.put("cirugia", lista.get(i).getCirugia().getIdCirugia());
+            m.put("cirugia_name", lista.get(i).getCirugia().getNombreCirugia());
             m.put("fechageneracion", lista.get(i).getFechaGeneracion());
             m.put("observaciones", lista.get(i).getObservaciones());
             m.put("detalles", lista.get(i).getDetalles());
