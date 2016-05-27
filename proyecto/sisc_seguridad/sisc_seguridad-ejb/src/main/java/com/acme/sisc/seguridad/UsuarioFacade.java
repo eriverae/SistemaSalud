@@ -33,31 +33,31 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
     // "Insert Code > Add Business Method")
     @PersistenceContext(unitName = "SistemaSaludPU")
     private EntityManager em;
-    
+
     private static final Logger LOGGER = Logger.getLogger(UsuarioFacade.class.getName());
-    
+
     protected EntityManager getEntityManager() {
         return em;
     }
 
     @Override
-    public Usuario crearUsuario(Usuario usuario) throws SeguridadException{
+    public Usuario crearUsuario(Usuario usuario) throws SeguridadException {
         LOGGER.info("Inicia Usuario(...)");
-        
+
         Usuario u = findByEmail(usuario.getUsuaEmail());
-        if (u != null){
-            LOGGER.warning("Usuario "+ usuario.getUsuaEmail() + " ya existe !!");
-            throw new SeguridadException("El usuario " +usuario.getUsuaEmail() +" ya existe en el sistema");
+        if (u != null) {
+            LOGGER.warning("Usuario " + usuario.getUsuaEmail() + " ya existe !!");
+            throw new SeguridadException("El usuario " + usuario.getUsuaEmail() + " ya existe en el sistema");
         }
-        
+
         String contrasenaEncriptada = "";
-        
+
         try {
             contrasenaEncriptada = encriptar(usuario.getUsuaPass());
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(UsuarioFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         usuario.setUsuaPass(contrasenaEncriptada);
         usuario.setUsuaBlock(false);
         usuario.setUsuaConta(0);
@@ -65,12 +65,12 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
         usuario.setUsuaUsucd(new Date());
         usuario.setUsuaUsucs("Administrador");
         usuario.setUsuaUsumd(new Date());
-        usuario.setUsuaUsums("El usuario mismo");        
+        usuario.setUsuaUsums("El usuario mismo");
         em.persist(usuario);
-        
-        JMSUtil.sendMessage(usuario,"java:/jms/queue/SiscQueue");
+
+        JMSUtil.sendMessage(usuario, "java:/jms/queue/SiscQueue");
         LOGGER.info("Finaliza crearUsuario(...)");
-        
+
         em.refresh(usuario);
         return usuario;
     }
@@ -78,75 +78,73 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Override
     public Usuario findByEmail(String email) {
-        LOGGER.log(Level.FINE,"Consulta cliente {0}",  email);
-        Query  q = em.createNamedQuery("Usuario.findByEmail");
+        LOGGER.log(Level.FINE, "Consulta cliente {0}", email);
+        Query q = em.createNamedQuery("Usuario.findByEmail");
         q.setParameter("email", email);
-        try{
+        try {
             return (Usuario) q.getSingleResult();
-        }catch(NoResultException e){
-            LOGGER.log(Level.WARNING,"No se encontro usuario {0}", email);
+        } catch (NoResultException e) {
+            LOGGER.log(Level.WARNING, "No se encontro usuario {0}", email);
             return null;
         }
     }
-    
-    public String encriptar(String password) throws NoSuchAlgorithmException{
+
+    public String encriptar(String password) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(password.getBytes());
         byte[] digest = md.digest();
         StringBuffer sb = new StringBuffer();
         for (byte b : digest) {
-                sb.append(String.format("%02x", b & 0xff));
+            sb.append(String.format("%02x", b & 0xff));
         }
         return sb.toString();
     }
 
     @Override
     public Usuario modificarUsuario(Usuario usuario) {
-        LOGGER.log(Level.FINE,"Modificando usuario con nombre : {0} - Version: ", new Object[]{usuario.getUsuaEmail()} );
+        LOGGER.log(Level.FINE, "Modificando usuario con nombre : {0} - Version: ", new Object[]{usuario.getUsuaEmail()});
         String contrasenaEncriptada = "";
-        
+
         try {
             contrasenaEncriptada = encriptar(usuario.getUsuaPass());
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(UsuarioFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         usuario.setUsuaPass(contrasenaEncriptada);
         usuario = em.merge(usuario);
         return usuario;
     }
-    
+
     @Override
     public java.util.List<Usuario> findAll() {
         Query q = em.createNamedQuery("Usuario.findAll");
         return q.getResultList();
     }
-    
+
     @Override
     public void remove(Usuario usuario) {
         em.remove(usuario);
     }
-    
-    
+
     @Override
     public void remove(Long usuario) {
-        LOGGER.log(Level.FINE,"Eliminar usuario con id {0}", usuario);
-      Usuario usu = this.find(usuario);
-      if (usu!=null){
-        usu.setUsuaEsta("Inactivo");
-        em.merge(usu);  
-        //remove(usu);
-        LOGGER.log(Level.INFO,"Usuario eliminado correctamente");
-      }else{
-        LOGGER.log(Level.INFO, "Usuario con id {} no existe", usuario);
-      }
+        LOGGER.log(Level.FINE, "Eliminar usuario con id {0}", usuario);
+        Usuario usu = this.find(usuario);
+        if (usu != null) {
+            usu.setUsuaEsta("Inactivo");
+            em.merge(usu);
+            //remove(usu);
+            LOGGER.log(Level.INFO, "Usuario eliminado correctamente");
+        } else {
+            LOGGER.log(Level.INFO, "Usuario con id {} no existe", usuario);
+        }
     }
-    
+
     @Override
     public Usuario find(Object id) {
         return em.find(Usuario.class, id);
     }
-    
 
     @Override
     public java.util.List<Usuario> findRange(int startPosition, int maxResults, String sortFields, String sortDirections) {
@@ -162,7 +160,7 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
 
         return q.getResultList();
     }
-    
+
     @Override
     public int count() {
         javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -190,18 +188,32 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
     public void cambiarContrasena(Usuario usuario, String passOld, String passNew) {
         LOGGER.info("Inicia cambiarContrasena(...)");
         LOGGER.info(usuario.getUsuaUsua() + " - " + passOld + " - " + passNew);
-        String contrasenaEcriptada = "";
+        String contrasenaEcriptadaNew = "";
+        String contrasenaEcriptadaOld = "";
         try {
-            contrasenaEcriptada = encriptar(passNew);
+            contrasenaEcriptadaNew = encriptar(passNew);
+            contrasenaEcriptadaOld = encriptar(passOld);
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(UsuarioFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        Query q = em.createNativeQuery("UPDATE usuario SET usua_pass = ? where usua_usua = ?");
-        q.setParameter(1, contrasenaEcriptada);
-        q.setParameter(2, usuario.getUsuaUsua());
-        q.executeUpdate();
+
+        if (passOld.equalsIgnoreCase("")) {
+            Query q = em.createNativeQuery("UPDATE usuario SET usua_pass = ? where usua_usua = ?");
+            q.setParameter(1, contrasenaEcriptadaNew);
+            q.setParameter(2, usuario.getUsuaUsua());
+            q.executeUpdate();
+        } 
+        else {
+            Query p = em.createNamedQuery("Usuario.findPassword");
+            p.setParameter("usuaUsua", usuario.getUsuaUsua());
+            String passOldBD = (String) p.getSingleResult();
+            
+            if (contrasenaEcriptadaOld.equalsIgnoreCase(passOldBD)){
+                Query q = em.createNativeQuery("UPDATE usuario SET usua_pass = ? where usua_usua = ?");
+                q.setParameter(1, contrasenaEcriptadaNew);
+                q.setParameter(2, usuario.getUsuaUsua());
+                q.executeUpdate();
+            } 
+        }
     }
-    
-    
 }

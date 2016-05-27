@@ -92,6 +92,13 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                     params: {'usuaUsua': null},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
+                
+                .state('cambiarContrasenaUsuario', {
+                    url: '/cambiarContrasenaUsuario',
+                    templateUrl: 'seguridad/usuarios/formularioContrasena.html',
+                    controller: 'contrasenaFormController',
+                    roles: {authorizedRoles: [USER_ROLES.Administrador, USER_ROLES.Medico, USER_ROLES.Paciente, USER_ROLES.EPS, USER_ROLES.Auditor]}
+                })
 
                 .state('agenda', {
                     url: '/medico/agenda',
@@ -306,12 +313,15 @@ app.run(function ($rootScope, $state, $http, AUTH_EVENTS, AuthService) {
 
                 event.preventDefault();
 
-                if (AuthService.isAuthenticated())
+                if (AuthService.isAuthenticated()){
                     $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
-                else
+                    $state.go('home');
+                }
+                else{
                     $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
-
-                $state.go('login');
+                    $state.go('login');
+                }
+                
                 alert('No tiene acceso para esta acci\u00F3n');
 
             }
@@ -320,6 +330,6 @@ app.run(function ($rootScope, $state, $http, AUTH_EVENTS, AuthService) {
         }
 
 
-    })
+    });
 
 });

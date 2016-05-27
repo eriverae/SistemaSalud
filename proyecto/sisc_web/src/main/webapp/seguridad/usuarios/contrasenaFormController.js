@@ -2,7 +2,7 @@
 var app = angular.module('sisc_web');
 // Create a controller with name personsFormController to bind to the form section.
 app.controller('contrasenaFormController', function ($scope, $rootScope, $stateParams, $state,
-        usuarioService, modalService, contrasenaService) {
+        usuarioService, modalService, contrasenaService, store) {
 
     $scope.usuario = {};
 
@@ -30,9 +30,23 @@ app.controller('contrasenaFormController', function ($scope, $rootScope, $stateP
 
     // Calls the rest method to save a Usuario.
     $scope.updateUsuario = function () {
-        contrasenaService.save($scope.usuario.usuaUsua + "-" + $scope.usuario.usuaPass0 + "-" + $scope.usuario.usuaPass + "-" + $scope.usuario.usuaPass1).$promise.then(
+        contrasenaService.save($scope.usuario.usuaUsua + "-" + $scope.usuario.usuaPass0 + "-" + $scope.usuario.usuaPass).$promise.then(
                 function () {
                     //$rootScope.$broadcast('refreshGrid');
+                    // Broadcast the event to display a save message.
+                    $rootScope.$broadcast('usuarioSaved');
+                },
+                function () {
+                    // Broadcast the event for a server error.
+                    $rootScope.$broadcast('error');
+                });
+    };
+
+    $scope.updateUsuarioSession = function () {
+        contrasenaService.save(store.get('login') + "-" + $scope.usuario.usuaPass0 + "-" + $scope.usuario.usuaPass).$promise.then(
+                function () {
+                    console.log();
+                    //store.set('login', $scope.credenciales.usuario);
                     // Broadcast the event to display a save message.
                     $rootScope.$broadcast('usuarioSaved');
                 },
