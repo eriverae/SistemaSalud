@@ -175,12 +175,16 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
     @Override
     public List<PersonaNatural> medicosPorEspecialidadFindRange(int startPosition, int maxResults, String sortFields,
             String sortDirections, Long especialidad, Long eps) {
-        //TODO: ARREGLAR ESTA MIERDA
-        Query q = em.createQuery("SELECT p FROM PersonaNatural p INNER JOIN FETCH p.listaEspecialidadesMedico e WHERE e.especialidad = :idesp");
+        Query q = em.createQuery("SELECT p FROM PersonaNatural p INNER JOIN FETCH p.listaEspecialidadesMedico e " 
+                               + " INNER JOIN p.listaPersonasEps m "
+                               + " WHERE e.especialidad.idEspecialidad = :idesp "
+                               + " AND m.eps.idPersona = :ideps");
         q.setParameter("idesp", especialidad);
+        q.setParameter("ideps", eps);
         q.setFirstResult(startPosition);
         q.setMaxResults(maxResults);
-        return q.getResultList();
+        List<PersonaNatural> r = q.getResultList();
+        return r;
     }
 
     @Override

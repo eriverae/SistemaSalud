@@ -118,6 +118,16 @@ public class PersonaNaturalResource {
         return facadePersonaNatural.findByNumeroIdentificacion(numberId);
     }
 
+    
+    @GET
+    @Path("getByEmail/{email}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public PersonaNatural consultarPersonaPorCorreo(@PathParam("email") String email) {
+        LOGGER.log(Level.FINE, "Consultando persona natural con correo {0} \n\n\n", email);
+        return facadePersonaNatural.findByEmail(email);
+    }
+
+    
     @DELETE
     @Path("{id}")
     public void eliminarPersona(@PathParam("id") Long id) {
@@ -263,15 +273,15 @@ public class PersonaNaturalResource {
     @Produces(MediaType.APPLICATION_JSON)
     public PaginatedListWrapperPN medicosPorEspecialidad(
             @DefaultValue("1")
-            @QueryParam("page") Integer page,
+            @PathParam("page") Integer page,
             @DefaultValue("id")
-            @QueryParam("sortFields") String sortFields,
+            @PathParam("sortFields") String sortFields,
             @DefaultValue("asc")
-            @QueryParam("sortDirections") String sortDirections,
+            @PathParam("sortDirections") String sortDirections,
             @DefaultValue("0")
-            @QueryParam("especialidad") Long especialidad,
+            @PathParam("especialidad") Long especialidad,
             @DefaultValue("0")
-            @QueryParam("eps") Long eps) {
+            @PathParam("eps") Long eps) {
         PaginatedListWrapperPN paginatedListWrapper = new PaginatedListWrapperPN();
         paginatedListWrapper.setCurrentPage(page);
         paginatedListWrapper.setSortFields(sortFields);
