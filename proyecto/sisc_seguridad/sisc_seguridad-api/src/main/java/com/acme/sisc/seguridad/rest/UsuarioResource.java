@@ -6,6 +6,7 @@
 package com.acme.sisc.seguridad.rest;
 
 import com.acme.sisc.agenda.entidades.Usuario;
+import com.acme.sisc.common.dtos.RespuestaDTO;
 import com.acme.sisc.seguridad.UsuarioFacadeLocal;
 import com.acme.sisc.common.pagination.PaginatedListWrapper;
 import com.acme.sisc.seguridad.GrupoUsuarioFacadeLocal;
@@ -25,6 +26,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 /**
@@ -113,27 +115,37 @@ public class UsuarioResource {
     @POST
     @Path("actCon/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void cambiarContrasena(String req) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response cambiarContrasena(String req) {
         try {
+            String respuesta;
             String[] spl = req.split("-");
             System.out.println(req);
             LOGGER.log(Level.FINE, "Post para cambiarContrasena con {1}", req);
 
             Usuario usua;
+            String usuaFind = spl[0];
             String passOld = spl[1];
             String passNew = spl[2];
-            if (passOld == null || passOld.equalsIgnoreCase("undefined")) {
-                usua = facadeUsuario.find(Long.parseLong(spl[0]));
-                facadeUsuario.cambiarContrasena(usua, "", passNew);
+            if (usuaFind.matches("^[0-9]+$")) {
+                usua = facadeUsuario.find(Long.parseLong(usuaFind));
+                respuesta = facadeUsuario.cambiarContrasena(usua, "", passNew);
             } else {
-                usua = facadeUsuario.findByEmail(spl[0]);
-                facadeUsuario.cambiarContrasena(usua, passOld, passNew);
+                usua = facadeUsuario.findByEmail(usuaFind);
+                respuesta = facadeUsuario.cambiarContrasena(usua, passOld, passNew);
             }
-            
+            RespuestaDTO cc = new RespuestaDTO();
+            cc.put("cambioContraseña", respuesta);
+            return Response.ok()
+                .entity(cc)
+                .type(MediaType.APPLICATION_JSON)
+                .build();
         } catch (Exception e) {
             //TODO Definir manejo
             LOGGER.log(Level.SEVERE, "Houston, estamos en problemas ...", e);
         }
+        LOGGER.log(Level.SEVERE, "No se por que salio por aca ...");
+        return null;
     }
-
+    
 }

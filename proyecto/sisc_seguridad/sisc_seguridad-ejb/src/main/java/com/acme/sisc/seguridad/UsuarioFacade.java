@@ -185,7 +185,7 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
     }
 
     @Override
-    public void cambiarContrasena(Usuario usuario, String passOld, String passNew) {
+    public String cambiarContrasena(Usuario usuario, String passOld, String passNew) {
         LOGGER.info("Inicia cambiarContrasena(...)");
         LOGGER.info(usuario.getUsuaUsua() + " - " + passOld + " - " + passNew);
         String contrasenaEcriptadaNew = "";
@@ -202,6 +202,7 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
             q.setParameter(1, contrasenaEcriptadaNew);
             q.setParameter(2, usuario.getUsuaUsua());
             q.executeUpdate();
+            return "True";
         } 
         else {
             Query p = em.createNamedQuery("Usuario.findPassword");
@@ -213,7 +214,10 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
                 q.setParameter(1, contrasenaEcriptadaNew);
                 q.setParameter(2, usuario.getUsuaUsua());
                 q.executeUpdate();
-            } 
+                return "True";
+            }else{
+                return "False";
+            }
         }
     }
 }
