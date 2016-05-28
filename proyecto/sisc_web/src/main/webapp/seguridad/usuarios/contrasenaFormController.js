@@ -31,10 +31,10 @@ app.controller('contrasenaFormController', function ($scope, $rootScope, $stateP
     // Calls the rest method to save a Usuario.
     $scope.updateUsuario = function () {
         contrasenaService.save($scope.usuario.usuaUsua + "-" + $scope.usuario.usuaPass0 + "-" + $scope.usuario.usuaPass).$promise.then(
-                function () {
-                    //$rootScope.$broadcast('refreshGrid');
+                function (data) {
+                    console.log(data);
                     // Broadcast the event to display a save message.
-                    $rootScope.$broadcast('usuarioSaved');
+                    $rootScope.$broadcast('cambioContrasenaExito');
                 },
                 function () {
                     // Broadcast the event for a server error.
@@ -44,11 +44,13 @@ app.controller('contrasenaFormController', function ($scope, $rootScope, $stateP
 
     $scope.updateUsuarioSession = function () {
         contrasenaService.save(store.get('login') + "-" + $scope.usuario.usuaPass0 + "-" + $scope.usuario.usuaPass).$promise.then(
-                function () {
-                    console.log();
-                    //store.set('login', $scope.credenciales.usuario);
-                    // Broadcast the event to display a save message.
-                    $rootScope.$broadcast('usuarioSaved');
+                function (data) {
+                    console.log(data.respuesta.cambioContraseña);
+                    if (data.respuesta.cambioContraseña === "True"){
+                        $rootScope.$broadcast('cambioContrasenaExito');
+                    }else{
+                        $rootScope.$broadcast('cambioContrasenaSinExito');
+                    }
                 },
                 function () {
                     // Broadcast the event for a server error.
@@ -63,17 +65,31 @@ app.controller('contrasenaFormController', function ($scope, $rootScope, $stateP
         $scope.usuario = usuarioService.get({id: id});
     });
 
-    $scope.$on('usuarioSaved', function () {
+    $scope.$on('cambioContrasenaExito', function () {
         var modalOptions = {
             //closeButtonText: 'Cancelar',
             actionButtonText: 'Continuar',
             headerText: 'Resultado de operación',
-            bodyText: 'Operación existosa!'
+            bodyText: 'Cambio de contraseña exitosa!'
         };
 
         modalService.showModal({}, modalOptions).then(function () {
             $scope.clearForm();
             $state.go('home');
+        });
+    });
+    
+        $scope.$on('cambioContrasenaSinExito', function () {
+        var modalOptions = {
+            //closeButtonText: 'Cancelar',
+            actionButtonText: 'Continuar',
+            headerText: 'Resultado de operación',
+            bodyText: 'La contraseña antigua no coincide, por favor intente de nuevo!'
+        };
+
+        modalService.showModal({}, modalOptions).then(function () {
+            //$scope.clearForm();
+            $state.go('cambiarContrasenaUsuario');
         });
     });
 
