@@ -75,7 +75,7 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
     @Override
     public PersonaNatural findByEmail(String email) {
         LOGGER.log(Level.FINE, "Consulta persona, email {0}", email);
-        Query q = em.createNamedQuery("Persona.findByCorreoElectronico");
+        Query q = em.createNamedQuery("PersonaNatural.findByCorreoElectronico");
         q.setParameter("correoElectronico", email);
         try {
             return ((PersonaNatural) q.getSingleResult());

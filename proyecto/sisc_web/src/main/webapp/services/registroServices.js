@@ -32,6 +32,11 @@ myModule.factory('personaService', function ($resource) {
                     method: 'GET',
                     url: '/sisc_registro/api/personaNatural/getPacienteEPS/:paciente',
                     params: {paciente: '@paciente'}
+                },
+                getByEmail: {
+                    method: 'GET',
+                    url: '/sisc_registro/api/personaNatural/getByEmail/:email',
+                    params: {email: '@email'}
                 }
             });
 });
