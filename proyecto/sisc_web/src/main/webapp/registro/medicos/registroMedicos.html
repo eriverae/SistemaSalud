@@ -211,25 +211,27 @@
                 <div>
                     <!-- EPS -->
                     <div class="col-md-8">
-                        <label class="col-md-3 col-xs-12 label-info control-label label label-form">EPS:</label>
-                        <div class="form-group" ng-class="{'has-error' : medicoForm.eps.$invalid && medicoForm.eps.$dirty}">
-                            <select class="form-control select" name="eps" ng-model="selectedEPSDisponibles" multiple required>
-                                <option ng-repeat="e in epsDisponibles" 
-                                    ng-value="e.idPersona">{{e.razonSocial}} [{{e.tipoIdentificacion}} - {{e.numeroIdentificacion}}]</option>
-                            </select>
-                            <input id="moveright" type="button" value=">" ng-click="moveItem(selectedEPSDisponibles[0], epsDisponibles, epsSeleccionadas)" />
-                            <input id="moverightall" type="button" value=">>" ng-click="moveAll(epsDisponibles, epsSeleccionadas)" />
-                            <input id="moveleft" type="button" value="<" ng-click="moveItem(selectedEPSSeleccionadas[0], epsSeleccionadas, epsDisponibles)" />
-                            <input id="moveleftall" type="button" value="<<" ng-click="moveAll(epsSeleccionadas, epsDisponibles)" />
-                            <select class="form-control select" name="eps" ng-model="selectedEPSSeleccionadas" multiple required>
-                                <option ng-repeat="e in epsSeleccionadas" 
-                                    ng-value="e.idPersona">{{e.razonSocial}} [{{e.tipoIdentificacion}} - {{e.numeroIdentificacion}}]</option>
-                            </select>
-                        </div>>
-                        <div class="form-group" ng-class="{'has-error' : medicoForm.eps.$invalid && medicoForm.eps.$dirty}">
-                            <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.eps.$valid && medicoForm.eps.$dirty}"></span>
-                            <div class="col-md-6 col-xs-12">
-                                
+                        <label class="col-md-8 col-xs-12 label-info control-label label label-form" style="text-align: left; margin: 1em">EPS:</label>
+                        <div class="col-md-9 form-group">
+                            <div class="col-md-4">
+                                <select class="form-control select" name="eps" ng-model="selectedEPSDisponibles"
+                                        ng-options="e as e.razonSocial for e in epsDisponibles" multiple required>
+        <!--                                <option ng-repeat="e in epsDisponibles" 
+                                        ng-value="e.idPersona">{{e.razonSocial}} [{{e.tipoIdentificacion}} - {{e.numeroIdentificacion}}]</option>-->
+                                </select>
+                            </div>
+                            <div class="col-md-1">
+                                <input id="moveright" type="button" style="width: 50px" value="&gt;" ng-click="moveItem(selectedEPSDisponibles[0], epsDisponibles, epsSeleccionadas)" />
+                                <input id="moverightall" type="button" style="width: 50px" value="&gt;&gt;" ng-click="moveAll(epsDisponibles, epsSeleccionadas)" />
+                                <input id="moveleft" type="button" style="width: 50px" value="&lt;" ng-click="moveItem(selectedEPSSeleccionadas[0], epsSeleccionadas, epsDisponibles)" />
+                                <input id="moveleftall" type="button" style="width: 50px" value="&lt;&lt;" ng-click="moveAll(epsSeleccionadas, epsDisponibles)" />
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-control select" name="eps" ng-model="selectedEPSSeleccionadas"
+                                        ng-options="e as e.razonSocial for e in epsSeleccionadas" multiple required>
+    <!--                                <option ng-repeat="e in epsSeleccionadas" 
+                                        ng-value="e.idPersona">{{e.razonSocial}} [{{e.tipoIdentificacion}} - {{e.numeroIdentificacion}}]</option>-->
+                                </select>
                             </div>
                         </div>
                     </div>
