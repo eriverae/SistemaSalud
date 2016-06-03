@@ -266,8 +266,32 @@ public class PersonaNaturalResource {
         return response;
     }
     
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("asociarMedicoEPS")
+    public Response asociarMedicoEPS(@QueryParam("medico") Long medico, @QueryParam("eps") List<Long> eps) {
+        try {
+            facadePersonaNatural.asociarMedico_EPS(medico, eps);
+        } catch (CustomException ex) {
+            ErrorMessage errorMessage = new ErrorMessage();
+            errorMessage.setCode(ex.getErrorCode());
+            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
+            errorMessage.setMessage(ex.getMessage());
+            StringWriter errorStackTrace = new StringWriter();
+            ex.printStackTrace(new PrintWriter(errorStackTrace));
+            errorMessage.setDeveloperMessage(errorStackTrace.toString());
+
+            return Response.status(errorMessage.getStatus())
+                    .entity(errorMessage)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        }
+        return Response.ok(medico).build();
+    }
+    
     ////////////////////////////////////////////////////////////////////////////
-    // Servicios a módulos, SE NECESITA RECIBIR EL ID DE LA ESPECIALIDAD Y ID EPS
+    // Servicios a módulos
+    ////////////////////////////////////////////////////////////////////////////
     @GET
     @Path("medicosPorEspecialidad/{page}/{sortFields}/{sortDirections}/{especialidad}/{eps}")
     @Produces(MediaType.APPLICATION_JSON)

@@ -89,24 +89,26 @@ app.controller('pacientesController', function ($scope, $rootScope, $stateParams
         personaService.save($scope.paciente).$promise.then(
             function (response) {
                 console.log("Paciente almacenado");
-                $('#message-box-success').show();
                 // Broadcast the event to refresh the grid.
-                $rootScope.$broadcast('refreshGrid');
+                $rootScope.$broadcast('pacienteSaved');
                 // Broadcast the event to display a save message.
                 //$rootScope.$broadcast('pacienteSaved');
                 
-                var args = {
-                    paciente: response.idPersona,
-                    eps: $scope.eps
+                if(!(angular.isUndefined($scope.eps.razonSocial) || $scope.eps.razonSocial === null)){
+                    var args = {
+                        paciente: response.idPersona,
+                        eps: $scope.eps
+                    };
+                    personaService.asociarPacienteEPS(args).$promise.then(
+                        function () {
+
+                        },
+                        function () {
+                            // Broadcast the event for a server error.
+                            $rootScope.$broadcast('error');
+                        }
+                    );
                 };
-                personaService.asociarPacienteEPS(args).$promise.then(
-                    function () {
-                        
-                    },
-                    function () {
-                        // Broadcast the event for a server error.
-                        $rootScope.$broadcast('error');
-                    });
             },
             function (response) {
                 // Broadcast the event for a server error.
@@ -122,15 +124,7 @@ app.controller('pacientesController', function ($scope, $rootScope, $stateParams
     };
 
     $scope.$on('pacienteSaved', function () {
-        var modalOptions = {
-            //closeButtonText: 'Cancelar',
-            actionButtonText: 'Continuar',
-            headerText: 'Resultado de operación',
-            bodyText: 'Operación existosa!'
-        };
-
-        //modalService.showModal({}, modalOptions)
-        alert('Paciente guardado exitosamente').then(function () {
+        $('#message-box-success').show().then(function () {
             $scope.clearForm();
             $state.go('registroPacientes');
         });

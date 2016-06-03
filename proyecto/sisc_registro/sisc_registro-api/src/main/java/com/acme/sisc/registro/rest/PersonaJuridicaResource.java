@@ -6,6 +6,7 @@
 package com.acme.sisc.registro.rest;
 
 import com.acme.sisc.agenda.entidades.PersonaJuridica;
+import com.acme.sisc.agenda.entidades.TipoIdentificacion;
 import com.acme.sisc.registro.ejb.IPersonaJuridicaFacadeLocal;
 import com.acme.sisc.registro.pagination.PaginatedListWrapperPJ;
 import java.util.logging.Level;
@@ -93,6 +94,7 @@ public class PersonaJuridicaResource {
     public void guardarPersonaJuridica(PersonaJuridica personaJuridica) {
         try {
             if (personaJuridica.getIdPersona() == null) {
+                personaJuridica.setTipoIdentificacion(TipoIdentificacion.NIT);
                 facadePersonaJuridica.crearPersonaJuridica(personaJuridica);
             } else {
                 facadePersonaJuridica.modificarPersonaJuridica(personaJuridica);

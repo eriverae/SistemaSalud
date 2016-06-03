@@ -2,7 +2,7 @@
 var app = angular.module('sisc_web');
 
 app.controller('medicosController', function ($scope, $rootScope, $stateParams, $state, personaService, modalService) {
-
+    $scope.bizMessage = "";
     $scope.medico = {};
     $scope.epsDisponibles = [];
     $scope.epsSeleccionadas = [];
@@ -107,14 +107,7 @@ app.controller('medicosController', function ($scope, $rootScope, $stateParams, 
     });
 
     $scope.$on('medicoSaved', function () {
-        var modalOptions = {
-            //closeButtonText: 'Cancelar',
-            actionButtonText: 'Continuar',
-            headerText: 'Resultado de operación',
-            bodyText: 'Operación existosa!'
-        };
-
-        modalService.showModal({}, modalOptions).then(function () {
+        $('#message-box-success').show().then(function () {
             $scope.clearForm();
             $state.go('registroMedicos');
         });

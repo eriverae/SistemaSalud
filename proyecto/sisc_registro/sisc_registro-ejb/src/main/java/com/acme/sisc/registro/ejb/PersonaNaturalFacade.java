@@ -278,4 +278,42 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         }
         return response;
     }
+
+    @Override
+    public void asociarMedico_EPS(Long medico, List<Long> eps) throws CustomException {
+        try {
+            String msg = "";
+            boolean existe = false;
+            LOGGER.info("Inicia asociarMedico_EPS(...)");
+            for (Long e : eps) {
+                Query q = em.createQuery("SELECT a FROM PersonaEps a WHERE a.persona.idPersona=:paciente AND a.eps.idPersona=:eps");
+                q.setParameter("paciente", medico);
+                q.setParameter("eps", e);
+                List listaEps = q.getResultList();
+                if (listaEps != null) {
+                    if (!listaEps.isEmpty()) {
+                        existe = true;
+                        msg += "Ya existe la relación del paciente con " + ((PersonaEps)listaEps.get(0)).getEps().getRazonSocial();
+                    }
+                }
+                if (!existe){
+                    PersonaEps pe = new PersonaEps();
+                    pe.setEps(em.find(PersonaJuridica.class, eps));
+                    pe.setPersona(em.find(PersonaNatural.class, medico));
+                    pe.setFechaInicio(new Date());
+                    em.persist(pe);
+                }
+            }
+            
+            LOGGER.log(Level.INFO, "Finaliza asociarPacienteEPS(...) {0}", msg);
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Error al asociar medico {0}", medico 
+                    + " a eps - Exception: " + ex.getLocalizedMessage());
+        }
+    }
+
+    @Override
+    public List<PersonaJuridica> getMedico_EPS(Long paciente) throws CustomException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
