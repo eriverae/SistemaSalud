@@ -66,6 +66,10 @@ app.controller('epsController', function ($scope, $rootScope, $stateParams, $sta
             $state.go('registroEps');
         });
     });
+    
+    $scope.closepopup = function(){
+ 	 $('#message-box-success').hide();
+    };
 
     $scope.cancelar = function () {
         $state.go('registroEPS');

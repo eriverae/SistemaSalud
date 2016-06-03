@@ -5,6 +5,9 @@
  */
 package com.acme.sisc.registro.rest;
 
+import com.acme.sisc.agenda.entidades.Alergia;
+import com.acme.sisc.agenda.entidades.Enfermedad;
+import com.acme.sisc.agenda.entidades.Operacion;
 import com.acme.sisc.agenda.entidades.PersonaJuridica;
 import com.acme.sisc.agenda.entidades.PersonaNatural;
 import com.acme.sisc.agenda.entidades.PersonaNaturalBeneficiario;
@@ -220,6 +223,30 @@ public class PersonaNaturalResource {
     @Path("listaEPS")
     public List<PersonaJuridica> listaEPS(){
         return facadePersonaNatural.listaEPS();
+    }
+    
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("listaAlergias")
+    public List<Alergia> listaAlergias(){
+        return facadePersonaNatural.listaAlergias();
+    }
+    
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("listaEnfermedades")
+    public List<Enfermedad> listaEnfermedades(){
+        return facadePersonaNatural.listaEnfermedades();
+    }
+    
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("listaOperaciones")
+    public List<Operacion> listaOperacion(){
+        return facadePersonaNatural.listaOperaciones();
     }
 
     @POST

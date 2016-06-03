@@ -85,17 +85,27 @@ app.controller('medicosController', function ($scope, $rootScope, $stateParams, 
     // Calls the rest method to save a Medico.
     $scope.updateMedico = function () {
         personaService.save($scope.medico).$promise.then(
-                function () {
-                    // Broadcast the event to refresh the grid.
-                    $rootScope.$broadcast('refreshGrid');
-                    // Broadcast the event to display a save message.
-                    $rootScope.$broadcast('medicoSaved');
+            function (response) {
+                // Broadcast the event to display a save message.
+                $rootScope.$broadcast('medicoSaved');
+                var args = {
+                    medico: response.idPersona,
+                    eps: $scope.epsSeleccionadas
+                };
+                personaService.asociarMedicoEPS(args).$promise.then(
+                    function () {
 
-                },
-                function () {
-                    // Broadcast the event for a server error.
-                    $rootScope.$broadcast('error');
-                }
+                    },
+                    function () {
+                        // Broadcast the event for a server error.
+                        $rootScope.$broadcast('error');
+                    }
+                );
+            },
+            function () {
+                // Broadcast the event for a server error.
+                $rootScope.$broadcast('error');
+            }
         );
     };
 

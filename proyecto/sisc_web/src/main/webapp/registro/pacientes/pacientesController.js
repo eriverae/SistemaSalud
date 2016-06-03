@@ -17,6 +17,58 @@ app.controller('pacientesController', function ($scope, $rootScope, $stateParams
             $rootScope.$broadcast('error');
         }
     );
+    
+    $scope.alergiasDisponibles = [];
+    $scope.alergiasSeleccionadas = [];
+    personaService.listaAlergias().$promise.then(
+        function (data) {
+            $scope.alergiasDisponibles = data;
+        },
+        function () {
+            // Broadcast the event for a server error.
+            $rootScope.$broadcast('error');
+        }
+    );
+    
+    $scope.enfermedadesDisponibles = [];
+    $scope.enfermedadesSeleccionadas = [];
+    personaService.listaEnfermedades().$promise.then(
+        function (data) {
+            $scope.enfermedadesDisponibles = data;
+        },
+        function () {
+            // Broadcast the event for a server error.
+            $rootScope.$broadcast('error');
+        }
+    );
+    
+    $scope.operacionesDisponibles = [];
+    $scope.operacionesSeleccionadas = [];
+    personaService.listaOperaciones().$promise.then(
+        function (data) {
+            $scope.operacionesDisponibles = data;
+        },
+        function () {
+            // Broadcast the event for a server error.
+            $rootScope.$broadcast('error');
+        }
+    );
+
+    $scope.moveItem = function (item, from, to) {
+        var idx = from.indexOf(item);
+        if (idx != -1) {
+            from.splice(idx, 1); // Remove the selected item from 'from' list
+            to.push(item); // Add the selected item from 'to' list
+        }
+    }
+
+    $scope.moveAll = function (from, to) {
+        // Add all elements from 'from' list to 'to' list
+        angular.forEach(from, function (item) {
+            to.push(item);
+        });
+        from.length = 0; // clean the list
+    }
 
     if (angular.isDefined($stateParams.idPersona)) {
         console.log('Paciente a modificar, ID = ' + $stateParams.idPersona);

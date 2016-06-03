@@ -4,6 +4,9 @@
  */
 package com.acme.sisc.registro.ejb;
 
+import com.acme.sisc.agenda.entidades.Alergia;
+import com.acme.sisc.agenda.entidades.Enfermedad;
+import com.acme.sisc.agenda.entidades.Operacion;
 import com.acme.sisc.agenda.entidades.PersonaEps;
 import com.acme.sisc.agenda.entidades.PersonaJuridica;
 import com.acme.sisc.agenda.entidades.PersonaNatural;
@@ -228,6 +231,24 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
     @Override
     public List<PersonaJuridica> listaEPS() {
         Query q = em.createQuery("SELECT p FROM PersonaJuridica p");
+        return q.getResultList();
+    }
+
+    @Override
+    public List<Alergia> listaAlergias() {
+        Query q = em.createQuery("SELECT a FROM Alergia a");
+        return q.getResultList();
+    }
+
+    @Override
+    public List<Enfermedad> listaEnfermedades() {
+        Query q = em.createQuery("SELECT e FROM Enfermedad e");
+        return q.getResultList();
+    }
+
+    @Override
+    public List<Operacion> listaOperaciones() {
+        Query q = em.createQuery("SELECT o FROM Operacion o");
         return q.getResultList();
     }
 

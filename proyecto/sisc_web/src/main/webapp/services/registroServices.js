@@ -23,6 +23,21 @@ myModule.factory('personaService', function ($resource) {
                     url: '/sisc_registro/api/personaNatural/listaEPS/',
                     isArray: true
                 },
+                listaAlergias: {
+                    method: 'GET',
+                    url: '/sisc_registro/api/personaNatural/listaAlergias/',
+                    isArray: true
+                },
+                listaEnfermedades: {
+                    method: 'GET',
+                    url: '/sisc_registro/api/personaNatural/listaEnfermedades/',
+                    isArray: true
+                },
+                listaOperaciones: {
+                    method: 'GET',
+                    url: '/sisc_registro/api/personaNatural/listaOperaciones/',
+                    isArray: true
+                },
                 asociarPacienteEPS: {
                     method: 'POST',
                     url: '/sisc_registro/api/personaNatural/asociarPacienteEPS',
@@ -37,6 +52,11 @@ myModule.factory('personaService', function ($resource) {
                     method: 'GET',
                     url: '/sisc_registro/api/personaNatural/getByEmail/:email',
                     params: {email: '@email'}
+                },
+                asociarMedicoEPS: {
+                    method: 'POST',
+                    url: '/sisc_registro/api/personaNatural/asociarMedicoEPS',
+                    params: {paciente: '@medico', eps: '@eps'}
                 }
             });
 });
