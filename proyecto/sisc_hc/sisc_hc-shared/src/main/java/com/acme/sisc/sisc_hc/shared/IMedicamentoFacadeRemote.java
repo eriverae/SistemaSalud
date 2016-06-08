@@ -20,7 +20,7 @@ import javax.ejb.Remote;
 public interface IMedicamentoFacadeRemote {
     Medicamento find(Object id);
     List<Medicamento> findAll();
-    void addMedicamentoCita(List<CitaMedicamento> listaMedicamentos);
+    HashMap addMedicamentoCita(List<CitaMedicamento> listaMedicamentos);
     ArrayList<HashMap> findByCita(Long idcita);
     CitaMedicamento findByCita_Medicament(Long idcita, Long idmedicamento);
 }

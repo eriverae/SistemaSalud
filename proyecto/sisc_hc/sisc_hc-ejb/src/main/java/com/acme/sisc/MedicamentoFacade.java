@@ -5,9 +5,12 @@
  */
 package com.acme.sisc;
 
+import com.acme.sisc.agenda.entidades.AlergiaMedicamento;
 import com.acme.sisc.agenda.entidades.Cita;
 import com.acme.sisc.agenda.entidades.CitaMedicamento;
 import com.acme.sisc.agenda.entidades.Medicamento;
+import com.acme.sisc.agenda.entidades.PersonaNatural;
+import com.acme.sisc.agenda.entidades.PersonaNaturalAlergia;
 import com.acme.sisc.sisc_hc.shared.IMedicamentoFacadeLocal;
 import com.acme.sisc.sisc_hc.shared.IMedicamentoFacadeRemote;
 import java.util.ArrayList;
@@ -65,21 +68,41 @@ public class MedicamentoFacade implements IMedicamentoFacadeLocal, IMedicamentoF
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void addMedicamentoCita(List<CitaMedicamento>listaMedicamentos) {
+    public HashMap addMedicamentoCita(List<CitaMedicamento>listaMedicamentos) {
+        HashMap m = new HashMap();
         try {
             icitaremote = (ICitaRemote) EJBLocator.lookup(REMOTE_EJB_CITA);
             for (int i=0; i<listaMedicamentos.size(); i++) {
                 Cita c = icitaremote.find(listaMedicamentos.get(i).getCita().getIdCita());
-                CitaMedicamento objectCM = findByCita_Medicament(c.getIdCita(),
-                        listaMedicamentos.get(i).getMedicamento().getIdMedicamento());
-                objectCM.setFormula(listaMedicamentos.get(i).getFormula());
-                objectCM.setFechaGenracion(new Date());
-                objectCM.setMedicamento(facadeMedicamento.find(listaMedicamentos.get(i).getMedicamento().getIdMedicamento()));
-                objectCM.setCita(c);
-                em.merge(objectCM);
+                
+                Long id_persona = c.getPacienteEps().getPersona().getIdPersona();
+
+                Query q = em.createNativeQuery("select * from alergia_medicamento as am where am.id_alergia in (\n" +
+                    "select pna.id_alergia from persona_natural as pn inner join persona_natural_alergia as pna\n" +
+                    "on pn.id_persona = pna.id_paciente) and id_medicamento =" + listaMedicamentos.get(i).getMedicamento().getIdMedicamento(),AlergiaMedicamento.class);
+                List<AlergiaMedicamento>listado_alergias_paciente = q.getResultList();
+                if(listado_alergias_paciente.size() > 0){
+                    m.put("message", "El paciente es alergico a este medicamento, no es posible formularlo");
+                    m.put("status", 400);
+                    return m;
+                }else{
+                    CitaMedicamento objectCM = findByCita_Medicament(c.getIdCita(),
+                    listaMedicamentos.get(i).getMedicamento().getIdMedicamento());
+                    objectCM.setFormula(listaMedicamentos.get(i).getFormula());
+                    objectCM.setFechaGenracion(new Date());
+                    objectCM.setMedicamento(facadeMedicamento.find(listaMedicamentos.get(i).getMedicamento().getIdMedicamento()));
+                    objectCM.setCita(c);
+                    em.merge(objectCM);
+                }
             }
+            m.put("message", "OK");
+            m.put("status", 200);
+            return m;
         } catch (NamingException ex) {
             Logger.getLogger(MedicamentoFacade.class.getName()).log(Level.SEVERE, null, ex);
+            m.put("message", "ERROR... nos encontramos solucionando el problema.");
+            m.put("status", 500);
+            return m;
         }
     }
     

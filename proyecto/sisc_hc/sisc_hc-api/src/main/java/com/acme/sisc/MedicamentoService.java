@@ -63,10 +63,9 @@ public class MedicamentoService {
     public Response addMedicamentosCita(List<CitaMedicamento> cita_medicamento) 
             throws CustomException, CustomRunTimeException{
         try{
-            facadeMedicamento.addMedicamentoCita(cita_medicamento);
             return Response
                 .status(200)
-                .entity("{}")
+                .entity(facadeMedicamento.addMedicamentoCita(cita_medicamento))
                 .build();
         }catch(Exception ex){
             throw new CustomException(Response.Status.BAD_REQUEST.getStatusCode(), 503, "Error adicionando los datos del medicamento... ");

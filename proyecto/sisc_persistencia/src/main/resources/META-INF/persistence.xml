@@ -37,6 +37,7 @@
     <class>com.acme.sisc.agenda.entidades.Usuempr</class>
     <class>com.acme.sisc.agenda.entidades.AccesoGrupo</class>
     <class>com.acme.sisc.agenda.entidades.GrupoUsuario</class>
+    <class>com.acme.sisc.agenda.entidades.AlergiaMedicamento</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <validation-mode>NONE</validation-mode>
     <properties>

@@ -21,6 +21,6 @@ import org.json.*;
 public interface IMedicamentoFacadeLocal {
     Medicamento find(Object id);
     List<Medicamento> findAll();
-    void addMedicamentoCita(List<CitaMedicamento> listaMedicamentos);
+    HashMap addMedicamentoCita(List<CitaMedicamento> listaMedicamentos);
     ArrayList<HashMap> findByCita(Long idcita);
 }
