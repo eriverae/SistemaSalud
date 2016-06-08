@@ -19,6 +19,7 @@ import javax.ejb.Local;
 public interface IIncapacidadFacadeLocal {
     Incapacidad find(Object id);
     List<Incapacidad> findAll();
-    void addIncapacidad(Object incapacidad);
+    void addIncapacidad(Long cita , String motivo, String periodo);
     ArrayList<HashMap> findByCita(Long idcita);
+    ArrayList<HashMap> isIncapacitado(String idpaciente);
 }
