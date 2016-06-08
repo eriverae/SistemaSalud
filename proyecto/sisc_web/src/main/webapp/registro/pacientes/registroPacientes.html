@@ -207,6 +207,77 @@
                         </div>
                     </div>
                 </div>
+                <div>
+                    <!-- Alergias -->
+                    <div class="col-md-10">
+                        <label class="col-md-8 col-xs-12 label-info control-label label label-form" style="text-align: left; margin: 1em">Alergias:</label>
+                        <div class="col-md-10 form-group">
+                            <div class="col-md-4">
+                                <select class="form-control select" name="alergiasD" ng-model="selectedAlergiasDisponibles"
+                                        ng-options="e as e.descripcion for e in alergiasDisponibles" multiple>
+                                </select>
+                            </div>
+                            <div class="col-md-1">
+                                <input id="moveright" type="button" style="width: 50px" value="&gt;" ng-click="moveItem(selectedAlergiasDisponibles[0], alergiasDisponibles, alergiasSeleccionadas)" />
+                                <input id="moverightall" type="button" style="width: 50px" value="&gt;&gt;" ng-click="moveAll(alergiasDisponibles, alergiasSeleccionadas)" />
+                                <input id="moveleft" type="button" style="width: 50px" value="&lt;" ng-click="moveItem(selectedAlergiasSeleccionadas[0], alergiasSeleccionadas, alergiasDisponibles)" />
+                                <input id="moveleftall" type="button" style="width: 50px" value="&lt;&lt;" ng-click="moveAll(alergiasSeleccionadas, alergiasDisponibles)" />
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-control select" name="alergias" ng-model="selectedAlergiasSeleccionadas"
+                                        ng-options="a as a.descripcion for a in alergiasSeleccionadas" multiple>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Enfermedades -->
+                    <div class="col-md-10">
+                        <label class="col-md-8 col-xs-12 label-info control-label label label-form" style="text-align: left; margin: 1em">Enfermedades:</label>
+                        <div class="col-md-10 form-group">
+                            <div class="col-md-4">
+                                <select class="form-control select" name="enfermedadesD" ng-model="selectedEnfermedadesDisponibles"
+                                        ng-options="e as e.descripcion for e in enfermedadesDisponibles" multiple>
+                                </select>
+                            </div>
+                            <div class="col-md-1">
+                                <input id="moveright" type="button" style="width: 50px" value="&gt;" ng-click="moveItem(selectedEnfermedadesDisponibles[0], enfermedadesDisponibles, enfermedadesSeleccionadas)" />
+                                <input id="moverightall" type="button" style="width: 50px" value="&gt;&gt;" ng-click="moveAll(enfermedadesDisponibles, enfermedadesSeleccionadas)" />
+                                <input id="moveleft" type="button" style="width: 50px" value="&lt;" ng-click="moveItem(selectedEnfermedadesSeleccionadas[0], enfermedadesSeleccionadas, enfermedadesDisponibles)" />
+                                <input id="moveleftall" type="button" style="width: 50px" value="&lt;&lt;" ng-click="moveAll(enfermedadesSeleccionadas, enfermedadesDisponibles)" />
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-control select" name="enfermedades" ng-model="selectedEnfermedadesSeleccionadas"
+                                        ng-options="a as a.descripcion for a in enfermedadesSeleccionadas" multiple>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <!-- Operaciones -->
+                    <div class="col-md-10">
+                        <label class="col-md-8 col-xs-12 label-info control-label label label-form" style="text-align: left; margin: 1em">Operaciones:</label>
+                        <div class="col-md-10 form-group">
+                            <div class="col-md-4">
+                                <select class="form-control select" name="operacionesD" ng-model="selectedOperacionesDisponibles"
+                                        ng-options="e as e.descripcion for e in operacionesDisponibles" multiple>
+                                </select>
+                            </div>
+                            <div class="col-md-1">
+                                <input id="moveright" type="button" style="width: 50px" value="&gt;" ng-click="moveItem(selectedOperacionesDisponibles[0], operacionesDisponibles, operacionesSeleccionadas)" />
+                                <input id="moverightall" type="button" style="width: 50px" value="&gt;&gt;" ng-click="moveAll(operacionesDisponibles, operacionesSeleccionadas)" />
+                                <input id="moveleft" type="button" style="width: 50px" value="&lt;" ng-click="moveItem(selectedOperacionesSeleccionadas[0], operacionesSeleccionadas, operacionesDisponibles)" />
+                                <input id="moveleftall" type="button" style="width: 50px" value="&lt;&lt;" ng-click="moveAll(operacionesSeleccionadas, operacionesDisponibles)" />
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-control select" name="operaciones" ng-model="selectedOperacionesSeleccionadas"
+                                        ng-options="a as a.descripcion for a in operacionesSeleccionadas" multiple>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="panel-footer" align="right">
                 <button type="button" class="btn btn-primary" ng-click="cancelar()">Cancelar 
@@ -225,6 +296,20 @@
     <div class="mb-container">
         <div class="mb-middle">
             <div class="mb-title"><span class="fa fa-check"></span> Paciente almacenado correctamente</div>
+            <div class="mb-content">
+                <p>  </p>
+            </div>
+            <div class="mb-footer">
+                <button class="btn btn-default btn-lg pull-right mb-control-close" ng-click="closepopup()">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="message-box message-box-warning animated fadeIn" id="message-box-warning">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-check"></span>{{bizMessage}}</div>
             <div class="mb-content">
                 <p>  </p>
             </div>

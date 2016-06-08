@@ -5,6 +5,9 @@
  */
 package com.acme.sisc.registro.rest;
 
+import com.acme.sisc.agenda.entidades.Alergia;
+import com.acme.sisc.agenda.entidades.Enfermedad;
+import com.acme.sisc.agenda.entidades.Operacion;
 import com.acme.sisc.agenda.entidades.PersonaJuridica;
 import com.acme.sisc.agenda.entidades.PersonaNatural;
 import com.acme.sisc.agenda.entidades.PersonaNaturalBeneficiario;
@@ -221,6 +224,30 @@ public class PersonaNaturalResource {
     public List<PersonaJuridica> listaEPS(){
         return facadePersonaNatural.listaEPS();
     }
+    
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("listaAlergias")
+    public List<Alergia> listaAlergias(){
+        return facadePersonaNatural.listaAlergias();
+    }
+    
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("listaEnfermedades")
+    public List<Enfermedad> listaEnfermedades(){
+        return facadePersonaNatural.listaEnfermedades();
+    }
+    
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("listaOperaciones")
+    public List<Operacion> listaOperacion(){
+        return facadePersonaNatural.listaOperaciones();
+    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -266,8 +293,32 @@ public class PersonaNaturalResource {
         return response;
     }
     
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("asociarMedicoEPS")
+    public Response asociarMedicoEPS(@QueryParam("medico") Long medico, @QueryParam("eps") List<Long> eps) {
+        try {
+            facadePersonaNatural.asociarMedico_EPS(medico, eps);
+        } catch (CustomException ex) {
+            ErrorMessage errorMessage = new ErrorMessage();
+            errorMessage.setCode(ex.getErrorCode());
+            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
+            errorMessage.setMessage(ex.getMessage());
+            StringWriter errorStackTrace = new StringWriter();
+            ex.printStackTrace(new PrintWriter(errorStackTrace));
+            errorMessage.setDeveloperMessage(errorStackTrace.toString());
+
+            return Response.status(errorMessage.getStatus())
+                    .entity(errorMessage)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        }
+        return Response.ok(medico).build();
+    }
+    
     ////////////////////////////////////////////////////////////////////////////
-    // Servicios a módulos, SE NECESITA RECIBIR EL ID DE LA ESPECIALIDAD Y ID EPS
+    // Servicios a módulos
+    ////////////////////////////////////////////////////////////////////////////
     @GET
     @Path("medicosPorEspecialidad/{page}/{sortFields}/{sortDirections}/{especialidad}/{eps}")
     @Produces(MediaType.APPLICATION_JSON)

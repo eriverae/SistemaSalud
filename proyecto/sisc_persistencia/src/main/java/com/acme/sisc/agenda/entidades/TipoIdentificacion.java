@@ -10,7 +10,9 @@ package com.acme.sisc.agenda.entidades;
  */
 public enum TipoIdentificacion {
     CC("Cédula"),
+    CE("Cédula de extranjería"),
     TI("T. Identidad"),
+    RC("Registro civil"),
     NIT("NIT");
     
     private final String label;

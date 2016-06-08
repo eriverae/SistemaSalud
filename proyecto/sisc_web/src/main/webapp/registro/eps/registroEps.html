@@ -24,20 +24,6 @@
                         <p class="help-block" ng-show="epsForm.razonSocial.$error.minlength">Debe tener al menos 3 digitos</p>
                         <p class="help-block" ng-show="epsForm.razonSocial.$error.maxlength">No debe superar los 30 digitos</p>
                     </div>
-                    <!-- Tipo de identificación -->
-                    <div class="form-group" ng-class="{'has-error' : epsForm.tipoIdentificacion.$invalid && epsForm.tipoIdentificacion.$dirty}">
-                        <label style="text-align:right" class="col-md-4 label-info control-label label label-form">Tipo Identificación:</label>
-                        <!-- Display a check when the field is valid and was modified -->
-                        <span ng-class="{'glyphicon glyphicon-ok' : epsForm.tipoIdentificacion.$valid && epsForm.tipoIdentificacion.$dirty}"></span>
-                        <div class="col-md-6 col-xs-12" >
-                            <select name="tipoIdentificacion" id="tipoIdentificacion" ng-model="eps.tipoIdentificacion" class="form-control" required>
-                                <option ng-repeat="option in listaTiposIdentificacion" value="{{option.id}}">{{option.name}}</option>
-                            </select>                        
-                        </div>
-                        <!--
-                        <p class="help-block" ng-show="clienteForm.IdType.$error.required">Seleccione tipo de identificacion.</p>
-                        -->
-                    </div>
                     <!-- Representante Legal -->
                     <div class="form-group" ng-class="{'has-error' : epsForm.representanteLegal.$invalid && epsForm.representanteLegal.$dirty}">
                         <label style="text-align:right" class="col-md-4 label-info control-label label label-form">Representante Legal:</label>
@@ -96,5 +82,33 @@
                 </button>
             </div>
         </form>
+    </div>
+</div>
+
+<div class="message-box message-box-success animated fadeIn" id="message-box-success">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-check"></span> EPS almacenada correctamente</div>
+            <div class="mb-content">
+                <p>  </p>
+            </div>
+            <div class="mb-footer">
+                <button class="btn btn-default btn-lg pull-right mb-control-close" ng-click="closepopup()">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="message-box message-box-warning animated fadeIn" id="message-box-warning">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-check"></span>{{bizMessage}}</div>
+            <div class="mb-content">
+                <p>  </p>
+            </div>
+            <div class="mb-footer">
+                <button class="btn btn-default btn-lg pull-right mb-control-close" ng-click="closepopup()">Aceptar</button>
+            </div>
+        </div>
     </div>
 </div>

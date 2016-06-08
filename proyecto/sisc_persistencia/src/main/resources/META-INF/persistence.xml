@@ -4,6 +4,7 @@
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <jta-data-source>java:jboss/datasources/siscDatasource</jta-data-source>
     <class>com.acme.sisc.agenda.entidades.Acceso</class>
+    <class>com.acme.sisc.agenda.entidades.AccesoGrupo</class>
     <class>com.acme.sisc.agenda.entidades.Agenda</class>
     <class>com.acme.sisc.agenda.entidades.Alergia</class>
     <class>com.acme.sisc.agenda.entidades.Auditusu</class>
@@ -17,6 +18,7 @@
     <class>com.acme.sisc.agenda.entidades.Especialidad</class>
     <class>com.acme.sisc.agenda.entidades.Examen</class>
     <class>com.acme.sisc.agenda.entidades.Grupo</class>
+    <class>com.acme.sisc.agenda.entidades.GrupoUsuario</class>
     <class>com.acme.sisc.agenda.entidades.Incapacidad</class>
     <class>com.acme.sisc.agenda.entidades.LogNotifica</class>
     <class>com.acme.sisc.agenda.entidades.Medicamento</class>

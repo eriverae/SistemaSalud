@@ -4,6 +4,9 @@
  */
 package com.acme.sisc.registro.ejb;
 
+import com.acme.sisc.agenda.entidades.Alergia;
+import com.acme.sisc.agenda.entidades.Enfermedad;
+import com.acme.sisc.agenda.entidades.Operacion;
 import com.acme.sisc.agenda.entidades.PersonaEps;
 import com.acme.sisc.agenda.entidades.PersonaJuridica;
 import com.acme.sisc.agenda.entidades.PersonaNatural;
@@ -75,7 +78,7 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
     @Override
     public PersonaNatural findByEmail(String email) {
         LOGGER.log(Level.FINE, "Consulta persona, email {0}", email);
-        Query q = em.createNamedQuery("Persona.findByCorreoElectronico");
+        Query q = em.createNamedQuery("PersonaNatural.findByCorreoElectronico");
         q.setParameter("correoElectronico", email);
         try {
             return ((PersonaNatural) q.getSingleResult());
@@ -232,6 +235,24 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
     }
 
     @Override
+    public List<Alergia> listaAlergias() {
+        Query q = em.createQuery("SELECT a FROM Alergia a");
+        return q.getResultList();
+    }
+
+    @Override
+    public List<Enfermedad> listaEnfermedades() {
+        Query q = em.createQuery("SELECT e FROM Enfermedad e");
+        return q.getResultList();
+    }
+
+    @Override
+    public List<Operacion> listaOperaciones() {
+        Query q = em.createQuery("SELECT o FROM Operacion o");
+        return q.getResultList();
+    }
+
+    @Override
     public void asociarPaciente_EPS(Long paciente, Long eps) throws CustomException {
         try {
             LOGGER.info("Inicia asociarPacienteEPS(...)");
@@ -277,5 +298,43 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
                     + " Exception: " + ex.getLocalizedMessage());
         }
         return response;
+    }
+
+    @Override
+    public void asociarMedico_EPS(Long medico, List<Long> eps) throws CustomException {
+        try {
+            String msg = "";
+            boolean existe = false;
+            LOGGER.info("Inicia asociarMedico_EPS(...)");
+            for (Long e : eps) {
+                Query q = em.createQuery("SELECT a FROM PersonaEps a WHERE a.persona.idPersona=:paciente AND a.eps.idPersona=:eps");
+                q.setParameter("paciente", medico);
+                q.setParameter("eps", e);
+                List listaEps = q.getResultList();
+                if (listaEps != null) {
+                    if (!listaEps.isEmpty()) {
+                        existe = true;
+                        msg += "Ya existe la relación del paciente con " + ((PersonaEps)listaEps.get(0)).getEps().getRazonSocial();
+                    }
+                }
+                if (!existe){
+                    PersonaEps pe = new PersonaEps();
+                    pe.setEps(em.find(PersonaJuridica.class, eps));
+                    pe.setPersona(em.find(PersonaNatural.class, medico));
+                    pe.setFechaInicio(new Date());
+                    em.persist(pe);
+                }
+            }
+            
+            LOGGER.log(Level.INFO, "Finaliza asociarPacienteEPS(...) {0}", msg);
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Error al asociar medico {0}", medico 
+                    + " a eps - Exception: " + ex.getLocalizedMessage());
+        }
+    }
+
+    @Override
+    public List<PersonaJuridica> getMedico_EPS(Long paciente) throws CustomException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

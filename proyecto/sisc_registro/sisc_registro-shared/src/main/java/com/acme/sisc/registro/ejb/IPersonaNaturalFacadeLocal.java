@@ -7,6 +7,9 @@ package com.acme.sisc.registro.ejb;
  */
 
 
+import com.acme.sisc.agenda.entidades.Alergia;
+import com.acme.sisc.agenda.entidades.Enfermedad;
+import com.acme.sisc.agenda.entidades.Operacion;
 import com.acme.sisc.agenda.entidades.PersonaJuridica;
 import com.acme.sisc.agenda.entidades.PersonaNatural;
 import com.acme.sisc.agenda.entidades.PersonaNaturalBeneficiario;
@@ -59,9 +62,19 @@ public interface IPersonaNaturalFacadeLocal{
     
     List<PersonaJuridica> listaEPS();
     
+    List<Alergia> listaAlergias();
+    
+    List<Enfermedad> listaEnfermedades();
+    
+    List<Operacion> listaOperaciones();
+    
     List<PersonaNatural> medicosPorEspecialidadFindRange(int startPosition, int maxResults, String sortFields, String sortDirections, Long especialidad, Long eps);
     
     void asociarPaciente_EPS(Long paciente, Long eps) throws CustomException;
     
     PersonaJuridica getPaciente_EPS(Long paciente) throws CustomException;
+    
+    void asociarMedico_EPS(Long paciente, List<Long> eps) throws CustomException;
+    
+    List<PersonaJuridica> getMedico_EPS(Long paciente) throws CustomException;
 }

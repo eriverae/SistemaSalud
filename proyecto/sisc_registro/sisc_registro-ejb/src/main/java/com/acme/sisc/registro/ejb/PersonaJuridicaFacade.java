@@ -123,7 +123,7 @@ public class PersonaJuridicaFacade implements IPersonaJuridicaFacadeRemote, IPer
             LOGGER.info("Finaliza crearPersonaJuridica(...)");
         }
         catch (Exception ex) {
-            LOGGER.log(Level.WARNING,"No se encontró cliente {0}", personaJuridica.getTipoIdentificacion() + " " 
+            LOGGER.log(Level.WARNING,"No se encontró persona juridica {0}", personaJuridica.getTipoIdentificacion() + " " 
                     + personaJuridica.getNumeroIdentificacion() + " Exception: " + ex.getLocalizedMessage());
         }
     }
