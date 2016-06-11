@@ -7,7 +7,7 @@
     <class>com.acme.sisc.agenda.entidades.AccesoGrupo</class>
     <class>com.acme.sisc.agenda.entidades.Agenda</class>
     <class>com.acme.sisc.agenda.entidades.Alergia</class>
-    <class>com.acme.sisc.agenda.entidades.Auditusu</class>
+    <class>com.acme.sisc.agenda.entidades.AuditoriaUsuario</class>
     <class>com.acme.sisc.agenda.entidades.Cirugia</class>
     <class>com.acme.sisc.agenda.entidades.Cita</class>
     <class>com.acme.sisc.agenda.entidades.CitaCirugia</class>
