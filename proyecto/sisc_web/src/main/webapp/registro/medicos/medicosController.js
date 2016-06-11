@@ -22,7 +22,7 @@ app.controller('medicosController', function ($scope, $rootScope, $stateParams, 
             from.splice(idx, 1); // Remove the selected item from 'from' list
             to.push(item); // Add the selected item from 'to' list
         }
-    }
+    };
 
     $scope.moveAll = function (from, to) {
         // Add all elements from 'from' list to 'to' list
@@ -30,7 +30,7 @@ app.controller('medicosController', function ($scope, $rootScope, $stateParams, 
             to.push(item);
         });
         from.length = 0; // clean the list
-    }
+    };
 
     if (angular.isDefined($stateParams.idPersona)) {
         console.log('Médico a modificar, ID = ' + $stateParams.idPersona);
@@ -88,9 +88,15 @@ app.controller('medicosController', function ($scope, $rootScope, $stateParams, 
             function (response) {
                 // Broadcast the event to display a save message.
                 $rootScope.$broadcast('medicoSaved');
+                
+                var epsList = [];
+                angular.forEach($scope.epsSeleccionadas, function(eps) {
+                    epsList.push(eps.idPersona);
+		});
+                
                 var args = {
-                    medico: response.idPersona,
-                    eps: $scope.epsSeleccionadas
+                    medico: angular.toJson(response.idPersona),
+                    eps: angular.toJson(epsList)
                 };
                 personaService.asociarMedicoEPS(args).$promise.then(
                     function () {
@@ -117,11 +123,14 @@ app.controller('medicosController', function ($scope, $rootScope, $stateParams, 
     });
 
     $scope.$on('medicoSaved', function () {
-        $('#message-box-success').show().then(function () {
-            $scope.clearForm();
-            $state.go('registroMedicos');
-        });
+        $('#message-box-success').show();
+        $scope.clearForm();
+        $state.go('registroMedicos');
     });
+    
+    $scope.closepopup = function(){
+ 	 $('#message-box-success').hide();
+    };
 
     $scope.cancelar = function () {
         $state.go('registroMedicos');

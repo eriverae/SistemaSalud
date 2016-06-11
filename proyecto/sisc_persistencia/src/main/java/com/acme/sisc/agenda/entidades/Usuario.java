@@ -86,7 +86,7 @@ public class Usuario implements Serializable {
     private long usuaConta;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "audiAudi", fetch = FetchType.LAZY)
-    private List<Auditusu> listaAuditores;
+    private List<AuditoriaUsuario> listaAuditores;
     
     @Version
     @Column(name = "VERSION")
@@ -224,12 +224,12 @@ public class Usuario implements Serializable {
         return "com.acme.sisc.agenda.entidades.Usuario[ usuaUsua=" + usuaUsua + " ]";
     }
 
-    public List<Auditusu> getListaAuditores() {
+    public List<AuditoriaUsuario> getListaAuditores() {
         return listaAuditores;
     }
 
     @XmlTransient
-    public void setListaAuditores(List<Auditusu> listaAuditores) {
+    public void setListaAuditores(List<AuditoriaUsuario> listaAuditores) {
         this.listaAuditores = listaAuditores;
     }
     

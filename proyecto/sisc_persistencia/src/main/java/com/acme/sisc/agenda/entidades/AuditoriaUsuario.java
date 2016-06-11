@@ -32,9 +32,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "auditusu")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Auditusu.findAll", query = "SELECT a FROM Auditusu a"),
-    @NamedQuery(name = "Auditusu.findByAudiAudi", query = "SELECT a FROM Auditusu a WHERE a.audiAudi = :audiAudi")})
-public class Auditusu implements Serializable {
+    @NamedQuery(name = "AuditoriaUsuario.findAll", query = "SELECT a FROM AuditoriaUsuario a"),
+    @NamedQuery(name = "AuditoriaUsuario.findByAudiAudi", query = "SELECT a FROM AuditoriaUsuario a WHERE a.audiAudi = :audiAudi")})
+public class AuditoriaUsuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -46,7 +46,7 @@ public class Auditusu implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date audiFech;
     @Column(name = "audi_usua")
-    private BigInteger audiUsua;
+    private Long audiUsua;
     @Column(name = "audi_obser")
     private String audiObser;
     @Column(name = "audi_drip")
@@ -70,10 +70,10 @@ public class Auditusu implements Serializable {
     @Column(name = "VERSION")
     private Long version;
 
-    public Auditusu() {
+    public AuditoriaUsuario() {
     }
 
-    public Auditusu(Long audiAudi) {
+    public AuditoriaUsuario(Long audiAudi) {
         this.audiAudi = audiAudi;
     }
 
@@ -93,11 +93,11 @@ public class Auditusu implements Serializable {
         this.audiFech = audiFech;
     }
 
-    public BigInteger getAudiUsua() {
+    public Long getAudiUsua() {
         return audiUsua;
     }
 
-    public void setAudiUsua(BigInteger audiUsua) {
+    public void setAudiUsua(Long audiUsua) {
         this.audiUsua = audiUsua;
     }
 
@@ -135,10 +135,10 @@ public class Auditusu implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Auditusu)) {
+        if (!(object instanceof AuditoriaUsuario)) {
             return false;
         }
-        Auditusu other = (Auditusu) object;
+        AuditoriaUsuario other = (AuditoriaUsuario) object;
         if ((this.audiAudi == null && other.audiAudi != null) || (this.audiAudi != null && !this.audiAudi.equals(other.audiAudi))) {
             return false;
         }

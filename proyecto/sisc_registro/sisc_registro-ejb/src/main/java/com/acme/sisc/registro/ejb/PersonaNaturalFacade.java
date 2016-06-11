@@ -303,6 +303,7 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
     @Override
     public void asociarMedico_EPS(Long medico, List<Long> eps) throws CustomException {
         try {
+            LOGGER.info("*** ID Médico: " + medico);
             String msg = "";
             boolean existe = false;
             LOGGER.info("Inicia asociarMedico_EPS(...)");
@@ -314,12 +315,12 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
                 if (listaEps != null) {
                     if (!listaEps.isEmpty()) {
                         existe = true;
-                        msg += "Ya existe la relación del paciente con " + ((PersonaEps)listaEps.get(0)).getEps().getRazonSocial();
+                        msg += "Ya existe la relación del medico con EPS Id " + e;
                     }
                 }
                 if (!existe){
                     PersonaEps pe = new PersonaEps();
-                    pe.setEps(em.find(PersonaJuridica.class, eps));
+                    pe.setEps(em.find(PersonaJuridica.class, e));
                     pe.setPersona(em.find(PersonaNatural.class, medico));
                     pe.setFechaInicio(new Date());
                     em.persist(pe);

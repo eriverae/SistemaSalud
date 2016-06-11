@@ -8,6 +8,7 @@ package com.acme.sisc.agenda.entidades;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -21,6 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -53,6 +55,9 @@ public class PersonaJuridica extends Persona implements Serializable {
 
   @OneToMany(mappedBy = "eps", fetch = FetchType.LAZY)
   private List<PersonaEps> listaAfiliados;
+  
+  @Transient
+  private String cadenaFecha;
 
 
   public PersonaJuridica() {
@@ -90,5 +95,21 @@ public class PersonaJuridica extends Persona implements Serializable {
   public void setListaAfiliados(List<PersonaEps> listaAfiliados) {
     this.listaAfiliados = listaAfiliados;
   }
+
+    /**
+     * @return the cadenaFecha
+     */
+    public String getCadenaFecha() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        this.cadenaFecha = this.fechaConstitucion != null ? sdf.format(this.fechaConstitucion) : "";
+        return cadenaFecha;
+    }
+
+    /**
+     * @param cadenaFecha the cadenaFecha to set
+     */
+    public void setCadenaFecha(String cadenaFecha) {
+        this.cadenaFecha = cadenaFecha;
+    }
 
 }
