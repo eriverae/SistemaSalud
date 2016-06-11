@@ -56,7 +56,7 @@ myModule.factory('personaService', function ($resource) {
                 asociarMedicoEPS: {
                     method: 'POST',
                     url: '/sisc_registro/api/personaNatural/asociarMedicoEPS',
-                    params: {paciente: '@medico', eps: '@eps'}
+                    params: {medico: '@medico', eps: '@eps'}
                 }
             });
 });

@@ -40,8 +40,6 @@ app.controller('epsController', function ($scope, $rootScope, $stateParams, $sta
     $scope.updateEps = function () {
         epsService.save($scope.eps).$promise.then(
                 function () {
-                    // Broadcast the event to refresh the grid.
-                    $rootScope.$broadcast('refreshGrid');
                     // Broadcast the event to display a save message.
                     $rootScope.$broadcast('epsSaved');
 
@@ -61,10 +59,9 @@ app.controller('epsController', function ($scope, $rootScope, $stateParams, $sta
 
 
     $scope.$on('epsSaved', function () {
-        $('#message-box-success').show().then(function () {
-            $scope.clearForm();
-            $state.go('registroEps');
-        });
+        $('#message-box-success').show();
+        $scope.clearForm();
+        $state.go('registroEps');
     });
     
     $scope.closepopup = function(){

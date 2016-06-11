@@ -15,7 +15,8 @@ app.controller('listaEpsController', function ($scope, $rootScope, $stateParams,
         columnDefs: [
             { field: 'idPersona', displayName: 'Id'},
             { field: 'razonSocial', displayName: 'Razon Social'},
-            { field: 'fechaConstitucion', displayName: 'Fecha Constitucion' },
+            { field: 'cadenaFecha', displayName: 'Fecha Constitucion' },
+            /*{ field: 'fechaConstitucion', displayName: 'Fecha Constitucion' },*/
             { field: 'representanteLegal', displayName: 'Representante Legal'},
             { field: '', width: 80, 
                 cellTemplate: '<span class="glyphicon glyphicon-trash remove" ng-click="deleteRow(row)"></span>'+

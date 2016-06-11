@@ -18,6 +18,8 @@ import com.acme.sisc.registro.ejb.IPersonaNaturalFacadeLocal;
 import com.acme.sisc.registro.pagination.PaginatedListWrapperPN;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -296,9 +298,19 @@ public class PersonaNaturalResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("asociarMedicoEPS")
-    public Response asociarMedicoEPS(@QueryParam("medico") Long medico, @QueryParam("eps") List<Long> eps) {
+    public Response asociarMedicoEPS(@QueryParam("medico") String medico, @QueryParam("eps") String eps) {
         try {
-            facadePersonaNatural.asociarMedico_EPS(medico, eps);
+            System.out.println(medico);
+            eps = eps.replace("[", "");
+            eps = eps.replace("]", "");
+            String[] lista = eps.split(",");
+                        
+            List<Long> listado = new ArrayList<>();
+            for (String elemento : lista) {
+                listado.add(Long.valueOf(elemento));
+            }
+            
+            facadePersonaNatural.asociarMedico_EPS(Long.valueOf(medico), listado);
         } catch (CustomException ex) {
             ErrorMessage errorMessage = new ErrorMessage();
             errorMessage.setCode(ex.getErrorCode());
