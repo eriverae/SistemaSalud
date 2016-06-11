@@ -287,7 +287,7 @@
                                         Profile Picture: <input type="file" ngf-select="" ng-model="picFile" name="file" ngf-accept="'image/*'" 
                                                                 required="">
                                         <i ng-show="pacienteForm.file.$error.required">*required</i>
-                                        <img ng-src="http://www.gravatar.com/avatar/" class="thumb">
+                                        <img ng-src="{{pacienteForm.file}}" class="thumb">
                                     </fieldset>
                                       <br>
                                       
