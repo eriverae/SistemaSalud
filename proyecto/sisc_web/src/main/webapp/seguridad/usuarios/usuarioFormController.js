@@ -2,7 +2,7 @@
 var app = angular.module('sisc_web');
 // Create a controller with name personsFormController to bind to the form section.
 app.controller('usuarioFormController', function ($scope, $rootScope, $stateParams, $state,
-        usuarioService, modalService, grupoService, grupoUsuarioService, grupoUsuarioSelection) {
+        usuarioService, modalService, grupoService, grupoUsuarioService, grupoUsuarioSelection, auditoriaService, store) {
 
     $scope.usuario = {};
     $scope.items = [];
@@ -90,7 +90,8 @@ app.controller('usuarioFormController', function ($scope, $rootScope, $statePara
                             grupoUsuarioService.save(grupoUsuario);
                             //cadenaRoles = cadenaRoles + $scope.items[index].acceNombre + ";"
                         }
-                        //alert("Seleccionó: " + cadenaRoles);
+                        var ip = location.host;
+                        auditoriaService.save(store.get('login') + "-" + "Crear usuario" + "-" + "100.100" + "-" + "Sisc/Web");
                     }
                 },
                 function () {

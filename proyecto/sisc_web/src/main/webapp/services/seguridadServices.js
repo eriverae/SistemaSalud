@@ -41,3 +41,7 @@ myModule.factory('accesoGrupoSelection', function ($resource) {
 myModule.factory('contrasenaService', function ($resource) {
     return $resource('/sisc_seguridad/api/usuarios/actCon/:usuaUsua');
 });
+
+myModule.factory('auditoriaService', function ($resource) {
+    return $resource('/sisc_seguridad/api/auditorias/');
+});
