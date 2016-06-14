@@ -57,6 +57,21 @@ myModule.factory('personaService', function ($resource) {
                     method: 'POST',
                     url: '/sisc_registro/api/personaNatural/asociarMedicoEPS',
                     params: {medico: '@medico', eps: '@eps'}
+                },
+                asociarPacienteAlergias: {
+                    method: 'POST',
+                    url: '/sisc_registro/api/personaNatural/asociarPacienteAlergias',
+                    params: {paciente: '@paciente', alergias: '@alergias'}
+                },
+                asociarPacienteMedicamentos: {
+                    method: 'POST',
+                    url: '/sisc_registro/api/personaNatural/asociarPacienteMedicamentos',
+                    params: {paciente: '@paciente', medicamentos: '@medicamentos'}
+                },
+                asociarPacienteOperaciones: {
+                    method: 'POST',
+                    url: '/sisc_registro/api/personaNatural/asociarPacienteOperaciones',
+                    params: {paciente: '@paciente', operaciones: '@operaciones'}
                 }
             });
 });

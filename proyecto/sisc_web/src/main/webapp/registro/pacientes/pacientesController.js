@@ -161,6 +161,62 @@ app.controller('pacientesController', function ($scope, $rootScope, $stateParams
                         }
                     );
                 };
+                
+                var alergiasList = [];
+                angular.forEach($scope.alergiasSeleccionadas, function(a) {
+                    alergiasList.push(a.idAlergia);
+		});
+                
+                var argsA = {
+                    paciente: angular.toJson(response.idPersona),
+                    alergias: angular.toJson(alergiasList)
+                };
+                personaService.asociarPacienteAlergias(argsA).$promise.then(
+                    function () {
+
+                    },
+                    function () {
+                        // Broadcast the event for a server error.
+                        $rootScope.$broadcast('error');
+                    }
+                );
+                
+                var medicamentosList = [];
+                angular.forEach($scope.medicamentosSeleccionadas, function(m) {
+                    medicamentosList.push(m.idMedicamento);
+		});
+                
+                var argsM = {
+                    paciente: angular.toJson(response.idPersona),
+                    medicamentos: angular.toJson(medicamentosList)
+                };
+                personaService.asociarPacienteMedicamentos(argsM).$promise.then(
+                    function () {
+
+                    },
+                    function () {
+                        // Broadcast the event for a server error.
+                        $rootScope.$broadcast('error');
+                    }
+                );
+                
+                var operacionesList = [];
+                angular.forEach($scope.operacionesSeleccionadas, function(m) {
+                    operacionesList.push(m.idOperacion);
+		});
+                var argsO = {
+                    paciente: angular.toJson(response.idPersona),
+                    operaciones: angular.toJson(operacionesList)
+                };
+                personaService.asociarPacienteOperaciones(argsO).$promise.then(
+                    function () {
+
+                    },
+                    function () {
+                        // Broadcast the event for a server error.
+                        $rootScope.$broadcast('error');
+                    }
+                );
             },
             function (response) {
                 // Broadcast the event for a server error.

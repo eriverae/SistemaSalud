@@ -10,7 +10,10 @@ import com.acme.sisc.agenda.entidades.Operacion;
 import com.acme.sisc.agenda.entidades.PersonaEps;
 import com.acme.sisc.agenda.entidades.PersonaJuridica;
 import com.acme.sisc.agenda.entidades.PersonaNatural;
+import com.acme.sisc.agenda.entidades.PersonaNaturalAlergia;
 import com.acme.sisc.agenda.entidades.PersonaNaturalBeneficiario;
+import com.acme.sisc.agenda.entidades.PersonaNaturalEnfermedad;
+import com.acme.sisc.agenda.entidades.PersonaNaturalOperacion;
 import com.acme.sisc.agenda.entidades.TipoIdentificacion;
 import com.acme.sisc.common.exceptions.CustomException;
 import java.util.Date;
@@ -335,7 +338,106 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
     }
 
     @Override
-    public List<PersonaJuridica> getMedico_EPS(Long paciente) throws CustomException {
+    public List<PersonaJuridica> getMedico_EPS(Long medico) throws CustomException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void asociarPaciente_Alergias(Long paciente, List<Long> alergias) throws CustomException {
+        try {
+            String msg = "";
+            boolean existe = false;
+            LOGGER.info("Inicia asociarPaciente_Alergias(...)");
+            for (Long a : alergias) {
+                Query q = em.createQuery("SELECT a FROM PersonaNaturalAlergia a WHERE a.paciente.idPersona=:paciente "
+                        + "AND a.alergia.idAlergia=:alergia");
+                q.setParameter("paciente", paciente);
+                q.setParameter("alergia", a);
+                List listaAlergias = q.getResultList();
+                if (listaAlergias != null) {
+                    if (!listaAlergias.isEmpty()) {
+                        existe = true;
+                        msg += "Ya existe la relación del paciente con alergia Id " + a;
+                    }
+                }
+                if (!existe){
+                    PersonaNaturalAlergia pna = new PersonaNaturalAlergia();
+                    pna.setAlergia(em.find(Alergia.class, a));
+                    pna.setPaciente(em.find(PersonaNatural.class, paciente));
+                    em.persist(pna);
+                }
+            }
+            
+            LOGGER.log(Level.INFO, "Finaliza asociarPaciente_Alergias(...) {0}", msg);
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Error al asociar paciente {0}", paciente 
+                    + " a alergia - Exception: " + ex.getLocalizedMessage());
+        }
+    }
+
+    @Override
+    public void asociarPaciente_Enfermedades(Long paciente, List<Long> enfermedades) throws CustomException {
+        try {
+            String msg = "";
+            boolean existe = false;
+            LOGGER.info("Inicia asociarPaciente_Enfermedades(...)");
+            for (Long e : enfermedades) {
+                Query q = em.createQuery("SELECT a FROM PersonaNaturalEnfermedad a WHERE a.paciente.idPersona=:paciente " 
+                        + "AND a.enfermedad.idEnfermedad =:enfermedad");
+                q.setParameter("paciente", paciente);
+                q.setParameter("enfermedad", e);
+                List listaEnf = q.getResultList();
+                if (listaEnf != null) {
+                    if (!listaEnf.isEmpty()) {
+                        existe = true;
+                        msg += "Ya existe la relación del paciente con enfermedad Id " + e;
+                    }
+                }
+                if (!existe){
+                    PersonaNaturalEnfermedad pne = new PersonaNaturalEnfermedad();
+                    pne.setEnfermedad(em.find(Enfermedad.class, e));
+                    pne.setPaciente(em.find(PersonaNatural.class, paciente));
+                    em.persist(pne);
+                }
+            }
+            
+            LOGGER.log(Level.INFO, "Finaliza asociarPaciente_Enfermedades(...) {0}", msg);
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Error al asociar paciente {0}", paciente 
+                    + " a enfermedad - Exception: " + ex.getLocalizedMessage());
+        }
+    }
+
+    @Override
+    public void asociarPaciente_Operaciones(Long paciente, List<Long> operaciones) throws CustomException {
+        try {
+            String msg = "";
+            boolean existe = false;
+            LOGGER.info("Inicia asociarPaciente_Operaciones(...)");
+            for (Long o : operaciones) {
+                Query q = em.createQuery("SELECT a FROM PersonaNaturalOperacion a WHERE a.paciente.idPersona=:paciente " 
+                        + "AND a.operacion.idOperacion =:operacion");
+                q.setParameter("paciente", paciente);
+                q.setParameter("operacion", o);
+                List listaOpe = q.getResultList();
+                if (listaOpe != null) {
+                    if (!listaOpe.isEmpty()) {
+                        existe = true;
+                        msg += "Ya existe la relación del paciente con operacion Id " + o;
+                    }
+                }
+                if (!existe){
+                    PersonaNaturalOperacion pno = new PersonaNaturalOperacion();
+                    pno.setOperacion(em.find(Operacion.class, o));
+                    pno.setPaciente(em.find(PersonaNatural.class, paciente));
+                    em.persist(pno);
+                }
+            }
+            
+            LOGGER.log(Level.INFO, "Finaliza asociarPaciente_Operaciones(...) {0}", msg);
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Error al asociar paciente {0}", paciente 
+                    + " a operacion - Exception: " + ex.getLocalizedMessage());
+        }
     }
 }

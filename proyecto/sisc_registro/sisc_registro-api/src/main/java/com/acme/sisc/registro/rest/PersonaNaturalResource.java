@@ -328,6 +328,102 @@ public class PersonaNaturalResource {
         return Response.ok(medico).build();
     }
     
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("asociarPacienteAlergias")
+    public Response asociarPacienteAlergias(@QueryParam("paciente") String paciente, @QueryParam("alergias") String alergias) {
+        try {
+            alergias = alergias.replace("[", "");
+            alergias = alergias.replace("]", "");
+            String[] lista = alergias.split(",");
+                        
+            List<Long> listado = new ArrayList<>();
+            for (String elemento : lista) {
+                listado.add(Long.valueOf(elemento));
+            }
+            
+            facadePersonaNatural.asociarPaciente_Alergias(Long.valueOf(paciente), listado);
+        } catch (CustomException ex) {
+            ErrorMessage errorMessage = new ErrorMessage();
+            errorMessage.setCode(ex.getErrorCode());
+            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
+            errorMessage.setMessage(ex.getMessage());
+            StringWriter errorStackTrace = new StringWriter();
+            ex.printStackTrace(new PrintWriter(errorStackTrace));
+            errorMessage.setDeveloperMessage(errorStackTrace.toString());
+
+            return Response.status(errorMessage.getStatus())
+                    .entity(errorMessage)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        }
+        return Response.ok(paciente).build();
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("asociarPacienteEnfermedades")
+    public Response asociarPacienteEnfermedades(@QueryParam("paciente") String paciente, @QueryParam("enfermedades") String enfermedades) {
+        try {
+            enfermedades = enfermedades.replace("[", "");
+            enfermedades = enfermedades.replace("]", "");
+            String[] lista = enfermedades.split(",");
+                        
+            List<Long> listado = new ArrayList<>();
+            for (String elemento : lista) {
+                listado.add(Long.valueOf(elemento));
+            }
+            
+            facadePersonaNatural.asociarPaciente_Enfermedades(Long.valueOf(paciente), listado);
+        } catch (CustomException ex) {
+            ErrorMessage errorMessage = new ErrorMessage();
+            errorMessage.setCode(ex.getErrorCode());
+            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
+            errorMessage.setMessage(ex.getMessage());
+            StringWriter errorStackTrace = new StringWriter();
+            ex.printStackTrace(new PrintWriter(errorStackTrace));
+            errorMessage.setDeveloperMessage(errorStackTrace.toString());
+
+            return Response.status(errorMessage.getStatus())
+                    .entity(errorMessage)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        }
+        return Response.ok(paciente).build();
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("asociarPacienteOperaciones")
+    public Response asociarPacienteOperaciones(@QueryParam("paciente") String paciente, @QueryParam("operaciones") String operaciones) {
+        try {
+            operaciones = operaciones.replace("[", "");
+            operaciones = operaciones.replace("]", "");
+            String[] lista = operaciones.split(",");
+                        
+            List<Long> listado = new ArrayList<>();
+            for (String elemento : lista) {
+                listado.add(Long.valueOf(elemento));
+            }
+            
+            facadePersonaNatural.asociarPaciente_Operaciones(Long.valueOf(paciente), listado);
+        } catch (CustomException ex) {
+            ErrorMessage errorMessage = new ErrorMessage();
+            errorMessage.setCode(ex.getErrorCode());
+            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
+            errorMessage.setMessage(ex.getMessage());
+            StringWriter errorStackTrace = new StringWriter();
+            ex.printStackTrace(new PrintWriter(errorStackTrace));
+            errorMessage.setDeveloperMessage(errorStackTrace.toString());
+
+            return Response.status(errorMessage.getStatus())
+                    .entity(errorMessage)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        }
+        return Response.ok(paciente).build();
+    }
+    
     ////////////////////////////////////////////////////////////////////////////
     // Servicios a módulos
     ////////////////////////////////////////////////////////////////////////////
