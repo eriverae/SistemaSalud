@@ -27,4 +27,6 @@ public interface IUtilitariosAgendaLocal {
     @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
     public List<PersonaNaturalEspecialidad> listaEspecialidadMedicosEps(String especialidad, String idEps);
     
+    public PersonaNatural consultaPersonaNatural(String email);
+    
 }

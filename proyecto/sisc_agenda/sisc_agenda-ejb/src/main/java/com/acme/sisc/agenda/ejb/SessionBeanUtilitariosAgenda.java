@@ -7,6 +7,7 @@ package com.acme.sisc.agenda.ejb;
 
 import com.acme.sisc.agenda.constant.WebConstant;
 import com.acme.sisc.agenda.ejb.facade.FacadeUtilitariosAgenda;
+import com.acme.sisc.agenda.ejb.facade.FacadePersonaNatural;
 import com.acme.sisc.agenda.entidades.Especialidad;
 import com.acme.sisc.agenda.entidades.PersonaNatural;
 import com.acme.sisc.agenda.entidades.PersonaNaturalEspecialidad;
@@ -28,6 +29,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class SessionBeanUtilitariosAgenda implements IUtilitariosAgendaLocal, IUtilitariosAgendaRemote {
+    
     Logger logger = Logger.getLogger(this.getClass().getName());
 
     @PersistenceContext(unitName = WebConstant.UNIT_NAME_PERSISTENCE)
@@ -40,6 +42,9 @@ public class SessionBeanUtilitariosAgenda implements IUtilitariosAgendaLocal, IU
 
     @EJB
     FacadeUtilitariosAgenda facadeUtilitariosAgenda;
+    
+     @EJB
+     FacadePersonaNatural facadePersonaNatural;
 
     @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
     @Override
@@ -53,6 +58,11 @@ public class SessionBeanUtilitariosAgenda implements IUtilitariosAgendaLocal, IU
     public List<PersonaNaturalEspecialidad> listaEspecialidadMedicosEps(String especialidad, String idEps) {
         logger.log(Level.WARNING, "\nLISTA MEDICOS SEGUN LA ESPECIALIDAD : sessionBean\n");
         return facadeUtilitariosAgenda.getMedicosList(especialidad, idEps);
+    }
+
+    @Override
+    public PersonaNatural consultaPersonaNatural(String email) {
+       return facadePersonaNatural.consultarPersonaNatural(email);
     }
     
     

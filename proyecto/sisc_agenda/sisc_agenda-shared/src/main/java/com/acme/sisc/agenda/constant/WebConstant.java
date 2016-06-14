@@ -40,7 +40,7 @@ public class WebConstant {
             "e.id_especialidad = ? and " +
             "pe.id_eps = ? and " +
             "(c.hora_inicio >= ? and c.hora_inicio  <= ? ) " +
-            "group by c.id_cita";
+            "";
     
     /**
      * Nombre parametros de consultas
@@ -61,7 +61,7 @@ public class WebConstant {
      * Formatos
      */
     public static final String SIMPLE_DATE_FORMAT="dd-MM-yyyy";
-    public static final String SIMPLE_DATE_FORMAT_HOUR="HH-mm-ss";
+    public static final String SIMPLE_DATE_FORMAT_HOUR="HH:mm:ss";
     public static final String DATE_FORMAT_CITA_JSON="yyyy'-'MM'-'dd'T'HH':'mm':'ss";
     public static final String DATE_FORMAT_CITA="dd-MM-yyyy HH':'mm':'ss";
     public static final String DATE_FORMAT_CITA_BD="yyyy-MM-dd HH':'mm':'ss";

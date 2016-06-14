@@ -21,6 +21,13 @@ public class ResponseCitasDisponiblesMedico implements  Serializable{
     private String correoElectronico;
     private String nombreCompleto;
     private String fotografia;    
+    private String ciudad;
+    private String localidad;
+    private String direccion;
+    private String fechaConsulta;
+    
+    private int numeroConsultorio;
+   
     private List<CitaDisponible> citasDisponibles;
 
     public String getTipoIdentificacion() {
@@ -81,6 +88,46 @@ public class ResponseCitasDisponiblesMedico implements  Serializable{
 
     public void setIdMedico(Long idMedico) {
         this.idMedico = idMedico;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public String getLocalidad() {
+        return localidad;
+    }
+
+    public void setLocalidad(String localidad) {
+        this.localidad = localidad;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public int getNumeroConsultorio() {
+        return numeroConsultorio;
+    }
+
+    public void setNumeroConsultorio(int numeroConsultorio) {
+        this.numeroConsultorio = numeroConsultorio;
+    }
+
+    public String getFechaConsulta() {
+        return fechaConsulta;
+    }
+
+    public void setFechaConsulta(String fechaConsulta) {
+        this.fechaConsulta = fechaConsulta;
     }
     
     

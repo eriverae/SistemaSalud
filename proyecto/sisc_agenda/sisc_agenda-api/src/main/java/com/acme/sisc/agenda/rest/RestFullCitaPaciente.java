@@ -214,6 +214,7 @@ public class RestFullCitaPaciente {
                 e.setHoraFin(AgendaUtil.parserDateToString(cita.getHoraFin(), WebConstant.SIMPLE_DATE_FORMAT_HOUR));
                 e.setLocalidad(cita.getAgenda().getLocalidad());
                 e.setNumeroConsultorio(cita.getAgenda().getNumeroConsultorio());
+                e.setIdCita(cita.getIdCita());
 
                 if (response.get(cita.getAgenda().getMedicoEps().getPersona().getIdPersona()) != null) {
                     response.get(cita.getAgenda().getMedicoEps().getPersona().getIdPersona()).getCitasDisponibles().add(e);
@@ -222,6 +223,11 @@ public class RestFullCitaPaciente {
                     responseCitasDisponiblesMedico.setCorreoElectronico(cita.getAgenda().getMedicoEps().getPersona().getCorreoElectronico());
                     responseCitasDisponiblesMedico.setFotografia(cita.getAgenda().getMedicoEps().getPersona().getFotografia());
                     responseCitasDisponiblesMedico.setIdMedico(cita.getAgenda().getMedicoEps().getPersona().getIdPersona());
+                    responseCitasDisponiblesMedico.setCiudad(cita.getAgenda().getCiudad());
+                    responseCitasDisponiblesMedico.setLocalidad(cita.getAgenda().getLocalidad());
+                    responseCitasDisponiblesMedico.setDireccion(cita.getAgenda().getDireccion());
+                    responseCitasDisponiblesMedico.setFechaConsulta(AgendaUtil.parserDateToString(cita.getHoraInicio(), WebConstant.SIMPLE_DATE_FORMAT));
+                    responseCitasDisponiblesMedico.setNumeroConsultorio(cita.getAgenda().getNumeroConsultorio());
                     if (cita.getAgenda().getMedicoEps().getPersona().getNombres() != null) {
                         responseCitasDisponiblesMedico.setNombreCompleto(cita.getAgenda().getMedicoEps().getPersona().getApellidos() != null
                                 ? cita.getAgenda().getMedicoEps().getPersona().getNombres() + " " + cita.getAgenda().getMedicoEps().getPersona().getApellidos()

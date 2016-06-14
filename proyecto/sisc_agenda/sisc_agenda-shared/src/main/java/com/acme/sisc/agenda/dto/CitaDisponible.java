@@ -13,6 +13,7 @@ import java.io.Serializable;
  */
 public class CitaDisponible implements  Serializable{
     
+    private long idCita;
     private String fecha;
     private String horaInicio;
     private String horaFin;
@@ -84,6 +85,14 @@ public class CitaDisponible implements  Serializable{
 
     public void setNumeroConsultorio(int numeroConsultorio) {
         this.numeroConsultorio = numeroConsultorio;
+    }
+
+    public long getIdCita() {
+        return idCita;
+    }
+
+    public void setIdCita(long idCita) {
+        this.idCita = idCita;
     }
     
     

@@ -251,6 +251,7 @@ public class FacadeCita extends AbstractFacade<Cita> {
     public List<Cita> buscarCitasDisponiblesPaciente(long idEspecialidad, long idEps, String fechaBusqueda) {
         try {
             Query q = em.createNativeQuery(WebConstant.QUERY_CITA_FIND_CITAS_DIPONIBLES_PACIENTE, Cita.class);
+         
             q.setParameter(1, idEspecialidad);
             q.setParameter(2, idEps);
             Date aux;
@@ -263,9 +264,15 @@ public class FacadeCita extends AbstractFacade<Cita> {
             } else {
                 aux = AgendaUtil.getCurrentDate();
             }
+               _log.log(Level.SEVERE, "QUERY: "+WebConstant.QUERY_CITA_FIND_CITAS_DIPONIBLES_PACIENTE);
+                _log.log(Level.SEVERE, "1 : "+idEspecialidad);
+                _log.log(Level.SEVERE, "2 : "+idEps);
+                 _log.log(Level.SEVERE, "3 : "+ aux);
+                 _log.log(Level.SEVERE, "4 : "+ (new Date(aux.getTime() + WebConstant.MS_DAY)));
+                
             
-            q.setParameter(3, AgendaUtil.parserDateToString(aux, WebConstant.DATE_FORMAT_CITA_BD));
-            q.setParameter(4, AgendaUtil.parserDateToString(new Date(aux.getTime() + WebConstant.MS_DAY), WebConstant.DATE_FORMAT_CITA_BD));
+            q.setParameter(3, aux);
+            q.setParameter(4, new Date(aux.getTime() + WebConstant.MS_DAY));
 
             return (List<Cita>) q.getResultList();
 

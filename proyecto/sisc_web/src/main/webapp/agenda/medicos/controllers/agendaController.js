@@ -90,8 +90,8 @@ app.controller('agendaMedicoContoller',
             $scope.infoConsultaCita;
 
             $scope.nuevaAgenda = {
-                fechaInicio: '16-05-2016',
-                fechaFinal: '21-05-2016',
+                fechaInicio: '06-06-2016',
+                fechaFinal: '11-06-2016',
                 semana: {
                     listaDias: [
                         {numeroDia: 1, dia: 'Lunes', incluir: false},

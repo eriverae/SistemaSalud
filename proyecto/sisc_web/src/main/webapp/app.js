@@ -104,7 +104,7 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                     url: '/medico/agenda',
                     templateUrl: 'agenda/medicos/agendaMedico.html',
                     controller: 'agendaMedicoContoller',
-                    params: {'idMedico': '1'},
+                    params: {'idMedico': '9'},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
 
                 })
@@ -113,7 +113,7 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                     templateUrl: 'agenda/pacientes/consultarCitas.html',
                     controller: 'citasController',
                     //params : {'idPaciente':'2'}
-                    params: {'idPaciente': '3'},
+                    params: {'idPaciente': '2'},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
                 .state('citasHistorialPaciente', {
@@ -135,8 +135,8 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                     templateUrl: 'agenda/pacientes/pacienteConsultaMedicoEspecializado.html',
                     controller: 'pacienteConsultaMedicoEspecializado',
                     params: {paciente: {
-                            idPersona: "3",
-                            idEps: "2",
+                            idPersona: "2",
+                            idEps: "3",
                         }},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
