@@ -74,7 +74,13 @@ public interface IPersonaNaturalFacadeRemote {
     
     PersonaJuridica getPaciente_EPS(Long paciente) throws CustomException;
     
-    void asociarMedico_EPS(Long paciente, List<Long> eps) throws CustomException;
+    void asociarMedico_EPS(Long medico, List<Long> eps) throws CustomException;
     
-    List<PersonaJuridica> getMedico_EPS(Long paciente) throws CustomException;
+    List<PersonaJuridica> getMedico_EPS(Long medico) throws CustomException;
+    
+    void asociarPaciente_Alergias(Long paciente, List<Long> alergias) throws CustomException;
+    
+    void asociarPaciente_Enfermedades(Long paciente, List<Long> enfermedades) throws CustomException;
+    
+    void asociarPaciente_Operaciones(Long paciente, List<Long> operaciones) throws CustomException;
 }
