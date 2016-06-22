@@ -339,7 +339,20 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
 
     @Override
     public List<PersonaJuridica> getMedico_EPS(Long medico) throws CustomException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<PersonaJuridica> response = null;
+        try {
+            LOGGER.info("Inicia getMedico_EPS(...)");
+            Query q = em.createQuery("SELECT j.eps FROM PersonaEps j " 
+                    + "WHERE j.persona.idPersona=:medico AND j.fechaFin=NULL");
+            q.setParameter("medico", medico);
+            response = q.getResultList();
+            
+            LOGGER.info("Finaliza getMedico_EPS(...)");
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Error en getMedico_EPS {0}", medico + "-"
+                    + " Exception: " + ex.getLocalizedMessage());
+        }
+        return response;
     }
 
     @Override
@@ -439,5 +452,59 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
             LOGGER.log(Level.WARNING, "Error al asociar paciente {0}", paciente 
                     + " a operacion - Exception: " + ex.getLocalizedMessage());
         }
+    }
+
+    @Override
+    public List<Alergia> getAlergiasPaciente(Long paciente) throws CustomException {
+        List<Alergia> response = null;
+        try {
+            LOGGER.info("Inicia getAlergiasPaciente(...)");
+            Query q = em.createQuery("SELECT a.alergia FROM PersonaNaturalAlergia a " 
+                    + "WHERE a.paciente.idPersona=:paciente");
+            q.setParameter("paciente", paciente);
+            response = q.getResultList();
+            
+            LOGGER.info("Finaliza getAlergiasPaciente(...)");
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Error en getAlergiasPaciente {0}", paciente + "-"
+                    + " Exception: " + ex.getLocalizedMessage());
+        }
+        return response;
+    }
+
+    @Override
+    public List<Enfermedad> getEnfermedadesPaciente(Long paciente) throws CustomException {
+        List<Enfermedad> response = null;
+        try {
+            LOGGER.info("Inicia getEnfermedadesPaciente(...)");
+            Query q = em.createQuery("SELECT e.enfermedad FROM PersonaNaturalEnfermedad e " 
+                    + "WHERE e.paciente.idPersona=:paciente");
+            q.setParameter("paciente", paciente);
+            response = q.getResultList();
+            
+            LOGGER.info("Finaliza getEnfermedadesPaciente(...)");
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Error en getEnfermedadesPaciente {0}", paciente + "-"
+                    + " Exception: " + ex.getLocalizedMessage());
+        }
+        return response;
+    }
+
+    @Override
+    public List<Operacion> getOperacionesPaciente(Long paciente) throws CustomException {
+        List<Operacion> response = null;
+        try {
+            LOGGER.info("Inicia getOperacionesPaciente(...)");
+            Query q = em.createQuery("SELECT o.operacion FROM PersonaNaturalOperacion o " 
+                    + "WHERE o.paciente.idPersona=:paciente");
+            q.setParameter("paciente", paciente);
+            response = q.getResultList();
+            
+            LOGGER.info("Finaliza getOperacionesPaciente(...)");
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Error en getOperacionesPaciente {0}", paciente + "-"
+                    + " Exception: " + ex.getLocalizedMessage());
+        }
+        return response;
     }
 }

@@ -12,7 +12,10 @@ import com.acme.sisc.agenda.entidades.Enfermedad;
 import com.acme.sisc.agenda.entidades.Operacion;
 import com.acme.sisc.agenda.entidades.PersonaJuridica;
 import com.acme.sisc.agenda.entidades.PersonaNatural;
+import com.acme.sisc.agenda.entidades.PersonaNaturalAlergia;
 import com.acme.sisc.agenda.entidades.PersonaNaturalBeneficiario;
+import com.acme.sisc.agenda.entidades.PersonaNaturalEnfermedad;
+import com.acme.sisc.agenda.entidades.PersonaNaturalOperacion;
 import com.acme.sisc.agenda.entidades.TipoIdentificacion;
 import com.acme.sisc.common.exceptions.CustomException;
 import java.util.List;
@@ -83,4 +86,10 @@ public interface IPersonaNaturalFacadeRemote {
     void asociarPaciente_Enfermedades(Long paciente, List<Long> enfermedades) throws CustomException;
     
     void asociarPaciente_Operaciones(Long paciente, List<Long> operaciones) throws CustomException;
+    
+    List<Alergia> getAlergiasPaciente(Long paciente) throws CustomException;
+    
+    List<Enfermedad> getEnfermedadesPaciente(Long paciente) throws CustomException;
+    
+    List<Operacion> getOperacionesPaciente(Long paciente) throws CustomException;
 }

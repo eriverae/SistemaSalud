@@ -279,15 +279,14 @@
                         </div>
                     </div>
                     
-                    <!-- Cargar Imágen -->
+                    <!-- Cargar Imagen -->
                     <div class="col-md-10">
                         <label class="col-md-8 col-xs-12 label-info control-label label label-form" style="text-align: left; margin: 1em">Subir Imagen:</label>
                             <div class="col-md-4">
                                 <div>
                                     <fieldset class="ng-binding">
-                                        Profile Picture: <input type="file" ngf-select="" ng-model="picFile" name="file" ngf-accept="'image/*'" 
-                                                                required="">
-                                        <i ng-show="pacienteForm.file.$error.required">*required</i>
+                                        Profile Picture: <input type="file" ngf-select="" ng-model="picFile" name="file" ngf-accept="'image/*'">
+<!--                                        <i ng-show="pacienteForm.file.$error.required">*required</i>-->
                                         <img ng-src="{{pacienteForm.file}}" class="thumb">
                                     </fieldset>
                                       <br>

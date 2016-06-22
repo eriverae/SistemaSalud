@@ -10,7 +10,10 @@ import com.acme.sisc.agenda.entidades.Enfermedad;
 import com.acme.sisc.agenda.entidades.Operacion;
 import com.acme.sisc.agenda.entidades.PersonaJuridica;
 import com.acme.sisc.agenda.entidades.PersonaNatural;
+import com.acme.sisc.agenda.entidades.PersonaNaturalAlergia;
 import com.acme.sisc.agenda.entidades.PersonaNaturalBeneficiario;
+import com.acme.sisc.agenda.entidades.PersonaNaturalEnfermedad;
+import com.acme.sisc.agenda.entidades.PersonaNaturalOperacion;
 import com.acme.sisc.common.errorhandling.ErrorMessage;
 import com.acme.sisc.common.exceptions.CustomException;
 import com.acme.sisc.common.pagination.PaginatedListWrapper;
@@ -328,6 +331,27 @@ public class PersonaNaturalResource {
         return Response.ok(medico).build();
     }
     
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("getMedicoEPS/{medico}")
+    public List<PersonaJuridica> getMedicoEPS(@PathParam("medico") Long medico) {
+        List<PersonaJuridica> response = null;
+        try {
+            response = facadePersonaNatural.getMedico_EPS(medico);
+        } catch (CustomException ex) {
+            ErrorMessage errorMessage = new ErrorMessage();
+            errorMessage.setCode(ex.getErrorCode());
+            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
+            errorMessage.setMessage(ex.getMessage());
+            StringWriter errorStackTrace = new StringWriter();
+            ex.printStackTrace(new PrintWriter(errorStackTrace));
+            errorMessage.setDeveloperMessage(errorStackTrace.toString());
+
+        }
+        return response;
+    }
+    
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("asociarPacienteAlergias")
@@ -422,6 +446,69 @@ public class PersonaNaturalResource {
                     .build();
         }
         return Response.ok(paciente).build();
+    }
+
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("getAlergiasPaciente/{paciente}")
+    public List<Alergia> getAlergiasPaciente(@PathParam("paciente") Long paciente) {
+        List<Alergia> response = null;
+        try {
+            response = facadePersonaNatural.getAlergiasPaciente(paciente);
+        } catch (CustomException ex) {
+            ErrorMessage errorMessage = new ErrorMessage();
+            errorMessage.setCode(ex.getErrorCode());
+            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
+            errorMessage.setMessage(ex.getMessage());
+            StringWriter errorStackTrace = new StringWriter();
+            ex.printStackTrace(new PrintWriter(errorStackTrace));
+            errorMessage.setDeveloperMessage(errorStackTrace.toString());
+
+        }
+        return response;
+    }
+
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("getEnfermedadesPaciente/{paciente}")
+    public List<Enfermedad> getEnfermedadesPaciente(@PathParam("paciente") Long paciente) {
+        List<Enfermedad> response = null;
+        try {
+            response = facadePersonaNatural.getEnfermedadesPaciente(paciente);
+        } catch (CustomException ex) {
+            ErrorMessage errorMessage = new ErrorMessage();
+            errorMessage.setCode(ex.getErrorCode());
+            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
+            errorMessage.setMessage(ex.getMessage());
+            StringWriter errorStackTrace = new StringWriter();
+            ex.printStackTrace(new PrintWriter(errorStackTrace));
+            errorMessage.setDeveloperMessage(errorStackTrace.toString());
+
+        }
+        return response;
+    }
+
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("getOperacionesPaciente/{paciente}")
+    public List<Operacion> getOperacionesPaciente(@PathParam("paciente") Long paciente) {
+        List<Operacion> response = null;
+        try {
+            response = facadePersonaNatural.getOperacionesPaciente(paciente);
+        } catch (CustomException ex) {
+            ErrorMessage errorMessage = new ErrorMessage();
+            errorMessage.setCode(ex.getErrorCode());
+            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
+            errorMessage.setMessage(ex.getMessage());
+            StringWriter errorStackTrace = new StringWriter();
+            ex.printStackTrace(new PrintWriter(errorStackTrace));
+            errorMessage.setDeveloperMessage(errorStackTrace.toString());
+
+        }
+        return response;
     }
     
     ////////////////////////////////////////////////////////////////////////////
