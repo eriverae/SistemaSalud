@@ -11,23 +11,24 @@ app.controller('beneficiariosController', function ($scope, $rootScope, $statePa
     if (angular.isDefined($stateParams.idPersona)) {
         console.log('Cotizante a..., ID = ' + $stateParams.idPersona);
         personaService.get({id: $stateParams.idPersona}).$promise.then(
-                function (data) {
-                    console.log('Datos de cotizante encontrados');
-                    $scope.cotizante = data;
-                },
-                function () {
-                    console.log('Datos paila :(');
-                    // Broadcast the event for a server error.
-                    $rootScope.$broadcast('error');
-                });
+            function (data) {
+                console.log('Datos de cotizante encontrados');
+                $scope.cotizante = data;
+                $scope.refreshGrid();
+            },
+            function () {
+                console.log('Datos paila :(');
+                // Broadcast the event for a server error.
+                $rootScope.$broadcast('error');
+            });
     }
 
     $scope.listaTiposParentezco = [
-        {id: 'MAMA', name: 'Mamá'},
-        {id: 'PAPA', name: 'Papá'},
-        {id: 'HERMANO', name: 'Hermano'},
-        {id: 'HIJO', name: 'Hijo'},
-        {id: 'OTRO', name: 'Otro'}
+        {id: '1', name: 'Mamá'},
+        {id: '2', name: 'Papá'},
+        {id: '3', name: 'Hermano'},
+        {id: '4', name: 'Hijo'},
+        {id: '5', name: 'Otro'}
         
     ];
 
@@ -46,15 +47,16 @@ app.controller('beneficiariosController', function ($scope, $rootScope, $statePa
     };
 
     $scope.asociarBeneficiario = function() {
-        var args = {
-            cotizante: $scope.cotizante,
-            beneficiario: $scope.beneficiario,
-            parentezco: $scope.parentezco
-        };
-        personaService.asociarBeneficiario(args).$promise.then(
+        if ($scope.parentezco > 0) {
+            var args = {
+                cotizante: $scope.cotizante.idPersona,
+                beneficiario: $scope.beneficiario.idPersona,
+                parentezco: $scope.parentezco
+            };
+            personaService.asociarBeneficiario(args).$promise.then(
                 function () {
                     // Broadcast the event to refresh the grid.
-                    $rootScope.$broadcast('refreshGrid');
+                    //$rootScope.$broadcast('refreshGrid');
                     // Broadcast the event to display a save message.
                     $rootScope.$broadcast('beneficiarioSaved');
 
@@ -63,6 +65,10 @@ app.controller('beneficiariosController', function ($scope, $rootScope, $statePa
                     // Broadcast the event for a server error.
                     $rootScope.$broadcast('error');
                 });
+        }
+        else{
+
+        }
     };
     
     ////////////////////////////////////////////////////////////////////////////
@@ -102,16 +108,18 @@ app.controller('beneficiariosController', function ($scope, $rootScope, $statePa
 
     // Refresh the grid, calling the appropriate rest method.
     $scope.refreshGrid = function () {
-        var listBeneficiariosArgs = {
-            page: $scope.beneficiarios.currentPage,
-            sortFields: $scope.sortInfo.fields[0],
-            sortDirections: $scope.sortInfo.directions[0],
-            cotizante: $scope.cotizante.idPersona
-        };
+        if ($scope.cotizante.idPersona > 0) {
+            var listBeneficiariosArgs = {
+                page: $scope.beneficiarios.currentPage,
+                sortFields: $scope.sortInfo.fields[0],
+                sortDirections: $scope.sortInfo.directions[0],
+                cotizante: $scope.cotizante.idPersona
+            };
 
-        personaService.beneficiarios(listBeneficiariosArgs, function (data) {
-            $scope.beneficiarios = data;
-        });
+            personaService.beneficiarios(listBeneficiariosArgs, function (data) {
+                $scope.beneficiarios = data;
+            });
+        }
     };
 
     // Broadcast an event when an element in the grid is deleted. No real deletion is perfomed at this point.
@@ -171,4 +179,14 @@ app.controller('beneficiariosController', function ($scope, $rootScope, $statePa
       //        $rootScope.$broadcast('error');
       //    });
     });
+    
+    $scope.$on('beneficiarioSaved', function () {
+        $('#guardar-beneficiario-success').show();
+        $scope.beneficiario = [];
+        $scope.refreshGrid();
+    });
+    
+    $scope.closepopup = function(){
+ 	 $('#guardar-beneficiario-success').hide();
+    };
 });

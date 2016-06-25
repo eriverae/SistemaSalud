@@ -192,11 +192,11 @@
                 <div>
                     <div class="col-md-6">
                         <!-- Tarjeta profesional -->
-                        <div class="form-group" ng-hide="paciente">
+                        <div class="form-group">
                             <label class="col-md-3 col-xs-12 label-info control-label label label-form">Tarjeta profesional:</label>
                             <div class="col-md-6 col-xs-12">
-                                <input id="tarjetaProfesional" name="tarjetaProfesional" type="number" class="form-control" maxlength="20"
-                                       ng-model="medico.tarjetaProfesional" ng-required="!paciente" ng-minlength="3" ng-maxlength="20"
+                                <input id="tarjetaProfesional" name="tarjetaProfesional" type="text" class="form-control" maxlength="20"
+                                       ng-model="medico.tarjetaProfesional" ng-minlength="3" ng-maxlength="20"
                                        placeholder="Ingrese el número de su tarjeta profesional"/>
                             </div>              
                             <span ng-class="{'glyphicon glyphicon-ok' : medicoForm.tarjetaProfesional.$valid && medicoForm.tarjetaProfesional.$dirty}"></span>

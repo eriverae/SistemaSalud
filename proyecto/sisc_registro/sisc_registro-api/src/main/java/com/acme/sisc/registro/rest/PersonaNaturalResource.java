@@ -174,8 +174,8 @@ public class PersonaNaturalResource {
         return Response.ok(personaNatural).build();
     }
 
-    @GET
-    @Path("beneficiarios/{page}/{sortFields}/{sortDirections}/{cotizante}")
+    @POST
+    @Path("beneficiarios")
     @Produces(MediaType.APPLICATION_JSON)
     public PaginatedListWrapper<PersonaNaturalBeneficiario> beneficiarios(
             @DefaultValue("1")
@@ -185,7 +185,7 @@ public class PersonaNaturalResource {
             @DefaultValue("asc")
             @QueryParam("sortDirections") String sortDirections,
             @DefaultValue("0")
-            @QueryParam("cotizante") Long cotizante) {
+            @QueryParam("cotizante") String cotizante) {
         PaginatedListWrapper<PersonaNaturalBeneficiario> plw = new PaginatedListWrapper<>();
         plw.setCurrentPage(page);
         plw.setSortFields(sortFields);
@@ -194,7 +194,7 @@ public class PersonaNaturalResource {
         return beneficiariosWrapper(plw, cotizante);
     }
 
-    private PaginatedListWrapper<PersonaNaturalBeneficiario> beneficiariosWrapper(PaginatedListWrapper wrapper, Long cotizante) {
+    private PaginatedListWrapper<PersonaNaturalBeneficiario> beneficiariosWrapper(PaginatedListWrapper wrapper, String cotizante) {
         int total = facadePersonaNatural.count();
         wrapper.setTotalResults(total);
         int start = (wrapper.getCurrentPage() - 1) * wrapper.getPageSize();
@@ -203,7 +203,7 @@ public class PersonaNaturalResource {
                         wrapper.getPageSize(),
                         wrapper.getSortFields(),
                         wrapper.getSortDirections(),
-                        cotizante)
+                        Long.parseLong(cotizante))
         );
         return wrapper;
     }
@@ -211,15 +211,28 @@ public class PersonaNaturalResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("asociarBeneficiario")
-    public void asociarBeneficiario(PersonaNatural cotizante, 
-                                    PersonaNatural beneficiario,
-                                    int parentezco){
+    public Response asociarBeneficiario(@QueryParam("cotizante") String cotizante, 
+                                    @QueryParam("beneficiario") String beneficiario,
+                                    @QueryParam("parentezco") String parentezco){
         try{
-            facadePersonaNatural.asociarBeneficiario(cotizante, beneficiario, parentezco);
+            facadePersonaNatural.asociarBeneficiario(Long.valueOf(cotizante), 
+                    Long.valueOf(beneficiario), Integer.valueOf(parentezco));
         }
-        catch(Exception ex){
-            
+        catch (CustomException ex) {
+            ErrorMessage errorMessage = new ErrorMessage();
+            errorMessage.setCode(ex.getErrorCode());
+            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
+            errorMessage.setMessage(ex.getMessage());
+            StringWriter errorStackTrace = new StringWriter();
+            ex.printStackTrace(new PrintWriter(errorStackTrace));
+            errorMessage.setDeveloperMessage(errorStackTrace.toString());
+
+            return Response.status(errorMessage.getStatus())
+                    .entity(errorMessage)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
         }
+        return Response.ok(0).build();
     }
     
     @GET

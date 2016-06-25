@@ -211,18 +211,27 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
     }
 
     @Override
-    public void asociarBeneficiario(PersonaNatural cotizante, PersonaNatural beneficiario, int parentezco) {
+    public void asociarBeneficiario(Long cotizante, Long beneficiario, int parentezco) throws CustomException {
         try {
             LOGGER.info("Inicia asociarBeneficiario(...)");
+            
+            Query q = em.createQuery("SELECT b FROM PersonaNaturalBeneficiario b "
+                                   + "WHERE b.cotizante.idPersona=:cotizante "
+                                   + "AND b.beneficiario.idPersona=:beneficiario");
+            q.setParameter("cotizante", cotizante);
+            q.setParameter("beneficiario", cotizante);
+            if (q.getResultList().size() > 0){
+                throw new CustomException("Ya existe la relación cotizante-beneficiario");
+            }            
             PersonaNaturalBeneficiario b = new PersonaNaturalBeneficiario();
-            b.setCotizante(cotizante);
-            b.setBeneficiario(beneficiario);
+            b.setCotizante(em.find(PersonaNatural.class, cotizante));
+            b.setBeneficiario(em.find(PersonaNatural.class, beneficiario));
             b.setParentezco(parentezco);
             em.persist(b);
             LOGGER.info("Finaliza asociarBeneficiario despues(...)");
         } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, "Error al guardar beneficiario {0}", cotizante.getCorreoElectronico() + " "
-                    + beneficiario.getCorreoElectronico() + " Exception: " + ex.getLocalizedMessage());
+            LOGGER.log(Level.WARNING, "Error al guardar beneficiario {0}", cotizante + " "
+                    + beneficiario + " Exception: " + ex.getLocalizedMessage());
         }
     }
 
@@ -330,7 +339,7 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
                 }
             }
             
-            LOGGER.log(Level.INFO, "Finaliza asociarPacienteEPS(...) {0}", msg);
+            LOGGER.log(Level.INFO, "Finaliza asociarMedico_EPS(...) {0}", msg);
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Error al asociar medico {0}", medico 
                     + " a eps - Exception: " + ex.getLocalizedMessage());

@@ -11,12 +11,14 @@ myModule.factory('personaService', function ($resource) {
                     params: {numberId: '@numberID'}
                 },
                 beneficiarios: {
-                    method: 'GET',
-                    url: '/sisc_registro/api/personaNatural/beneficiarios/'
+                    method: 'POST',
+                    url: '/sisc_registro/api/personaNatural/beneficiarios',
+                    params: {page: '@page', sortFields: '@sortFields', sortDirections: '@sortDirections', cotizante: '@cotizante'}
                 },
                 asociarBeneficiario: {
                     method: 'POST',
-                    url: '/sisc_registro/api/personaNatural/asociarBeneficiario/'
+                    url: '/sisc_registro/api/personaNatural/asociarBeneficiario',
+                    params: {cotizante: '@cotizante', beneficiario: '@beneficiario', parentezco: '@parentezco'}
                 },
                 listaEPS: {
                     method: 'GET',
@@ -57,6 +59,12 @@ myModule.factory('personaService', function ($resource) {
                     method: 'POST',
                     url: '/sisc_registro/api/personaNatural/asociarMedicoEPS',
                     params: {medico: '@medico', eps: '@eps'}
+                },
+                getMedicoEPS: {
+                    method: 'GET',
+                    url: '/sisc_registro/api/personaNatural/getMedicoEPS/:medico',
+                    params: {medico: '@medico'},
+                    isArray: true
                 },
                 asociarPacienteAlergias: {
                     method: 'POST',

@@ -59,7 +59,7 @@ public interface IPersonaNaturalFacadeRemote {
     
     List<PersonaNaturalBeneficiario> findBeneficiarios(int startPosition, int maxResults, String sortFields, String sortDirections, long cotizante);
     
-    void asociarBeneficiario(PersonaNatural cotizante, PersonaNatural beneficiario, int parentezco);
+    void asociarBeneficiario(Long cotizante, Long beneficiario, int parentezco) throws CustomException;
     
     void removerBeneficiario(PersonaNaturalBeneficiario beneficiario);
     
