@@ -195,7 +195,7 @@ public class RestFullCitaPaciente {
             @QueryParam("fechaBusqueda") String fechaBusqueda) {
 
         Map<Long, ResponseCitasDisponiblesMedico> response = new HashMap<Long, ResponseCitasDisponiblesMedico>();
-         List<ResponseCitasDisponiblesMedico> list =null;
+        List<ResponseCitasDisponiblesMedico> list = null;
         try {
             List<Cita> listCitas;
             if (fechaBusqueda.equals("null")) {
@@ -235,7 +235,7 @@ public class RestFullCitaPaciente {
                     } else {
                         responseCitasDisponiblesMedico.setNombreCompleto(cita.getAgenda().getMedicoEps().getPersona().getApellidos() != null ? cita.getAgenda().getMedicoEps().getPersona().getApellidos() : "");
                     }
-                    responseCitasDisponiblesMedico.setNumeroIdentificacion(cita.getAgenda().getMedicoEps().getPersona().getNumeroIdentificacion()+"");
+                    responseCitasDisponiblesMedico.setNumeroIdentificacion(cita.getAgenda().getMedicoEps().getPersona().getNumeroIdentificacion() + "");
                     responseCitasDisponiblesMedico.setTipoIdentificacion(cita.getAgenda().getMedicoEps().getPersona().getTipoIdentificacion().name());
                     responseCitasDisponiblesMedico.getCitasDisponibles().add(e);
 
@@ -243,16 +243,33 @@ public class RestFullCitaPaciente {
                 }
 
             }
-            
+
             list = new ArrayList<ResponseCitasDisponiblesMedico>(response.values());
-            
-            
+
         } catch (NullPointerException e) {
 
         }
-        
+
         return list;
 
+    }
+
+    /**
+     *
+     * @param idCita
+     * @param idPaciente
+     * @return
+     */
+    @POST
+    @Path("/agendar/cita/{idCita}/paciente/{idPaciente}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public GeneralResponse agendarCitaConMedico(
+            @PathParam("idCita") Long idCita,
+            @PathParam("idPaciente") Long idPaciente) {
+
+        logi.log(Level.WARNING,">> "+idCita+" "+idPaciente);
+        
+        return facadeCita.agendarCita(idCita, idPaciente);
     }
 
 }

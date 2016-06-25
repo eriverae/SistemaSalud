@@ -12,11 +12,13 @@ import com.acme.sisc.agenda.dto.ErrorObjSiscAgenda;
 import com.acme.sisc.agenda.dto.GeneralResponse;
 import com.acme.sisc.agenda.dto.RespuestaCita;
 import com.acme.sisc.agenda.entidades.Cita;
+import com.acme.sisc.agenda.entidades.PersonaEps;
 import com.acme.sisc.agenda.util.AgendaUtil;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -33,6 +35,9 @@ import javax.persistence.Query;
 public class FacadeCita extends AbstractFacade<Cita> {
 
     Logger _log = Logger.getLogger(this.getClass().getName());
+
+    @EJB
+    FacadeMedicoEps facadeMedicoEps;
 
     @PersistenceContext(unitName = WebConstant.UNIT_NAME_PERSISTENCE)
     private EntityManager em;
@@ -153,7 +158,8 @@ public class FacadeCita extends AbstractFacade<Cita> {
                     + sDateSistema + "  FECHA-SISTEMA \n\n\n");
             autorizar = false;
         } else //_log.log(Level.WARNING, "FECHAS DIFERENTES\n");
-         if (sDateCita.after(sDateSistema)) {
+        {
+            if (sDateCita.after(sDateSistema)) {
                 _log.log(Level.WARNING, "\n\n AUTORIZO CANCELAR CITA \n"
                         + "FECHA-CITA  " + sDateCita + "   >   "
                         + sDateSistema + "  FECHA-SISTEMA \n\n\n");
@@ -164,6 +170,7 @@ public class FacadeCita extends AbstractFacade<Cita> {
                         + sDateSistema + "  FECHA-SISTEMA \n\n\n");
                 autorizar = false;
             }
+        }
 
         return autorizar;
     }
@@ -218,7 +225,7 @@ public class FacadeCita extends AbstractFacade<Cita> {
     public List<Cita> validarCitasAgendadasMedico(long idMedico, java.util.Date fechaInicio, java.util.Date fechaFin, boolean limitar, int limiteRegistos) {
 
         try {
-            _log.log(Level.WARNING, "CONSULTANDO CITAS DE idMedico: {0} FECHA INICIO:{1} FECHA FIN:{2}", 
+            _log.log(Level.WARNING, "CONSULTANDO CITAS DE idMedico: {0} FECHA INICIO:{1} FECHA FIN:{2}",
                     new Object[]{idMedico, fechaInicio.toString(), fechaFin.toString()});
             Query q;
             if (limitar) {
@@ -241,7 +248,7 @@ public class FacadeCita extends AbstractFacade<Cita> {
             }
 
         } catch (NoResultException e) {
-            _log.log(Level.SEVERE, "NO SE ENCONTRARON RESULTADOS DE CITAS AGENDADAS PARA EL MEDICO CON ID: {0} ENTRE: {1} AL: {2}", 
+            _log.log(Level.SEVERE, "NO SE ENCONTRARON RESULTADOS DE CITAS AGENDADAS PARA EL MEDICO CON ID: {0} ENTRE: {1} AL: {2}",
                     new Object[]{idMedico, fechaFin.toString(), fechaFin.toString()});
             return null;
         }
@@ -251,7 +258,7 @@ public class FacadeCita extends AbstractFacade<Cita> {
     public List<Cita> buscarCitasDisponiblesPaciente(long idEspecialidad, long idEps, String fechaBusqueda) {
         try {
             Query q = em.createNativeQuery(WebConstant.QUERY_CITA_FIND_CITAS_DIPONIBLES_PACIENTE, Cita.class);
-         
+
             q.setParameter(1, idEspecialidad);
             q.setParameter(2, idEps);
             Date aux;
@@ -264,13 +271,12 @@ public class FacadeCita extends AbstractFacade<Cita> {
             } else {
                 aux = AgendaUtil.getCurrentDate();
             }
-               _log.log(Level.SEVERE, "QUERY: "+WebConstant.QUERY_CITA_FIND_CITAS_DIPONIBLES_PACIENTE);
-                _log.log(Level.SEVERE, "1 : "+idEspecialidad);
-                _log.log(Level.SEVERE, "2 : "+idEps);
-                 _log.log(Level.SEVERE, "3 : "+ aux);
-                 _log.log(Level.SEVERE, "4 : "+ (new Date(aux.getTime() + WebConstant.MS_DAY)));
-                
-            
+            _log.log(Level.SEVERE, "QUERY: " + WebConstant.QUERY_CITA_FIND_CITAS_DIPONIBLES_PACIENTE);
+            _log.log(Level.SEVERE, "1 : " + idEspecialidad);
+            _log.log(Level.SEVERE, "2 : " + idEps);
+            _log.log(Level.SEVERE, "3 : " + aux);
+            _log.log(Level.SEVERE, "4 : " + (new Date(aux.getTime() + WebConstant.MS_DAY)));
+
             q.setParameter(3, aux);
             q.setParameter(4, new Date(aux.getTime() + WebConstant.MS_DAY));
 
@@ -281,5 +287,62 @@ public class FacadeCita extends AbstractFacade<Cita> {
         }
 
     }
-}
 
+    public GeneralResponse agendarCita(long idCita, long idPersona) {
+        GeneralResponse response = new GeneralResponse();
+        PersonaEps personaEpsCita = null;
+        ErrorObjSiscAgenda error;
+        Cita cita;
+        try {
+
+            
+
+            List<PersonaEps> listEps = facadeMedicoEps.consultarEpsMedico(idPersona);
+            if (listEps != null && listEps.size() > 0) {
+                for (PersonaEps personaEps : listEps) {
+                    if (personaEps.getFechaFin() == null) {
+                        personaEpsCita = personaEps;
+                        break;
+                    }
+                }
+                if (personaEpsCita == null) {
+                    personaEpsCita = listEps.get(listEps.size() - 1);
+                }
+                cita = em.find(Cita.class, idCita);
+                if (cita != null && cita.getEstadoCita().equals(WebConstant.ESTADO_CITA_DISPONIBLE)) {
+                    cita.setEstadoCita(WebConstant.ESTADO_CITA_APARTADA);
+                    cita.setPacienteEps(personaEpsCita);
+                    cita = em.merge(cita);
+                    response.setCodigoRespuesta("SUCCESS");
+
+                } else {
+                    /*Error cita no disponible*/
+                     _log.log(Level.WARNING,"NO HAY CITA  {0}",idCita);
+                    response.setCodigoRespuesta("ERROR");
+                    error = new ErrorObjSiscAgenda();
+                    error.setCodigoError("001");
+                    error.setMensajeError("Este horario ya ha sido apartado por favor intente otro");
+                    response.setError(error);
+                }
+
+            } else {
+                /*error*/
+                _log.log(Level.WARNING,"NO HAY LISTA ESP PERSONA PARA {0}",idPersona);
+                response.setCodigoRespuesta("ERROR");
+                error = new ErrorObjSiscAgenda();
+                error.setCodigoError("000");
+                error.setMensajeError("Error en el sistema intente mas tarde");
+                response.setError(error);
+            }
+
+        } catch (Exception e) {
+            _log.log(Level.SEVERE,"ERRO EN agendarCita ",e);
+            response.setCodigoRespuesta("ERROR");
+            error = new ErrorObjSiscAgenda();
+            error.setCodigoError("000");
+            error.setMensajeError("Error en el sistema intente mas tarde");
+            response.setError(error);
+        }
+        return response;
+    }
+}

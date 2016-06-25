@@ -40,7 +40,7 @@ public class WebConstant {
             "e.id_especialidad = ? and " +
             "pe.id_eps = ? and " +
             "(c.hora_inicio >= ? and c.hora_inicio  <= ? ) " +
-            "";
+            "and estado_cita ='DISPONIBLE' order by hora_inicio";
     
     /**
      * Nombre parametros de consultas
@@ -84,12 +84,17 @@ public class WebConstant {
      */
     public static final String ESTADO_CITA_DISPONIBLE="DISPONIBLE";
     public static final String ESTADO_CITA_CANCELADA="CANCELADA";
-    public static final String COLOR_CITA="#E04B4A";
-    public static final String COLOR_2_CITA="#005580";
+    public static final String ESTADO_CITA_APARTADA="APARTADA";
+    
+    
+    
     public static final String COLOR_CITA_DISPONIBLE="#5cb85c";
+    public static final String COLOR_CITA_APARTADA="#ff9933";
+     public static final String COLOR_CITA_CANCELADA="#e60000";
    
     
     public static  final long MS_DAY=86400000;
+    
     
     
     

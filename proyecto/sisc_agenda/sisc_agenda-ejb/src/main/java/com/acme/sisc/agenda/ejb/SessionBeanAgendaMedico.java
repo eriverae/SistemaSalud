@@ -235,8 +235,21 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
                     EventoCalendarioAgenda eventoCita=new EventoCalendarioAgenda();
                     eventoCita.setAllDay(false);                    
 //                    eventoCita.setColor(cita.getEstadoCita().equalsIgnoreCase(WebConstant.ESTADO_CITA_DISPONIBLE)?
-//                            WebConstant.COLOR_CITA_DISPONIBLE:WebConstant.COLOR_CITA);                     
-                    eventoCita.setColor(i % 2==0?WebConstant.COLOR_CITA_DISPONIBLE:WebConstant.COLOR_2_CITA);     
+//                            WebConstant.COLOR_CITA_DISPONIBLE:WebConstant.COLOR_CITA);
+                    if(cita.getEstadoCita().equals(WebConstant.ESTADO_CITA_DISPONIBLE)){
+                         eventoCita.setColor(WebConstant.COLOR_CITA_DISPONIBLE);
+                    }else{
+                        if(cita.getEstadoCita().equals(WebConstant.ESTADO_CITA_APARTADA)){
+                            eventoCita.setColor(WebConstant.COLOR_CITA_APARTADA);
+                        }else{
+                            if(cita.getEstadoCita().equals(WebConstant.ESTADO_CITA_CANCELADA)){
+                                eventoCita.setColor(WebConstant.COLOR_CITA_CANCELADA);
+                            }else{
+                                eventoCita.setColor("#005580");
+                            }
+                        }
+                    }
+                       
                     eventoCita.setTitle("CITA #"+cita.getIdCita());
                     eventoCita.setStart(AgendaUtil.parserDateToString(cita.getHoraInicio(), WebConstant.DATE_FORMAT_CITA_JSON));
                     eventoCita.setEnd(AgendaUtil.parserDateToString(cita.getHoraFin(), WebConstant.DATE_FORMAT_CITA_JSON));                    

@@ -135,7 +135,7 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                     templateUrl: 'agenda/pacientes/pacienteConsultaMedicoEspecializado.html',
                     controller: 'pacienteConsultaMedicoEspecializado',
                     params: {paciente: {
-                            idPersona: "2",
+                            idPersona: "23",
                             idEps: "3",
                         }},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}

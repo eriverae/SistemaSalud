@@ -167,7 +167,7 @@ app.controller('agendaMedicoContoller',
                     headers: {
                         'Content-Type': 'application/json;charset=utf-8;'
                     }
-                }
+                };
 
 
                 if (validacion) {
