@@ -2,7 +2,7 @@
 var app = angular.module('sisc_web');
 // Create a controller with name personsFormController to bind to the form section.
 app.controller('usuarioFormController', function ($scope, $rootScope, $stateParams, $state,
-        usuarioService, modalService, grupoService, grupoUsuarioService, grupoUsuarioSelection, auditoriaService, store) {
+        usuarioService, modalService, grupoService, grupoUsuarioService, grupoUsuarioSelection, auditoriaService, NotificacionService, store) {
 
     $scope.usuario = {};
     $scope.items = [];
@@ -90,14 +90,23 @@ app.controller('usuarioFormController', function ($scope, $rootScope, $statePara
                             grupoUsuarioService.save(grupoUsuario);
                             //cadenaRoles = cadenaRoles + $scope.items[index].acceNombre + ";"
                         }
-                        var ip = location.host;
-                        auditoriaService.save(store.get('login') + "-" + "Crear usuario" + "-" + "100.100" + "-" + "Sisc/Web");
+                        getIp();
+                        auditoriaService.save(store.get('login') + "-" + "Crear usuario" + "-" + store.get('ip') + "-" + document.location.hostname);
+                        NotificacionService.save(store.get('login') + "-" + "Creacion Usuario" + "-" + "Hola, les informamos la creacion del usuario" + "-" + "Modulo Seguridad");
                     }
                 },
                 function () {
                     // Broadcast the event for a server error.
                     $rootScope.$broadcast('error');
                 });
+    };
+    
+    window.getIp = function ()
+    {
+        $.getJSON("https://api.ipify.org?format=jsonp&callback=?", function (json) {
+            store.set('ip', json.ip);
+        }
+        );
     };
 
     // Picks up the event broadcasted when the person is selected from the grid and perform the person load by calling

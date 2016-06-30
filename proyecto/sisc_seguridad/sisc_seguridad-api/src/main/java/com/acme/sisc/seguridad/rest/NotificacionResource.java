@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 package com.acme.sisc.seguridad.rest;
-import com.acme.sisc.agenda.entidades.AuditoriaUsuario;
+import com.acme.sisc.agenda.entidades.LogNotifica;
 import com.acme.sisc.common.pagination.PaginatedListWrapper;
-import com.acme.sisc.seguridad.AuditoriaFacadeLocal;
+import com.acme.sisc.seguridad.NotificacionFacadeLocal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -25,40 +25,43 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+
 /**
  *
  * @author Julio
  */
-@Path("auditorias")
+@Path("notificaciones")
 @RequestScoped
-public class AuditoriaResource {
-    private static final Logger LOGGER = Logger.getLogger(AuditoriaResource.class.getName());
+public class NotificacionResource {
+    private static final Logger LOGGER = Logger.getLogger(NotificacionResource.class.getName());
 
     @Context
     private UriInfo context;
 
     @EJB
-    AuditoriaFacadeLocal facadeAuditoria;
+    NotificacionFacadeLocal facadeNotificacion;
     
-    public AuditoriaResource() {
+    public NotificacionResource() {
         
     }
-
+    
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void guardarAuditoria(String req) {
+    public void guardarNotificacion(String req) {
         String[] spl = req.split("-");
-        LOGGER.log(Level.FINE,"Post para actualizat guardarAuditoria con {1}", req);
-        String emailUsuario, observacion, dirIP, hostName;
-        emailUsuario = spl[0];
-        observacion = spl[1];
-        dirIP = spl[2];
-        hostName = spl[3];
+        System.out.println(req);
+        LOGGER.log(Level.FINE,"Post para actualizat guardarNotificacion con {1}", req);
+        String destino, asunto, cuerpo, sistema;
+        destino = spl[0];
+        asunto = spl[1];
+        cuerpo = spl[2];
+        sistema = spl[3];
         try {
-            facadeAuditoria.crearAuditoria(emailUsuario, observacion, dirIP, hostName);
+            facadeNotificacion.crearNotificacion(destino, asunto, cuerpo, sistema);
         } catch (Exception e) {
             //TODO Definir manejo
             LOGGER.log(Level.SEVERE, "Houston, estamos en problemas ...", e);
         }
     }
+        
 }
