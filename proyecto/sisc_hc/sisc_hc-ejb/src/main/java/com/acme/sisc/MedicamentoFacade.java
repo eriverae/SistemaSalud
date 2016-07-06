@@ -137,4 +137,27 @@ public class MedicamentoFacade implements IMedicamentoFacadeLocal, IMedicamentoF
         }
     }
     
+    @Override
+    public HashMap deleteMedicamentoCita(Long idcita, Long idmedicamento){
+        HashMap m = new HashMap();
+        try{
+            Query q = em.createNativeQuery("SELECT * FROM cita_medicamento where id_cita = " + idcita + 
+                " AND id_medicamento = "+ idmedicamento, CitaMedicamento.class);
+            if (q.getResultList().isEmpty()){
+                m.put("message", "OK");
+                m.put("status", 204);
+                return m;
+            }else{
+                em.remove((CitaMedicamento)q.getSingleResult());
+                m.put("message", "OK");
+                m.put("status", 204);
+                return m;
+            }
+        }catch(Exception ex){
+            Logger.getLogger(MedicamentoFacade.class.getName()).log(Level.SEVERE, null, ex);
+            m.put("message", "ERROR... nos encontramos solucionando el problema.");
+            m.put("status", 500);
+            return m;
+        }
+    }
 }

@@ -115,4 +115,28 @@ public class ExamenFacade implements IExamenFacadeLocal, IExamenFacadeRemote{
         }
     }
     
+    @Override
+    public HashMap deleteExamenCita(Long idcita, Long idexamen){
+        HashMap m = new HashMap();
+        try{
+            Query q = em.createNativeQuery("SELECT * FROM cita_examen where id_cita = " + idcita + 
+                " AND id_examen = "+ idexamen, CitaExamen.class);
+            if (q.getResultList().isEmpty()){
+                m.put("message", "OK");
+                m.put("status", 204);
+                return m;
+            }else{
+                em.remove((CitaExamen)q.getSingleResult());
+                m.put("message", "OK");
+                m.put("status", 204);
+                return m;
+            }
+        }catch(Exception ex){
+            Logger.getLogger(MedicamentoFacade.class.getName()).log(Level.SEVERE, null, ex);
+            m.put("message", "ERROR... nos encontramos solucionando el problema.");
+            m.put("status", 500);
+            return m;
+        }
+    }
+    
 }

@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -69,6 +70,32 @@ public class MedicamentoService {
                 .build();
         }catch(Exception ex){
             throw new CustomException(Response.Status.BAD_REQUEST.getStatusCode(), 503, "Error adicionando los datos del medicamento... ");
+        }
+    }
+    
+    @DELETE
+    @Produces({"application/json"})
+    public Response deleteMedicamentoCita(
+            @QueryParam("idcita") String idcita, 
+            @QueryParam("idmedicamento") String idmedicamento
+    ) throws CustomException, CustomRunTimeException{
+        try{
+            if (idcita == null || idmedicamento == null){
+                HashMap m = new HashMap();
+                m.put("mesage", "Property not found");
+                m.put("status", 400);
+                return Response.status(400).entity(m).build();
+            }
+            else{
+                return Response.status(204)
+                        .entity(facadeMedicamento.deleteMedicamentoCita(
+                                Long.parseLong(idcita), 
+                                Long.parseLong(idmedicamento))).build();
+            }
+        }catch(Exception ex){
+            throw new CustomException(
+                    Response.Status.BAD_REQUEST.getStatusCode(), 503, 
+                    "Error eliminando los datos del medicamento... ");
         }
     }
     
