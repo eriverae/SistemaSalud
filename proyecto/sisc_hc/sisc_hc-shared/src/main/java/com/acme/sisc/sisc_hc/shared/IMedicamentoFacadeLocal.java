@@ -23,4 +23,5 @@ public interface IMedicamentoFacadeLocal {
     List<Medicamento> findAll();
     HashMap addMedicamentoCita(List<CitaMedicamento> listaMedicamentos);
     ArrayList<HashMap> findByCita(Long idcita);
+    HashMap deleteMedicamentoCita(Long idcita, Long idmedicamento);
 }

@@ -23,4 +23,5 @@ public interface IExamenFacadeRemote {
     public void addExamenCita(List<CitaExamen> cita_examen);
     ArrayList<HashMap> findByCita(Long idcita);
     CitaExamen findByCita_Examn(Long idcita, Long idexamen);
+    HashMap deleteExamenCita(Long idcita, Long idexamen);
 }

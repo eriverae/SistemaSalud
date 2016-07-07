@@ -23,4 +23,5 @@ public interface ITratamientoFacadeLocal {
     void addTratamientoCita(List<CitaTratamiento> listaTratamiento);
     ArrayList<HashMap> findByCita(Long idcita);
     CitaTratamiento findByCita_Tratamient(Long idcita, Long idtratamiento);
+    HashMap deleteTratamientoCita(Long idcita, Long idtratamiento);
 }
