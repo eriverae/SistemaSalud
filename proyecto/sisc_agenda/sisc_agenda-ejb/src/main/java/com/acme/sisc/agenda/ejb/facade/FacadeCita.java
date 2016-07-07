@@ -345,4 +345,8 @@ public class FacadeCita extends AbstractFacade<Cita> {
         }
         return response;
     }
+    
+    public Cita mergeCita(Cita cita){
+        return em.merge(cita);
+    }
 }

@@ -1,11 +1,20 @@
+
+//$(window).load(function () {
+//  // Una vez se cargue al completo la página desaparecerá el div "cargando"
+//  $('#cargando').hide();
+//});
+
 /**
  * calendarDemoApp - 0.9.0
  */
+
+
+
 var app = angular.module('sisc_web');
 
 app.filter("getEdad", function () {  //fa y fb dos fechas
     return function (input) {
-        var fa=new Date(input);
+        var fa = new Date(input);
         var fb = new Date();
         var totdias = fa - fb;
         totdias /= 3600000;
@@ -61,7 +70,7 @@ app.filter("getEdad", function () {  //fa y fb dos fechas
             }
         }
 //        var res=ans +'años con '+meses+' meses y '+ dias  ;
-        return ans + ' años con ' + meses + ' meses y ' + dias+ ' dias';
+        return ans + ' años con ' + meses + ' meses y ' + dias + ' dias';
     }
 });
 
@@ -85,13 +94,17 @@ app.filter("getFormatoHora", function () {
 app.controller('agendaMedicoContoller',
         function ($scope, $compile, $timeout, uiCalendarConfig, $http, $stateParams, $state) {
 
+//            $scope.loading = true;
+
+//            $('#loadingModal').modal();
+            
             $scope.objErrorNuevaAgenda;
             $scope.generalResponse;
             $scope.infoConsultaCita;
 
             $scope.nuevaAgenda = {
-                fechaInicio: '06-06-2016',
-                fechaFinal: '11-06-2016',
+                fechaInicio: '',
+                fechaFinal: '',
                 semana: {
                     listaDias: [
                         {numeroDia: 1, dia: 'Lunes', incluir: false},
@@ -104,20 +117,20 @@ app.controller('agendaMedicoContoller',
                     ],
                     numeroDiasSelecionado: 0
                 },
-                horaInicio: '08:00:00',
-                horaFinal: '12:00:00',
-                cantidadMinutosXCita: 60,
+                horaInicio: '',
+                horaFinal: '',
+                cantidadMinutosXCita: 0,
                 idPersonaEps: 0,
                 idMedico: $stateParams.idMedico,
-                ciudad: 'Bogota',
-                localidad: 'Kennedy',
-                direccion: 'Calle falsa 123',
-                consultorio: 101
+                ciudad: '',
+                localidad: '',
+                direccion: '',
+                consultorio: 0
 
             };
 
             $scope.irMenuHC = function (cita) {
-                $state.go('menuhc',{ 'cita':cita});
+                $state.go('menuhc', {'cita': cita});
             };
 
 
@@ -126,11 +139,13 @@ app.controller('agendaMedicoContoller',
                 if (choice.checked) {
                     dia.incluir = true;
                     $scope.nuevaAgenda.semana.listaDias[index] = dia;
-                    $scope.nuevaAgenda.semana.numeroDiasSelecionado = $scope.nuevaAgenda.numeroDiasSelecionado + 1;
+                    $scope.nuevaAgenda.semana.numeroDiasSelecionado = $scope.nuevaAgenda.semana.numeroDiasSelecionado + 1;
+
                 } else {
                     dia.incluir = false;
                     $scope.nuevaAgenda.semana.listaDias[index] = dia;
-                    $scope.nuevaAgenda.semana.numeroDiasSelecionado = $scope.nuevaAgenda.numeroDiasSelecionado - 1;
+                    $scope.nuevaAgenda.semana.numeroDiasSelecionado = $scope.nuevaAgenda.semana.numeroDiasSelecionado - 1;
+
                 }
 
             };
@@ -158,16 +173,25 @@ app.controller('agendaMedicoContoller',
             };
 
             $scope.agregarAgenda = function () {
+
+
                 /**
                  * Validar datos del formulario.
                  */
                 var validacion = true;
+
 
                 var configServicePost = {
                     headers: {
                         'Content-Type': 'application/json;charset=utf-8;'
                     }
                 };
+
+
+                if ($scope.nuevaAgenda.semana.numeroDiasSelecionado <= 0) {
+                    alert('Selecciona al menos un día para agendar.');
+                    validacion = false;
+                }
 
 
                 if (validacion) {
@@ -246,19 +270,35 @@ app.controller('agendaMedicoContoller',
                 callback(events);
             };
 
-            var utilRest = $http.get('/SiscAgenda/api/medico/agenda/' + $stateParams.idMedico);
-
-            utilRest.then(function (result) {
-
-                var obj = result.data;
-                if (obj.existeAgenda) {
-                    $.each(obj.events, function (k, v) {
-                        $scope.calEventsExt.events.push(v);
+//            var utilRest = $http.get('/SiscAgenda/api/medico/agenda/' + $stateParams.idMedico);
+//
+//            utilRest.then(function (result) {
+//
+//                var obj = result.data;
+//                if (obj.existeAgenda) {
+//                    $.each(obj.events, function (k, v) {
+////                        alert('aca?');
+//                        $scope.calEventsExt.events.push(v);
+//                    });
+//                    alert('sali?');
+//                    $scope.loading = false;
+//                }
+//
+//
+//            });
+            $http.get('/SiscAgenda/api/medico/agenda/' + $stateParams.idMedico).
+                    success(function (data) {
+                        
+                        var obj = data;
+                        if (obj.existeAgenda) {
+                            $.each(obj.events, function (k, v) {
+//                        alert('aca?');
+                                $scope.calEventsExt.events.push(v);
+                            });
+//                           $('#pleaseWaitDialog').hide();
+//                            $scope.loading = false;
+                        }
                     });
-                }
-
-            });
-
 
 
             $scope.calEventsExt = {
@@ -276,16 +316,16 @@ app.controller('agendaMedicoContoller',
                     var obj = result.data;
 
                     $scope.infoConsultaCita = result.data;
-                   
+
 //                    $('#tab222').show();
 //                    $('#tab232').hide();
 //                    $('#tab242').hide();
-                    
 
-$( "#info_init_cita" ).click();
+
+                    $("#info_init_cita").click();
 
 //$('#myModal').css('z-index', -1);
-$('#myModal').modal();
+                    $('#myModal').modal();
 
 
 
@@ -314,7 +354,7 @@ $('#myModal').modal();
                     sources.push(source);
                 }
             };
-
+             
 
             /* add custom event*/
             $scope.addEvent = function () {
@@ -356,7 +396,7 @@ $('#myModal').modal();
                     header: {
                         left: 'title',
                         center: '',
-                        right: 'today prev,next'
+                        right: 'Hoy prev,next'
                     },
                     eventClick: $scope.alertOnEventClick,
                     eventDrop: $scope.alertOnDrop,

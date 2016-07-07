@@ -113,21 +113,22 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                     templateUrl: 'agenda/pacientes/consultarCitas.html',
                     controller: 'citasController',
                     //params : {'idPaciente':'2'}
-                    params: {'idPaciente': '2'},
+                    params: {'idPaciente': '23'},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
                 .state('citasHistorialPaciente', {
                     url: '/paciente/historialCitas',
                     templateUrl: 'agenda/pacientes/historialCitas.html',
                     controller: 'historialCitasController',
+                    params : {'idPaciente':'23'},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
-                    //params : {'idPaciente':'3'}
+                    
                 })
                 .state('historialPacienteEPS', {
                     url: '/paciente/historialPacienteEPS',
                     templateUrl: 'agenda/pacientes/historialPacienteEPS.html',
                     controller: 'citasController',
-                    params: {'idPaciente': '3'},
+                    params: {'idPaciente': '23'},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
                 .state('pacienteConsultaMedicoEspecializado', {

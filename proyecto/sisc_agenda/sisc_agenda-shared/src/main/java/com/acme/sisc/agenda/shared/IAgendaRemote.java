@@ -7,6 +7,7 @@ package com.acme.sisc.agenda.shared;
 
 import com.acme.sisc.agenda.dto.GeneralResponse;
 import com.acme.sisc.agenda.dto.RequestCrearAgenda;
+import com.acme.sisc.agenda.dto.RequestOpcionesCitaAgendaMedico;
 import com.acme.sisc.agenda.dto.ResponseAgendaMedico;
 import com.acme.sisc.agenda.entidades.Agenda;
 import com.acme.sisc.agenda.entidades.PersonaEps;
@@ -31,6 +32,8 @@ public interface IAgendaRemote {
     public List<PersonaEps> consutarEpsMedico(long idMedico);
 
     public GeneralResponse insertarAgenda(RequestCrearAgenda request);
-    
+
     public ResponseAgendaMedico consultarAgendaMesMedico(long idMedico);
+
+    public GeneralResponse opcionesCitaAgendaMedico(RequestOpcionesCitaAgendaMedico request);
 }

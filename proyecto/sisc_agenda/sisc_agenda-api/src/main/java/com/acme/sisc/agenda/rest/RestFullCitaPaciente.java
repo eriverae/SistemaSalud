@@ -65,8 +65,13 @@ public class RestFullCitaPaciente {
     public Object[] CitasDePaciente(
             @PathParam("idPaciente") Long idPaciente) {
         List<Cita> lista = facadeCita.listaCitasPendientePaciente(idPaciente);
+        if(lista!=null){
+            return lista.toArray();
+        }else{
+            return null;
+        }
         //return facadeCita.listaCitasPaciente(idPaciente);
-        return lista.toArray();
+        
     }
 
     @GET
