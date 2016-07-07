@@ -100,7 +100,7 @@ app.controller('usuarioFormController', function ($scope, $rootScope, $statePara
                     $rootScope.$broadcast('error');
                 });
     };
-    
+
     window.getIp = function ()
     {
         $.getJSON("https://api.ipify.org?format=jsonp&callback=?", function (json) {
@@ -134,12 +134,15 @@ app.controller('usuarioFormController', function ($scope, $rootScope, $statePara
         $state.go('usuarios');
     };
 
-    $scope.validarContrasena = function () {
-        console.log("contraseña 1: " + $scope.usuario.usuaPass + " contraseña 2: " + $scope.usuario.usuaPass1);
-
-        return($scope.usuario.usuaPass !== $scope.usuario.usuaPass1);
-
-    };
+//    $scope.$on('usuarioSaved', function () {
+//        $('#user-box-success').show();
+//            $scope.clearForm();
+//            $state.go('usuarios');
+//    });
+//
+//    $scope.closepopup = function () {
+//        $('#user-box-success').hide();
+//    };
 
 });
 
