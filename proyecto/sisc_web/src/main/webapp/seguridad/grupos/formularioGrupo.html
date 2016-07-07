@@ -1,10 +1,10 @@
 <div class="col-md-6 col-md-offset-3">
     <!-- Verify person, if there is no id present, that we are Adding a Person -->
-    <div ng-if="grupo.grupGrup == null">
+    <div class="page-title" ng-if="grupo.grupGrup == null">
         <h3>Crear nuevo Grupo</h3>
     </div>
     <!-- Otherwise it's an Edit -->
-    <div ng-if="grupo.grupGrup != null">
+    <div class="page-title" ng-if="grupo.grupGrup != null">
         <h3>Modificar Grupo</h3>
     </div>
 
@@ -29,7 +29,7 @@
 
             <!-- Nombre Grupo -->
             <div class="form-group" ng-class="{'has-error' : grupoForm.grupNombr.$invalid && grupoForm.grupNombr.$dirty}">
-                <label for="grupNombr">Nombre Grupo:</label>
+                <label class="col-md-3 col-xs-12 control-label label-info label label-form" for="grupNombr">Nombre Grupo:</label>
                 <!-- Display a check when the field is valid and was modified -->
                 <span ng-class="{'glyphicon glyphicon-ok' : grupoForm.grupNombr.$valid && grupoForm.grupNombr.$dirty}"></span>
                 <select name="grupNombr" id="grupNombr" ng-model="grupo.grupNombr" required>
@@ -42,7 +42,7 @@
 
             <!-- Descripcion -->
             <div class="form-group" ng-class="{'has-error' : grupoForm.grupDescri.$invalid && grupoForm.grupDescri.$dirty}">
-                <label for="grupDescri">Descripción grupo:</label>
+                <label class="col-md-3 col-xs-12 control-label label-info label label-form" for="grupDescri">Descripción grupo:</label>
                 <!-- Display a check when the field is valid and was modified -->
                 <span ng-class="{'glyphicon glyphicon-ok' : grupoForm.grupDescri.$valid && grupoForm.grupDescri.$dirty}"></span>
                 <input id="grupDescri" name="grupDescri" type="text" class="form-control" maxlength="200"
@@ -63,9 +63,11 @@
                 <p class="help-block" ng-show="grupoForm.acceso.$error.size() === 0">Debe seleccionar al menos un acceso.</p>
             </div>
             -->   
-            
-            <div class="panel" ng-if="grupo.grupGrup==null">
-                <p>Seleccione accesos del perfil:<p>
+
+            <div ng-if="grupo.grupGrup == null">
+                <label class="col-md-6 col-xs-12 control-label label-info label label-form" >Seleccione accesos del perfil:</label>
+            </div>
+            <div class="panel" ng-if="grupo.grupGrup == null">
                 <div ng-repeat="rol in listaAcceso">
                     <div class="action-checkbox" >
                         <label class="switch">
@@ -76,9 +78,11 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="panel" ng-if="grupo.grupGrup!=null">
-                <p>Seleccione accesos del perfil a modificar:<p>
+
+            <div ng-if="grupo.grupGrup != null">
+                <label class="col-md-6 col-xs-12 control-label label-info label label-form" >Seleccione accesos del perfil a modificar:</label>
+            </div>
+            <div class="panel" ng-if="grupo.grupGrup != null">
                 <div ng-repeat="rol in listaAcceso">
                     <div class="action-checkbox" >
                         <label class="switch">
@@ -89,7 +93,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!--
             <div class="panel">
                 <p>Seleccione accesos del perfil:<p>
@@ -103,9 +107,13 @@
             -->
 
             <!-- Form buttons. The 'Save' button is only enabled when the form is valid. -->
-            <div class="buttons" ng-if="grupo.grupGrup==null">
-                <button type="button" class="btn btn-primary" ng-click="cancelar()">Cancelar</button>
-                <button type="submit" class="btn btn-primary" ng-disabled="grupoForm.$invalid">Guardar</button>
+            <div class="buttons" ng-if="grupo.grupGrup == null">
+                <button type="button" class="btn btn-primary" ng-click="cancelar()">Cancelar
+                    <span class="glyphicon glyphicon-floppy-remove"></span>
+                </button>
+                <button type="submit" class="btn btn-primary" ng-disabled="grupoForm.$invalid">Guardar
+                    <span class="fa fa-floppy-o"></span>
+                </button>
             </div>
         </form>
     </div>
