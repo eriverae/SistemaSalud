@@ -19,6 +19,10 @@
     .f-azul{
         background: #2a6496;
     }
+    .citas-dis{
+        font-size: 14px !important;
+        color: #5cb85c !important;
+    }
 
 </style>
 
@@ -30,9 +34,9 @@
     }).on("changeDate", function (e) {
         console.log(e.date);
     });
-     $('.timepicker24').timepicker({
-        showMeridian:false,
-        showSeconds:true
+    $('.timepicker24').timepicker({
+        showMeridian: false,
+        showSeconds: true
     });
     $('.timepicker24').on('click', function () {
         $('.timepicker24').timepicker('setTime', new Date());
@@ -93,8 +97,22 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-3">
+
+            <span class="fa fa-circle text-success citas-dis"></span>
+            &nbsp;&nbsp;Citas disponibles
+        </div>
+        <div class="col-md-3">
+
+            <span class="fa fa-circle text-success citas-dis"></span>
+            &nbsp;&nbsp;Citas disponibles
+        </div>
     </div>  
 
+    <div>
+
+
+    </div>
 </div>
 <!-- FORMULARIO NUEVA AGENDA-->
 <form name="formAgregarNuevaAgenda" ng-submit="agregarAgenda()" novalidate>
