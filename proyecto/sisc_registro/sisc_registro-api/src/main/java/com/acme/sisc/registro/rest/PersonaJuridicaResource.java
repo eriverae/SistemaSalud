@@ -19,19 +19,24 @@ import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.core.MediaType;
 
 /**
- * REST Web Service
+ * Servicio REST que provee las funcionalidades para las EPS.
  *
  * @author rreedd
  */
 @Path("personaJuridica")
 @RequestScoped
 public class PersonaJuridicaResource {
-
+    /**
+     * Instancia del logger.
+     */
     private static final Logger LOGGER = Logger.getLogger(PersonaJuridicaResource.class.getName());
 
     @Context
     private UriInfo context;
-
+    
+    /**
+     * Bean con el negocio para personas jurídicas.
+     */
     @EJB
     IPersonaJuridicaFacadeLocal facadePersonaJuridica;
 
@@ -41,6 +46,13 @@ public class PersonaJuridicaResource {
     public PersonaJuridicaResource() {
     }
 
+    /**
+     * Función por defecto para listar las personas jurídicas.
+     * @param page Número de página.
+     * @param sortFields Campo por el cuál se debe ordenar.
+     * @param sortDirections Ordenamiento de los registros.
+     * @return Página de registros de personas jurídicas.
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public PaginatedListWrapperPJ listPersonaJuridica(@DefaultValue("1")
@@ -68,6 +80,11 @@ public class PersonaJuridicaResource {
         return wrapper;
     }
 
+    /**
+     * Consulta la entidad de una persona jurídica.
+     * @param id Identificador único de la persona.
+     * @return Entidad de la persona, si existe.
+     */
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -76,6 +93,10 @@ public class PersonaJuridicaResource {
         return facadePersonaJuridica.find(id);
     }
 
+    /**
+     * Elimina una persona jurídica dado su identificador.
+     * @param id Identificador único.
+     */
     @DELETE
     @Path("{id}")
     public void eliminarPersonaJuridica(@PathParam("id") Long id) {
@@ -84,10 +105,10 @@ public class PersonaJuridicaResource {
     }
 
     /**
-     * PUT method for updating or creating an instance of
-     * PersonaJuridicaResource
+     * Crear o actualizar una persona jurídica.
+     * PersonaJuridica
      *
-     * @param PersonaJuridica representation for the resource
+     * @param personaJuridica Entidad representativa de la persona.
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

@@ -10,10 +10,7 @@ import com.acme.sisc.agenda.entidades.Enfermedad;
 import com.acme.sisc.agenda.entidades.Operacion;
 import com.acme.sisc.agenda.entidades.PersonaJuridica;
 import com.acme.sisc.agenda.entidades.PersonaNatural;
-import com.acme.sisc.agenda.entidades.PersonaNaturalAlergia;
 import com.acme.sisc.agenda.entidades.PersonaNaturalBeneficiario;
-import com.acme.sisc.agenda.entidades.PersonaNaturalEnfermedad;
-import com.acme.sisc.agenda.entidades.PersonaNaturalOperacion;
 import com.acme.sisc.common.errorhandling.ErrorMessage;
 import com.acme.sisc.common.exceptions.CustomException;
 import com.acme.sisc.common.pagination.PaginatedListWrapper;
@@ -22,7 +19,6 @@ import com.acme.sisc.registro.pagination.PaginatedListWrapperPN;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,19 +31,25 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
- * REST Web Service
+ * Servicio REST que provee las funcionalidades para 
+ * todo tipo de persona natural.
  *
  * @author rreedd
  */
 @Path("personaNatural")
 @RequestScoped
 public class PersonaNaturalResource {
-
+    /**
+     * Instancia del logger.
+     */
     private static final Logger LOGGER = Logger.getLogger(PersonaNaturalResource.class.getName());
 
     @Context
     private UriInfo context;
 
+    /**
+     * Bean con el negocio para personas naturales.
+     */
     @EJB
     IPersonaNaturalFacadeLocal facadePersonaNatural;
 
@@ -57,6 +59,13 @@ public class PersonaNaturalResource {
     public PersonaNaturalResource() {
     }
 
+    /**
+     * Función por defecto para listar las personas naturales.
+     * @param page Número de página.
+     * @param sortFields Campo por el cuál se debe ordenar.
+     * @param sortDirections Ordenamiento de los registros.
+     * @return Página de registros de personas jurídicas.
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public PaginatedListWrapper<PersonaNatural> listPersonaNatural(@DefaultValue("1")
@@ -103,6 +112,11 @@ public class PersonaNaturalResource {
         return wrapper;
     }
 
+    /**
+     * Consultar una persona natural dado su identificador.
+     * @param id Identificador único.
+     * @return Representación de la persona, si existe.
+     */
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -118,6 +132,11 @@ public class PersonaNaturalResource {
         return response;
     }
 
+    /**
+     * Consultar una persona natural según su número de identificación.
+     * @param numberId Número de identificación.
+     * @return Representación de la persona, si existe.
+     */
     @GET
     @Path("getByNumber/{numberId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -126,7 +145,11 @@ public class PersonaNaturalResource {
         return facadePersonaNatural.findByNumeroIdentificacion(numberId);
     }
 
-    
+    /**
+     * Consultar una persona natural según su correo electrónico.
+     * @param email Correo electrónico.
+     * @return Representación de la persona, si existe.
+     */
     @GET
     @Path("getByEmail/{email}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -135,7 +158,10 @@ public class PersonaNaturalResource {
         return facadePersonaNatural.findByEmail(email);
     }
 
-    
+    /**
+     * Eliminar una persona natural dado su identificador único.
+     * @param id Identificador único.
+     */
     @DELETE
     @Path("{id}")
     public void eliminarPersona(@PathParam("id") Long id) {
@@ -144,9 +170,9 @@ public class PersonaNaturalResource {
     }
 
     /**
-     * PUT method for updating or creating an instance of PersonaNaturalResource
+     * Crear o actualizar una persona natural.
      *
-     * @param PersonaNatural representation for the resource
+     * @param personaNatural Entidad representativa de la persona.
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -174,6 +200,14 @@ public class PersonaNaturalResource {
         return Response.ok(personaNatural).build();
     }
 
+    /**
+     * Listado de los beneficiarios de determinado cotizante.
+     * @param page Número de página.
+     * @param sortFields Campo por el cuál se debe ordenar.
+     * @param sortDirections Ordenamiento de los registros.
+     * @param cotizante Identificador único del cotizante.
+     * @return Página de registros de los beneficiarios asociados.
+     */
     @POST
     @Path("beneficiarios")
     @Produces(MediaType.APPLICATION_JSON)
@@ -208,6 +242,14 @@ public class PersonaNaturalResource {
         return wrapper;
     }
     
+    /**
+     * Asociar dos personas naturales como cotizante y beneficiario según 
+     * determinado parentezco.
+     * @param cotizante Identificador único del cotizante.
+     * @param beneficiario Identificador único del beneficiario.
+     * @param parentezco Parentezco entre ambas personas.
+     * @return Resultado exitoso o fallido.
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("asociarBeneficiario")
@@ -235,6 +277,10 @@ public class PersonaNaturalResource {
         return Response.ok(0).build();
     }
     
+    /**
+     * Listar las EPS registradas en el sistema.
+     * @return Listado de personas jurídicas.
+     */
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -243,6 +289,10 @@ public class PersonaNaturalResource {
         return facadePersonaNatural.listaEPS();
     }
     
+    /**
+     * Listar las alergias registradas en el sistema.
+     * @return Listado de alergias.
+     */
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -251,6 +301,10 @@ public class PersonaNaturalResource {
         return facadePersonaNatural.listaAlergias();
     }
     
+    /**
+     * Listar las enfermedades registradas en el sistema.
+     * @return Listado de enfermedades.
+     */
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -259,6 +313,10 @@ public class PersonaNaturalResource {
         return facadePersonaNatural.listaEnfermedades();
     }
     
+    /**
+     * Listar las operaciones registradas en el sistema.
+     * @return Listado de operaciones.
+     */
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -267,6 +325,13 @@ public class PersonaNaturalResource {
         return facadePersonaNatural.listaOperaciones();
     }
 
+    /**
+     * Asociar un paciente a una EPS y dar por terminada una relación anterior 
+     * a otra EPS
+     * @param paciente Identificador único del paciente.
+     * @param eps Identificador único de la EPS.
+     * @return Representación del paciente en forma de entidad.
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("asociarPacienteEPS")
@@ -290,6 +355,11 @@ public class PersonaNaturalResource {
         return Response.ok(paciente).build();
     }
 
+    /**
+     * Obtener la asociación vigente entre el paciente y una EPS.
+     * @param paciente Identificador único del paciente.
+     * @return Objeto representativo de la EPS encontrada.
+     */
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -311,6 +381,12 @@ public class PersonaNaturalResource {
         return response;
     }
     
+    /**
+     * Asociar un médico a una o más EPS.
+     * @param medico Identificador único de la persona.
+     * @param eps Identificador único de la EPS.
+     * @return Objeto completo del médico con las asociaciones.
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("asociarMedicoEPS")
@@ -323,7 +399,7 @@ public class PersonaNaturalResource {
                         
             List<Long> listado = new ArrayList<>();
             for (String elemento : lista) {
-                listado.add(Long.valueOf(elemento));
+                if(!elemento.isEmpty()) listado.add(Long.valueOf(elemento));
             }
             
             facadePersonaNatural.asociarMedico_EPS(Long.valueOf(medico), listado);
@@ -344,6 +420,11 @@ public class PersonaNaturalResource {
         return Response.ok(medico).build();
     }
     
+    /**
+     * Obtener las asociaciones del médico con una o más EPS.
+     * @param medico Identificador único del médico.
+     * @return Lista de EPS asociadas al médico.
+     */
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -365,6 +446,12 @@ public class PersonaNaturalResource {
         return response;
     }
     
+    /**
+     * Asociar alergias a un paciente.
+     * @param paciente Identificador único del paciente.
+     * @param alergias Listado de alergias a asociar.
+     * @return Objeto Paciente con alergias asociadas.
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("asociarPacienteAlergias")
@@ -397,6 +484,12 @@ public class PersonaNaturalResource {
         return Response.ok(paciente).build();
     }
     
+    /**
+     * Asociar enfermedades a un paciente.
+     * @param paciente Identificador único del paciente.
+     * @param enfermedades Listado de enfermedades del paciente.
+     * @return Paciente con enfermedades asociadas.
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("asociarPacienteEnfermedades")
@@ -429,6 +522,12 @@ public class PersonaNaturalResource {
         return Response.ok(paciente).build();
     }
     
+    /**
+     * Asociar operaciones realizadas al paciente.
+     * @param paciente Identificador único del paciente.
+     * @param operaciones Listado de operaciones.
+     * @return Paciente con las operaciones asociadas.
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("asociarPacienteOperaciones")
@@ -461,6 +560,11 @@ public class PersonaNaturalResource {
         return Response.ok(paciente).build();
     }
 
+    /**
+     * Obtener las alergias asociadas a un paciente.
+     * @param paciente Identificador único del paciente.
+     * @return Listado de alergias asociadas.
+     */
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -482,6 +586,11 @@ public class PersonaNaturalResource {
         return response;
     }
 
+    /**
+     * Obtener las enfermedades de un paciente.
+     * @param paciente Identificador único del paciente.
+     * @return Enfermedades asociadas al paciente.
+     */
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -503,6 +612,11 @@ public class PersonaNaturalResource {
         return response;
     }
 
+    /**
+     * Obtener las operaciones de un paciente.
+     * @param paciente Identificador único del paciente.
+     * @return Listado de operaciones hechas al paciente.
+     */
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

@@ -82,10 +82,86 @@ app.controller('pacientesController', function ($scope, $rootScope, $stateParams
                 console.log('Consultando EPS asociada al paciente ' + $scope.paciente.idPersona);
                 personaService.getPacienteEPS({paciente: $scope.paciente.idPersona}).$promise.then(
                     function (dataEPS) {
-                        console.log('Datos de asociación paciente-eps encontrados');
-                        $scope.eps = dataEPS.idPersona;
+                        if (angular.isDefined(dataEPS.idPersona)) {
+                            console.log('Datos de asociación paciente-eps encontrados');
+                            $scope.eps = dataEPS;
+                        }
+                        else {
+                            console.log('No hay asociación paciente-eps');
+                        }
                     },
                     function () {
+                        console.log('Datos paila');
+                        $rootScope.$broadcast('error');
+                    }
+                );
+        
+                console.log('Consultando alergias asociadas al paciente ' + $scope.paciente.idPersona);
+                personaService.getAlergiasPaciente({paciente: angular.toJson($scope.paciente.idPersona)}).$promise.then(
+                    function (data) {
+                        console.log('Datos de asociación paciente-alergias encontrados');
+                        $scope.nuevoArray = angular.fromJson(data);
+                        $scope.otroArray = [];
+                        angular.forEach($scope.alergiasDisponibles, function (item) {
+                            if ($scope.nuevoArray.filter(function(e) { return e.descripcion == item.descripcion; }).length > 0) {
+                                $scope.alergiasSeleccionadas.push(item);
+                                $scope.otroArray.push(item);
+                            }
+                        });
+                        angular.forEach($scope.otroArray, function (x) {
+                            $scope.alergiasDisponibles.splice(x, 1);
+                        });
+                    },
+                    function (dataFail) {
+                        console.log(dataFail);
+                        console.log('Datos paila');
+                        // Broadcast the event for a server error.
+                        $rootScope.$broadcast('error');
+                    }
+                );
+        
+                console.log('Consultando enfermedades asociadas al paciente ' + $scope.paciente.idPersona);
+                personaService.getEnfermedadesPaciente({paciente: angular.toJson($scope.paciente.idPersona)}).$promise.then(
+                    function (data) {
+                        console.log('Datos de asociación paciente-enfermedades encontrados');
+                        $scope.nuevoArray = angular.fromJson(data);
+                        $scope.otroArray = [];
+                        angular.forEach($scope.enfermedadesDisponibles, function (item) {
+                            if ($scope.nuevoArray.filter(function(e) { return e.descripcion == item.descripcion; }).length > 0) {
+                                $scope.enfermedadesSeleccionadas.push(item);
+                                $scope.otroArray.push(item);
+                            }
+                        });
+                        angular.forEach($scope.otroArray, function (x) {
+                            $scope.enfermedadesDisponibles.splice(x, 1);
+                        });
+                    },
+                    function (dataFail) {
+                        console.log(dataFail);
+                        console.log('Datos paila');
+                        // Broadcast the event for a server error.
+                        $rootScope.$broadcast('error');
+                    }
+                );
+        
+                console.log('Consultando operaciones asociadas al paciente ' + $scope.paciente.idPersona);
+                personaService.getOperacionesPaciente({paciente: angular.toJson($scope.paciente.idPersona)}).$promise.then(
+                    function (data) {
+                        console.log('Datos de asociación paciente-Operaciones encontrados');
+                        $scope.nuevoArray = angular.fromJson(data);
+                        $scope.otroArray = [];
+                        angular.forEach($scope.operacionesDisponibles, function (item) {
+                            if ($scope.nuevoArray.filter(function(e) { return e.descripcion == item.descripcion; }).length > 0) {
+                                $scope.operacionesSeleccionadas.push(item);
+                                $scope.otroArray.push(item);
+                            }
+                        });
+                        angular.forEach($scope.otroArray, function (x) {
+                            $scope.operacionesDisponibles.splice(x, 1);
+                        });
+                    },
+                    function (dataFail) {
+                        console.log(dataFail);
                         console.log('Datos paila');
                         // Broadcast the event for a server error.
                         $rootScope.$broadcast('error');
@@ -143,13 +219,11 @@ app.controller('pacientesController', function ($scope, $rootScope, $stateParams
                 console.log("Paciente almacenado");
                 // Broadcast the event to refresh the grid.
                 $rootScope.$broadcast('pacienteSaved');
-                // Broadcast the event to display a save message.
-                //$rootScope.$broadcast('pacienteSaved');
                 
                 if(!(angular.isUndefined($scope.eps.razonSocial) || $scope.eps.razonSocial === null)){
                     var args = {
                         paciente: response.idPersona,
-                        eps: $scope.eps
+                        eps: $scope.eps.idPersona
                     };
                     personaService.asociarPacienteEPS(args).$promise.then(
                         function () {
@@ -181,16 +255,16 @@ app.controller('pacientesController', function ($scope, $rootScope, $stateParams
                     }
                 );
                 
-                var medicamentosList = [];
-                angular.forEach($scope.medicamentosSeleccionadas, function(m) {
-                    medicamentosList.push(m.idMedicamento);
+                var enfermedadesList = [];
+                angular.forEach($scope.enfermedadesSeleccionadas, function(m) {
+                    enfermedadesList.push(m.idEnfermedad);
 		});
                 
                 var argsM = {
                     paciente: angular.toJson(response.idPersona),
-                    medicamentos: angular.toJson(medicamentosList)
+                    enfermedades: angular.toJson(enfermedadesList)
                 };
-                personaService.asociarPacienteMedicamentos(argsM).$promise.then(
+                personaService.asociarPacienteEnfermedades(argsM).$promise.then(
                     function () {
 
                     },
@@ -232,10 +306,9 @@ app.controller('pacientesController', function ($scope, $rootScope, $stateParams
     };
 
     $scope.$on('pacienteSaved', function () {
-        $('#message-box-success').show().then(function () {
-            $scope.clearForm();
-            $state.go('registroPacientes');
-        });
+        $('#message-box-success').show();
+        $scope.clearForm();
+        $state.go('registroPacientes');
     });
 
     $scope.cancelar = function () {

@@ -199,9 +199,14 @@
                             <label class="col-md-3 col-xs-12 label-info control-label label label-form">EPS:</label>
                             <span ng-class="{'glyphicon glyphicon-ok' : pacienteForm.eps.$valid && pacienteForm.eps.$dirty}"></span>
                             <div class="col-md-6 col-xs-12">
-                                <select class="form-control select" name="eps" ng-model="eps" required>
+<!--                                <select class="form-control select" name="eps" ng-model="eps" required>
                                     <option ng-repeat="e in listaEPS" ng-selected="eps == e.idPersona"
                                             ng-value="e.idPersona">{{e.razonSocial}} [{{e.tipoIdentificacion}} - {{e.numeroIdentificacion}}]</option>
+                                </select>-->
+                                <select class="form-control select" name="eps" ng-model="eps" required
+                                        ng-options="e as e.razonSocial
+                                                    for e in listaEPS
+                                                    track by e.idPersona">
                                 </select>
                             </div>
                         </div>

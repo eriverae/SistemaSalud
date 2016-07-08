@@ -71,15 +71,33 @@ myModule.factory('personaService', function ($resource) {
                     url: '/sisc_registro/api/personaNatural/asociarPacienteAlergias',
                     params: {paciente: '@paciente', alergias: '@alergias'}
                 },
-                asociarPacienteMedicamentos: {
+                asociarPacienteEnfermedades: {
                     method: 'POST',
-                    url: '/sisc_registro/api/personaNatural/asociarPacienteMedicamentos',
-                    params: {paciente: '@paciente', medicamentos: '@medicamentos'}
+                    url: '/sisc_registro/api/personaNatural/asociarPacienteEnfermedades',
+                    params: {paciente: '@paciente', enfermedades: '@enfermedades'}
                 },
                 asociarPacienteOperaciones: {
                     method: 'POST',
                     url: '/sisc_registro/api/personaNatural/asociarPacienteOperaciones',
                     params: {paciente: '@paciente', operaciones: '@operaciones'}
+                },
+                getAlergiasPaciente: {
+                    method: 'GET',
+                    url: '/sisc_registro/api/personaNatural/getAlergiasPaciente/:paciente',
+                    params: {paciente: '@paciente'},
+                    isArray: true
+                },
+                getEnfermedadesPaciente: {
+                    method: 'GET',
+                    url: '/sisc_registro/api/personaNatural/getEnfermedadesPaciente/:paciente',
+                    params: {paciente: '@paciente'},
+                    isArray: true
+                },
+                getOperacionesPaciente: {
+                    method: 'GET',
+                    url: '/sisc_registro/api/personaNatural/getOperacionesPaciente/:paciente',
+                    params: {paciente: '@paciente'},
+                    isArray: true
                 }
             });
 });

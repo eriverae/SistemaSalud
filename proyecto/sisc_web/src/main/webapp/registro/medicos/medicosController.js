@@ -42,28 +42,20 @@ app.controller('medicosController', function ($scope, $rootScope, $stateParams, 
                 $scope.medico.fechaNacimiento = new Date($scope.medico.fechaNacimiento);
                 
                 console.log('Consultando EPSs asociadas al médico ' + $scope.medico.idPersona);
-                console.log($scope.medico.listaAlergias);
-                personaService.getMedicoEPS({medico: angular.toJson($scope.medico.idPersona)}).$promise.then(
+                personaService.getMedicoEPS({medico: $scope.medico.idPersona}).$promise.then(
                     function (dataEPS) {
                         console.log('Datos de asociación medico-eps encontrados');
                         $scope.nuevoArray = angular.fromJson(dataEPS);
                         $scope.otroArray = [];
                         angular.forEach($scope.epsDisponibles, function (item) {
                             if ($scope.nuevoArray.filter(function(e) { return e.razonSocial == item.razonSocial; }).length > 0) {
-//                                $scope.moveItem(item, $scope.epsDisponibles, $scope.epsSeleccionadas);
                                 $scope.epsSeleccionadas.push(item);
                                 $scope.otroArray.push(item);
-//                                var index = itemsABorrar.indexOf(item);
-//                                itemsABorrar.splice(index, 1);
                             }
-                            //if (dataEPS.some(function(e) e.razonSocial == item.razonSocial)) {
-                            //    epsSeleccionadas.push(item);
-                            //}                            
                         });
                         angular.forEach($scope.otroArray, function (x) {
                             $scope.epsDisponibles.splice(x, 1);
                         });
-                        //$scope.epsDisponibles = angular.copy(itemsABorrar);
                     },
                     function (data) {
                         console.log(data);
@@ -108,27 +100,31 @@ app.controller('medicosController', function ($scope, $rootScope, $stateParams, 
     $scope.clearForm = function () {
         console.log("Entro clearForm");
         $scope.medico = null;
-        // Resets the form validation state.
         $scope.medicoForm.$setPristine();
-        // Broadcast the event to also clear the grid selection.
-        $rootScope.$broadcast('clear');
+        personaService.listaEPS().$promise.then(
+            function (data) {
+                $scope.epsDisponibles = data;
+            },
+            function () {
+                // Broadcast the event for a server error.
+                $rootScope.$broadcast('error');
+            }
+        );
+        $scope.epsSeleccionadas=[];
     };
 
     // Calls the rest method to save a Medico.
     $scope.updateMedico = function () {
         $scope.medico.rolPersonaNatural = "MEDICO";
         personaService.save($scope.medico).$promise.then(
-            function (response) {
-                // Broadcast the event to display a save message.
-                $rootScope.$broadcast('medicoSaved');
-                
+            function (response) {                
                 var epsList = [];
                 angular.forEach($scope.epsSeleccionadas, function(eps) {
                     epsList.push(eps.idPersona);
 		});
                 
                 var args = {
-                    medico: angular.toJson(response.idPersona),
+                    medico: response.idPersona,
                     eps: angular.toJson(epsList)
                 };
                 personaService.asociarMedicoEPS(args).$promise.then(
@@ -140,6 +136,8 @@ app.controller('medicosController', function ($scope, $rootScope, $stateParams, 
                         $rootScope.$broadcast('error');
                     }
                 );
+                // Broadcast the event to display a save message.
+                $rootScope.$broadcast('medicoSaved');
             },
             function () {
                 // Broadcast the event for a server error.

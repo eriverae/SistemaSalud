@@ -299,11 +299,15 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
             LOGGER.info("Inicia getPaciente_EPS(...)");
             Query q = em.createQuery("SELECT a FROM PersonaEps a WHERE a.persona.idPersona=:paciente AND a.fechaFin=NULL");
             q.setParameter("paciente", paciente);
-            PersonaEps eps = (PersonaEps)q.getSingleResult();
-            if (eps != null) {
-                response = eps.getEps();
+            List listaEps = q.getResultList();
+            if (listaEps != null) {
+                if (!listaEps.isEmpty()) {
+                    PersonaEps eps = (PersonaEps)listaEps.get(0);
+                    if (eps != null) {
+                        response = eps.getEps();
+                    }
+                }
             }
-            
             LOGGER.info("Finaliza getPaciente_EPS(...)");
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Error en getPaciente_EPS {0}", paciente + "-"
