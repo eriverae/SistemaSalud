@@ -39,7 +39,7 @@ app.controller('historiaController', function ($scope, $rootScope, $stateParams,
 
 	$scope.buscarCitas = function(){
 
-    historiaServiceFiltro.get({idcita:1,medico:$scope.epsForm.medico.$viewValue , fechainicio: $scope.epsForm.fechaInicio.$viewValue, fechafin: $scope.epsForm.fechaFin.$viewValue }).$promise.then(
+    historiaServiceFiltro.get({idcita:localStorage.getItem('idCita'),medico:$scope.epsForm.medico.$viewValue , fechainicio: $scope.epsForm.fechaInicio.$viewValue, fechafin: $scope.epsForm.fechaFin.$viewValue }).$promise.then(
       function (data) {
 		console.log("get historiaService 2");
 		$timeout(function() {
