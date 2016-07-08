@@ -26,16 +26,23 @@
 
     $('.datepicker-sisc').datepicker({
         autoclose: true,
-        dateFormat: 'dd-mm-yyyy',
+        dateFormat: 'dd-mm-yyyy'
     }).on("changeDate", function (e) {
         console.log(e.date);
+    });
+     $('.timepicker24').timepicker({
+        showMeridian:false,
+        showSeconds:true
+    });
+    $('.timepicker24').on('click', function () {
+        $('.timepicker24').timepicker('setTime', new Date());
     });
 
 </script>
 
 
 <div class="page-title">                    
-    <h2><span class="fa fa-bookmark"></span> Agenda</h2>
+    <h2><span class="fa fa-bookmark"></span> Agenda 28</h2>
 </div>
 
 <!--<div ng-show="loading" class="loading"><img src="img/loaders/loading.gif">LOADING...</div>-->
@@ -109,7 +116,7 @@
                 <label>Hora de inicio</label>
                 <span ng-class="{'glyphicon glyphicon-ok' : formAgregarNuevaAgenda.horaInicio.$valid && formAgregarNuevaAgenda.horaInicio.$dirty}"></span>
                 <div class="input-group bootstrap-timepicker">
-                    <input type="text" name="horaInicio" required value="08:00:00" ng-model="nuevaAgenda.horaInicio"    class="form-control timepicker24"/>
+                    <input type="text" name="horaInicio" required value="08:00:00" ng-model="nuevaAgenda.horaInicio"  id="timepickerAgenda"  class="form-control timepicker24"/>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                 </div>
                 <p class="help-block" ng-show="formAgregarNuevaAgenda.horaInicio.$error.required">Ingresa la hora de inicio.</p>
@@ -125,13 +132,13 @@
 
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
-                <p class="help-block" ng-show="formAgregarNuevaAgenda.fechaFinal.$error.required">Ingresa la hora de inicio.</p>
+                <p class="help-block" ng-show="formAgregarNuevaAgenda.fechaFinal.$error.required">Ingresa la fecha final.</p>
             </div>
             <div class="form-group" ng-class="{'has-error' : formAgregarNuevaAgenda.horaFinal.$invalid && formAgregarNuevaAgenda.horaFinal.$dirty}">
                 <label>Hora de fin</label>
                 <span ng-class="{'glyphicon glyphicon-ok' : formAgregarNuevaAgenda.horaFinal.$valid && formAgregarNuevaAgenda.horaFinal.$dirty}"></span>
                 <div class="input-group bootstrap-timepicker">
-                    <input type="text" name="horaFinal" required value="12:00:00" ng-model="nuevaAgenda.horaFinal"   class="form-control timepicker24"/>
+                    <input type="text" name="horaFinal" required value="12:00:00" ng-model="nuevaAgenda.horaFinal"    class="form-control timepicker24"/>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                 </div>
                 <p class="help-block" ng-show="formAgregarNuevaAgenda.horaFinal.$error.required">Ingresa la hora final.</p>

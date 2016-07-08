@@ -45,6 +45,7 @@ public class RestFullUtilidades {
     @GET
     @Produces(MediaType.APPLICATION_JSON)    
     @Path("/personaNatural")
+//    http://localhost:8080/SiscAgenda/api/utilidades/personaNatural?email=male@gmail.com
     public PersonaNatural consultaPersonaNatural(@QueryParam("email") String email){
         return iUtilitariosAgendaLocal.consultaPersonaNatural(email);
     }
