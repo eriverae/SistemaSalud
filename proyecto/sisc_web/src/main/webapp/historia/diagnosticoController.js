@@ -5,12 +5,12 @@ app.controller('diagnosticoController', function ($scope, $rootScope, $statePara
   	$scope.myData = [];
 
   	$scope.diagnostico = "";
-  	$scope.idcita = 1;
+  	$scope.idcita = localStorage.getItem('idCita');
 
 
 
 
-	diagnosticoService.get({idcita:1}).$promise.then(
+	diagnosticoService.get({idcita:localStorage.getItem('idCita')}).$promise.then(
       function (data) {
 		console.log("get historiaService");
 		$timeout(function() {
@@ -24,7 +24,7 @@ app.controller('diagnosticoController', function ($scope, $rootScope, $statePara
 		console.log("get FAIL");
       });
 
-  cabeceraService.get({idcita:1}).$promise.then(
+  cabeceraService.get({idcita:localStorage.getItem('idCita')}).$promise.then(
       function (data) {
     console.log("get cabeceraService");
     $timeout(function() {
@@ -50,7 +50,7 @@ app.controller('diagnosticoController', function ($scope, $rootScope, $statePara
  	console.log($scope.diagnostico);
 
  		$scope.myData =  ({
- 			id_cita : 1,        
+ 			id_cita : localStorage.getItem('idCita'),        
         	diagnostico : $scope.diagnostico
         });
         

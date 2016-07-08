@@ -5,7 +5,8 @@ app.controller('menuController', function ($scope, $rootScope, $stateParams, $st
           menuService,modalService) {
    
      //    alert('LLEGUE DESDE AGENDA MEDICO ID_CITA: '+$stateParams.cita.idCita+ '\n OBJ_CITA: '+JSON.stringify($stateParams.cita));
-	localStorage.setItem("idCita",parseInt("1"));  
+	localStorage.setItem("idCita",parseInt("1"));
+	localStorage.setItem("idPaciente","1");
 
   	$scope.menu={};
 

@@ -42,7 +42,7 @@ app.controller('medicamentoController', function ($scope, $rootScope,$state ,$ti
             { field: 'formula', displayName: 'Formula', enableCellEdit: true},
 
             {field: 'Eliminar', displayName:'', width: 115,
-                cellTemplate : '<div class="ui-grid-cell-contents"> <button ng-click="deleteRow()" style="margin-left: 10px;" class="btn btn-danger btn-rounded btn-sm"><span class="fa fa-times"></span>Eliminar</button></div>'
+                cellTemplate : '<div class="ui-grid-cell-contents"> <button ng-click="deleteRow(row)" style="margin-left: 10px;" class="btn btn-danger btn-rounded btn-sm"><span class="fa fa-times"></span>Eliminar</button></div>'
             }
         ],
 
@@ -102,10 +102,23 @@ app.controller('medicamentoController', function ($scope, $rootScope,$state ,$ti
         });
     };
 
-    $scope.deleteRow = function() {
-       var index = this.row.rowIndex;
-       $scope.gridOptions.selectItem(index, false);
-       $scope.myData.splice(index, 1);
+    $scope.deleteRow = function(row) {
+        medicamentoService.delete({idcita: row.entity.cita, idmedicamento: row.entity.medicamento_name}).$promise.then(
+        function () {
+          console.log();
+            // Broadcast the event to refresh the grid.
+            $rootScope.$broadcast('refreshGrid');
+            // Broadcast the event to display a delete message.
+            $rootScope.$broadcast('usuarioDeleted');
+            //$scope.clearForm();
+        },
+        function () {
+            // Broadcast the event for a server error.
+            $rootScope.$broadcast('error');
+        });
+       // var index = this.row.rowIndex;
+       // $scope.gridOptions.selectItem(index, false);
+       // $scope.myData.splice(index, 1);
     };
 
 
@@ -196,11 +209,18 @@ app.controller('medicamentoController', function ($scope, $rootScope,$state ,$ti
       function () {
         console.log("get FAIL");
       });
+
+    $scope.closepopup = function(){
+      $('#message-box-success').hide();
+      $('#message-box-warning').hide();
+      $('#message-box-sound-2').hide();
+    };
 });
 
 app.controller('modalmedicamentoController',function($scope, $rootScope, $state, $timeout, medicamentoService, modalService, $modalInstance){
   $scope.medicamentos = "";
   $scope.mod = {};
+  $scope.message = "";
 
     medicamentoService.get().$promise.then(
           function (data) {
@@ -218,17 +238,31 @@ app.controller('modalmedicamentoController',function($scope, $rootScope, $state,
         console.log($scope.mod);
         $scope.mod.medicamento = parseInt($scope.mod.medicamento);
         medicamentoService.save([$scope.mod]).$promise.then(
-        function () {
-         $modalInstance.close($scope.mod);
-          
+        function (data) {
+          if($scope.message = data.status == 200){
+            $("#div-success").text(data.message);
+            $('#message-box-success').show();
+          }else{
+            $("#div-warning").text(data.message);
+            $('#message-box-warning').show(); 
+          }
+          $modalInstance.close($scope.mod);
         },
-        function () {
+        function (data) {
+          $("#div-error").text(data.message);
+          $('#message-box-sound-2').show();
           console.log("FAIL");
           // Broadcast the event for a server error.
           $rootScope.$broadcast('error');
         });
          //alert($scope.formulaModal + $scope.medicamentoModal);
 
+    };
+    $scope.closepopup = function(){
+      console.log("intento de cierre");
+      $('#message-box-success').hide();
+      $('#message-box-warning').hide();
+      $('#message-box-sound-2').hide();
     };
 
 

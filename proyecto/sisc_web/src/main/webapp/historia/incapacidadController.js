@@ -1,7 +1,7 @@
 'use strict';
 var app = angular.module('sisc_web');
 // Create a controller with name personsFormController to bind to the form section.
-app.controller('incapacidadController', function ($scope, $rootScope, $stateParams, $state, 
+app.controller('incapacidadController', function ($scope, $rootScope, $stateParams, $state, cabeceraService,$timeout,
           incapacidadService,modalService) {
   
   $scope.incapacidad={};
@@ -18,7 +18,62 @@ app.controller('incapacidadController', function ($scope, $rootScope, $statePara
         $rootScope.$broadcast('error');
       });
   }
-  
+
+    cabeceraService.get({idcita:localStorage.getItem('idCita')}).$promise.then(
+      function (data) {
+    console.log("get cabeceraService");
+    $timeout(function() {
+     
+      $scope.nombre = data.data[0].nombre;
+      $scope.fechanac = data.data[0].fechanac;
+      $scope.identificacion = data.data[0].identificacion;
+      $scope.correo = data.data[0].correo;
+      $scope.$apply();
+    }, 300);
+      },
+
+      function () {
+    console.log("get FAIL cabeceraService");
+      });
+
+  incapacidadService.get({'idpaciente': localStorage.getItem('idPaciente')}).$promise.then(
+      function (data) {
+        var incpacidadexiste = data.data[0].idcita;
+        if(incpacidadexiste != ""){
+            var  periodo = data.data[0].periodo + 1;
+            var fecha = new Date(data.data[0].fechainicio);
+            var hoy = new Date (data.data[0].hoy);
+            
+            var tiempo = fecha.getTime();
+            var milisegundos=parseInt(periodo*24*60*60*1000);
+            var total=fecha.setTime(tiempo+milisegundos);
+            var day=fecha.getDate();
+            if (day < 10){ day = "0"+day}
+            var month=fecha.getMonth()+1;
+            if (month < 10){ month = "0"+ month}
+            var year=fecha.getFullYear(); 
+
+            var fechasumada = new Date(month+"/"+day+"/"+year);
+
+          
+            if (fechasumada <= hoy){
+             
+            }
+            else{
+                $scope.fechafin = day+"/"+month+"/"+year;
+                $('#message-box-sound-2').show();
+                $('#incapacidadForm').hide();
+                $('#cabecera').hide();
+            }
+        }
+      },
+
+      function () {
+        console.log("get FAIL incapacidad");
+      });
+   $scope.closepopup = function(){
+      $('#message-box-success').hide();
+   };
   // Clears the form. Either by clicking the 'Clear' button in the form, or when a successfull save is performed.
    $scope.clearForm = function () {
         $scope.usuario = null;
@@ -28,7 +83,8 @@ app.controller('incapacidadController', function ($scope, $rootScope, $statePara
         $rootScope.$broadcast('clear');
    };
    $scope.insertIncapacidad = function () {
-       
+    $scope.incapacidad.cita = parseInt(localStorage.getItem('idCita'));
+  
     console.log($scope.incapacidad);
     incapacidadService.save($scope.incapacidad).$promise.then(
     function () {
@@ -36,12 +92,11 @@ app.controller('incapacidadController', function ($scope, $rootScope, $statePara
       //   $rootScope.$broadcast('refreshGrid');
       // Broadcast the event to display a save message.
       //   $rootScope.$broadcast('clienteSaved');
-      alert("exito");
+      $('#message-box-success').show();
     },
     function () {
       // Broadcast the event for a server error.
       //$rootScope.$broadcast('error');
-      alert("error");
     });
     /*usuarioService.save($scope.usuario).$promise.then(
     function () {
@@ -58,6 +113,7 @@ app.controller('incapacidadController', function ($scope, $rootScope, $statePara
   };
   // Calls the rest method to save a Usuario.
   $scope.updateUsuario = function () {
+
     incapacidadService.save($scope.usuario).$promise.then(
     function () {
       // Broadcast the event to refresh the grid.
