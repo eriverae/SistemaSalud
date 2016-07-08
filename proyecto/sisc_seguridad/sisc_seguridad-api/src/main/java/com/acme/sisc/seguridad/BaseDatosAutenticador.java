@@ -17,9 +17,13 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 /**
- *
- * @author rm-rf
- */
+* Esta clase llama al EJBLocator para crear un objeto de tipo Usuario, y accede al metodo del 
+* facade con la información del usuario, email y contraseña
+*
+* @author  Julio
+* @version 1.0
+* @since   2016-05-05
+*/
 public class BaseDatosAutenticador implements IAutenticador {
 
     private static final Logger LOGGER = Logger.getLogger(BaseDatosAutenticador.class.getName());
@@ -28,6 +32,13 @@ public class BaseDatosAutenticador implements IAutenticador {
 
     private UsuarioFacadeLocal usuarioFacade;
 
+
+    /**
+    * Metodo autenticar, llama al metodo del usuarioFacade autentica, para retornar que la autenticacion es correcta
+    * @param usuario String es el mail del usario
+    * @param password String es la contraseña del usuario
+    * @return retorna boolean, del metodo autenticar de usuarioFacade
+    */
     @Override
     public boolean autenticar(String usuario, String password) {
         try {

@@ -27,9 +27,13 @@ import javax.ws.rs.core.UriInfo;
 
 
 /**
- *
- * @author Julio
- */
+* Este es el servicio para crear, modificar, consultar y eliminar las operaciones 
+* que se realizan sobre las notificaciones
+* 
+* @author  Julio
+* @version 1.0
+* @since   2016-06-27
+*/
 @Path("notificaciones")
 @RequestScoped
 public class NotificacionResource {
@@ -41,10 +45,18 @@ public class NotificacionResource {
     @EJB
     NotificacionFacadeLocal facadeNotificacion;
     
+    /**
+    * Constructor del servicio AccesoGrupoResource
+    *
+    */
     public NotificacionResource() {
         
     }
     
+    /**
+    * Metodo guardarNotificacion, crea el objeto de tipo LogNotifica del objeto en referencia
+    * @param req es un String que contiene destino, asunto, cuerpo y modulo que lo implementa
+    */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void guardarNotificacion(String req) {

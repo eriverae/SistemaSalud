@@ -26,9 +26,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 /**
- *
- * @author Julio
- */
+* Este es el servicio para crear, modificar, consultar y eliminar las operaciones 
+* que se realizan sobre las Auditorias
+* 
+* @author  Julio
+* @version 1.0
+* @since   2016-06-27
+*/
 @Path("auditorias")
 @RequestScoped
 public class AuditoriaResource {
@@ -40,10 +44,18 @@ public class AuditoriaResource {
     @EJB
     AuditoriaFacadeLocal facadeAuditoria;
     
+    /**
+    * Constructor del servicio AuditoriaResource
+    *
+    */
     public AuditoriaResource() {
         
     }
 
+    /**
+    * Metodo guardarAuditoria, llama al facade de Auditorias para crearlas
+    * @param req String que contiene separados por los guiones, el mail del usuario, observacion, direccion IP y hostName
+    */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void guardarAuditoria(String req) {

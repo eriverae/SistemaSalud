@@ -30,10 +30,15 @@ import javax.ws.rs.core.UriInfo;
 import com.acme.sisc.seguridad.GrupoUsuarioFacadeLocal;
 import com.acme.sisc.seguridad.UsuarioFacadeLocal;
 import javax.ws.rs.core.Response;
+
 /**
- *
- * @author Julio
- */
+* Este es el servicio para crear, modificar, consultar y eliminar las operaciones 
+* que se realizan sobre la relacion de perfiles y usuarios
+* 
+* @author  Julio
+* @version 1.0
+* @since   2016-05-22
+*/
 @Path("grupoUsuario")
 @RequestScoped
 public class GrupoUsuarioResource {
@@ -49,9 +54,20 @@ public class GrupoUsuarioResource {
     @EJB
     GrupoFacadeLocal grupoFacade;
 
+    /**
+    * Constructor del servicio GrupoUsuarioResource
+    *
+    */
     public GrupoUsuarioResource() {
     }
     
+    /**
+    * Metodo listGrupoUsuarios, retorna un PaginatedListWrapper de los perfiles y usuario
+    * @param page es el numero actual de paginated
+    * @param sortFields es el id del sortField actual de la pagina 
+    * @param sortDirections es el orden de paginated por defecto asc
+    * @return retorna PaginatedListWrapper con la tabla armada a partir la busqueda del objeto en referencia
+    */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public PaginatedListWrapper listGrupoUsuarios(@DefaultValue("1")
@@ -71,6 +87,11 @@ public class GrupoUsuarioResource {
         return findGrupoUsuarios(paginatedListWrapper);
     }
     
+    /**
+    * Metodo findGrupoUsuarios, arma y devuelve el PaginatedListWrapper implementando los metodos del facade
+    * @param wrapper es el PaginatedListWrapper que recibe
+    * @return retorna wrapper con la informacion que consulta y setea en el facade
+    */
     private PaginatedListWrapper findGrupoUsuarios(PaginatedListWrapper wrapper) {
         int totalGrupoUsuarios = facadeGrupoUsuario.count();
         wrapper.setTotalResults(totalGrupoUsuarios);
@@ -82,6 +103,11 @@ public class GrupoUsuarioResource {
         return wrapper;
     }
     
+    /**
+    * Metodo consultarGruposPorUsuario, devuelve un response que trae desde el facade con un id
+    * @param id es el identificador del objeto al que se quiere consultar
+    * @return retorna Response, el el objeto de perfiles del usuario
+    */
     @GET
     @Path("idusua/{usuaUsua}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -93,6 +119,11 @@ public class GrupoUsuarioResource {
 //        return facadeGrupoUsuario.findByUsuaUsua(id);
     }
     
+    /**
+    * Metodo consultarGrupoUsuario, devuelve un objeto de tipo GrupoUsuario que trae desde el facade con un id
+    * @param id es el identificador del objeto al que se quiere consultar
+    * @return retorna GrupoUsuario, el el objeto de perfiles 
+    */
     @GET
     @Path("{idGrupusu}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -100,6 +131,10 @@ public class GrupoUsuarioResource {
         return facadeGrupoUsuario.find(id);
     }
     
+    /**
+    * Metodo eliminarGrupoUsuario, elimina el objeto de tipo GrupoUsuario con el id en referencia
+    * @param id es el identificador del objeto al que se quiere eliminar
+    */
     @DELETE
     @Path("{idGrupusu}")
     public void eliminarGrupoUsuario(@PathParam("idGrupusu") Long id){
@@ -107,6 +142,10 @@ public class GrupoUsuarioResource {
       facadeGrupoUsuario.remove(id);
     }
 
+    /**
+    * Metodo guardarGrupoUsuario, crea y modifica el objeto de tipo GrupoUsuario del objeto en referencia
+    * @param grupoUsuario es el objeto a crear o modificar que llega, si este objeto en su parte id es nulo se crea, sino se modifica
+    */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void guardarGrupoUsuario(GrupoUsuario grupoUsuario) {
@@ -122,6 +161,10 @@ public class GrupoUsuarioResource {
       }
     }
     
+    /**
+    * Metodo actualizaGrupoUsuario, actualiza los perfiles del usuario
+    * @param req es un String que contiene los perfiles, usuario y estado a actualizar
+    */
     @POST
     @Path("actUsGr/")
     @Consumes(MediaType.APPLICATION_JSON)
