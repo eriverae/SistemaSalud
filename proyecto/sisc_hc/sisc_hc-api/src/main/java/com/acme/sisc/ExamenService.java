@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -72,4 +73,31 @@ public class ExamenService {
             throw new CustomException(Response.Status.BAD_REQUEST.getStatusCode(), 503, "Error adicionando los datos del examen... ");
         }
     }
+    
+    @DELETE
+    @Produces({"application/json"})
+    public Response deleteExamenCita(
+            @QueryParam("idcita") String idcita, 
+            @QueryParam("idexamen") String idexamen
+    ) throws CustomException, CustomRunTimeException{
+        try{
+            if (idcita == null || idexamen == null){
+                HashMap m = new HashMap();
+                m.put("mesage", "Property not found");
+                m.put("status", 400);
+                return Response.status(400).entity(m).build();
+            }
+            else{
+                return Response.status(204)
+                        .entity(facadeExamen.deleteExamenCita(
+                                Long.parseLong(idcita), 
+                                Long.parseLong(idexamen))).build();
+            }
+        }catch(Exception ex){
+            throw new CustomException(
+                    Response.Status.BAD_REQUEST.getStatusCode(), 503, 
+                    "Error eliminando los datos del examen... ");
+        }
+    }
+
 }

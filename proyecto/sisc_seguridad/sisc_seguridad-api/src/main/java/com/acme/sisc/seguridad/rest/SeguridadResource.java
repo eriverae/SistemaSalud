@@ -29,10 +29,13 @@ import javax.ws.rs.core.Response;
 import org.jose4j.lang.JoseException;
 
 /**
- * REST Web Service
- *
- * @author Erika
- */
+* Este es el servicio para crear, modificar, consultar y eliminar las operaciones 
+* que se realizan sobre seguridad JWT, auntenticacion. 
+* 
+* @author  Erika
+* @version 1.0
+* @since   2016-05-22
+*/
 @Path("seguridad")
 @RequestScoped
 public class SeguridadResource {
@@ -46,15 +49,15 @@ public class SeguridadResource {
     private static final Logger LOGGER = Logger.getLogger(UsuarioResource.class.getName());
 
     /**
-     * Creates a new instance of SeguridadResource
-     */
+    * Constructor del servicio SeguridadResource
+    *
+    */
     public SeguridadResource() {
     }
 
     /**
      * Retrieves representation of an instance of
      * com.acme.sisc.seguridad.rest.SeguridadResource
-     *
      * @return an instance of java.lang.String
      */
     @GET
@@ -74,6 +77,12 @@ public class SeguridadResource {
     public void putJson(String content) {
     }
 
+    /**
+    * Metodo autenticarUsuario hace la autenticacion con ProxyAutenticador, genera e l token
+    * a partir de JWTUtils, crea la persona natual a partir del mail y los perfiles del usuario
+    * @param Credenciales es el objeto que contiene el mail y contraseña del usuario
+    * @return retorna Response con la autenticacion, los perfiles del usuario, la persona natural y el token.
+    */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -115,12 +124,22 @@ public class SeguridadResource {
                 .build();
     }
 
+    /**
+    * Metodo consultarPersona crea la persona natual a partir del mail
+    * @param email String es el mail del usuario a consultar/crear
+    * @return retorna PersonaNatural a partir de la invocacion remota del modulo de registro
+    */
     private PersonaNatural consultarPersona(String email) {
         PersonaNatural personaNatural = new PersonaNatural();
         //com.acme.sisc.registro.ejb.PersonaNaturalFacade findByEmail
         return personaNatural;
     }
 
+    /**
+    * Metodo consultarGrupos consulta todos los perfiles del usuario
+    * @param usuario String es el mail del usuario 
+    * @return retorna List<String>, es el listado de los perfiles del usuario
+    */
     private List<String> consultarGrupos(String usuario) {
         return facadeGrupo.obtenerGrupos(usuario);
     }

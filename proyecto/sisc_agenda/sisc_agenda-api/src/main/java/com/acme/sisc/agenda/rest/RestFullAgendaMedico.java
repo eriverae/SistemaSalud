@@ -7,6 +7,7 @@ package com.acme.sisc.agenda.rest;
 
 import com.acme.sisc.agenda.dto.GeneralResponse;
 import com.acme.sisc.agenda.dto.RequestCrearAgenda;
+import com.acme.sisc.agenda.dto.RequestOpcionesCitaAgendaMedico;
 import com.acme.sisc.agenda.dto.ResponseAgendaMedico;
 import com.acme.sisc.agenda.entidades.Agenda;
 import com.acme.sisc.agenda.entidades.PersonaEps;
@@ -22,8 +23,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
 import com.acme.sisc.agenda.shared.IAgendaLocal;
-import com.acme.sisc.agenda.util.AgendaUtil;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import javax.ejb.EJB;
@@ -91,5 +90,13 @@ public class RestFullAgendaMedico {
     @Path("/nuevaAgenda")
     public GeneralResponse insertarAgenda(RequestCrearAgenda request) {
         return agenda.insertarAgenda(request);
+    }
+     @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/opcionesCita")
+    /*http://localhost:8080/SiscAgenda/api/medico/agenda/opcionesCita*/      
+    public GeneralResponse opcionesCitaAgendaMedico(RequestOpcionesCitaAgendaMedico request){
+        return agenda.opcionesCitaAgendaMedico(request);
     }
 }

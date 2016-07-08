@@ -125,11 +125,12 @@
                         </tr>
                     </thead>
                     <tbody>                                            
-                        <tr ng-repeat="citaDisponible in medicosDisponible1.citasDisponibles">
+                        <tr ng-repeat="citaDisponible in medicosDisponible1.citasDisponibles"
+                            ng-click="agendarCitaPaciente(citaDisponible)">
 
                         <td ><strong>{{citaDisponible.horaInicio}}</strong></td>
                         <td ><strong>{{citaDisponible.horaFin}}</strong></td>
-                        <td ><button class="btn btn-success" ng-click="" >
+                        <td ><button class="btn btn-success"  >
                             <i class="fa fa-check-circle" style="font-size: 25px"></i>
                         </button></td>
 

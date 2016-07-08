@@ -37,7 +37,7 @@ public class TratamientoFacade implements ITratamientoFacadeLocal, ITratamientoF
     @EJB
     ITratamientoFacadeRemote facadeTratamiento;
     
-    private static final Logger LOGGER = Logger.getLogger(MedicamentoFacade.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(TratamientoFacade.class.getName());
     private static final String REMOTE_EJB_CITA = "java:global/sisc_agenda-ear-1.0-SNAPSHOT/sisc_agenda-ejb-1.0-SNAPSHOT/SessionBeanCitaPaciente!com.acme.sisc.agenda.shared.ICitaRemote";
     
     private ICitaRemote icitaremote;
@@ -112,6 +112,30 @@ public class TratamientoFacade implements ITratamientoFacadeLocal, ITratamientoF
             return obj;
         }else{
             return (CitaTratamiento)q.getSingleResult();
+        }
+    }
+    
+    @Override
+    public HashMap deleteTratamientoCita(Long idcita, Long idtratamiento){
+        HashMap m = new HashMap();
+        try{
+            Query q = em.createNativeQuery("SELECT * FROM cita_tratamiento where id_cita = " + idcita + 
+                " AND id_tratamiento = "+ idtratamiento, CitaTratamiento.class);
+            if (q.getResultList().isEmpty()){
+                m.put("message", "OK");
+                m.put("status", 204);
+                return m;
+            }else{
+                em.remove((CitaTratamiento)q.getSingleResult());
+                m.put("message", "OK");
+                m.put("status", 204);
+                return m;
+            }
+        }catch(Exception ex){
+            Logger.getLogger(TratamientoFacade.class.getName()).log(Level.SEVERE, null, ex);
+            m.put("message", "ERROR... nos encontramos solucionando el problema.");
+            m.put("status", 500);
+            return m;
         }
     }
     

@@ -9,9 +9,12 @@ import java.util.Set;
 import javax.ws.rs.core.Application;
 
 /**
- *
- * @author rm-rf
- */
+* La clase ApplicationConfig se implementa para declarar el root por el cual los servicios deben consumir, producir, etc.
+* 
+* @author  Julio
+* @version 1.0
+* @since   2016-04-04
+*/
 @javax.ws.rs.ApplicationPath("/api")
 public class ApplicationConfig extends Application {
 

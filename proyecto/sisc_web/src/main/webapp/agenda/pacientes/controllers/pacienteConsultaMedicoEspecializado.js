@@ -10,11 +10,32 @@ var app = angular.module('sisc_web');
 
 app.controller('pacienteConsultaMedicoEspecializado',
         function ($scope, $http, $stateParams, $state, $compile, $timeout) {
-
-           
             
-            alert('>> '+$stateParams.paciente.idPersona);
-            alert('>> '+$stateParams.paciente.idEps);
+               var configServicePost = {
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8;'
+                    }
+                };
+                console.log('idPersona: '+$stateParams.paciente.idPersona);
+             console.log('idEps: '+$stateParams.paciente.idEps);
+            
+             $scope.agendarCitaPaciente = function (cita){
+               console.log(cita.idCita);
+                                console.log('rest.. '+'/SiscAgenda/api/paciente/agendar/cita/'+cita.idCita+'/paciente/'+$stateParams.paciente.idPersona)
+                             $http.post('/SiscAgenda/api/paciente/agendar/cita/'+cita.idCita+'/paciente/'+$stateParams.paciente.idPersona,null, configServicePost)
+                            .success(function (data, status, headers, config) {
+                                 if (data.codigoRespuesta === "SUCCESS") {
+                                     alert('Cita agendada');
+                                 }else{
+                                     alert('No se pudo agendar cita ...'+data.error.codigoError);
+                                 }
+                            })
+                            .error(function (data, status, header, config) {
+
+                            });
+             };
+            
+             
             
             $scope.especialidadSelected = "";
             $scope.fechaSeleccionada="";
@@ -58,6 +79,7 @@ app.controller('pacienteConsultaMedicoEspecializado',
                             "&idEps="+$stateParams.paciente.idEps;
                 }
                 
+                console.log(urlServiceRest);
                
                 var medicosEspecialidadEPS = $http.get(urlServiceRest);
                 medicosEspecialidadEPS.then(function (result) {
@@ -67,7 +89,7 @@ app.controller('pacienteConsultaMedicoEspecializado',
             };
 
 
-
+           
 
 
 

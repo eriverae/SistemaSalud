@@ -35,6 +35,7 @@ import javax.validation.constraints.Size;
 @Table(name = "cita")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @NamedQueries({
+    @NamedQuery(name = "Cita.findIdPacienteHistorialEPS", query = "SELECT c FROM Cita c WHERE c.pacienteEps.persona.idPersona = :idPaciente and c.pacienteEps.fechaFin=null ORDER BY c.idCita ASC"),
     @NamedQuery(name = "Cita.findFechaInicioFechaFin", query = "SELECT c FROM Cita c where (c.agenda.medicoEps.persona.idPersona = :idMedico) AND (c.horaInicio >= :horaInicio  AND c.horaFin <= :horaFin)"),
     //@NamedQuery(name = "Cita.findIdPaciente", query = "SELECT c FROM Cita c WHERE c.pacienteEps.persona.idPersona = :idPaciente and c.pacienteEps.fechaFin=null and c.estadoCita<>'CANCELADA' ORDER BY c.horaFin DESC"),
     @NamedQuery(name = "Cita.findIdPaciente", query = "SELECT c FROM Cita c WHERE c.pacienteEps.persona.idPersona = :idPaciente and c.pacienteEps.fechaFin=null and c.estadoCita<>'CANCELADA' ORDER BY c.horaFin DESC"),

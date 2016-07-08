@@ -23,4 +23,5 @@ public interface IMedicamentoFacadeRemote {
     HashMap addMedicamentoCita(List<CitaMedicamento> listaMedicamentos);
     ArrayList<HashMap> findByCita(Long idcita);
     CitaMedicamento findByCita_Medicament(Long idcita, Long idmedicamento);
+    HashMap deleteMedicamentoCita(Long idcita, Long idmedicamento);
 }

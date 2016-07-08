@@ -6,12 +6,20 @@
 package com.acme.sisc.seguridad;
 
 /**
- *
- * @author Erika
- */
+* Esta clase contiene un metodo Dummy para retornar un true en la autenticación
+*
+* @author  Erika
+* @version 1.0
+* @since   2016-05-01
+*/
 public class DummyAutenticador implements IAutenticador {
 
-    
+    /**
+    * Metodo autenticar retorna siempre true, es un dummy para la autenticación
+    * @param usuario String es el mail del usario
+    * @param password String es la contraseña del usuario
+    * @return retorna boolean por defecto true
+    */
     @Override
     public boolean autenticar(String usuario, String password) {
         return true;

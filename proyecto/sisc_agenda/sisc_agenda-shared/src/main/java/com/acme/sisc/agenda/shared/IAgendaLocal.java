@@ -13,6 +13,7 @@ import com.acme.sisc.agenda.entidades.PersonaEps;
 import com.acme.sisc.agenda.exceptions.AgendaException;
 import com.acme.sisc.agenda.dto.GeneralResponse;
 import com.acme.sisc.agenda.dto.RequestCrearAgenda;
+import com.acme.sisc.agenda.dto.RequestOpcionesCitaAgendaMedico;
 import com.acme.sisc.agenda.dto.ResponseAgendaMedico;
 
 
@@ -36,4 +37,6 @@ public interface IAgendaLocal {
     public GeneralResponse insertarAgenda(RequestCrearAgenda request);
     
     public ResponseAgendaMedico consultarAgendaMesMedico(long idMedico);
+    
+    public GeneralResponse opcionesCitaAgendaMedico(RequestOpcionesCitaAgendaMedico request);
 }

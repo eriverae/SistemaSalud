@@ -22,10 +22,54 @@
 
 </style>
 
+<script>
+
+    $('.datepicker-sisc').datepicker({
+        autoclose: true,
+        dateFormat: 'dd-mm-yyyy',
+    }).on("changeDate", function (e) {
+        console.log(e.date);
+    });
+
+</script>
+
 
 <div class="page-title">                    
     <h2><span class="fa fa-bookmark"></span> Agenda</h2>
-</div>   
+</div>
+
+<!--<div ng-show="loading" class="loading"><img src="img/loaders/loading.gif">LOADING...</div>-->
+
+
+<!--<div id="cargando" style="background: url(img/loaders/loading.gif) no-repeat center;">
+    loading ???
+</div>-->
+<div id="loadingModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="z-index: inherit;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!--                <button type="button" class="close" data-dismiss="modal">
+                                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
+                <div style='text-align: center'>
+                    <img src="img/loaders/loading.gif">
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal hide" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-header">
+        <h1>Cargando...</h1>
+    </div>
+    <div class="modal-body">
+        <div class="progress progress-striped active">
+            <div class="bar" style="width: 100%;"></div>
+        </div>
+    </div>
+</div>
+
 <!--CALENDARIO DE AGENDA--> 
 <div class="col-md-11">
     <div class="panel panel-default tabs">                            
@@ -46,105 +90,137 @@
 
 </div>
 <!-- FORMULARIO NUEVA AGENDA-->
-<div class="col-md-12">
-    <h4>Ingresar nueva agenda</h4>
-    <div class="col-md-5">
-        <div class="form-group">
-            <label>Fecha inicio de agenda:</label>
-            <div class="input-group">
-                <input type="hidden"  class="form-control datepicker">
-                <input type="text" id="dp-3"  ng-model="nuevaAgenda.fechaInicio"   class="form-control"  
-                       data-date-format="dd-mm-yyyy" data-date-viewmode="years"/>
-                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+<form name="formAgregarNuevaAgenda" ng-submit="agregarAgenda()" novalidate>
+    <div class="col-md-12">
+        <h4>Ingresar nueva agenda</h4>
+        <div class="col-md-5">
+            <div class="form-group" ng-class="{'has-error' : formAgregarNuevaAgenda.fechaInicio.$invalid && formAgregarNuevaAgenda.fechaInicio.$dirty}">
+                <label>Fecha inicio de agenda:</label>
+                <span ng-class="{'glyphicon glyphicon-ok' : formAgregarNuevaAgenda.fechaInicio.$valid && formAgregarNuevaAgenda.fechaInicio.$dirty}"></span>
+                <div class="input-group">
+                    <!--<input type="hidden"  class="form-control datepicker">-->
+                    <input type="text" id="datepicker"  required ng-model="nuevaAgenda.fechaInicio"  name="fechaInicio" class="form-control datepicker-sisc"  
+                           data-date-format="dd-mm-yyyy" data-date-viewmode="years"/>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+                <p class="help-block" ng-show="formAgregarNuevaAgenda.fechaInicio.$error.required">Ingresa la fecha de inicio.</p>
             </div>
+            <div class="form-group" ng-class="{'has-error' : formAgregarNuevaAgenda.horaInicio.$invalid && formAgregarNuevaAgenda.horaInicio.$dirty}">
+                <label>Hora de inicio</label>
+                <span ng-class="{'glyphicon glyphicon-ok' : formAgregarNuevaAgenda.horaInicio.$valid && formAgregarNuevaAgenda.horaInicio.$dirty}"></span>
+                <div class="input-group bootstrap-timepicker">
+                    <input type="text" name="horaInicio" required value="08:00:00" ng-model="nuevaAgenda.horaInicio"    class="form-control timepicker24"/>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                </div>
+                <p class="help-block" ng-show="formAgregarNuevaAgenda.horaInicio.$error.required">Ingresa la hora de inicio.</p>
+            </div>            
         </div>
-        <div class="form-group">
-            <label>Hora de inicio</label>
-            <div class="input-group bootstrap-timepicker">
-                <input type="text"  value="08:00:00" ng-model="nuevaAgenda.horaInicio"    class="form-control timepicker24"/>
-                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-5">       
-        <div class="form-group">
-            <label>Fecha final de agenda:</label>
-            <div class="input-group">
-                <input type="text" id="dp-3"  ng-model="nuevaAgenda.fechaFinal"   class="form-control"  
-                       data-date-format="dd-mm-yyyy" data-date-viewmode="years"/>
-                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Hora de fin</label>          
-            <div class="input-group bootstrap-timepicker">
-                <input type="text" value="12:00:00" ng-model="nuevaAgenda.horaFinal"   class="form-control timepicker24"/>
-                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-10">
-        <br>
-        <div class="form-group">
-            <label>Aplicar horario para los siguientes dias</label>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="form-group">
-                        <div class="col-md-2" ng-repeat="dia in nuevaAgenda.semana.listaDias">                                    
-                            <label class="check">
-                                <input type="checkbox"  id="{{dia.dia}} "
-                                       ng-click="colocarDiasAgenda(dia, choice, $index)"  
-                                       ng-model="choice.checked" /> 
-                                {{dia.dia}} 
-                            </label>
-                        </div>
+        <div class="col-md-5">       
+            <div class="form-group" ng-class="{'has-error' : formAgregarNuevaAgenda.fechaFinal.$invalid && formAgregarNuevaAgenda.fechaFinal.$dirty}">
+                <label>Fecha final de agenda:</label>
+                <span ng-class="{'glyphicon glyphicon-ok' : formAgregarNuevaAgenda.fechaFinal.$valid && formAgregarNuevaAgenda.fechaFinal.$dirty}"></span>
+                <div class="input-group">
+                    <input name="fechaFinal" required type="text" id="datepicker"  ng-model="nuevaAgenda.fechaFinal" class="form-control datepicker-sisc"  
+                           data-date-format="dd-mm-yyyy" data-date-viewmode="years"/>
 
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+                <p class="help-block" ng-show="formAgregarNuevaAgenda.fechaFinal.$error.required">Ingresa la hora de inicio.</p>
+            </div>
+            <div class="form-group" ng-class="{'has-error' : formAgregarNuevaAgenda.horaFinal.$invalid && formAgregarNuevaAgenda.horaFinal.$dirty}">
+                <label>Hora de fin</label>
+                <span ng-class="{'glyphicon glyphicon-ok' : formAgregarNuevaAgenda.horaFinal.$valid && formAgregarNuevaAgenda.horaFinal.$dirty}"></span>
+                <div class="input-group bootstrap-timepicker">
+                    <input type="text" name="horaFinal" required value="12:00:00" ng-model="nuevaAgenda.horaFinal"   class="form-control timepicker24"/>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                </div>
+                <p class="help-block" ng-show="formAgregarNuevaAgenda.horaFinal.$error.required">Ingresa la hora final.</p>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <br>
+            <div class="form-group" ng-class="{'has-error' :nuevaAgenda.semana.numeroDiasSelecionado <= 0 }">
+                <label>Aplicar horario para los siguientes dias</label>   
+                <span ng-class="{'glyphicon glyphicon-ok' :nuevaAgenda.semana.numeroDiasSelecionado > 0}"></span>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-md-2" ng-repeat="dia in nuevaAgenda.semana.listaDias">                                    
+                                <label class="check">
+                                    <input type="checkbox" name="checkboxDia" id="{{dia.dia}} "
+                                           ng-click="colocarDiasAgenda(dia, choice, $index)"  
+                                           ng-model="choice.checked" /> 
+                                    {{dia.dia}} 
+                                </label>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
+
+        <div class="col-md-5">
+
+            <div class="form-group" ng-class="{'has-error' : formAgregarNuevaAgenda.cantidadMinutosXCita.$invalid && formAgregarNuevaAgenda.cantidadMinutosXCita.$dirty}">
+                <label>Cantidad de minutos por cita:</label>
+                <span ng-class="{'glyphicon glyphicon-ok' : formAgregarNuevaAgenda.cantidadMinutosXCita.$valid && formAgregarNuevaAgenda.cantidadMinutosXCita.$dirty}"></span>
+                <input type="text"   name="cantidadMinutosXCita" required ng-model="nuevaAgenda.cantidadMinutosXCita"  class="form-control" />   
+                <p class="help-block" ng-show="formAgregarNuevaAgenda.cantidadMinutosXCita.$error.required">Ingresa la cantidad de minutos por cita.</p>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error' : formAgregarNuevaAgenda.ciudad.$invalid && formAgregarNuevaAgenda.ciudad.$dirty}">
+                <label>Ciudad:</label>
+                <span ng-class="{'glyphicon glyphicon-ok' : formAgregarNuevaAgenda.ciudad.$valid && formAgregarNuevaAgenda.ciudad.$dirty}"></span>
+                <input type="text"  ng-model="nuevaAgenda.ciudad" name="ciudad" required  class="form-control" />   
+                <p class="help-block" ng-show="formAgregarNuevaAgenda.ciudad.$error.required">Ingresa la ciudad.</p>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error' : formAgregarNuevaAgenda.direccion.$invalid && formAgregarNuevaAgenda.direccion.$dirty}">
+                <label>Direccion:</label>
+                <span ng-class="{'glyphicon glyphicon-ok' : formAgregarNuevaAgenda.direccion.$valid && formAgregarNuevaAgenda.direccion.$dirty}"></span>
+                <input type="text"  ng-model="nuevaAgenda.direccion" name="direccion"  required class="form-control" />   
+                <p class="help-block" ng-show="formAgregarNuevaAgenda.direccion.$error.required">Ingresa la direccion.</p>
+            </div>
+
+        </div>
+
+        <div class="col-md-5">
+
+            <div class="form-group" ng-class="{'has-error' : formAgregarNuevaAgenda.epsMedico.$invalid && formAgregarNuevaAgenda.epsMedico.$dirty}">
+                <label >Agendar cita en EPS: </label>
+                <span ng-class="{'glyphicon glyphicon-ok' : formAgregarNuevaAgenda.epsMedico.$valid && formAgregarNuevaAgenda.epsMedico.$dirty}"></span>
+                <select  ng-model="nuevaAgenda.idPersonaEps"  required name="epsMedico" class="form-control">
+                    <option ng-repeat="personaEps in listEpsMedico" value="{{personaEps.idPersonaEps}}"> {{personaEps.eps.razonSocial}}</option>
+                </select>
+                <p class="help-block" ng-show="formAgregarNuevaAgenda.epsMedico.$error.required">Selecciona EPS</p>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error' : formAgregarNuevaAgenda.localidad.$invalid && formAgregarNuevaAgenda.localidad.$dirty}">
+                <label>Localidad:</label>
+                <span ng-class="{'glyphicon glyphicon-ok' : formAgregarNuevaAgenda.localidad.$valid && formAgregarNuevaAgenda.localidad.$dirty}"></span>
+                <input type="text"  ng-model="nuevaAgenda.localidad" required name="localidad" class="form-control" />   
+                <p class="help-block" ng-show="formAgregarNuevaAgenda.localidad.$error.required">Ingresa la localidad</p>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error' : formAgregarNuevaAgenda.consultorio.$invalid && formAgregarNuevaAgenda.consultorio.$dirty}">
+                <label>Consultorio:</label>
+                <span ng-class="{'glyphicon glyphicon-ok' : formAgregarNuevaAgenda.consultorio.$valid && formAgregarNuevaAgenda.consultorio.$dirty}"></span>
+                <input type="text"  ng-model="nuevaAgenda.consultorio" name="consultorio" required class="form-control" />   
+                <p class="help-block" ng-show="formAgregarNuevaAgenda.consultorio.$error.required">Ingresa el numrero del conultorio</p>
+            </div>
+        </div>
+
+
+        <div class="col-md-10" align="center">
+            <br><br>
+            <button ng-disabled="formAgregarNuevaAgenda.$invalid" type="submit" class="btn btn-primary" >
+                Agendar espacio
+            </button>
+        </div>
     </div>
-    <div class="col-md-5">
-        <div class="form-group">
-            <label>Cantidad de minutos por cita:</label>           
-            <input type="text"  ng-model="nuevaAgenda.cantidadMinutosXCita"  class="form-control" />   
-        </div>
-        <div class="form-group">
-            <label>Ciudad:</label>           
-            <input type="text"  ng-model="nuevaAgenda.ciudad"  class="form-control" />   
-        </div>
-        <div class="form-group">
-            <label>Direccion:</label>           
-            <input type="text"  ng-model="nuevaAgenda.direccion"  class="form-control" />   
-        </div>
-    </div>
-    <div class="col-md-5">
-        <div class="form-group">
-            <label >Agendar cita en EPS: </label>
-            <select  ng-model="nuevaAgenda.idPersonaEps"  class="form-control">
-                <option ng-repeat="personaEps in listEpsMedico" value="{{personaEps.idPersonaEps}}"> {{personaEps.eps.razonSocial}}</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Localidad:</label>           
-            <input type="text"  ng-model="nuevaAgenda.localidad"  class="form-control" />   
-        </div>
-        <div class="form-group">
-            <label>Consultorio:</label>           
-            <input type="text"  ng-model="nuevaAgenda.consultorio"  class="form-control" />   
-        </div>
-    </div>
-
-
-    <div class="col-md-10" align="center">
-        <br><br>
-        <button type="button" class="btn btn-primary" ng-click="agregarAgenda()">
-            Agendar espacio
-        </button>
-    </div>   
-
-
-</div>
+</form>
 
 
 <!--MENSAJES DE ERROR Y CONFRMACION--> 

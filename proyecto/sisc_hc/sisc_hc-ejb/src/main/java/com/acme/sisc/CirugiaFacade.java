@@ -117,4 +117,28 @@ public class CirugiaFacade implements ICirugiaFacadeLocal, ICirugiaFacadeRemote{
         }
     }
     
+    @Override
+    public HashMap deleteCirugiaCita(Long idcita, Long idcirugia){
+        HashMap m = new HashMap();
+        try{
+            Query q = em.createNativeQuery("SELECT * FROM cita_cirugia where id_cita = " + idcita + 
+                " AND id_cirugia = "+ idcirugia, CitaCirugia.class);
+            if (q.getResultList().isEmpty()){
+                m.put("message", "OK");
+                m.put("status", 204);
+                return m;
+            }else{
+                em.remove((CitaCirugia)q.getSingleResult());
+                m.put("message", "OK");
+                m.put("status", 204);
+                return m;
+            }
+        }catch(Exception ex){
+            Logger.getLogger(CirugiaFacade.class.getName()).log(Level.SEVERE, null, ex);
+            m.put("message", "ERROR... nos encontramos solucionando el problema.");
+            m.put("status", 500);
+            return m;
+        }
+    }
+    
 }

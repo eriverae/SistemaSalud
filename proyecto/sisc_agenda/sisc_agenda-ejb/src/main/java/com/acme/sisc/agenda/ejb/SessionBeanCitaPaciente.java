@@ -195,4 +195,9 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
         }
     }
 
+    @Override
+    public GeneralResponse agendarCita(long idCita, long idPersona) {
+       return facadeCita.agendarCita(idCita,idPersona);
+    }
+
 }

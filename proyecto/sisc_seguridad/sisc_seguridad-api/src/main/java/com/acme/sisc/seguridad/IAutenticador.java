@@ -6,9 +6,12 @@
 package com.acme.sisc.seguridad;
 
 /**
- *
- * @author Erika
- */
+* Interface IAutenticador, define el metodo autenticar que implementan las clases BaseDatosAutenticador y DummyAutenticador
+*
+* @author  Erika
+* @version 1.0
+* @since   2016-04-27
+*/
 public interface IAutenticador {
      public boolean autenticar(String usuario, String password);
 }

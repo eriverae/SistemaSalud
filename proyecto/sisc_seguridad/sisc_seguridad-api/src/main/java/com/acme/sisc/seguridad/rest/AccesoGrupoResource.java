@@ -30,9 +30,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
 /**
- *
- * @author rm-rf
- */
+* Este es el servicio para crear, modificar, consultar y eliminar las operaciones 
+* que se realizan sobre la relacion de perfiles y accesos
+* 
+* @author  Julio
+* @version 1.0
+* @since   2016-05-22
+*/
 @Path("accesoGrupo")
 @RequestScoped
 public class AccesoGrupoResource {
@@ -49,9 +53,20 @@ public class AccesoGrupoResource {
     @EJB
     AccesoFacadeLocal accesoFacade;
 
+    /**
+    * Constructor del servicio AccesoGrupoResource
+    *
+    */
     public AccesoGrupoResource() {
     }
     
+    /**
+    * Metodo listAccesos, retorna un PaginatedListWrapper de los perfiles y accesos del usuario
+    * @param page es el numero actual de paginated
+    * @param sortFields es el id del sortField actual de la pagina 
+    * @param sortDirections es el orden de paginated por defecto asc
+    * @return retorna PaginatedListWrapper con la tabla armada a partir la busqueda del objeto en referencia
+    */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public PaginatedListWrapper listAccesos(@DefaultValue("1")
@@ -71,6 +86,11 @@ public class AccesoGrupoResource {
         return findAccesos(paginatedListWrapper);
     }
     
+    /**
+    * Metodo findAccesos, arma y devuelve el PaginatedListWrapper implementando los metodos del facade
+    * @param wrapper es el PaginatedListWrapper que recibe
+    * @return retorna wrapper con la informacion que consulta y setea en el facade
+    */
     private PaginatedListWrapper findAccesos(PaginatedListWrapper wrapper) {
         int totalAccesos = facadeAccesoGrupo.count();
         wrapper.setTotalResults(totalAccesos);
@@ -82,6 +102,11 @@ public class AccesoGrupoResource {
         return wrapper;
     }
     
+    /**
+    * Metodo consultarAcceso, devuelve un objeto de tipo AccesoGrupo que trae desde el facade con un id
+    * @param id es el identificador del objeto al que se quiere consultar
+    * @return retorna AccesoGrupo, el el objeto de perfiles y accesos del usuario
+    */
     @GET
     @Path("{idAccgrup}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -90,6 +115,10 @@ public class AccesoGrupoResource {
 
     }
     
+    /**
+    * Metodo eliminarAcceso, elimina el objeto de tipo AccesoGrupo con el id en referencia
+    * @param id es el identificador del objeto al que se quiere eliminar
+    */
     @DELETE
     @Path("{idAccgrup}")
     public void eliminarAcceso(@PathParam("idAccgrup") Long id){
@@ -97,6 +126,10 @@ public class AccesoGrupoResource {
       facadeAccesoGrupo.remove(id);
     }
 
+    /**
+    * Metodo guardarAcceso, crea y modifica el objeto de tipo AccesoGrupo del objeto en referencia
+    * @param accgrup es el objeto a crear o modificar que llega, si este objeto en su parte id es nulo se crea, sino se modifica
+    */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void guardarAcceso(AccesoGrupo accgrup) {
@@ -112,6 +145,10 @@ public class AccesoGrupoResource {
       }
     }
     
+    /**
+    * Metodo actualizaAccesoGrupo, actualiza los perfiles y accesos del usuario que lo consume
+    * @param req es un String que contiene los perfiles, accesos y estado a actualizar
+    */
     @POST
     @Path("actAccGr/")
     @Consumes(MediaType.APPLICATION_JSON)

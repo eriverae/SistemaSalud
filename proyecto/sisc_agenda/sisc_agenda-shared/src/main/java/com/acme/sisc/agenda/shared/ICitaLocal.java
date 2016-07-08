@@ -45,5 +45,8 @@ public interface ICitaLocal {
     void remove(Cita entity);
     
     public List<Cita> buscarCitasDisponiblesPaciente(long idEspecialidad,long idEps,String fechaBusqueda);
+    
+    
+    public GeneralResponse agendarCita(long idCita,long idPersona);
 
 }

@@ -26,9 +26,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
 /**
- *
- * @author rm-rf
- */
+* Este es el servicio para crear, modificar, consultar y eliminar las operaciones 
+* que se realizan sobre los Accesos
+* 
+* @author  Julio
+* @version 1.0
+* @since   2016-05-07    
+*/
 @Path("accesos")
 @RequestScoped
 public class AccesoResource {
@@ -41,9 +45,20 @@ public class AccesoResource {
     @EJB
     AccesoFacadeLocal facadeAcceso;
 
+    /**
+    * Constructor del servicio AccesoResource
+    *
+    */
     public AccesoResource() {
     }
     
+    /**
+    * Metodo listAccesos, retorna un PaginatedListWrapper con accesos del perfil
+    * @param page es el numero actual de paginated
+    * @param sortFields es el id del sortField actual de la pagina 
+    * @param sortDirections es el orden de paginated por defecto asc
+    * @return retorna PaginatedListWrapper con la tabla armada a partir la busqueda del objeto en referencia
+    */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public PaginatedListWrapper listAccesos(@DefaultValue("1")
@@ -63,6 +78,11 @@ public class AccesoResource {
         return findAccesos(paginatedListWrapper);
     }
     
+    /**
+    * Metodo findAccesos, arma y devuelve el PaginatedListWrapper implementando los metodos JPA del facade
+    * @param wrapper es el PaginatedListWrapper que recibe
+    * @return retorna wrapper con la informacion que consulta y setea en el facade
+    */
     private PaginatedListWrapper findAccesos(PaginatedListWrapper wrapper) {
         int totalAccesos = facadeAcceso.count();
         wrapper.setTotalResults(totalAccesos);
@@ -74,6 +94,11 @@ public class AccesoResource {
         return wrapper;
     }
     
+    /**
+    * Metodo consultarAcceso, devuelve un objeto de tipo Acceso que trae desde el facade con un id
+    * @param id es el identificador del objeto al que se quiere consultar
+    * @return retorna Acceso, el el objeto accesos del perfil
+    */
     @GET
     @Path("{acceAcce}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -82,6 +107,10 @@ public class AccesoResource {
 
     }
     
+    /**
+    * Metodo eliminarAcceso, elimina el objeto de tipo Acceso con el id en referencia
+    * @param id es el identificador del objeto al que se quiere eliminar
+    */
     @DELETE
     @Path("{acceAcce}")
     public void eliminarAcceso(@PathParam("acceAcce") Long id){
@@ -89,6 +118,10 @@ public class AccesoResource {
       facadeAcceso.remove(id);
     }
 
+    /**
+    * Metodo guardarAcceso, crea y modifica el objeto de tipo Acceso del objeto en referencia
+    * @param acceso es el objeto a crear o modificar que llega, si este objeto en su parte id es nulo se crea, sino se modifica
+    */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void guardarAcceso(Acceso acceso) {

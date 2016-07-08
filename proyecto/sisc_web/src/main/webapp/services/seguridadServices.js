@@ -45,3 +45,7 @@ myModule.factory('contrasenaService', function ($resource) {
 myModule.factory('auditoriaService', function ($resource) {
     return $resource('/sisc_seguridad/api/auditorias/');
 });
+
+myModule.factory('NotificacionService', function ($resource) {
+    return $resource('/sisc_seguridad/api/notificaciones/');
+});

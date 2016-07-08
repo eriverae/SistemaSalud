@@ -7,8 +7,8 @@
         <form class="form-horizontal" name="usuarioForm" ng-submit="updateUsuarioSession()" novalidate>
 
             <!-- Password Antiguo-->
-            <div class="form-group" ng-if="usuario.usuaUsua==null" ng-class="{'has-error' : usuarioForm.usuaPass0.$invalid && usuarioForm.usuaPass0.$dirty}">
-                <label for="usuaPass0">Constraseña antigua:</label>
+            <div class="form-group" ng-if="usuario.usuaUsua == null" ng-class="{'has-error' : usuarioForm.usuaPass0.$invalid && usuarioForm.usuaPass0.$dirty}">
+                <label class="col-md-3 col-xs-12 control-label label-info label label-form" for="usuaPass0">Constraseña antigua:</label>
                 <!-- Display a check when the field is valid and was modified -->
                 <span ng-class="{'glyphicon glyphicon-ok' : usuarioForm.usuaPass0.$valid && usuarioForm.usuaPass0.$dirty}"></span>
                 <input id="usuaPass0" name="usuaPass0" type="password" class="form-control" maxlength="50"
@@ -21,7 +21,7 @@
 
             <!-- Password -->
             <div class="form-group" ng-class="{'has-error' : usuarioForm.usuaPass.$invalid && usuarioForm.usuaPass.$dirty}">
-                <label for="usuaPass">Constraseña nueva:</label>
+                <label class="col-md-3 col-xs-12 control-label label-info label label-form" for="usuaPass">Constraseña nueva:</label>
                 <!-- Display a check when the field is valid and was modified -->
                 <span ng-class="{'glyphicon glyphicon-ok' : usuarioForm.usuaPass.$valid && usuarioForm.usuaPass.$dirty}"></span>
                 <input id="usuaPass" name="usuaPass" type="password" class="form-control" maxlength="50"
@@ -34,7 +34,7 @@
 
 
             <div class="form-group" ng-class="{'has-error' : usuarioForm.usuaPass1.$invalid && usuarioForm.usuaPass1.$dirty}">
-                <label for="usuaPass1">Confirmar Constraseña nueva:</label>
+                <label class="col-md-4 col-xs-12 control-label label-info label label-form" for="usuaPass1">Confirmar Constraseña nueva:</label>
                 <!-- Display a check when the field is valid and was modified -->
                 <span ng-class="{'glyphicon glyphicon-ok' : usuarioForm.usuaPass1.$valid && usuarioForm.usuaPass1.$dirty}"></span>
                 <input id="usuaPass1" name="usuaPass1" type="password" class="form-control" maxlength="50"
@@ -44,11 +44,15 @@
                 <!-- Validation messages to be displayed on required, minlength and maxlength -->
                 <p class="help-block" ng-show="usuarioForm.usuaPass1.$error.wjValidationError">No coincide la contraseña.</p>
             </div>
-            
+
             <!-- Form buttons. The 'Save' button is only enabled when the form is valid. -->
             <div class="buttons" >
-                <button type="button" class="btn btn-primary" ng-click="cancelar()">Cancelar</button>
-                <button type="submit" class="btn btn-primary" ng-disabled="usuarioForm.$invalid">Cambiar</button>
+                <button type="button" class="btn btn-primary" ng-click="cancelar()">Cancelar
+                    <span class="glyphicon glyphicon-floppy-remove"></span>
+                </button>
+                <button type="submit" class="btn btn-primary" ng-disabled="usuarioForm.$invalid">Cambiar
+                    <span class="fa fa-floppy-o"></span>
+                </button>
             </div>
         </form>
     </div>
