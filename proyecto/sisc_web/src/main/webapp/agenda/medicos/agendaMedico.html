@@ -23,7 +23,31 @@
         font-size: 14px !important;
         color: #5cb85c !important;
     }
-
+    .citas-apar{
+        font-size: 14px !important;
+        color: #ff9933 !important;
+    }
+    .citas-cancel{
+        font-size: 14px !important;
+        color: #e60000 !important;
+    }
+    .citas-no-asis{
+        font-size: 14px !important;
+        color: #22262e !important;
+    }
+    .citas-asis{
+        font-size: 14px !important;
+        color: #1caf9a !important;
+    }
+    .conve-citas{
+        width: 96% !important;
+        padding: 3px 3px 3px !important;
+        margin-left: 17px !important;
+    }
+/*    .modal-backdrop.in {
+        filter: alpha(opacity=50) !important;
+        opacity: -0.5 !important;
+    }*/
 </style>
 
 <script>
@@ -38,15 +62,13 @@
         showMeridian: false,
         showSeconds: true
     });
-    $('.timepicker24').on('click', function () {
-        $('.timepicker24').timepicker('setTime', new Date());
-    });
+   
 
 </script>
 
 
 <div class="page-title">                    
-    <h2><span class="fa fa-bookmark"></span> Agenda 28</h2>
+    <h2><span class="fa fa-bookmark"></span> Agenda</h2>
 </div>
 
 <!--<div ng-show="loading" class="loading"><img src="img/loaders/loading.gif">LOADING...</div>-->
@@ -97,15 +119,62 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <!--        <div >
+                    <div class="col-md-3" style="height: 40px;" >
+        
+                        <span class="fa fa-circle text-success citas-dis"></span>
+                        &nbsp;&nbsp;Citas disponibles
+                    </div>
+                    <div class="col-md-3">
+        
+                        <span class="fa fa-circle text-success citas-apar"></span>
+                        &nbsp;&nbsp;Citas agendadas
+                    </div>
+                    <div class="col-md-3">
+        
+                        <span class="fa fa-circle text-success citas-no-asis"></span>
+                        &nbsp;&nbsp;El paciente no asistio a la cita
+                    </div>
+                    <div class="col-md-3">
+        
+                        <span class="fa fa-circle text-success citas-asis"></span>
+                        &nbsp;&nbsp;El paciente asistio a la cita
+                    </div>
+                    <div style="height: 30px">
+                        &nbsp;&nbsp;
+        
+                    </div>
+        
+                </div>-->
 
-            <span class="fa fa-circle text-success citas-dis"></span>
-            &nbsp;&nbsp;Citas disponibles
-        </div>
-        <div class="col-md-3">
+        <div class="panel panel-default conve-citas" >
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <span class="fa fa-circle text-success citas-dis"></span>
+                        &nbsp;&nbsp;Citas disponibles
+                    </div>
+                    <div class="col-md-3">
+                        <span class="fa fa-circle text-success citas-apar"></span>
+                        &nbsp;&nbsp;Citas agendadas
+                    </div>
+                    <div class="col-md-3">
+                        <span class="fa fa-circle text-success citas-no-asis"></span>
+                        &nbsp;&nbsp;El paciente no asistio a la cita
+                    </div>
+                    <div class="col-md-3">
+                        <span class="fa fa-circle text-success citas-asis"></span>
+                        &nbsp;&nbsp;El paciente asistio a la cita                        
+                    </div>
+                </div>
+                <div class="form-group" style="text-align: center;padding-top: 26px;">
+                    <div class="col-md-11">
+                        <span class="fa fa-circle text-success citas-cancel"></span>
+                        &nbsp;&nbsp;Canceladas por mi
+                    </div>
 
-            <span class="fa fa-circle text-success citas-dis"></span>
-            &nbsp;&nbsp;Citas disponibles
+                </div>
+            </div>
         </div>
     </div>  
 
@@ -376,16 +445,16 @@
                             </div>
                         </div>
 
-
+                        ,
                     </div>
                     <div class="tab-pane active" style="display: none" id="tab242">
-                        <button  data-toggle="tooltip" data-original-title="El paciente asisitio a la cita " class="btn btn-default propiedades-opcion-cita f-verde">
+                        <button  data-toggle="tooltip" ng-click="opcionesCita(infoConsultaCita.idCita, 'PACIENTE_ASISTIO_A_CITA')" data-original-title="El paciente asisitio a la cita " class="btn btn-default propiedades-opcion-cita f-verde">
                             <i class="fa fa-check-circle" style="font-size: 53px;"></i>                            
                         </button> 
-                        <button data-toggle="tooltip" data-original-title="El paciente no asisitio a la cita" class="btn btn-default propiedades-opcion-cita f-rojo-min" >
+                        <button data-toggle="tooltip" ng-click="opcionesCita(infoConsultaCita.idCita, 'PACIENTE_NO_ASISTIO_A_CITA')" data-original-title="El paciente no asisitio a la cita" class="btn btn-default propiedades-opcion-cita f-rojo-min" >
                             <i class="glyphicon glyphicon-remove-sign" style="font-size: 53px;"></i>
                         </button>
-                        <button data-toggle="tooltip" data-original-title="Cancelar cita " class="btn btn-default propiedades-opcion-cita f-rojo">
+                        <button data-toggle="tooltip" ng-click="opcionesCita(infoConsultaCita.idCita, 'CANCELAR_CITA')" data-original-title="Cancelar cita " class="btn btn-default propiedades-opcion-cita f-rojo">
                             <i class="fa fa-ban" style="font-size: 53px;"></i>
                         </button>
                         <button  data-toggle="tooltip" data-original-title="Historico de la cita " class="btn btn-default propiedades-opcion-cita f-azul">
@@ -415,7 +484,7 @@
         <div class="mb-middle">
             <div class="mb-title"><span class="fa fa-times"></span> Error</div>
             <div class="mb-content">
-                <p>
+                <div style="color: white">
                     {{objErrorNuevaAgenda.mensajeError}}<br>
                 <div style="overflow-y: scroll; height: 100px;    padding-top:10px">
                     <table class="table">
@@ -435,7 +504,7 @@
                         </tbody>
                     </table>
                 </div>    
-                </p>                    
+                </div>                    
             </div>
             <div class="mb-footer">
                 <button class="btn btn-default btn-lg pull-right mb-control-close" onClick=" $('#message-box-sound-2').hide()">Error</button>
@@ -451,7 +520,7 @@
         <div class="mb-middle">
             <div class="mb-title"><span class="fa fa-check"></span> Agenda creada</div>
             <div class="mb-content">
-                <p>{{generalResponse.mensaje}}, agenda creada del {{generalResponse.fechaInicialAgenda| getFormatofecha }} 
+                <p style="color: white">{{generalResponse.mensaje}}, agenda creada del {{generalResponse.fechaInicialAgenda| getFormatofecha }} 
                     al {{generalResponse.fechaFinalAgenda| getFormatofecha }} los dias {{generalResponse.dias}} en el horario de {{generalResponse.fechaInicialAgenda| getFormatoHora }}
                     a {{generalResponse.fechaFinalAgenda| getFormatoHora }}
                 </p>
@@ -462,6 +531,37 @@
         </div>
     </div>
 </div>
+
+<div class="message-box message-box-success animated fadeIn" id="message-box-success-2">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-check"></span>Hecho !!</div>
+            <div class="mb-content">
+                <p style="color: white">{{generalResponse}}</p>
+            </div>
+            <div class="mb-footer">
+                <button class="btn btn-default btn-lg pull-right mb-control-close" onclick=" $('#message-box-success-2').hide()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="message-box message-box-danger animated fadeIn" data-sound="fail"  id="message-box-sound-3">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-times"></span> Error</div>
+            <div class="mb-content">
+                <div style="color: white">
+                    {{generalResponse}}
+                </div>                    
+            </div>
+            <div class="mb-footer">
+                <button class="btn btn-default btn-lg pull-right mb-control-close" onClick=" $('#message-box-sound-3').hide()">Error</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!--PopUp informacion cita--> 
 <div class="message-box animated fadeIn" data-sound="alert" id="message-box-sound-1">
