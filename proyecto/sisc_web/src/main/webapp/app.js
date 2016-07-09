@@ -1,6 +1,6 @@
 'use strict';
 // Declare app level module which depends on views, and components
-var app = angular.module('sisc_web', ['ui.router', 'ngResource', 'ui.calendar', 'ui.bootstrap', 'ngGrid', 'app.utils', 'ngRoute', 'angular-storage']);
+var app = angular.module('sisc_web', ['ui.router', 'ngResource', 'ui.calendar', 'ui.bootstrap', 'ngGrid', 'app.utils', 'ngRoute', 'angular-storage','datatables']);
 
 app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($stateProvider, $urlRouterProvider, USER_ROLES) {
 
@@ -104,8 +104,8 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                     url: '/medico/agenda',
                     templateUrl: 'agenda/medicos/agendaMedico.html',
                     controller: 'agendaMedicoContoller',
-                    params: {'idMedico': '9'},
-//                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+//                    params: {'idMedico': '9'},
+                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
 
                 })
                 .state('citasPaciente', {
@@ -113,14 +113,14 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                     templateUrl: 'agenda/pacientes/consultarCitas.html',
                     controller: 'citasController',
                     //params : {'idPaciente':'2'}
-                    params: {'idPaciente': '23'},
+//                    params: {'idPaciente': '23'},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
                 .state('citasHistorialPaciente', {
                     url: '/paciente/historialCitas',
                     templateUrl: 'agenda/pacientes/historialCitas.html',
                     controller: 'historialCitasController',
-                    params : {'idPaciente':'23'},
+//                    params : {'idPaciente':'23'},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                     
                 })
@@ -135,10 +135,10 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                     url: '/paciente/ConsultaMedicoEspecializado',
                     templateUrl: 'agenda/pacientes/pacienteConsultaMedicoEspecializado.html',
                     controller: 'pacienteConsultaMedicoEspecializado',
-                    params: {paciente: {
-                            idPersona: "23",
-                            idEps: "3",
-                        }},
+//                    params: {paciente: {
+//                            idPersona: "23",
+//                            idEps: "3",
+//                        }},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
                 .state('agendarCalendarioDelMedico', {

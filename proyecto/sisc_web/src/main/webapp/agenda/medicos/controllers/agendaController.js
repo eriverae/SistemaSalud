@@ -91,13 +91,33 @@ app.filter("getFormatoHora", function () {
     }
 });
 
+//app.controller('agendaMedicoContoller',
+//        function ($scope, $compile, $timeout, uiCalendarConfig, $http, $stateParams, $state) {
+
 app.controller('agendaMedicoContoller',
-        function ($scope, $compile, $timeout, uiCalendarConfig, $http, $stateParams, $state) {
+        function ($scope, $compile, $timeout, uiCalendarConfig, $http,$state) {
 
-//            $scope.loading = true;
+            var idMedicoSesion = 0;
+            var medicoPro = null;
 
-//            $('#loadingModal').modal();
-            
+            /*Validacion de objeto personaNatural en localStorage*/
+            if (localStorage.getItem('personaNatural') !== null) {
+                medicoPro = JSON.parse(localStorage.getItem('personaNatural'));
+                console.log('personaNatural localStorage: ');
+                console.log(medicoPro);
+                if (medicoPro.idPersona === null) {
+                    medicoPro = JSON.parse('{"idPersona":9,"tipoIdentificacion":"CC","numeroIdentificacion":3456765434,"version":0,"correoElectronico":"medico@prueba.com","nombres":"Ã‰rika","apellidos":"Villa","genero":"F","fechaNacimiento":511074000000,"telefonoCelular":4567655676,"telefonoFijo":45654456,"direccion":"gygbnhb","fotografia":null,"huella":null,"rh":"+","grupoSanguineo":"A","tarjetaProfesional":null,"rolPersonaNatural":"MEDICO"}');
+                }                
+            }else{
+                medicoPro = JSON.parse('{"idPersona":9,"tipoIdentificacion":"CC","numeroIdentificacion":3456765434,"version":0,"correoElectronico":"medico@prueba.com","nombres":"Ã‰rika","apellidos":"Villa","genero":"F","fechaNacimiento":511074000000,"telefonoCelular":4567655676,"telefonoFijo":45654456,"direccion":"gygbnhb","fotografia":null,"huella":null,"rh":"+","grupoSanguineo":"A","tarjetaProfesional":null,"rolPersonaNatural":"MEDICO"}');
+            }
+
+              idMedicoSesion = medicoPro.idPersona;
+
+//           idMedicoSesion=$stateParams.idMedico;
+
+            console.log('idMedico: ' + idMedicoSesion);
+
             $scope.objErrorNuevaAgenda;
             $scope.generalResponse;
             $scope.infoConsultaCita;
@@ -117,15 +137,15 @@ app.controller('agendaMedicoContoller',
                     ],
                     numeroDiasSelecionado: 0
                 },
-                horaInicio: '',
-                horaFinal: '',
-                cantidadMinutosXCita: 0,
+                horaInicio: '08:00:00',
+                horaFinal: '12:00:00',
+                cantidadMinutosXCita: null,
                 idPersonaEps: 0,
-                idMedico: $stateParams.idMedico,
-                ciudad: '',
+                idMedico: idMedicoSesion,
+                ciudad: 'Bogotá',
                 localidad: '',
                 direccion: '',
-                consultorio: 0
+                consultorio: null
 
             };
 
@@ -162,7 +182,7 @@ app.controller('agendaMedicoContoller',
             /**
              * Traer lista eps medico
              */
-            var data_eps = $http.get('/SiscAgenda/api/medico/agenda/' + $stateParams.idMedico + '/listaEps');
+            var data_eps = $http.get('/SiscAgenda/api/medico/agenda/' + idMedicoSesion + '/listaEps');
             data_eps.then(function (result) {
                 $scope.listEpsMedico = result.data;
             });
@@ -172,28 +192,21 @@ app.controller('agendaMedicoContoller',
                 $('#message-box-success').hide();
             };
 
+            var configServicePost = {
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8;'
+                }
+            };
+
             $scope.agregarAgenda = function () {
-
-
                 /**
                  * Validar datos del formulario.
                  */
                 var validacion = true;
-
-
-                var configServicePost = {
-                    headers: {
-                        'Content-Type': 'application/json;charset=utf-8;'
-                    }
-                };
-
-
                 if ($scope.nuevaAgenda.semana.numeroDiasSelecionado <= 0) {
                     alert('Selecciona al menos un día para agendar.');
                     validacion = false;
                 }
-
-
                 if (validacion) {
 
                     /**
@@ -211,19 +224,16 @@ app.controller('agendaMedicoContoller',
 
                                     $scope.generalResponse = data.objectResponse;
                                     $('#message-box-success').show();
+
                                     $scope.calEventsExt.events = [];
-                                    var utilRest1 = $http.get('/SiscAgenda/api/medico/agenda/' + $stateParams.idMedico);
-
+                                    var utilRest1 = $http.get('/SiscAgenda/api/medico/agenda/' + idMedicoSesion);
                                     utilRest1.then(function (result) {
-
                                         var obj = result.data;
                                         if (obj.existeAgenda) {
-
                                             $.each(obj.events, function (k, v) {
                                                 $scope.calEventsExt.events.push(v);
                                             });
                                         }
-
                                     });
 
 
@@ -286,9 +296,9 @@ app.controller('agendaMedicoContoller',
 //
 //
 //            });
-            $http.get('/SiscAgenda/api/medico/agenda/' + $stateParams.idMedico).
+            $http.get('/SiscAgenda/api/medico/agenda/' + idMedicoSesion).
                     success(function (data) {
-                        
+
                         var obj = data;
                         if (obj.existeAgenda) {
                             $.each(obj.events, function (k, v) {
@@ -311,6 +321,24 @@ app.controller('agendaMedicoContoller',
             $scope.alertOnEventClick = function (date, jsEvent, view) {
 
 
+//                console.log(jsEvent);
+//                console.log(view);
+//                var eventAux=$scope.calEventsExt.events[0];
+//                console.log('eventAux: '+eventAux);
+//                eventAux.className = ['highPriority'];                
+//                $scope.calEventsExt.events.splice(0,1);
+//                 $scope.calEventsExt.events.push(eventAux);
+
+
+//                $scope.calEventsExt.events.push( $scope.calEventsExt.events[0]);
+
+//                 jsEvent.attr({className : ['highPriority']});
+//                $compile(jsEvent)($scope);
+
+//                
+//                 $compile($scope.calEventsExt.events[0])($scope);
+//                callback($scope.calEventsExt);
+
                 var utilRest = $http.get('/SiscAgenda/api/paciente/' + date.idCita + "/consultarCita");
                 utilRest.then(function (result) {
                     var obj = result.data;
@@ -324,7 +352,7 @@ app.controller('agendaMedicoContoller',
 
                     $("#info_init_cita").click();
 
-//$('#myModal').css('z-index', -1);
+
                     $('#myModal').modal();
 
 
@@ -354,7 +382,7 @@ app.controller('agendaMedicoContoller',
                     sources.push(source);
                 }
             };
-             
+
 
             /* add custom event*/
             $scope.addEvent = function () {
@@ -410,6 +438,60 @@ app.controller('agendaMedicoContoller',
             /* event sources array*/
             $scope.eventSources = [$scope.events, $scope.eventSource, $scope.eventsF];
             $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];
+
+            $scope.opcionesCita = function (idCitaSelec, accionSelec) {
+
+                var request = {
+                    idCita: idCitaSelec,
+                    accion: accionSelec
+                };
+                console.log('Request: /SiscAgenda/api/medico/agenda/opcionesCita');
+                console.log(request);
+
+                $http.post('/SiscAgenda/api/medico/agenda/opcionesCita', request, configServicePost)
+                        .success(function (data, status, headers, config) {
+                            /**
+                             * Insertar en arreglo de citas
+                             */
+                            console.log('Response: /SiscAgenda/api/medico/agenda/opcionesCita');
+                            console.log(data);
+
+                            if (data.codigoRespuesta === "SUCCESS") {
+                                /**
+                                 * Mensaje de confirmacion de agenda insertada correctamente.
+                                 */
+
+                                $scope.calEventsExt.events = [];
+                                var utilRest1 = $http.get('/SiscAgenda/api/medico/agenda/' + idMedicoSesion);
+                                utilRest1.then(function (result) {
+                                    var obj = result.data;
+                                    if (obj.existeAgenda) {
+                                        $.each(obj.events, function (k, v) {
+                                            $scope.calEventsExt.events.push(v);
+                                        });
+                                    }
+                                    $scope.generalResponse = data.objectResponse;
+                                    $('#myModal').modal('hide');
+                                    $('#message-box-success-2').modal();
+                                });
+
+                            } else {
+                                if (data.codigoRespuesta === "ERROR") {
+                                    $('#myModal').modal('hide');
+                                    $('#message-box-sound-3').modal();
+                                    $scope.generalResponse = data.error.mensajeError;
+                                }
+                            }
+
+                        })
+                        .error(function (data, status, header, config) {
+                            $('#myModal').modal('hide');
+                            $('#message-box-sound-3').modal();
+                            $scope.generalResponse = data.error.mensajeError;
+                        });
+
+            };
+
         });
 
 /* EOF */

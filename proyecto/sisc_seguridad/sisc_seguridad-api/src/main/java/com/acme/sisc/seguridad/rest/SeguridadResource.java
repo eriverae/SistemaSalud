@@ -6,6 +6,8 @@
 package com.acme.sisc.seguridad.rest;
 
 import com.acme.sisc.agenda.entidades.PersonaNatural;
+import com.acme.sisc.common.ejbLocator.EJBLocator;
+import com.acme.sisc.registro.ejb.IPersonaNaturalFacadeRemote;
 import com.acme.sisc.seguridad.GrupoFacadeLocal;
 import com.acme.sisc.seguridad.ProxyAutenticador;
 import com.acme.sisc.seguridad.Utils.JWTUtils;
@@ -23,6 +25,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.enterprise.context.RequestScoped;
+import javax.naming.NamingException;
 import javax.ws.rs.POST;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -45,6 +48,10 @@ public class SeguridadResource {
     
     @EJB
     GrupoFacadeLocal facadeGrupo;
+    
+    private IPersonaNaturalFacadeRemote personaNaturalFacade;
+
+    private static final String LOCAL_EJB_PERSONA = "java:global/sisc_registro-ear-1.0-SNAPSHOT/sisc_registro-ejb-1.0-SNAPSHOT/PersonaNaturalFacade!com.acme.sisc.registro.ejb.IPersonaNaturalFacadeRemote";
 
     private static final Logger LOGGER = Logger.getLogger(UsuarioResource.class.getName());
 
@@ -130,8 +137,12 @@ public class SeguridadResource {
     * @return retorna PersonaNatural a partir de la invocacion remota del modulo de registro
     */
     private PersonaNatural consultarPersona(String email) {
-        PersonaNatural personaNatural = new PersonaNatural();
-        //com.acme.sisc.registro.ejb.PersonaNaturalFacade findByEmail
+        try {
+            personaNaturalFacade = (IPersonaNaturalFacadeRemote) EJBLocator.lookup(LOCAL_EJB_PERSONA);
+        } catch (NamingException ex) {
+            Logger.getLogger(SeguridadResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        PersonaNatural personaNatural = personaNaturalFacade.findByEmail(email);
         return personaNatural;
     }
 
