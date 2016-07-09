@@ -114,19 +114,29 @@ app.controller('grupoFormController', function ($scope, $rootScope, $stateParams
         $scope.grupo = grupoService.get({id: id});
     });
 
-    $scope.$on('grupoSaved', function () {
-        var modalOptions = {
-            //closeButtonText: 'Cancelar',
-            actionButtonText: 'Continuar',
-            headerText: 'Resultado de operación',
-            bodyText: 'Operación existosa!'
-        };
+//    $scope.$on('grupoSaved', function () {
+//        var modalOptions = {
+//            //closeButtonText: 'Cancelar',
+//            actionButtonText: 'Continuar',
+//            headerText: 'Resultado de operación',
+//            bodyText: 'Operación existosa!'
+//        };
+//
+//        modalService.showModal({}, modalOptions).then(function () {
+//            $scope.clearForm();
+//            $state.go('grupos');
+//        });
+//    });
 
-        modalService.showModal({}, modalOptions).then(function () {
-            $scope.clearForm();
-            $state.go('grupos');
-        });
+    $scope.$on('grupoSaved', function () {
+        $('#message-box-success').show();
+        $scope.clearForm();
     });
+
+    $scope.closepopup = function () {
+        $('#message-box-success').hide();
+        $state.go('grupos');
+    };
 
     $scope.cancelar = function () {
         $state.go('grupos');

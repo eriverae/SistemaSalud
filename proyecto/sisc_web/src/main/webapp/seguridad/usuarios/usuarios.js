@@ -52,19 +52,37 @@ app.controller('usuariosListController', function ($scope, $rootScope,$state ,us
     };
 
     // Broadcast an event when an element in the grid is deleted. No real deletion is perfomed at this point.
-    $scope.deleteRow = function (row) {
-      var usarName = row.entity.usuaEmail;
-      var modalOptions = {
-          closeButtonText: 'Cancelar',
-          actionButtonText: 'Eliminar Usuario',
-          headerText: 'Eliminar ' + usarName,
-          bodyText: '¿Esta seguro de eliminar este usuario?'
-      };
+//    $scope.deleteRow = function (row) {
+//      var usarName = row.entity.usuaEmail;
+//      var modalOptions = {
+//          closeButtonText: 'Cancelar',
+//          actionButtonText: 'Eliminar Usuario',
+//          headerText: 'Eliminar ' + usarName,
+//          bodyText: '¿Esta seguro de eliminar este usuario?'
+//      };
+//
+//      modalService.showModal({}, modalOptions).then(function (result) {
+//        $rootScope.$broadcast('deleteUsuario', row.entity.usuaUsua);
+//      });
+//      
+//    };
 
-      modalService.showModal({}, modalOptions).then(function (result) {
-        $rootScope.$broadcast('deleteUsuario', row.entity.usuaUsua);
-      });
-      
+    var rowSelected;
+
+    $scope.deleteRow = function (row) {
+        $('#message-box-success').show();
+        rowSelected = row;
+//        $rootScope.$broadcast('deleteUsuario', row.entity.usuaUsua);
+    };
+
+    $scope.closepopup_Succes = function () {
+        $('#message-box-success').hide();
+        $rootScope.$broadcast('deleteUsuario', rowSelected.entity.usuaUsua);
+
+    };
+
+    $scope.closepopup = function () {
+        $('#message-box-success').hide();
     };
     
     $scope.updateRow = function(row){

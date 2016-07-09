@@ -20,42 +20,54 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Clase MessageDriverBean, es la fachada para las consultas, creación,
+ * modificación y eliminación de los usuarios
+ *
+ * @author Julio
+ * @version 1.0
+ * @since 2016-05-05
+ */
 @MessageDriven(activationConfig = {
-  @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-  @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/jms/queue/BancoQueue"),
-  @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "200")
+    @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
+    @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/jms/queue/BancoQueue"),
+    @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "200")
 })
-public class MessageDriverBean implements MessageListener{
+public class MessageDriverBean implements MessageListener {
 
-  private static final Logger LOGGER = Logger.getLogger(MessageDriverBean.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(MessageDriverBean.class.getName());
 
-  @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-  public void onMessage(Message message) {
-    LOGGER.info("Se recibio mensaje JMS ");
-    try {
-      LOGGER.finest("Esperando 10 segungos ..... ");
-      Thread.sleep(10000);//Espera 10 segundos
-    }catch (InterruptedException ie){
-      LOGGER.log(Level.WARNING,"Problemas con sleep del Thread", ie);
+    /**
+     * Metodo onMessage, recibe el mensaje que va a poner en la cola de mensajeria
+     * @param Message message, es el mensaje
+     */
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public void onMessage(Message message) {
+        LOGGER.info("Se recibio mensaje JMS ");
+        try {
+            LOGGER.finest("Esperando 10 segungos ..... ");
+            Thread.sleep(10000);//Espera 10 segundos
+        } catch (InterruptedException ie) {
+            LOGGER.log(Level.WARNING, "Problemas con sleep del Thread", ie);
+        }
+        try {
+            if (message instanceof TextMessage) {
+                LOGGER.finest("Queue: Se recibe mensaje tipo TextMessage, hora: " + new Date());
+                TextMessage msg = (TextMessage) message;
+                LOGGER.finest("Mensaje : " + msg.getText());
+            } else if (message instanceof ObjectMessage) {
+                LOGGER.info("Queue: Se recibe mensaje de tipo  ObjectMessage, hora: " + new Date());
+                ObjectMessage msg = (ObjectMessage) message;
+                Usuario usuario = (Usuario) msg.getObject();
+                LOGGER.info("Nombre Usuario:" + usuario.getUsuaEmail());
+
+            } else {
+                LOGGER.info("Mensaje no valido para este MDB");
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error procesando mensaje en TestMDB", e);
+        }
+
     }
-    try {
-      if (message instanceof TextMessage) {
-        LOGGER.finest("Queue: Se recibe mensaje tipo TextMessage, hora: " + new Date());
-        TextMessage msg = (TextMessage) message;
-        LOGGER.finest("Mensaje : " + msg.getText());
-      } else if (message instanceof ObjectMessage) {
-        LOGGER.info("Queue: Se recibe mensaje de tipo  ObjectMessage, hora: " + new Date());
-        ObjectMessage msg = (ObjectMessage) message;
-        Usuario usuario = (Usuario) msg.getObject();
-        LOGGER.info("Nombre Usuario:" + usuario.getUsuaEmail());
-
-      } else {
-        LOGGER.info("Mensaje no valido para este MDB");
-      }
-    } catch (Exception e) {
-      LOGGER.log(Level.SEVERE,"Error procesando mensaje en TestMDB",e);
-    }
-
-  }
 
 }

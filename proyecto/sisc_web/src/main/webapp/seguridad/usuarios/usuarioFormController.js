@@ -116,33 +116,33 @@ app.controller('usuarioFormController', function ($scope, $rootScope, $statePara
         $scope.usuario = usuarioService.get({id: id});
     });
 
-    $scope.$on('usuarioSaved', function () {
-        var modalOptions = {
-            //closeButtonText: 'Cancelar',
-            actionButtonText: 'Continuar',
-            headerText: 'Resultado de operación',
-            bodyText: 'Operación existosa!'
-        };
-
-        modalService.showModal({}, modalOptions).then(function () {
-            $scope.clearForm();
-            $state.go('usuarios');
-        });
-    });
+//    $scope.$on('usuarioSaved', function () {
+//        var modalOptions = {
+//            //closeButtonText: 'Cancelar',
+//            actionButtonText: 'Continuar',
+//            headerText: 'Resultado de operación',
+//            bodyText: 'Operación existosa!'
+//        };
+//
+//        modalService.showModal({}, modalOptions).then(function () {
+//            $scope.clearForm();
+//            $state.go('usuarios');
+//        });
+//    });
 
     $scope.cancelar = function () {
         $state.go('usuarios');
     };
 
-//    $scope.$on('usuarioSaved', function () {
-//        $('#user-box-success').show();
-//            $scope.clearForm();
-//            $state.go('usuarios');
-//    });
-//
-//    $scope.closepopup = function () {
-//        $('#user-box-success').hide();
-//    };
+    $scope.$on('usuarioSaved', function () {
+        $('#message-box-success').show();
+        $scope.clearForm();
+    });
+
+    $scope.closepopup = function () {
+        $('#message-box-success').hide();
+        $state.go('usuarios');
+    };
 
 });
 

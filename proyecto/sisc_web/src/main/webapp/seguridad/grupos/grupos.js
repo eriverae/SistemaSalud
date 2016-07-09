@@ -1,6 +1,6 @@
 var app = angular.module('sisc_web');
 // Create a controller with name clientesListController to bind to the grid section.
-app.controller('gruposListController', function ($scope, $rootScope,$state ,grupoService, modalService) {
+app.controller('gruposListController', function ($scope, $rootScope, $state, grupoService, modalService) {
     // Initialize required information: sorting, the first page to show and the grid options.
     $scope.sortInfo = {fields: ['id'], directions: ['asc']};
     $scope.grupos = {currentPage: 1};
@@ -10,16 +10,14 @@ app.controller('gruposListController', function ($scope, $rootScope,$state ,grup
         data: 'grupos.list',
         useExternalSorting: true,
         sortInfo: $scope.sortInfo,
-
         columnDefs: [
-            { field: 'grupGrup', displayName: 'Id'},
-            { field: 'grupNombr', displayName: 'Nombre grupo' },
-            { field: 'grupDescri', displayName: 'Descripcion grupo'},
-            { field: '', width: 80, 
-                cellTemplate: '<span class="glyphicon glyphicon-trash remove" ng-click="deleteRow(row)"></span>'+
-                '<span class="glyphicon glyphicon-edit modify" ng-click="updateRow(row)"></span>' }
+            {field: 'grupGrup', displayName: 'Id'},
+            {field: 'grupNombr', displayName: 'Nombre grupo'},
+            {field: 'grupDescri', displayName: 'Descripcion grupo'},
+            {field: '', width: 80,
+                cellTemplate: '<span class="glyphicon glyphicon-trash remove" ng-click="deleteRow(row)"></span>' +
+                        '<span class="glyphicon glyphicon-edit modify" ng-click="updateRow(row)"></span>'}
         ],
-
         multiSelect: false,
         selectedItems: [],
         // Broadcasts an event when a row is selected, to signal the form that it needs to load the row data.
@@ -31,9 +29,9 @@ app.controller('gruposListController', function ($scope, $rootScope,$state ,grup
             }
         }
     };
-    
-    $scope.searchTextChanged = function(){
-      console.log('Ingreso a funcion searchTextChanged');
+
+    $scope.searchTextChanged = function () {
+        console.log('Ingreso a funcion searchTextChanged');
     };
 
     // Refresh the grid, calling the appropriate rest method.
@@ -50,24 +48,40 @@ app.controller('gruposListController', function ($scope, $rootScope,$state ,grup
     };
 
     // Broadcast an event when an element in the grid is deleted. No real deletion is perfomed at this point.
-    $scope.deleteRow = function (row) {
-      var gruName = row.entity.grupNombr;
-      var modalOptions = {
-          closeButtonText: 'Cancelar',
-          actionButtonText: 'Eliminar Grupo',
-          headerText: 'Eliminar ' + gruName,
-          bodyText: '¿Esta seguro de eliminar este Grupo?'
-      };
+//    $scope.deleteRow = function (row) {
+//        var gruName = row.entity.grupNombr;
+//        var modalOptions = {
+//            closeButtonText: 'Cancelar',
+//            actionButtonText: 'Eliminar Grupo',
+//            headerText: 'Eliminar ' + gruName,
+//            bodyText: '¿Esta seguro de eliminar este Grupo?'
+//        };
+//
+//        modalService.showModal({}, modalOptions).then(function (result) {
+//            $rootScope.$broadcast('deleteGrupo', row.entity.grupGrup);
+//        });
+//    };
 
-      modalService.showModal({}, modalOptions).then(function (result) {
-        $rootScope.$broadcast('deleteGrupo', row.entity.grupGrup);
-      });
-      
+    var rowSelected;
+
+    $scope.deleteRow = function (row) {
+        $('#message-box-success').show();
+        rowSelected = row;
     };
     
-    $scope.updateRow = function(row){
-      var grupGrup = row.entity.grupGrup;
-      $state.go("modificarGrupo", {'grupGrup':grupGrup});
+    $scope.closepopup_Succes = function () {
+        $('#message-box-success').hide();
+        $rootScope.$broadcast('deleteGrupo', rowSelected.entity.grupGrup);
+        
+    };
+
+    $scope.closepopup = function () {
+        $('#message-box-success').hide();
+    };
+
+    $scope.updateRow = function (row) {
+        var grupGrup = row.entity.grupGrup;
+        $state.go("modificarGrupo", {'grupGrup': grupGrup});
     };
 
     // Watch the sortInfo variable. If changes are detected than we need to refresh the grid.
@@ -81,36 +95,36 @@ app.controller('gruposListController', function ($scope, $rootScope,$state ,grup
     // The grid throws the ngGridEventSorted that gets picked up here and assigns the sortInfo to the scope.
     // This will allow to watch the sortInfo in the scope for changed and refresh the grid.
     $scope.$on('ngGridEventSorted', function (event, sortInfo) {
-      $scope.sortInfo = sortInfo;
+        $scope.sortInfo = sortInfo;
     });
 
     // Picks the event broadcasted when a person is saved or deleted to refresh the grid elements with the most
     // updated information.
     $scope.$on('refreshGrid', function () {
-      $scope.refreshGrid();
+        $scope.refreshGrid();
     });
-    
+
     // Picks the event broadcasted when the form is cleared to also clear the grid selection.
     $scope.$on('clear', function () {
         $scope.gridOptions.selectAll(false);
     });
-    
+
     // Picks us the event broadcasted when the person is deleted from the grid and perform the actual person delete by
     // calling the appropiate rest service.
     $scope.$on('deleteGrupo', function (event, id) {
-      console.log('Evento eliminar grupo :' + id);
-      grupoService.delete({grupGrup: id}).$promise.then(
-          function () {
-              // Broadcast the event to refresh the grid.
-              $rootScope.$broadcast('refreshGrid');
-              // Broadcast the event to display a delete message.
-              $rootScope.$broadcast('grupoDeleted');
-              //$scope.clearForm();
-          },
-          function () {
-              // Broadcast the event for a server error.
-              $rootScope.$broadcast('error');
-          });
+        console.log('Evento eliminar grupo :' + id);
+        grupoService.delete({grupGrup: id}).$promise.then(
+                function () {
+                    // Broadcast the event to refresh the grid.
+                    $rootScope.$broadcast('refreshGrid');
+                    // Broadcast the event to display a delete message.
+                    $rootScope.$broadcast('grupoDeleted');
+                    //$scope.clearForm();
+                },
+                function () {
+                    // Broadcast the event for a server error.
+                    $rootScope.$broadcast('error');
+                });
     });
 });
 
@@ -119,21 +133,21 @@ app.controller('alertMessagesController', function ($scope) {
     // Picks up the event to display a saved message.
     $scope.$on('grupoSaved', function () {
         $scope.alerts = [
-            { type: 'success', msg: 'Record saved successfully!' }
+            {type: 'success', msg: 'Record saved successfully!'}
         ];
     });
 
     // Picks up the event to display a deleted message.
     $scope.$on('grupoDeleted', function () {
         $scope.alerts = [
-            { type: 'success', msg: 'Record deleted successfully!' }
+            {type: 'success', msg: 'Record deleted successfully!'}
         ];
     });
 
     // Picks up the event to display a server error message.
     $scope.$on('error', function () {
         $scope.alerts = [
-            { type: 'danger', msg: 'There was a problem in the server!' }
+            {type: 'danger', msg: 'There was a problem in the server!'}
         ];
     });
 
