@@ -38,7 +38,12 @@ app.controller('historiaController', function ($scope, $rootScope, $stateParams,
 
 
 	$scope.buscarCitas = function(){
-
+            if ($scope.epsForm.medico.$viewValue == null)
+            $scope.epsForm.medico.$viewValue = "";
+            if ($scope.epsForm.fechaInicio.$viewValue == null)
+            $scope.epsForm.fechaInicio.$viewValue = "";
+            if($scope.epsForm.fechaFin.$viewValue == null)
+            $scope.epsForm.fechaFin.$viewValue = "";
     historiaServiceFiltro.get({idcita:localStorage.getItem('idCita'),medico:$scope.epsForm.medico.$viewValue , fechainicio: $scope.epsForm.fechaInicio.$viewValue, fechafin: $scope.epsForm.fechaFin.$viewValue }).$promise.then(
       function (data) {
 		console.log("get historiaService 2");
