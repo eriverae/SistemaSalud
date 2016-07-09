@@ -92,7 +92,7 @@ app.controller('usuarioFormController', function ($scope, $rootScope, $statePara
                         }
                         getIp();
                         auditoriaService.save(store.get('login') + "-" + "Crear usuario" + "-" + store.get('ip') + "-" + document.location.hostname);
-                        NotificacionService.save(store.get('login') + "-" + "Creacion Usuario" + "-" + "Hola, les informamos la creacion del usuario" + "-" + "Modulo Seguridad");
+                        NotificacionService.save(data.usuaEmail + "-" + "Creacion Usuario" + "-" + "Hola, les informamos la creacion del usuario" + "-" + "Modulo Seguridad");
                     }
                 },
                 function () {
