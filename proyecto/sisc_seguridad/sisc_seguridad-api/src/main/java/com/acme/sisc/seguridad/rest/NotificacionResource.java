@@ -7,6 +7,8 @@ package com.acme.sisc.seguridad.rest;
 
 import com.acme.sisc.agenda.entidades.LogNotifica;
 import com.acme.sisc.common.pagination.PaginatedListWrapper;
+import com.acme.sisc.common.exceptions.CustomException;
+import com.acme.sisc.common.exceptions.CustomRunTimeException;
 import com.acme.sisc.seguridad.NotificacionFacadeLocal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -70,7 +72,7 @@ public class NotificacionResource {
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void guardarNotificacion(String req) {
+    public void guardarNotificacion(String req) throws CustomException, CustomRunTimeException {
         String[] spl = req.split("-");
         System.out.println(req);
         LOGGER.log(Level.FINE, "Post para actualizat guardarNotificacion con {1}", req);
@@ -82,16 +84,17 @@ public class NotificacionResource {
         try {
             facadeNotificacion.crearNotificacion(destino, asunto, cuerpo, sistema);
             //sendEmail();
-        } catch (Exception e) {
-            //TODO Definir manejo
-            LOGGER.log(Level.SEVERE, "Houston, estamos en problemas ...", e);
+        } catch (Exception ex) {
+            throw new CustomException(
+                    Response.Status.BAD_REQUEST.getStatusCode(), 603,
+                    "Error guardando Notificacion... ");
         }
     }
 
     /**
      * Metodo sendMail, implementacion de los envios de correos.
      */
-    private static void sendEmail() {
+    private static void sendEmail() throws CustomException, CustomRunTimeException {
 
         // Create all the needed properties
         Properties connectionProperties = new Properties();
@@ -139,8 +142,10 @@ public class NotificacionResource {
 
             System.out.println("done!");
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            throw new CustomException(
+                    Response.Status.BAD_REQUEST.getStatusCode(), 603,
+                    "Error enviando mail Notificacion... ");
         }
 
     }

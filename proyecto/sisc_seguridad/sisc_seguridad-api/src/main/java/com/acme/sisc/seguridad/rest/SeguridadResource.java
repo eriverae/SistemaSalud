@@ -7,6 +7,8 @@ package com.acme.sisc.seguridad.rest;
 
 import com.acme.sisc.agenda.entidades.PersonaNatural;
 import com.acme.sisc.common.ejbLocator.EJBLocator;
+import com.acme.sisc.common.exceptions.CustomException;
+import com.acme.sisc.common.exceptions.CustomRunTimeException;
 import com.acme.sisc.registro.ejb.IPersonaNaturalFacadeRemote;
 import com.acme.sisc.seguridad.GrupoFacadeLocal;
 import com.acme.sisc.seguridad.ProxyAutenticador;
@@ -32,23 +34,23 @@ import javax.ws.rs.core.Response;
 import org.jose4j.lang.JoseException;
 
 /**
-* Este es el servicio para crear, modificar, consultar y eliminar las operaciones 
-* que se realizan sobre seguridad JWT, auntenticacion. 
-* 
-* @author  Erika
-* @version 1.0
-* @since   2016-05-22
-*/
+ * Este es el servicio para crear, modificar, consultar y eliminar las
+ * operaciones que se realizan sobre seguridad JWT, auntenticacion.
+ *
+ * @author Erika
+ * @version 1.0
+ * @since 2016-05-22
+ */
 @Path("seguridad")
 @RequestScoped
 public class SeguridadResource {
 
     @Context
     private UriInfo context;
-    
+
     @EJB
     GrupoFacadeLocal facadeGrupo;
-    
+
     private IPersonaNaturalFacadeRemote personaNaturalFacade;
 
     private static final String LOCAL_EJB_PERSONA = "java:global/sisc_registro-ear-1.0-SNAPSHOT/sisc_registro-ejb-1.0-SNAPSHOT/PersonaNaturalFacade!com.acme.sisc.registro.ejb.IPersonaNaturalFacadeRemote";
@@ -56,15 +58,16 @@ public class SeguridadResource {
     private static final Logger LOGGER = Logger.getLogger(UsuarioResource.class.getName());
 
     /**
-    * Constructor del servicio SeguridadResource
-    *
-    */
+     * Constructor del servicio SeguridadResource
+     *
+     */
     public SeguridadResource() {
     }
 
     /**
      * Retrieves representation of an instance of
      * com.acme.sisc.seguridad.rest.SeguridadResource
+     *
      * @return an instance of java.lang.String
      */
     @GET
@@ -85,15 +88,19 @@ public class SeguridadResource {
     }
 
     /**
-    * Metodo autenticarUsuario hace la autenticacion con ProxyAutenticador, genera e l token
-    * a partir de JWTUtils, crea la persona natual a partir del mail y los perfiles del usuario
-    * @param Credenciales es el objeto que contiene el mail y contraseña del usuario
-    * @return retorna Response con la autenticacion, los perfiles del usuario, la persona natural y el token.
-    */
+     * Metodo autenticarUsuario hace la autenticacion con ProxyAutenticador,
+     * genera e l token a partir de JWTUtils, crea la persona natual a partir
+     * del mail y los perfiles del usuario
+     *
+     * @param Credenciales es el objeto que contiene el mail y contraseña del
+     * usuario
+     * @return retorna Response con la autenticacion, los perfiles del usuario,
+     * la persona natural y el token.
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response autenticarUsuario(Credenciales credencial) {
+    public Response autenticarUsuario(Credenciales credencial) throws CustomException {
         boolean valor;
 
         valor = ProxyAutenticador.getInstance().autenticar(credencial.getUsuario(), credencial.getPassword());
@@ -107,11 +114,10 @@ public class SeguridadResource {
                 token = JWTUtils.generarToken();
             } catch (JoseException ex) {
                 LOGGER.log(Level.SEVERE, "Error generando Token", ex);
-                        return Response.status(Response.Status.UNAUTHORIZED)
-                .type(MediaType.APPLICATION_JSON)
-                .build();
+                return Response.status(Response.Status.UNAUTHORIZED)
+                        .type(MediaType.APPLICATION_JSON)
+                        .build();
             }
-            
 
             PersonaNatural personaNatural = consultarPersona(credencial.getUsuario());
 
@@ -132,26 +138,37 @@ public class SeguridadResource {
     }
 
     /**
-    * Metodo consultarPersona crea la persona natual a partir del mail
-    * @param email String es el mail del usuario a consultar/crear
-    * @return retorna PersonaNatural a partir de la invocacion remota del modulo de registro
-    */
-    private PersonaNatural consultarPersona(String email) {
+     * Metodo consultarPersona crea la persona natual a partir del mail
+     *
+     * @param email String es el mail del usuario a consultar/crear
+     * @return retorna PersonaNatural a partir de la invocacion remota del
+     * modulo de registro
+     */
+    private PersonaNatural consultarPersona(String email) throws CustomException, CustomRunTimeException {
         try {
             personaNaturalFacade = (IPersonaNaturalFacadeRemote) EJBLocator.lookup(LOCAL_EJB_PERSONA);
-        } catch (NamingException ex) {
-            Logger.getLogger(SeguridadResource.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            throw new CustomException(
+                    Response.Status.BAD_REQUEST.getStatusCode(), 603,
+                    "Error consultando PersonaNatural seguridad... ");
         }
         PersonaNatural personaNatural = personaNaturalFacade.findByEmail(email);
         return personaNatural;
     }
 
     /**
-    * Metodo consultarGrupos consulta todos los perfiles del usuario
-    * @param usuario String es el mail del usuario 
-    * @return retorna List<String>, es el listado de los perfiles del usuario
-    */
-    private List<String> consultarGrupos(String usuario) {
+     * Metodo consultarGrupos consulta todos los perfiles del usuario
+     *
+     * @param usuario String es el mail del usuario
+     * @return retorna List<String>, es el listado de los perfiles del usuario
+     */
+    private List<String> consultarGrupos(String usuario) throws CustomException, CustomRunTimeException {
+        try{
         return facadeGrupo.obtenerGrupos(usuario);
+        } catch (Exception ex) {
+            throw new CustomException(
+                    Response.Status.BAD_REQUEST.getStatusCode(), 603,
+                    "Error consultando Grupos seguridad... ");
+        }
     }
 }

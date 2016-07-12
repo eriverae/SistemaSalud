@@ -4,8 +4,11 @@
  * and open the template in the editor.
  */
 package com.acme.sisc.seguridad.rest;
+
 import com.acme.sisc.agenda.entidades.AuditoriaUsuario;
 import com.acme.sisc.common.pagination.PaginatedListWrapper;
+import com.acme.sisc.common.exceptions.CustomException;
+import com.acme.sisc.common.exceptions.CustomRunTimeException;
 import com.acme.sisc.seguridad.AuditoriaFacadeLocal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,16 +29,17 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 /**
-* Este es el servicio para crear, modificar, consultar y eliminar las operaciones 
-* que se realizan sobre las Auditorias
-* 
-* @author  Julio
-* @version 1.0
-* @since   2016-06-27
-*/
+ * Este es el servicio para crear, modificar, consultar y eliminar las
+ * operaciones que se realizan sobre las Auditorias
+ *
+ * @author Julio
+ * @version 1.0
+ * @since 2016-06-27
+ */
 @Path("auditorias")
 @RequestScoped
 public class AuditoriaResource {
+
     private static final Logger LOGGER = Logger.getLogger(AuditoriaResource.class.getName());
 
     @Context
@@ -43,24 +47,26 @@ public class AuditoriaResource {
 
     @EJB
     AuditoriaFacadeLocal facadeAuditoria;
-    
+
     /**
-    * Constructor del servicio AuditoriaResource
-    *
-    */
+     * Constructor del servicio AuditoriaResource
+     *
+     */
     public AuditoriaResource() {
-        
+
     }
 
     /**
-    * Metodo guardarAuditoria, llama al facade de Auditorias para crearlas
-    * @param req String que contiene separados por los guiones, el mail del usuario, observacion, direccion IP y hostName
-    */
+     * Metodo guardarAuditoria, llama al facade de Auditorias para crearlas
+     *
+     * @param req String que contiene separados por los guiones, el mail del
+     * usuario, observacion, direccion IP y hostName
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void guardarAuditoria(String req) {
+    public void guardarAuditoria(String req) throws CustomException, CustomRunTimeException {
         String[] spl = req.split("-");
-        LOGGER.log(Level.FINE,"Post para actualizat guardarAuditoria con {1}", req);
+        LOGGER.log(Level.FINE, "Post para actualizat guardarAuditoria con {1}", req);
         String emailUsuario, observacion, dirIP, hostName;
         emailUsuario = spl[0];
         observacion = spl[1];
@@ -68,9 +74,10 @@ public class AuditoriaResource {
         hostName = spl[3];
         try {
             facadeAuditoria.crearAuditoria(emailUsuario, observacion, dirIP, hostName);
-        } catch (Exception e) {
-            //TODO Definir manejo
-            LOGGER.log(Level.SEVERE, "Houston, estamos en problemas ...", e);
+        } catch (Exception ex) {
+            throw new CustomException(
+                    Response.Status.BAD_REQUEST.getStatusCode(), 603,
+                    "Error consultando Auditoria... ");
         }
     }
 }
