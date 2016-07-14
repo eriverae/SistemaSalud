@@ -46,9 +46,9 @@ app.controller('contrasenaFormController', function ($scope, $rootScope, $stateP
         contrasenaService.save(store.get('login') + "-" + $scope.usuario.usuaPass0 + "-" + $scope.usuario.usuaPass).$promise.then(
                 function (data) {
                     console.log(data.respuesta.cambioContraseña);
-                    if (data.respuesta.cambioContraseña === "True"){
+                    if (data.respuesta.cambioContraseña === "True") {
                         $rootScope.$broadcast('cambioContrasenaExito');
-                    }else{
+                    } else {
                         $rootScope.$broadcast('cambioContrasenaSinExito');
                     }
                 },
@@ -65,36 +65,64 @@ app.controller('contrasenaFormController', function ($scope, $rootScope, $stateP
         $scope.usuario = usuarioService.get({id: id});
     });
 
+//    $scope.$on('cambioContrasenaExito', function () {
+//        var modalOptions = {
+//            //closeButtonText: 'Cancelar',
+//            actionButtonText: 'Continuar',
+//            headerText: 'Resultado de operación',
+//            bodyText: 'Cambio de contraseña exitosa!'
+//        };
+//
+//        modalService.showModal({}, modalOptions).then(function () {
+//            $scope.clearForm();
+//            $state.go('home');
+//        });
+//    });
+
     $scope.$on('cambioContrasenaExito', function () {
-        var modalOptions = {
-            //closeButtonText: 'Cancelar',
-            actionButtonText: 'Continuar',
-            headerText: 'Resultado de operación',
-            bodyText: 'Cambio de contraseña exitosa!'
-        };
-
-        modalService.showModal({}, modalOptions).then(function () {
-            $scope.clearForm();
-            $state.go('home');
-        });
+        $('#message-box-success').show();
+        $scope.clearForm();
     });
-    
-        $scope.$on('cambioContrasenaSinExito', function () {
-        var modalOptions = {
-            //closeButtonText: 'Cancelar',
-            actionButtonText: 'Continuar',
-            headerText: 'Resultado de operación',
-            bodyText: 'La contraseña antigua no coincide, por favor intente de nuevo!'
-        };
 
-        modalService.showModal({}, modalOptions).then(function () {
-            //$scope.clearForm();
-            $state.go('cambiarContrasenaUsuario');
-        });
+    $scope.closepopup_successAdmin = function () {
+        $('#message-box-success').hide();
+        $state.go('usuarios');
+    };
+
+    $scope.closepopup_success = function () {
+        $('#message-box-success').hide();
+        $state.go('home');
+    };
+
+//    $scope.$on('cambioContrasenaSinExito', function () {
+//        var modalOptions = {
+//            //closeButtonText: 'Cancelar',
+//            actionButtonText: 'Continuar',
+//            headerText: 'Resultado de operación',
+//            bodyText: 'La contraseña antigua no coincide, por favor intente de nuevo!'
+//        };
+//
+//        modalService.showModal({}, modalOptions).then(function () {
+//            //$scope.clearForm();
+//            $state.go('cambiarContrasenaUsuario');
+//        });
+//    });
+
+    $scope.$on('cambioContrasenaSinExito', function () {
+        $('#message-box-danger').show();
     });
+
+    $scope.closepopup_failure = function () {
+        $('#message-box-danger').hide();
+        $state.go('cambiarContrasenaUsuario');
+    };
 
     $scope.cancelar = function () {
         $state.go('home');
+    };
+
+    $scope.cancelarAdmin = function () {
+        $state.go('usuarios');
     };
 
 });

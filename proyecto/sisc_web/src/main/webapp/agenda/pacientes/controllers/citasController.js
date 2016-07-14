@@ -7,54 +7,90 @@
 //modulo
 var app = angular.module('sisc_web');
 
+app.filter("getFormatoEstado", function () {
+    return function (input) {
+        if (input === 'DISPONIBLE') {
+            return 'Disponible';
+        } else {
+            if (input === 'CANCELADA') {
+                return 'Cancelada';
+            } else {
+                if (input === 'APARTADA') {
+                    return 'Agendada';
+                } else {
+                    if (input === 'PACIENTE_ASISTIO_A_CITA') {
+                        return 'Atendido';
+                    } else {
+                        if (input === 'PACIENTE_NO_ASISTIO_A_CITA') {
+                            return 'No asistio'
+                        } else {
+                            return input;
+                        }
+                    }
+                }
+            }
+        }
+
+    };
+});
+
 app.filter("getFormatofecha", function () {
     return function (input) {
         var res = new Date(input);
         return res.getDate() + '-' + (res.getMonth() + 1) + '-' + res.getFullYear();
 
-    }
+    };
 });
 app.filter("getFormatoHora", function () {
     return function (input) {
         var res = new Date(input);
         return res.getHours() + ':' + (res.getMinutes()) + ':' + res.getSeconds();
 
-    }
+    };
 });
 
 
 app.controller('citasController',
-        function ($scope, $http, $stateParams, $rootScope) {
+        function ($scope, $http, $stateParams, $rootScope, DTOptionsBuilder, DTColumnDefBuilder) {
+
+            var idPacienteSesion = 0;
+            var medicoPro = null;
+
+            /*Validacion de objeto personaNatural en localStorage*/
+            if (localStorage.getItem('personaNatural') !== null) {
+                medicoPro = JSON.parse(localStorage.getItem('personaNatural'));
+                console.log('personaNatural localStorage: ');
+                console.log(medicoPro);
+                if (medicoPro.idPersona === null) {
+                    medicoPro = JSON.parse('{"idPersona":23,"tipoIdentificacion":"CC","numeroIdentificacion":151515154,"version":0,"correoElectronico":"paciente@prueba.com","nombres":"jhvj","apellidos":"Rojas Rojas","genero":"M","fechaNacimiento":-2242062000000,"telefonoCelular":71717171717,"telefonoFijo":61616161,"direccion":"kkks","fotografia":null,"huella":null,"rh":"+","grupoSanguineo":"A","tarjetaProfesional":null,"rolPersonaNatural":"PACIENTE"}');
+                }
+               
+            }else{
+                medicoPro = JSON.parse('{"idPersona":23,"tipoIdentificacion":"CC","numeroIdentificacion":151515154,"version":0,"correoElectronico":"paciente@prueba.com","nombres":"jhvj","apellidos":"Rojas Rojas","genero":"M","fechaNacimiento":-2242062000000,"telefonoCelular":71717171717,"telefonoFijo":61616161,"direccion":"kkks","fotografia":null,"huella":null,"rh":"+","grupoSanguineo":"A","tarjetaProfesional":null,"rolPersonaNatural":"PACIENTE"}');
+            }
+            idPacienteSesion = medicoPro.idPersona;
+            console.log('idPacienteSesion: ' + idPacienteSesion);
 
             $scope.objErrorCancelarCita;
             $scope.generalResponse;
-
-
-
-            ////////////////////////////////////////////////////////////////////
             $scope.listaCitasPaciente = [];
             /**
              *  Traer la lista de citas pendientes de un paciente
              */
-            var data_citasPaciente = $http.get('/SiscAgenda/api/paciente/' + $stateParams.idPaciente + '/listaCitas');
+            var data_citasPaciente = $http.get('/SiscAgenda/api/paciente/' + idPacienteSesion + '/listaCitas');
             data_citasPaciente.then(function (result) {
                 $scope.listaCitasPaciente = result.data;
             });
-            ////////////////////////////////////////////////////////////////////
-            
-            ////////////////////////////////////////////////////////////////////
+
             $scope.listaCitasPacienteHistorialEPS = [];
             /**
              *  Traer la lista de historial de itas en EPS de un paciente
              */
-            var data_citasPacienteHistorialEPS = $http.get('/SiscAgenda/api/paciente/' + $stateParams.idPaciente + '/listaCitasHistorialEPS');
+            var data_citasPacienteHistorialEPS = $http.get('/SiscAgenda/api/paciente/' + idPacienteSesion + '/listaCitasHistorialEPS');
             data_citasPacienteHistorialEPS.then(function (result) {
                 $scope.listaCitasPacienteHistorialEPS = result.data;
             });
-            ////////////////////////////////////////////////////////////////////
 
-
-            ////////////////////////////////////////////////////////////////////
             $scope.esconderMensajeCitaSeleccionada = true;
             /**
              * provicional mientras tanto <esconderMensajeCitaSeleccionada>
@@ -63,23 +99,20 @@ app.controller('citasController',
             $scope.mostrarMensajeCitaSeleccionada = function () {
                 $scope.esconderMensajeCitaSeleccionada = !$scope.esconderMensajeCitaSeleccionada;
             }
-            ////////////////////////////////////////////////////////////////////
 
-
-            ////////////////////////////////////////////////////////////////////
             $scope.informacionCita = null;
             $scope.mensajesCita = {};
             /**
              * Mostrar una cita detallada, que fue seleccionada por el paciente
              */
             $scope.mostrarUnaCitaDetallada = function (informacionCita) {
-                //alert("entro a mostrar una cita mediante un click");
+                
                 console.log("mostrarUnaCitaDetallada(informacionCita)")
                 console.log("idCita" + informacionCita.idCita)
 
                 $scope.informacionCita = informacionCita;
-
-                $('#message-box-sound-1').show();
+                $('#tab222').show()
+                $('#message-box-sound-1').modal();
                 $('#audio-fail').get(0).play();
 
                 $scope.mensajesCita =
@@ -88,10 +121,7 @@ app.controller('citasController',
                             msn_citaSeleccionada2: 'Has seleccionado una cita correctamente'
                         };
             }
-            ////////////////////////////////////////////////////////////////////
-
-
-            ////////////////////////////////////////////////////////////////////
+           
             $scope.posicionFila = -1;
 
             /**
@@ -146,21 +176,10 @@ app.controller('citasController',
                                     $('#mb-signout').hide();
 
                                     $scope.generalResponse = data.objectResponse;
-                                    //$('#message-box-success').show();
-                                    
-                                    ////////////////////////////////////////////
-                                    //RECARGAR PAGINA 
-//                                    window.setTimeout(function(){location.reload()},4000);
-                                    //ELIMINAR REGISTRO DE LA TABLA
-                                    $('#cita-'+idCita).remove();
+                                    $('#cita-' + idCita).remove();
                                     $('#message-box-success').show();
 
 
-//                                    $scope.mensajesCita =
-//                                            {
-//                                                msn_citaSeleccionada1: 'MUY BIEN!!! ',
-//                                                msn_citaSeleccionada2: 'Has cancelado una cita correctamente'
-//                                            };
                                 } else {
                                     if (data.codigoRespuesta === "ERROR") {
                                         console.log("codigo respuesta === ERROR");
@@ -175,7 +194,6 @@ app.controller('citasController',
                             .error(function (data, status, header, config) {
                                 $('#mb-signout').hide();
                                 console.log(" .error(function (data, status, header, config) ");
-                                //$('#message-box-warning').show();
                                 alert("ERROR: Noo se puede cancelar la cita...");
 
 
@@ -187,7 +205,7 @@ app.controller('citasController',
 
             $scope.cerrarCancelarCita = function () {
                 $('#message-box-success').hide();
-            };                       
+            };
 
 
 
@@ -195,13 +213,13 @@ app.controller('citasController',
             /******************************************************************* */
             /******************************************************************* */
 
-            
-$(document).ready(function() {
-    $('#example').DataTable( {
-        "pagingType": "full_numbers"
-    } );
-} );     
-            
+
+            $(document).ready(function () {
+                $('#example').DataTable({
+                    "pagingType": "full_numbers"
+                });
+            });
+
 
 
 

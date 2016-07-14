@@ -9,6 +9,8 @@ import com.acme.sisc.agenda.entidades.Usuario;
 import com.acme.sisc.common.dtos.RespuestaDTO;
 import com.acme.sisc.seguridad.UsuarioFacadeLocal;
 import com.acme.sisc.common.pagination.PaginatedListWrapper;
+import com.acme.sisc.common.exceptions.CustomException;
+import com.acme.sisc.common.exceptions.CustomRunTimeException;
 import com.acme.sisc.seguridad.GrupoUsuarioFacadeLocal;
 import com.acme.sisc.seguridad.dto.UsuarioCompleto;
 import java.util.logging.Level;
@@ -30,13 +32,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 /**
-* Este es el servicio para crear, modificar, consultar y eliminar las operaciones 
-* que se realizan el usuario
-* 
-* @author  Julio
-* @version 1.0
-* @since   2016-05-22
-*/
+ * Este es el servicio para crear, modificar, consultar y eliminar las
+ * operaciones que se realizan el usuario
+ *
+ * @author Julio
+ * @version 1.0
+ * @since 2016-05-22
+ */
 @Path("usuarios")
 @RequestScoped
 public class UsuarioResource {
@@ -53,19 +55,21 @@ public class UsuarioResource {
     GrupoUsuarioFacadeLocal facadeGrupoUsuario;
 
     /**
-    * Constructor del servicio AccesoGrupoResource
-    *
-    */
+     * Constructor del servicio AccesoGrupoResource
+     *
+     */
     public UsuarioResource() {
     }
 
     /**
-    * Metodo listUsuarios, retorna un PaginatedListWrapper de los usuarios
-    * @param page es el numero actual de paginated
-    * @param sortFields es el id del sortField actual de la pagina 
-    * @param sortDirections es el orden de paginated por defecto asc
-    * @return retorna PaginatedListWrapper con la tabla armada a partir la busqueda del objeto en referencia
-    */
+     * Metodo listUsuarios, retorna un PaginatedListWrapper de los usuarios
+     *
+     * @param page es el numero actual de paginated
+     * @param sortFields es el id del sortField actual de la pagina
+     * @param sortDirections es el orden de paginated por defecto asc
+     * @return retorna PaginatedListWrapper con la tabla armada a partir la
+     * busqueda del objeto en referencia
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public PaginatedListWrapper listUsuarios(@DefaultValue("1")
@@ -83,10 +87,13 @@ public class UsuarioResource {
     }
 
     /**
-    * Metodo findUsuarios, arma y devuelve el PaginatedListWrapper implementando los metodos del facade
-    * @param wrapper es el PaginatedListWrapper que recibe
-    * @return retorna wrapper con la informacion que consulta y setea en el facade
-    */
+     * Metodo findUsuarios, arma y devuelve el PaginatedListWrapper
+     * implementando los metodos del facade
+     *
+     * @param wrapper es el PaginatedListWrapper que recibe
+     * @return retorna wrapper con la informacion que consulta y setea en el
+     * facade
+     */
     private PaginatedListWrapper findUsuarios(PaginatedListWrapper wrapper) {
         int totalUsuarios = facadeUsuario.count();
         wrapper.setTotalResults(totalUsuarios);
@@ -99,38 +106,58 @@ public class UsuarioResource {
     }
 
     /**
-    * Metodo consultarUsuario, devuelve un objeto de tipo UsuarioCompleto (dto) con el objeto usuario y sus perfiles
-    * @param id es el identificador del objeto al que se quiere consultar
-    * @return retorna UsuarioCompleto, el el objeto de perfiles y objeto del usuario
-    */
+     * Metodo consultarUsuario, devuelve un objeto de tipo UsuarioCompleto (dto)
+     * con el objeto usuario y sus perfiles
+     *
+     * @param id es el identificador del objeto al que se quiere consultar
+     * @return retorna UsuarioCompleto, el el objeto de perfiles y objeto del
+     * usuario
+     */
     @GET
     @Path("{usuaUsua}")
     @Produces(MediaType.APPLICATION_JSON)
-    public UsuarioCompleto consultarUsuario(@PathParam("usuaUsua") Long id) {
-        UsuarioCompleto UC = new UsuarioCompleto();
-        UC.setUsuario(facadeUsuario.find(id));
-        UC.setGrupos(facadeGrupoUsuario.findByUsuaUsua(id));
-        return UC;
+    public UsuarioCompleto consultarUsuario(@PathParam("usuaUsua") Long id) throws CustomException, CustomRunTimeException {
+        try {
+            UsuarioCompleto UC = new UsuarioCompleto();
+            UC.setUsuario(facadeUsuario.find(id));
+            UC.setGrupos(facadeGrupoUsuario.findByUsuaUsua(id));
+            return UC;
+        } catch (Exception ex) {
+            throw new CustomException(
+                    Response.Status.BAD_REQUEST.getStatusCode(), 603,
+                    "Error consultando UsuarioComple... ");
+        }
     }
 
     /**
-    * Metodo eliminarUsuario, elimina el objeto de tipo Usuario con el id en referencia
-    * @param id es el identificador del objeto al que se quiere eliminar
-    */
+     * Metodo eliminarUsuario, elimina el objeto de tipo Usuario con el id en
+     * referencia
+     *
+     * @param id es el identificador del objeto al que se quiere eliminar
+     */
     @DELETE
     @Path("{usuaUsua}")
-    public void eliminarUsuario(@PathParam("usuaUsua") Long id) {
-        LOGGER.log(Level.FINE, "Request para eliminar usuario con id {0}", id);
-        facadeUsuario.remove(id);
+    public void eliminarUsuario(@PathParam("usuaUsua") Long id) throws CustomException, CustomRunTimeException {
+        try {
+            LOGGER.log(Level.FINE, "Request para eliminar usuario con id {0}", id);
+            facadeUsuario.remove(id);
+        } catch (Exception ex) {
+            throw new CustomException(
+                    Response.Status.BAD_REQUEST.getStatusCode(), 603,
+                    "Error elimindo Usuario... ");
+        }
     }
 
     /**
-    * Metodo guardarUsuario, crea y modifica el objeto de tipo Usuario del objeto en referencia
-    * @param usuario es el objeto a crear o modificar que llega, si este objeto en su parte id es nulo se crea, sino se modifica
-    */
+     * Metodo guardarUsuario, crea y modifica el objeto de tipo Usuario del
+     * objeto en referencia
+     *
+     * @param usuario es el objeto a crear o modificar que llega, si este objeto
+     * en su parte id es nulo se crea, sino se modifica
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Usuario guardarUsuario(Usuario usuario) {
+    public Usuario guardarUsuario(Usuario usuario) throws CustomException, CustomRunTimeException {
         try {
             if (usuario.getUsuaUsua() == null) {
                 usuario = facadeUsuario.crearUsuario(usuario);
@@ -138,17 +165,19 @@ public class UsuarioResource {
                 usuario = facadeUsuario.modificarUsuario(usuario);
             }
             return usuario;
-        } catch (Exception e) {
-            //TODO Definir manejo
-            LOGGER.log(Level.SEVERE, "Houston, estamos en problemas ...", e);
+        } catch (Exception ex) {
+            throw new CustomException(
+                    Response.Status.BAD_REQUEST.getStatusCode(), 603,
+                    "Error guardando Usuario... ");
         }
-        return null;
     }
 
     /**
-    * Metodo cambiarContrasena, cambia la contraseña del usuario
-    * @param String req, contiene el id del usuario, password anterior, password nuevo
-    */
+     * Metodo cambiarContrasena, cambia la contraseña del usuario
+     *
+     * @param String req, contiene el id del usuario, password anterior,
+     * password nuevo
+     */
     @POST
     @Path("actCon/")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -174,15 +203,14 @@ public class UsuarioResource {
             RespuestaDTO cc = new RespuestaDTO();
             cc.put("cambioContraseña", respuesta);
             return Response.ok()
-                .entity(cc)
-                .type(MediaType.APPLICATION_JSON)
-                .build();
+                    .entity(cc)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
         } catch (Exception e) {
             //TODO Definir manejo
-            LOGGER.log(Level.SEVERE, "Houston, estamos en problemas ...", e);
+            LOGGER.log(Level.SEVERE, "Error cambiar contraseña ...", e);
         }
-        LOGGER.log(Level.SEVERE, "No se por que salio por aca ...");
         return null;
     }
-    
+
 }

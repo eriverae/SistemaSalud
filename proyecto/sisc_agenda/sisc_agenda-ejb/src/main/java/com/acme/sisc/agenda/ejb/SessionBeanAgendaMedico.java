@@ -243,6 +243,13 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
                             eventoCita.setColor(WebConstant.COLOR_CITA_APARTADA);
                         } else if (cita.getEstadoCita().equals(WebConstant.ESTADO_CITA_CANCELADA)) {
                             eventoCita.setColor(WebConstant.COLOR_CITA_CANCELADA);
+
+                        } else if (cita.getEstadoCita().equals(WebConstant.PACIENTE_ASISTIO_A_CITA)) {
+                            eventoCita.setColor(WebConstant.COLOR_PACIENTE_ASISTIO_A_CITA);
+
+                        } else if (cita.getEstadoCita().equals(WebConstant.PACIENTE_NO_ASISTIO_A_CITA)) {
+                            eventoCita.setColor(WebConstant.COLOR_PACIENTE_NO_ASISTIO_A_CITA);
+
                         } else {
                             eventoCita.setColor("#005580");
                         }
@@ -283,9 +290,17 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
 
             if (request.getAccion().equalsIgnoreCase("CANCELAR_CITA")) {
                 if (cita.getPacienteEps() == null) {
-                    cita.setEstadoCita(WebConstant.ESTADO_CITA_CANCELADA);
-                    facadeCita.mergeCita(cita);
-                    response.setObjectResponse("Cita cancelada.");
+                    if (!cita.getEstadoCita().equals(WebConstant.ESTADO_CITA_CANCELADA)) {
+                        cita.setEstadoCita(WebConstant.ESTADO_CITA_CANCELADA);
+                        facadeCita.mergeCita(cita);
+                        response.setObjectResponse("Cita cancelada.");
+                    } else {
+                        response.setCodigoRespuesta(CodesResponse.ERROR.value());
+                        error = new ErrorObjSiscAgenda();
+                        error.setCodigoError("001");
+                        error.setMensajeError("La cita ya esta cancelada");
+                        response.setError(error);
+                    }
                 } else {
                     response.setCodigoRespuesta(CodesResponse.ERROR.value());
                     error = new ErrorObjSiscAgenda();
@@ -293,13 +308,20 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
                     error.setMensajeError("La cita no pude ser cancelada porque ya hay un paciente agendado");
                     response.setError(error);
                 }
-            } else if (request.getAccion().equalsIgnoreCase("PACIENTE_ASISTIO_A_CITA")
-                    || request.getAccion().equalsIgnoreCase("PACIENTE_NO_ASISTIO_A_CITA")) {
+            } else if (request.getAccion().equalsIgnoreCase(WebConstant.PACIENTE_ASISTIO_A_CITA)
+                    || request.getAccion().equalsIgnoreCase(WebConstant.PACIENTE_NO_ASISTIO_A_CITA)) {
 
                 if (cita.getPacienteEps() != null) {
-                    cita.setEstadoPacienteAtendido(request.getAccion().equalsIgnoreCase("PACIENTE_ASISTIO_A_CITA"));
+                    cita.setEstadoPacienteAtendido(request.getAccion().equalsIgnoreCase(WebConstant.PACIENTE_ASISTIO_A_CITA));
+                    if (cita.getEstadoPacienteAtendido()) {
+                        cita.setEstadoCita(WebConstant.PACIENTE_ASISTIO_A_CITA);
+                    } else {
+                        cita.setEstadoCita(WebConstant.PACIENTE_NO_ASISTIO_A_CITA);
+                    }
                     facadeCita.mergeCita(cita);
-                    response.setObjectResponse("EL paciente " + (request.getAccion().equalsIgnoreCase("PACIENTE_ASISTIO_A_CITA") ? "asistio a la cita" : "no asisitio a la cita"));
+                    response.setObjectResponse("EL paciente "
+                            + (request.getAccion().equalsIgnoreCase(WebConstant.PACIENTE_ASISTIO_A_CITA)
+                            ? "asistio a la cita" : "no asisitio a la cita"));
                 } else {
                     response.setCodigoRespuesta(CodesResponse.ERROR.value());
                     error = new ErrorObjSiscAgenda();
@@ -322,7 +344,7 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
             response.setError(error);
         }
 
-        return null;
+        return response;
     }
 
 }

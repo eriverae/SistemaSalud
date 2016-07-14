@@ -85,15 +85,22 @@ public class WebConstant {
     public static final String ESTADO_CITA_DISPONIBLE="DISPONIBLE";
     public static final String ESTADO_CITA_CANCELADA="CANCELADA";
     public static final String ESTADO_CITA_APARTADA="APARTADA";
+     public static final String PACIENTE_ASISTIO_A_CITA="PACIENTE_ASISTIO_A_CITA";
+    public static final String PACIENTE_NO_ASISTIO_A_CITA="PACIENTE_NO_ASISTIO_A_CITA";
     
     
     
-    public static final String COLOR_CITA_DISPONIBLE="#5cb85c";
-    public static final String COLOR_CITA_APARTADA="#ff9933";
-     public static final String COLOR_CITA_CANCELADA="#e60000";
+    public static final String COLOR_CITA_DISPONIBLE             ="#5cb85c";
+    public static final String COLOR_CITA_APARTADA               ="#ff9933";
+    public static final String COLOR_CITA_CANCELADA              ="#e60000";
+    public static final String COLOR_PACIENTE_NO_ASISTIO_A_CITA  ="#22262e";
+    public static final String COLOR_PACIENTE_ASISTIO_A_CITA     ="#1caf9a";
    
     
     public static  final long MS_DAY=86400000;
+   
+    
+   
     
     
     

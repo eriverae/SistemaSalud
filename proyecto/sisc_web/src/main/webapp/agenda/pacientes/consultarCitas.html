@@ -14,13 +14,20 @@ and open the template in the editor.
 <!--OTRA FORMA: mensaje correcto cita seleccionada del paciente-->
 
 <!--mensajes de operaciones de la cita-->
-<div class="alert alert-success" role="alert" ng-if="informacionCita != null" >
+<!--<div class="alert alert-success" role="alert" ng-if="informacionCita != null" >
     <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
     <strong>{{mensajesCita.msn_citaSeleccionada1}}</strong> {{mensajesCita.msn_citaSeleccionada2}} .
-</div>
+</div>-->
 <!--FIN mensajes de operaciones de la cita-->
 
+<script>
 
+//    $(document).ready(function () {
+//        $('#customers2').DataTable();
+//    });
+
+
+</script>
 <!--MENSAJES DE ERROR Y CONFRMACION--> 
 <!-- Mensaje de error -->
 <div class="message-box message-box-danger animated fadeIn" data-sound="fail"  id="message-box-sound-2">
@@ -28,8 +35,8 @@ and open the template in the editor.
         <div class="mb-middle">
             <div class="mb-title"><span class="fa fa-times"></span> Error</div>
             <div class="mb-content">
-                <p>
-                <span class="mb-title">{{objErrorCancelarCita.mensajeError}}</span>   
+                <p style="color: white">
+                {{objErrorCancelarCita.mensajeError}}
                 </p>                    
             </div>
             <div class="mb-footer">
@@ -43,10 +50,10 @@ and open the template in the editor.
 <div class="message-box message-box-success animated fadeIn" id="message-box-success">
     <div class="mb-container">
         <div class="mb-middle">
-            <div class="mb-title"><span class="fa fa-check"></span> Cita {{generalResponse.estador}}</div>
+            <div class="mb-title"><span class="fa fa-check"></span> Cita </div>
             <div class="mb-content">
                 <p>
-                    ... <span class="mb-title">{{generalResponse.mensajer}}</span>
+                   {{generalResponse.mensajer}}
                 </p>
             </div>
             <div class="mb-footer">
@@ -62,12 +69,12 @@ and open the template in the editor.
 
 <!-- popups-->
 <!-- default with sound -->   
-<div class="message-box animated fadeIn" data-sound="fail" id="message-box-sound-1">
+<!--<div class="message-box animated fadeIn" data-sound="fail" id="message-box-sound-1">
     <div class="mb-container">
         <div class="mb-middle">
             <div class="mb-title"><span class="fa fa-globe"></span> Informacion cita</div>
             <div class="mb-content">
-                <!--Informacion completa de cita del paciente-->
+                Informacion completa de cita del paciente
                 <div class="col-md-12" ng-if="informacionCita != null">
 
                     <div class="panel panel-warning push-up-20">
@@ -93,14 +100,152 @@ and open the template in the editor.
                         </div>
                     </div>
                 </div>
-                <!--Fin Informacion completa de cita del paciente-->                  
+                Fin Informacion completa de cita del paciente                  
             </div>
             <div class="mb-footer">
                 <button class="btn btn-info btn-lg pull-right mb-control-close" onClick="$('#message-box-sound-1').hide();">CERRAR!</button>
             </div>
         </div>
     </div>
-</div>    
+</div>    -->
+
+<div data-sound="fail" id="message-box-sound-1" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="z-index: inherit;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h2 class="modal-title"><i class="fa fa-calendar"></i> #{{informacionCita.idCita}}</h2>
+            </div>
+
+
+            <div class="panel panel-default tabs">                            
+                <ul class="nav nav-tabs" role="tablist">
+                     <li style="width: 32%;text-align: center" class="active">
+                        <a role="tab"  onClick="$('#tab222').show();$('#tab232').hide();" id="info_init_cita" data-toggle="tab"> Informacion de la cita </a>
+                    </li>
+                    <li style="width: 36%;text-align: center">
+                        <a role="tab"  onClick="$('#tab232').show();$('#tab222').hide();" data-toggle="tab"> Informacion del paciente</a>
+                    </li >
+                                      
+
+                </ul>
+                <div class="panel-body tab-content">
+                    <div class="tab-pane active" style="display: none;" id="tab222">
+                        <div class="panel-body panel-body-table">
+                            <div class="table-responsive" align="center">
+                                <table class="table table-bordered table-striped table-actions">
+                                    <tbody>                                            
+                                        <tr>
+                                        <td >Fecha</td>
+                                        <td width="210"><strong>{{informacionCita.horaInicio| getFormatofecha}}</strong></td>
+                                        </tr>
+                                        <tr >
+                                        <td >Inicia a las: </td>
+                                        <td width="210"><strong>{{informacionCita.horaInicio| getFormatoHora}}</strong></td>
+                                        </tr>
+                                        <tr>
+                                        <td >Termina a las:</td>
+                                        <td width="210"><strong>{{informacionCita.horaFin| getFormatoHora}}</strong></td>
+                                        </tr>
+                                        <tr>
+                                        <td>Ciudad </td>
+                                        <td width="210"><strong>{{informacionCita.agenda.ciudad}}</strong></td>
+                                        </tr>
+                                        <tr>
+                                        <td width="210">Localidad </td>
+                                        <td><strong>{{informacionCita.agenda.localidad}}</strong></td>
+                                        </tr>
+                                        <tr>
+                                        <td width="210">Direccion </td>
+                                        <td><strong>{{informacionCita.agenda.direccion}}</strong></td>
+                                        </tr>
+                                        <tr>
+                                        <td width="210">Consultorio </td>
+                                        <td><strong>{{informacionCita.agenda.numeroConsultorio}}</strong></td>
+                                        <tr>
+                                        <td width="210">EPS: </td>
+                                        <td><strong>{{informacionCita.agenda.medicoEps.eps.razonSocial}}</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>                                
+
+                        </div>
+                    </div>
+                     <div class="tab-pane active" style="display: none" id="tab232">
+                        <div ng-if="informacionCita.pacienteEps != null">
+                            <div  class="panel-body panel-body-table">
+                                <div class="table-responsive" align="center">
+                                    <table class="table table-bordered table-striped table-actions">
+                                        <tbody>                                            
+                                            <tr>
+                                            <td width="200">Tipo identificacion: </td>
+                                            <td width="270"><strong>{{informacionCita.pacienteEps.persona.tipoIdentificacion}}</strong></td>
+                                            </tr>
+                                            <tr>
+                                            <td width="200">Numero identificacion: </td>
+                                            <td width="270"><strong>{{informacionCita.pacienteEps.persona.numeroIdentificacion}}</strong></td>
+                                            </tr>
+                                            <tr>
+                                            <td width="200">Nombre: </td>
+                                            <td width="270"><strong>{{informacionCita.pacienteEps.persona.nombres + ' ' + infoConsultaCita.pacienteEps.persona.apellidos}} </strong></td>
+                                            </tr>
+                                            <tr>
+                                            <td width="200">Genero: </td>
+                                            <td width="270"><strong>{{informacionCita.pacienteEps.persona.genero}} </strong></td>
+                                            </tr>
+                                            <tr>
+                                            <td width="200">Fecha nacimiento </td>
+                                            <td width="270"><strong>{{informacionCita.pacienteEps.persona.fechaNacimiento| getFormatofecha}} </strong></td>
+                                            </tr>
+                                            <tr>
+                                            <td width="200">Edad: </td>
+                                            <td width="270"><strong>{{informacionCita.pacienteEps.persona.fechaNacimiento| getEdad}} </strong></td>
+                                            </tr>
+                                            <tr>
+                                            <td width="200">Email: </td>
+                                            <td width="270"><strong>{{informacionCita.pacienteEps.persona.correoElectronico}}</strong></td>
+                                            </tr>
+                                            <tr>
+                                            <td width="200">Celular: </td>
+                                            <td width="270"><strong>{{informacionCita.pacienteEps.persona.telefonoCelular}}</strong></td>
+                                            </tr>
+                                            <tr>
+                                            <td width="200">Telefono fijo: </td>
+                                            <td width="270"><strong>{{informacionCita.pacienteEps.persona.telefonoFijo}}</strong></td>
+                                            </tr>
+                                            <tr>
+                                            <td width="200">Tipo de saggre: </td>
+                                            <td width="270"><strong>{{informacionCita.pacienteEps.persona.grupoSanguineo + ' ' + infoConsultaCita.pacienteEps.persona.rh}}</strong></td>
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+                                </div>                                
+
+                            </div>  
+                        </div>
+                        <div ng-if="informacionCita.pacienteEps == null">
+                            <div class="alert alert-warning" role="alert" style="text-align: center;">
+                                <button type="button" class="close" data-dismiss="alert"><span class="sr-only" >Cerrar</span></button>
+                                <strong>¡ </strong> La cita no ha sido agendada por ningun paciente  <strong> !</strong>
+                            </div>
+                        </div>
+
+                        ,
+                    </div>
+                 
+                </div>
+            </div> 
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>                        
+            </div>
+        </div>
+    </div>
+</div> 
+
+
 <!-- end default with sound -->
 <!-- END Message Boxes -->        
 <!--///////////////////////////////////////////////////////////////////////////////
@@ -136,72 +281,89 @@ and open the template in the editor.
 
 <!--tabla-basic.html-->
 <!-- START RESPONSIVE TABLES -->
+
+
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
 
             <div class="panel-heading">
-                <h3 class="panel-title"><strong>Listado de citas pendientes para paciente</strong></h3>
-
-                <!--dataTableExport.html-->
-                <div class="btn-group pull-right">
-                    <button class="btn btn-danger dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i> Export Data</button>
-                    <ul class="dropdown-menu">
-                        <li><a href="#" onClick ="$('#customers2').tableExport({type: 'excel', escape: 'false'});"><img src='img/icons/xls.png' width="24"/> XLS</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#" onClick ="$('#customers2').tableExport({type: 'pdf', escape: 'false'});"><img src='img/icons/pdf.png' width="24"/> PDF</a></li>
-                    </ul>
-                </div>
-                <!--FIN dataTableExport.html-->
-
+                <div class="page-title">                    
+                    <h2><span class="fa fa-bookmark"></span> Ultimas citas agendadas</h2>
+                </div>        
             </div>
-
+            
             <div class="panel-body panel-body-table">
 
-                <div class="table-responsive">
+                <div class="table-responsive" style="padding: 26px 27px 16px;">                 
+                   
+                    <div align="right">
+                        <div  class="col-md-4">
+                            <div class="input-group push-down-10">
+                                <span class="input-group-addon"><span class="fa fa-search"></span></span>
+                                <input type="text" ng-model="query" class="form-control" placeholder="Buscar..." >
+                                <div class="input-group-btn">
+                                    <button class="btn btn-primary">Buscar</button>
+                                </div>
+                            </div>  
+                        </div>
+                    </div>
+                    <div class="btn-group pull-right">
+                        <button  class="btn btn-danger dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i>Descargar</button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" onClick ="$('#customers2').tableExport({type: 'excel', escape: 'false'});"><img src='img/icons/xls.png' width="24"/> XLS</a></li>
 
-                    <!--probando codigo-->
-                    <br />
-                    <p style="color: #369;font-weight: bold;font-size: 2em;"><label>Filtrar por idCita :  <input type="text" placeholder="# IdCita" ng-model="searchText"/></label></p>
+                            <li><a href="#" onClick ="$('#customers2').tableExport({type: 'pdf', escape: 'false'});"><img src='img/icons/pdf.png' width="24"/> PDF</a></li>
+                        </ul>
+                    </div>
+
                     <br /><br />
-                    <!--FIN probando codigo-->
+                
 
-                    <table id="customers2" class="table table-bordered table-striped table-actions">
-                        <thead>
 
-                            <tr>
-                            <th class="text-center success">IdCita</th>
-                            <th>Nombre Eps</th>
-                            <th>Direccion</th>
-                            <th>Fecha</th>
-                            <th>Estado</th>
-                            <th class="danger">Acciones</th>
-                            </tr>                                
-                            <!-- 
-                            simatoria de los <th> = 450
-                            <tr>
-                            <th width="50">id</th>
-                            <th>name</th>
-                            <th width="100">status</th>
-                            <th width="100">amount</th>
-                            <th width="100">date</th>
-                            <th width="100">actions</th>
-                            </tr>-->
-                        </thead>
-                        <tbody>  
-                            <!--<tr ng-repeat="cita in listaCitasPaciente | filter:searchText ">--> 
-                            <tr ng-repeat="cita in listaCitasPaciente| filter:{idCita:searchText}" id="{{'cita-'+ cita.idCita}}" > 
-                                <td class="text-center success" ng-click="mostrarUnaCitaDetallada(cita)">{{cita.idCita}}</td>
-                                <td class="text-center" ng-click="mostrarUnaCitaDetallada(cita)"><strong>{{cita.agenda.medicoEps.eps.razonSocial}}</strong></td>
-                                <td class="text-center" ng-click="mostrarUnaCitaDetallada(cita)"><strong>{{cita.agenda.direccion}}</strong></td>
-                                <td class="text-center" ng-click="mostrarUnaCitaDetallada(cita)">{{cita.horaInicio| getFormatofecha}} {{cita.horaInicio| getFormatoHora}}</td>
-                                <td class="text-center" ng-click="mostrarUnaCitaDetallada(cita)"><span class="label label-warning">{{cita.estadoCita}}</span></td>
-                                <td class="text-center">
-                                <button class="btn btn-danger btn-rounded btn-sm" ng-click="confirmacionCancelarCita($index, cita)"> CANCELAR <span class="fa fa-times"></span></button>                        
-                                </td>
-                            </tr>                            
-                        </tbody>
-                    </table>
+                    <!-- START SIMPLE DATATABLE -->
+                    <div class="panel panel-default">
+
+                        <div class="panel-body">
+                            <table  class="table table-bordered table-striped table-actions" id="customers2">
+                                <thead>
+                                    <tr>
+                                        <!--<th class="text-center success">IdCita</th>-->
+                                    <th>Eps</th>
+                                    <th>Direccion</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    <th class="danger">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cita in listaCitasPaciente| filter:query" id="{{'cita-' + cita.idCita}}" > 
+                                        <!--<td class="text-center success" ng-click="mostrarUnaCitaDetallada(cita)">{{cita.idCita}}</td>-->
+                                    <td class="text-center" ng-click="mostrarUnaCitaDetallada(cita)"><strong>{{cita.agenda.medicoEps.eps.razonSocial}}</strong></td>
+                                    <td class="text-center" ng-click="mostrarUnaCitaDetallada(cita)"><strong>{{cita.agenda.direccion}}</strong></td>
+                                    <td class="text-center" ng-click="mostrarUnaCitaDetallada(cita)">{{cita.horaInicio| getFormatofecha}} {{cita.horaInicio| getFormatoHora}}</td>
+                                    <td class="text-center" ng-click="mostrarUnaCitaDetallada(cita)">
+                                    <span class="label label-warning">{{cita.estadoCita | getFormatoEstado}}
+                                    </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <div ng-if="cita.estadoCita=='APARTADA'">
+                                    <button  class="btn btn-danger btn-rounded btn-sm" ng-click="confirmacionCancelarCita($index, cita)"> CANCELAR <span class="fa fa-times"></span></button>                        
+                                        </div>
+                                    </td>
+                                    </tr> 
+
+
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- END SIMPLE DATATABLE -->
+
+
                 </div>                                
 
             </div>

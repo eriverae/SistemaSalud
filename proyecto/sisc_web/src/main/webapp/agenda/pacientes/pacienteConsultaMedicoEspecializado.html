@@ -68,7 +68,7 @@
                             <div >
                                 <label>Fecha</label>
                                 <div class="input-group input-group date" >
-                                    <input id="datepicker" type="text" class="form-control" ng-change="buscarEspecialidades()" ng-model="fechaSeleccionada" 
+                                    <input id="datepicker" type="text" class="form-control" placeholder="{{fechaAc | date:'dd-MM-yyyy'}}" ng-change="buscarEspecialidades()" ng-model="fechaSeleccionada" 
                                            data-date-format="dd-mm-yyyy" data-date-viewmode="years"/>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                 </div>
@@ -126,7 +126,7 @@
                     </thead>
                     <tbody>                                            
                         <tr ng-repeat="citaDisponible in medicosDisponible1.citasDisponibles"
-                            ng-click="agendarCitaPaciente(citaDisponible)">
+                            ng-click="agendarCitaPaciente(citaDisponible)" ng-if="citaDisponible.estadoCita=='DISPONIBLE'">
 
                         <td ><strong>{{citaDisponible.horaInicio}}</strong></td>
                         <td ><strong>{{citaDisponible.horaFin}}</strong></td>
@@ -145,4 +145,37 @@
     </div>
 </div> 
 
+
+<div class="message-box message-box-success animated fadeIn" id="message-box-success">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-check"></span> Cita</div>
+            <div class="mb-content">
+                 <p style="color: white">
+                    Programada correctamente
+                </p>
+            </div>
+            <div class="mb-footer">
+                <button class="btn btn-default btn-lg pull-right mb-control-close" ng-click="$('#message-box-success').modal('hide')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="message-box message-box-danger animated fadeIn" data-sound="fail"  id="message-box-sound-3">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-times"></span> Error</div>
+            <div class="mb-content">
+                <div style="color: white">
+                    {{generalResponse}}
+                </div>                    
+            </div>
+            <div class="mb-footer">
+                <button class="btn btn-default btn-lg pull-right mb-control-close" onClick=" $('#message-box-sound-3').hide()">Error</button>
+            </div>
+        </div>
+    </div>
+</div>
 

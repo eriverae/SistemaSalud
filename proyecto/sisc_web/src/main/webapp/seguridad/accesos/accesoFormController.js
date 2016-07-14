@@ -51,19 +51,29 @@ app.controller('accesoFormController', function ($scope, $rootScope, $stateParam
     $scope.acceso = accesoService.get({id: id});
   });
   
-  $scope.$on('accesoSaved', function(){
-    var modalOptions = {
-          //closeButtonText: 'Cancelar',
-          actionButtonText: 'Continuar',
-          headerText: 'Resultado de operación',
-          bodyText: 'Operación existosa!'
-      };
+//  $scope.$on('accesoSaved', function(){
+//    var modalOptions = {
+//          //closeButtonText: 'Cancelar',
+//          actionButtonText: 'Continuar',
+//          headerText: 'Resultado de operación',
+//          bodyText: 'Operación existosa!'
+//      };
+//
+//      modalService.showModal({}, modalOptions).then(function () {
+//        $scope.clearForm();
+//        $state.go('accesos');
+//      });
+//  });
 
-      modalService.showModal({}, modalOptions).then(function () {
+    $scope.$on('accesoSaved', function () {
+        $('#message-box-success').show();
         $scope.clearForm();
+    });
+
+    $scope.closepopup = function () {
+        $('#message-box-success').hide();
         $state.go('accesos');
-      });
-  });
+    };
   
   $scope.cancelar = function(){
     $state.go('accesos');

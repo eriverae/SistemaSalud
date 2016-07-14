@@ -36,6 +36,12 @@ public class PersonaJuridicaFacade implements IPersonaJuridicaFacadeRemote, IPer
     public PersonaJuridicaFacade() {
     }
     
+    /**
+     * Buscar una persona jurídica según su tipo y número de identificación.
+     * @param tId Tipo identificación.
+     * @param identificacion Número identificación.
+     * @return Objeto PersonaJuridica, si existe.
+     */
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Override
     public PersonaJuridica findByIdentificacion(TipoIdentificacion tId, long identificacion){
@@ -51,6 +57,11 @@ public class PersonaJuridicaFacade implements IPersonaJuridicaFacadeRemote, IPer
         }        
     }
     
+    /**
+     * Actualizar una persona jurídica.
+     * @param p Objeto de persona jurídica.
+     * @return Objeto de persona jurídica.
+     */
     @Override
     public PersonaJuridica modificarPersonaJuridica(PersonaJuridica p){
         LOGGER.log(Level.FINE,"Modificando persona juridica con nombre : {0} - Versión: {1}", new Object[]{p.getRazonSocial(),p.getVersion()} );
@@ -58,6 +69,10 @@ public class PersonaJuridicaFacade implements IPersonaJuridicaFacadeRemote, IPer
         return p;
     }
     
+    /**
+     * Listar todas las personas jurídicas (EPS).
+     * @return Listado de PersonaJuridica.
+     */
     @Override
     public List<PersonaJuridica> findAll() {
         //Query  q = em.createNamedQuery("Cliente.findAll");
@@ -65,11 +80,19 @@ public class PersonaJuridicaFacade implements IPersonaJuridicaFacadeRemote, IPer
         return q.getResultList();
     }
     
+    /**
+     * Eliminar una EPS.
+     * @param entity Objeto de persona jurídica.
+     */
     @Override
     public void remove(PersonaJuridica entity) {
         em.remove(entity);
     }
     
+    /**
+     * Eliminar una EPS según su identificador único.
+     * @param id Identificador único de la persona jurídica.
+     */
     @Override
     public void remove(Long id){
       LOGGER.log(Level.FINE,"Eliminar persona juridica con id {0}", id);
@@ -82,11 +105,24 @@ public class PersonaJuridicaFacade implements IPersonaJuridicaFacadeRemote, IPer
       }
     }
     
+    /**
+     * Buscar una EPS según su identificador único.
+     * @param id Identificador único.
+     * @return Objeto de PersonaJuridica.
+     */
     @Override
     public PersonaJuridica find(Object id) {
         return em.find(PersonaJuridica.class, id);
     }
     
+    /**
+     * Buscar un listado de EPS entre un rango.
+     * @param startPosition Posición inicial.
+     * @param maxResults Máximo de resultados.
+     * @param sortFields Campo por el cual ordenar la lista.
+     * @param sortDirections Dirección de orden.
+     * @return Listado de PersonaJuridica.
+     */
     @Override
     public List<PersonaJuridica> findRange(int startPosition, int maxResults, String sortFields, String sortDirections) {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
@@ -98,6 +134,10 @@ public class PersonaJuridicaFacade implements IPersonaJuridicaFacadeRemote, IPer
         return q.getResultList();
     }
     
+    /**
+     * Cantidad de personas jurídicas en el sistema.
+     * @return 
+     */
     @Override
     public int count() {
         javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -107,6 +147,11 @@ public class PersonaJuridicaFacade implements IPersonaJuridicaFacadeRemote, IPer
         return ((Long) q.getSingleResult()).intValue();
     }
 
+    /**
+     * Creación de una EPS.
+     * @param personaJuridica Objeto de persona jurídica.
+     * @throws Exception 
+     */
     @Override
     public void crearPersonaJuridica(PersonaJuridica personaJuridica) throws Exception {
         try {

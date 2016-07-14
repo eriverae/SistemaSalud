@@ -187,8 +187,8 @@ public class FacadeCita extends AbstractFacade<Cita> {
             _log.log(Level.WARNING, "\n\n\n1. CITA ID: " + idCita + "\n\n\n");
 
             if (autorizarCancelacionCita(idCita)) {
-                Query q = em.createNativeQuery("update CITA set estado_cita = ? WHERE id_cita = ?");
-                q.setParameter(1, "CANCELADA");
+                Query q = em.createNativeQuery("update CITA set estado_cita = ? ,id_paciente_eps = null  WHERE id_cita = ?");
+                q.setParameter(1, WebConstant.ESTADO_CITA_DISPONIBLE);
                 q.setParameter(2, idCita);
                 int resultado = q.executeUpdate();
 
@@ -259,6 +259,17 @@ public class FacadeCita extends AbstractFacade<Cita> {
         try {
             Query q = em.createNativeQuery(WebConstant.QUERY_CITA_FIND_CITAS_DIPONIBLES_PACIENTE, Cita.class);
 
+            List<PersonaEps> listPersonaEps = facadeMedicoEps.consultarEpsMedico(idEps);
+            
+            if(listPersonaEps!=null){
+                
+                for(PersonaEps p:listPersonaEps){
+                    if(p.getFechaFin()==null){
+                        idEps=p.getEps().getIdPersona();
+                    }
+                }
+            
+               
             q.setParameter(1, idEspecialidad);
             q.setParameter(2, idEps);
             Date aux;
@@ -281,10 +292,13 @@ public class FacadeCita extends AbstractFacade<Cita> {
             q.setParameter(4, new Date(aux.getTime() + WebConstant.MS_DAY));
 
             return (List<Cita>) q.getResultList();
-
+            }else{
+                return null;
+            }
         } catch (Exception e) {
             return null;
         }
+        
 
     }
 

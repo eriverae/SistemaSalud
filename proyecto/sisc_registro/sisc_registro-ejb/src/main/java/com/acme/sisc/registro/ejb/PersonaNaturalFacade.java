@@ -48,6 +48,12 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
     public PersonaNaturalFacade() {
     }
 
+    /**
+     * Buscar una persona según su tipo y número de identificación.
+     * @param tId Tipo identificación.
+     * @param identificacion Número identificación.
+     * @return Objeto Persona, si existe.
+     */
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Override
     public PersonaNatural findByIdentificacion(TipoIdentificacion tId, long identificacion) {
@@ -63,6 +69,11 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         }
     }
 
+    /**
+     * Buscar persona por número de identificación.
+     * @param identificacion Número de identificación.
+     * @return Objeto Persona, si existe.
+     */
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Override
     public PersonaNatural findByNumeroIdentificacion(long identificacion) {
@@ -77,6 +88,11 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         }
     }
 
+    /**
+     * Buscar una persona según su correo electrónico.
+     * @param email Correo electrónico a buscar.
+     * @return Objeto Persona, si existe.
+     */
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Override
     public PersonaNatural findByEmail(String email) {
@@ -91,6 +107,11 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         }
     }
 
+    /**
+     * Actualizar una persona natural.
+     * @param p Persona natural.
+     * @return Persona natural.
+     */
     @Override
     public PersonaNatural modificarPersonaNatural(PersonaNatural p) {
         LOGGER.log(Level.FINE, "Modificando persona natural con nombre : {0} - Versión: {1}", new Object[]{p.getNombres(), p.getVersion()});
@@ -98,12 +119,25 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         return p;
     }
 
+    /**
+     * Listar todas las personas naturales.
+     * @return Lista con objetos PersonaNatural.
+     */
     @Override
     public List<PersonaNatural> findAll() {
         Query q = em.createQuery("SELECT p FROM PersonaNatural p");
         return q.getResultList();
     }
 
+    /**
+     * Buscar personas naturales según un rol.
+     * @param startPosition Posición inicial.
+     * @param maxResults Máximo de resultados.
+     * @param sortFields Campo por el cual ordenar la lista.
+     * @param sortDirections Dirección de orden.
+     * @param rol Rol a buscar.
+     * @return Listado de personas.
+     */
     @Override
     public List<PersonaNatural> findPersonaNaturalPorRol(int startPosition, int maxResults, String sortFields,
             String sortDirections, String rol) {
@@ -113,11 +147,19 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         return q.getResultList();
     }
 
+    /**
+     * Eliminar una persona natural.
+     * @param entity Persona natural.
+     */
     @Override
     public void remove(PersonaNatural entity) {
         em.remove(entity);
     }
 
+    /**
+     * Eliminar una persona natural según su identificador único.
+     * @param id Identificador único.
+     */
     public void remove(Long id) {
         LOGGER.log(Level.FINE, "Eliminar persona natural con id {0}", id);
         PersonaNatural p = this.find(id);
@@ -129,11 +171,24 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         }
     }
 
+    /**
+     * Consultar una persona natural según su identificador único.
+     * @param id Identificador único.
+     * @return Objeto PersonaNatural, si existe.
+     */
     @Override
     public PersonaNatural find(Object id) {
         return em.find(PersonaNatural.class, id);
     }
 
+    /**
+     * Buscar un listado de personas naturales.
+     * @param startPosition Posición inicial.
+     * @param maxResults Máximo de resultados.
+     * @param sortFields Campo por el cual ordenar la lista.
+     * @param sortDirections Dirección de orden.
+     * @return Listado de personas naturales.
+     */
     @Override
     public List<PersonaNatural> findRange(int startPosition, int maxResults, String sortFields, String sortDirections) {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
@@ -145,6 +200,10 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         return q.getResultList();
     }
 
+    /**
+     * Cantidad de personas naturales registradas en el sistema.
+     * @return Cantidad.
+     */
     @Override
     public int count() {
         javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -154,6 +213,12 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         return ((Long) q.getSingleResult()).intValue();
     }
 
+    /**
+     * Crear una persona natural.
+     * @param personaNatural Datos de la persona natural.
+     * @return La misma persona natural con identificador único.
+     * @throws CustomException 
+     */
     @Override
     public PersonaNatural crearPersonaNatural(PersonaNatural personaNatural) throws CustomException {
         try {
@@ -178,6 +243,16 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         return personaNatural;
     }
 
+    /**
+     * Consultar médicos según una EPS y una especialidad.
+     * @param startPosition Posición inicial.
+     * @param maxResults Máximo de resultados.
+     * @param sortFields Campo por el cual ordenar la lista.
+     * @param sortDirections Dirección de orden.
+     * @param especialidad Identificador único de la especialidad.
+     * @param eps Identificador único de la EPS.
+     * @return Listado de los médicos que cumplan con los filtros.
+     */
     @Override
     public List<PersonaNatural> medicosPorEspecialidadFindRange(int startPosition, int maxResults, String sortFields,
             String sortDirections, Long especialidad, Long eps) {
@@ -194,6 +269,15 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         return r;
     }
 
+    /**
+     * Listado de beneficiarios de un cotizante.
+     * @param startPosition Posición inicial.
+     * @param maxResults Máximo de resultados.
+     * @param sortFields Campo por el cual ordenar la lista.
+     * @param sortDirections Dirección de orden.
+     * @param cotizante Persona natural asociada a cierta EPS.
+     * @return Listado de beneficiarios.
+     */
     @Override
     public List<PersonaNaturalBeneficiario> findBeneficiarios(int startPosition, int maxResults, String sortFields,
             String sortDirections, long cotizante) {
@@ -210,6 +294,14 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         }
     }
 
+    /**
+     * Asociar una persona natural como beneficiario de determinado 
+     * cotizante.
+     * @param cotizante Persona natural asociada a una EPS.
+     * @param beneficiario Familiar del cotizante.
+     * @param parentezco Tipo de familiar.
+     * @throws CustomException 
+     */
     @Override
     public void asociarBeneficiario(Long cotizante, Long beneficiario, int parentezco) throws CustomException {
         try {
@@ -235,35 +327,61 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         }
     }
 
+    /**
+     * Eliminar relación entre beneficiario y cotizante.
+     * @param beneficiario 
+     */
     @Override
     public void removerBeneficiario(PersonaNaturalBeneficiario beneficiario) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Listar todas las EPS del sistema.
+     * @return Lista de objetos PersonaJuridica.
+     */
     @Override
     public List<PersonaJuridica> listaEPS() {
         Query q = em.createQuery("SELECT p FROM PersonaJuridica p");
         return q.getResultList();
     }
 
+    /**
+     * Listar todas las alergias del sistema.
+     * @return Listado de objetos Alergia.
+     */
     @Override
     public List<Alergia> listaAlergias() {
         Query q = em.createQuery("SELECT a FROM Alergia a");
         return q.getResultList();
     }
 
+    /**
+     * Listar todas las enfermedades del sistema.
+     * @return Listado de objetos Enfermedad.
+     */
     @Override
     public List<Enfermedad> listaEnfermedades() {
         Query q = em.createQuery("SELECT e FROM Enfermedad e");
         return q.getResultList();
     }
 
+    /**
+     * Listar todas las operaciones del sistema.
+     * @return Listado de objetos Operacion.
+     */
     @Override
     public List<Operacion> listaOperaciones() {
         Query q = em.createQuery("SELECT o FROM Operacion o");
         return q.getResultList();
     }
 
+    /**
+     * Cambiar la EPS actual de determinado paciente.
+     * @param paciente Identificador único del paciente.
+     * @param eps Identificador único de la EPS.
+     * @throws CustomException 
+     */
     @Override
     public void asociarPaciente_EPS(Long paciente, Long eps) throws CustomException {
         try {
@@ -292,6 +410,12 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         }
     }
 
+    /**
+     * Consultar la EPS actual del paciente.
+     * @param paciente Identificador único del paciente.
+     * @return Objeto PersonaJuridica.
+     * @throws CustomException 
+     */
     @Override
     public PersonaJuridica getPaciente_EPS(Long paciente) throws CustomException {
         PersonaJuridica response = null;
@@ -316,6 +440,12 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         return response;
     }
 
+    /**
+     * Asociar un médico a una o más EPS.
+     * @param medico Identificador único del médico.
+     * @param eps Identificador único de la EPS.
+     * @throws CustomException 
+     */
     @Override
     public void asociarMedico_EPS(Long medico, List<Long> eps) throws CustomException {
         try {
@@ -350,6 +480,12 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         }
     }
 
+    /**
+     * Obtener el listado de EPS asociadas a determinado médico.
+     * @param medico Identificador único del médico.
+     * @return Listado de PersonaJuridica.
+     * @throws CustomException 
+     */
     @Override
     public List<PersonaJuridica> getMedico_EPS(Long medico) throws CustomException {
         List<PersonaJuridica> response = null;
@@ -368,6 +504,12 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         return response;
     }
 
+    /**
+     * Asociar determinado paciente a una o más alergias.
+     * @param paciente Identificador único del paciente.
+     * @param alergias Listado de identificadores de las alergias.
+     * @throws CustomException 
+     */
     @Override
     public void asociarPaciente_Alergias(Long paciente, List<Long> alergias) throws CustomException {
         try {
@@ -401,6 +543,12 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         }
     }
 
+    /**
+     * Asociar determinado paciente a una o más enfermedades.
+     * @param paciente Identificador único del paciente.
+     * @param enfermedades Listado de identificadores de las enfermedades.
+     * @throws CustomException 
+     */
     @Override
     public void asociarPaciente_Enfermedades(Long paciente, List<Long> enfermedades) throws CustomException {
         try {
@@ -434,6 +582,12 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         }
     }
 
+    /**
+     * Asociar determinado paciente a una o más operaciones.
+     * @param paciente Identificador único del paciente.
+     * @param operaciones Listado de identificadores de las operaciones.
+     * @throws CustomException 
+     */
     @Override
     public void asociarPaciente_Operaciones(Long paciente, List<Long> operaciones) throws CustomException {
         try {
@@ -467,6 +621,12 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         }
     }
 
+    /**
+     * Obtener el listado de alergias asociadas a determinado paciente.
+     * @param paciente Identificador único del paciente.
+     * @return Listadop de Alergia.
+     * @throws CustomException 
+     */
     @Override
     public List<Alergia> getAlergiasPaciente(Long paciente) throws CustomException {
         List<Alergia> response = null;
@@ -485,6 +645,12 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         return response;
     }
 
+    /**
+     * Obtener el listado de enfermedades asociadas a determinado paciente.
+     * @param paciente Identificador único del paciente.
+     * @return Listado de Enfermedad.
+     * @throws CustomException 
+     */
     @Override
     public List<Enfermedad> getEnfermedadesPaciente(Long paciente) throws CustomException {
         List<Enfermedad> response = null;
@@ -503,6 +669,12 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         return response;
     }
 
+    /**
+     * Obtener el listado de operaciones asociadas a determinado paciente.
+     * @param paciente Identificador único del paciente.
+     * @return Listado de Operacion.
+     * @throws CustomException 
+     */
     @Override
     public List<Operacion> getOperacionesPaciente(Long paciente) throws CustomException {
         List<Operacion> response = null;

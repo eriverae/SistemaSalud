@@ -19,9 +19,12 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 /**
- *
- * @author Julio
- */
+* Clase NotificacionFacade, es la fachada para las consultas, creación, modificación y 
+* eliminacion de las Notificaciones
+* @author  Julio
+* @version 1.0
+* @since   2016-06-27
+*/
 @Stateless
 public class NotificacionFacade implements NotificacionFacadeLocal, NotificacionFacadeRemote {
 
@@ -30,18 +33,25 @@ public class NotificacionFacade implements NotificacionFacadeLocal, Notificacion
 
     private static final Logger LOGGER = Logger.getLogger(NotificacionFacade.class.getName());
 
+    /**
+    * Metodo getEntityManager, es el punto de acceso para persistir las entidades desde la BD
+    * @return EntityManager em, retorna el objeto de EntityManager
+    */
     protected EntityManager getEntityManager() {
         return em;
     }
 
     private IPersonaNaturalFacadeRemote personaNaturalFacade;
 
-//    private static final String LOCAL_EJB_PERSONA = "java:app/sisc_registro-ejb-1.0-SNAPSHOT/PersonaNaturalFacade!com.acme.sisc.registro.ejb.IPersonaNaturalFacadeRemote";
     private static final String LOCAL_EJB_PERSONA = "java:global/sisc_registro-ear-1.0-SNAPSHOT/sisc_registro-ejb-1.0-SNAPSHOT/PersonaNaturalFacade!com.acme.sisc.registro.ejb.IPersonaNaturalFacadeRemote";
-//                                                     java:global/sisc_registro-ear-1.0-SNAPSHOT/sisc_registro-ejb-1.0-SNAPSHOT/PersonaNaturalFacade!com.acme.sisc.registro.ejb.IPersonaNaturalFacadeRemote
-//    private static final String LOCAL_EJB_PERSONA = "java:module/PersonaNaturalFacade!com.acme.sisc.registro.ejb.IPersonaNaturalFacadeRemote";
-    
 
+    /**
+    * Metodo crearNotificacion, crea las notificaciones con los parametros definidos
+    * @param String destino el el correo del usuario que se creo
+    * @param String asunto es el asunto del correo
+    * @param String cuerpo es el cuerpo del mensaje
+    * @param String sistema es el modulo que lo implemento
+    */
     @Override
     public void crearNotificacion(String destino, String asunto, String cuerpo, String sistema) {
         LOGGER.info("Inicia crearNotificacion(...)");
@@ -69,17 +79,34 @@ public class NotificacionFacade implements NotificacionFacadeLocal, Notificacion
         em.persist(ln);
     }
 
+    /**
+    * Metodo findAll, retorna una lista de objetos de tipo LogNotifica
+    * @return java.util.List<LogNotifica>, todas las auditorias existentes en la BD
+    */
     @Override
     public java.util.List<LogNotifica> findAll() {
         Query q = em.createNamedQuery("LogNotifica.findAll");
         return q.getResultList();
     }
 
+    /**
+    * Metodo find, consulta el objeto en referencia a partir del id
+    * @param Object id es el objeto en referencia a consultar
+    * @return LogNotifica es el objeto que trae a partir del metodo find
+    */
     @Override
     public LogNotifica find(Object id) {
         return em.find(LogNotifica.class, id);
     }
 
+    /**
+    * Metodo findRange, consulta y devuelve una lista de objetos en referencia
+    * @param startPosition es la posicion inicial de la lista de los objetos
+    * @param maxResults es la cantidad de los objetos existentes
+    * @param sortFields son los capos del objetos
+    * @param sortDirections es el orden con el que re retorna la lista de objetos
+    * @return java.util.List<LogNotifica> la lista de objetos en referencia
+    */    
     @Override
     public java.util.List<LogNotifica> findRange(int startPosition, int maxResults, String sortFields, String sortDirections) {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
@@ -91,6 +118,10 @@ public class NotificacionFacade implements NotificacionFacadeLocal, Notificacion
         return q.getResultList();
     }
 
+    /**
+    * Metodo count, devuelve el conteo de objetos en referencia
+    * @return int con el numero de objetos en referencia
+    */
     @Override
     public int count() {
         javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();

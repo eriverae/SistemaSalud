@@ -23,9 +23,12 @@ import javax.persistence.Query;
 import javax.persistence.criteria.Order;
 
 /**
- *
- * @author rm-rf
- */
+* Clase UsuarioFacade, es clase implementada para la colda de mensajerias
+* 
+* @author  Julio
+* @version 1.0
+* @since   2016-05-28
+*/
 @Stateless
 public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
 
@@ -36,10 +39,19 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
 
     private static final Logger LOGGER = Logger.getLogger(UsuarioFacade.class.getName());
 
+    /**
+    * Metodo getEntityManager, es el punto de acceso para persistir las entidades desde la BD
+    * @return EntityManager em, retorna el objeto de EntityManager
+    */
     protected EntityManager getEntityManager() {
         return em;
     }
 
+    /**
+    * Metodo crearUsuario, crea el usuario con el objeto que llega del servicio, accediento a la entidad
+    * @param Usuario usuario es el objeto a crear y persistir en la BD
+    * @return Usuario 
+    */
     @Override
     public Usuario crearUsuario(Usuario usuario) throws SeguridadException {
         LOGGER.info("Inicia Usuario(...)");
@@ -75,6 +87,11 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
         return usuario;
     }
 
+    /**
+    * Metodo findByEmail, devuelve un objeto de tipo Usuario consultado a partir del parametro de entrada
+    * @param email String es el correo del usuario, el cual va a buscar
+    * @return retorna Usuario, el el objeto encontrado a partir del metodo de la busqueda
+    */
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Override
     public Usuario findByEmail(String email) {
@@ -89,6 +106,11 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
         }
     }
 
+    /**
+    * Metodo encriptar, encripta un String en este caso la contraseña con el algoritmo MD5
+    * @param password String es el password del usuario a encriptar
+    * @return String con el password encriptado 
+    */
     public String encriptar(String password) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(password.getBytes());
@@ -100,6 +122,11 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
         return sb.toString();
     }
 
+    /**
+    * Metodo modificarUsuario, devuelve un objeto de tipo Usuario una vez que se modifican sus atributos
+    * @param Usuario usuario es el objeto a modififcar
+    * @return retorna Usuario, el el objeto una vez modificado 
+    */
     @Override
     public Usuario modificarUsuario(Usuario usuario) {
         LOGGER.log(Level.FINE, "Modificando usuario con nombre : {0} - Version: ", new Object[]{usuario.getUsuaEmail()});
@@ -116,17 +143,29 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
         return usuario;
     }
 
+    /**
+    * Metodo findAll, retorna una lista de objetos de tipo Usuario
+    * @return java.util.List<Usuario>, todos los grupos existentes en la BD
+    */
     @Override
     public java.util.List<Usuario> findAll() {
         Query q = em.createNamedQuery("Usuario.findAll");
         return q.getResultList();
     }
 
+    /**
+    * Metodo remove, elimina el objeto con el metodo remove 
+    * @param Usuario usuario es el objeto a eliminar en la BD
+    */
     @Override
     public void remove(Usuario usuario) {
         em.remove(usuario);
     }
 
+    /**
+    * Metodo remove, elimina el objeto con el metodo remove, antes de ello crea un objeto a partir del id 
+    * @param Long usuario id del Usuario a eliminar
+    */
     @Override
     public void remove(Long usuario) {
         LOGGER.log(Level.FINE, "Eliminar usuario con id {0}", usuario);
@@ -141,11 +180,24 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
         }
     }
 
+    /**
+    * Metodo find, consulta el objeto en referencia a partir del id
+    * @param Object id es el objeto en referencia a consultar
+    * @return Usuario es el objeto que trae a partir del metodo find
+    */
     @Override
     public Usuario find(Object id) {
         return em.find(Usuario.class, id);
     }
 
+    /**
+    * Metodo findRange, consulta y devuelve una lista de objetos en referencia
+    * @param startPosition es la posicion inicial de la lista de los objetos
+    * @param maxResults es la cantidad de los objetos existentes
+    * @param sortFields son los capos del objetos
+    * @param sortDirections es el orden con el que re retorna la lista de objetos
+    * @return java.util.List<Usuario> la lista de objetos en referencia
+    */
     @Override
     public java.util.List<Usuario> findRange(int startPosition, int maxResults, String sortFields, String sortDirections) {
         Query q = em.createNamedQuery("Usuario.findAllOrderByEstado");
@@ -161,6 +213,10 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
         return q.getResultList();
     }
 
+    /**
+    * Metodo count, devuelve el conteo de objetos en referencia
+    * @return int con el numero de objetos en referencia
+    */
     @Override
     public int count() {
         javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -170,6 +226,12 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
         return ((Long) q.getSingleResult()).intValue();
     }
 
+    /**
+    * Metodo autenticar, consulta que el usuario y contraseña existan
+    * @param usuario es el mail del usuario
+    * @param password es el password del usuario
+    * @return boolean, true si es correcta la consulta y false por lo contrario
+    */
     @Override
     public boolean autenticar(String usuario, String password) {
         try {
@@ -184,6 +246,14 @@ public class UsuarioFacade implements UsuarioFacadeRemote, UsuarioFacadeLocal {
         return false;
     }
 
+    
+    /**
+    * Metodo cambiarContrasena, cambia la contraseña del usuario
+    * @param usuario es el mail del usuario
+    * @param passOld es el antiguo password del usuario
+    * @param passNew es el nuevo password del usuario
+    * @return String, "True" si el cambio es exitoso y false por lo contrario
+    */
     @Override
     public String cambiarContrasena(Usuario usuario, String passOld, String passNew) {
         LOGGER.info("Inicia cambiarContrasena(...)");
