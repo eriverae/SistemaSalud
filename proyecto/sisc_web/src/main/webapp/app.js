@@ -62,10 +62,11 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                         'contenidoOculto' : {
                         url: '/modificarAcceso',
                         templateUrl: 'seguridad/accesos/formularioAcceso.html',
-                        controller: 'accesoFormController',
-                        params: {'acceAcce': null}
+                        controller: 'accesoFormController'
+                        
                         }
                     },
+                    params: {'acceAcce': null},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
 
@@ -92,8 +93,9 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                         'contenidoOculto' : {
                     url: '/modificarGrupo',
                     templateUrl: 'seguridad/grupos/formularioGrupo.html',
-                    controller: 'grupoFormController',
-                    params: {'grupGrup': null}}},
+                    controller: 'grupoFormController'
+                    }},
+                    params: {'grupGrup': null},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
 
@@ -120,8 +122,9 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                         'contenidoOculto' : {
                     url: '/modificarUsuario',
                     templateUrl: 'seguridad/usuarios/formularioUsuario.html',
-                    controller: 'usuarioFormController',
-                    params: {'usuaUsua': null}}},
+                    controller: 'usuarioFormController'
+                    }},
+                    params: {'usuaUsua': null},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
 
@@ -130,8 +133,9 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                         'contenidoOculto' : {
                     url: '/cambiarContrasena',
                     templateUrl: 'seguridad/usuarios/formularioContrasena_Admin.html',
-                    controller: 'contrasenaFormController',
-                    params: {'usuaUsua': null}}},
+                    controller: 'contrasenaFormController'
+                    }},
+                    params: {'usuaUsua': null},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
 
@@ -149,29 +153,34 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                         'contenidoOculto' : {
                     url: '/medico/agenda',
                     templateUrl: 'agenda/medicos/agendaMedico.html',
-                    controller: 'agendaMedicoContoller',
+                    controller: 'agendaMedicoContoller'
 //                    params: {'idMedico': '9'},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                        }}, 
+                    roles: {authorizedRoles: [USER_ROLES.Medico]}
 
                 })
+                
                 .state('home.citasPaciente', {
                     views: {
                         'contenidoOculto' : {
                     url: '/paciente/lcitas',
                     templateUrl: 'agenda/pacientes/consultarCitas.html',
-                    controller: 'citasController',
+                    controller: 'citasController'
                     //params : {'idPaciente':'2'}
 //                    params: {'idPaciente': '23'},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    }}, 
+                    roles: {authorizedRoles: [USER_ROLES.Paciente]}
                 })
+                
                 .state('home.citasHistorialPaciente', {
                     views: {
                         'contenidoOculto' : {
                     url: '/paciente/historialCitas',
                     templateUrl: 'agenda/pacientes/historialCitas.html',
-                    controller: 'historialCitasController',
+                    controller: 'historialCitasController'
 //                    params : {'idPaciente':'23'},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    }}, 
+                    roles: {authorizedRoles: [USER_ROLES.Paciente]}
 
                 })
                 .state('home.historialPacienteEPS', {
@@ -179,21 +188,23 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                         'contenidoOculto' : {
                     url: '/paciente/historialPacienteEPS',
                     templateUrl: 'agenda/pacientes/historialPacienteEPS.html',
-                    controller: 'citasController',
-                    params: {'idPaciente': '23'}}},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    controller: 'citasController'
+                    }},
+                    params: {'idPaciente': '23'},
+                    roles: {authorizedRoles: [USER_ROLES.Paciente]}
                 })
                 .state('home.pacienteConsultaMedicoEspecializado', {
                     views: {
                         'contenidoOculto' : {
                     url: '/paciente/ConsultaMedicoEspecializado',
                     templateUrl: 'agenda/pacientes/pacienteConsultaMedicoEspecializado.html',
-                    controller: 'pacienteConsultaMedicoEspecializado',
+                    controller: 'pacienteConsultaMedicoEspecializado'
 //                    params: {paciente: {
 //                            idPersona: "23",
 //                            idEps: "3",
 //                        }},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    }}, 
+                    roles: {authorizedRoles: [USER_ROLES.Paciente]}
                 })
                 .state('home.agendarCalendarioDelMedico', {
                     views: {
@@ -201,7 +212,7 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                     url: '/paciente/agendarCalendarioDelMedico',
                     templateUrl: 'agenda/pacientes/agendarCalendarioDelMedico.html',
                     controller: 'agendarCalendarioDelMedico'}},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    roles: {authorizedRoles: [USER_ROLES.Paciente]}
                 })
 
 
@@ -214,7 +225,7 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                     url: '/personaNatural',
                     templateUrl: 'registro/registroPersonaNatural.html',
                     controller: 'personaNaturalController'}},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    roles: {authorizedRoles: [USER_ROLES.Administrador, USER_ROLES.EPS]}
                 })
 
                 .state('home.modificarPersonaNatural', {
@@ -222,9 +233,10 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                         'contenidoOculto' : {
                     url: '/mPersonaNatural',
                     templateUrl: 'registro/registroPersonaNatural.html',
-                    controller: 'personaNaturalController',
-                    params: {idPersona: null}}},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    controller: 'personaNaturalController'
+                    }},
+                    params: {idPersona: null},
+                    roles: {authorizedRoles: [USER_ROLES.Administrador, USER_ROLES.EPS]}
                 })
 
                 .state('home.registroMedicos', {
@@ -233,7 +245,7 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                     url: '/medicos',
                     templateUrl: 'registro/medicos/registroMedicos.html',
                     controller: 'medicosController'}},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    roles: {authorizedRoles: [USER_ROLES.Administrador, USER_ROLES.EPS]}
                 })
 
                 .state('home.listarMedicos', {
@@ -242,7 +254,7 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                     url: '/listaMedicos',
                     templateUrl: 'registro/medicos/listaMedicos.html',
                     controller: 'listaMedicosController'}},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    roles: {authorizedRoles: [USER_ROLES.Administrador, USER_ROLES.EPS]}
                 })
 
                 .state('home.modificarMedicos', {
@@ -250,9 +262,10 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                         'contenidoOculto' : {
                     url: '/modificarMedicos',
                     templateUrl: 'registro/medicos/registroMedicos.html',
-                    controller: 'medicosController',
-                    params: {idPersona: null}}},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    controller: 'medicosController'
+                    }},
+                    params: {idPersona: null},
+                    roles: {authorizedRoles: [USER_ROLES.Administrador, USER_ROLES.EPS]}
                 })
 
                 .state('home.registroPacientes', {
@@ -261,7 +274,7 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                     url: '/pacientes',
                     templateUrl: 'registro/pacientes/registroPacientes.html',
                     controller: 'pacientesController'}},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    roles: {authorizedRoles: [USER_ROLES.Administrador, USER_ROLES.EPS]}
                 })
 
                 .state('home.listarPacientes', {
@@ -270,7 +283,7 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                     url: '/listaPacientes',
                     templateUrl: 'registro/pacientes/listaPacientes.html',
                     controller: 'listaPacientesController'}},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    roles: {authorizedRoles: [USER_ROLES.Administrador, USER_ROLES.EPS]}
                 })
 
                 .state('home.modificarPacientes', {
@@ -278,9 +291,10 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                         'contenidoOculto' : {
                     url: '/modificarPacientes',
                     templateUrl: 'registro/pacientes/registroPacientes.html',
-                    controller: 'pacientesController',
-                    params: {idPersona: null}}},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    controller: 'pacientesController'
+                    }},
+                    params: {idPersona: null},
+                    roles: {authorizedRoles: [USER_ROLES.Administrador, USER_ROLES.EPS]}
                 })
 
                 .state('home.registroBeneficiarios', {
@@ -288,9 +302,10 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                         'contenidoOculto' : {
                     url: '/beneficiario',
                     templateUrl: 'registro/beneficiario/registroBeneficiarios.html',
-                    controller: 'beneficiariosController',
-                    params: {idPersona: null}}},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    controller: 'beneficiariosController'
+                    }},
+                    params: {idPersona: null},
+                    roles: {authorizedRoles: [USER_ROLES.Administrador, USER_ROLES.EPS]}
                 })
 
                 .state('home.registroEps', {
@@ -316,8 +331,9 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                         'contenidoOculto' : {
                     url: '/ModificarEPS',
                     templateUrl: 'registro/eps/registroEps.html',
-                    controller: 'epsController',
-                    params: {idPersona: null}}},
+                    controller: 'epsController'
+                    }},
+                    params: {idPersona: null},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
 
@@ -329,16 +345,17 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                     url: '/historia/diagnostico',
                     templateUrl: 'historia/diagnostico.html',
                     controller: 'diagnosticoController'}},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    roles: {authorizedRoles: [USER_ROLES.Medico]}
                 })
                 .state('home.menuhc', {
                     views: {
                         'contenidoOculto' : {
                     url: '/menuhc',
                     templateUrl: 'historia/menuhc.html',
-                    controller: 'menuController',
-                    params: {cita: null}}},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    controller: 'menuController'
+                    }},
+                    params: {cita: null},
+                    roles: {authorizedRoles: [USER_ROLES.Medico, USER_ROLES.Paciente]}
 
                 })
                 .state('home.historia', {
@@ -348,7 +365,7 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                     templateUrl: 'historia/historiaclinica.html',
                     controller: 'historiaController'
                 }},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    roles: {authorizedRoles: [USER_ROLES.Medico, USER_ROLES.Paciente]}
                 })
                 .state('home.asignarmedicamento', {
                     views: {
@@ -356,7 +373,7 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                     url: '/historia/asignar-medicamento',
                     templateUrl: 'historia/asignarmedicamento.html',
                     controller: 'medicamentoController'}},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    roles: {authorizedRoles: [USER_ROLES.Medico]}
                 })
                 .state('home.asignarTratamiento', {
                     views: {
@@ -364,7 +381,7 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                     url: '/historia/asignar-tratamiento',
                     templateUrl: 'historia/asignarTratamiento.html',
                     controller: 'tratamientoController'}},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    roles: {authorizedRoles: [USER_ROLES.Medico]}
                 })
 
                 .state('home.asignarincapacidad', {
@@ -373,7 +390,7 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                     url: '/historia/asignar-incapacidad',
                     templateUrl: 'historia/asignarincapacidad.html',
                     controller: 'incapacidadController'}},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    roles: {authorizedRoles: [USER_ROLES.Medico]}
                 })
 
                 .state('home.asignarexamen', {
@@ -382,7 +399,7 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                     url: '/historia/asignar-examen',
                     templateUrl: 'historia/asignarexamen.html',
                     controller: 'examenController'}},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    roles: {authorizedRoles: [USER_ROLES.Medico]}
                 })
 
                 .state('home.asignarCirugia', {
@@ -391,12 +408,47 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                     url: '/historia/asignar-cirugia',
                     templateUrl: 'historia/asignarCirugia.html',
                     controller: 'cirugiaController'}},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    roles: {authorizedRoles: [USER_ROLES.Medico]}
                 })
 
                 ;
 
     }]);
+    
+app.controller('loginController', function ($scope, store) {
+    
+    $scope.nombrePersona = store.get('personaNatural').nombres;
+    $scope.apellidoPersona = store.get('personaNatural').apellidos;
+    $scope.tipoDocPersona = store.get('personaNatural').tipoIdentificacion;
+    $scope.docPersona = store.get('personaNatural').numeroIdentificacion;
+    $scope.correoPersona = store.get('personaNatural').correoElectronico;
+    
+    $.getJSON("https://api.ipify.org?format=jsonp&callback=?", function (json) {
+            store.set('ip', json.ip);
+        }
+    );
+    
+    $scope.ipPersona = store.get('ip');
+    
+    
+    //{"idPersona":1,"tipoIdentificacion":"CC","numeroIdentificacion":9999999,"version":0,"correoElectronico":"admin@admin.com","nombres":"Admin","apellidos":"admin","genero":"M","fechaNacimiento":315550800000,"telefonoCelular":555555555555,"telefonoFijo":444444444444,"direccion":"Direccion de mi casa","fotografia":null,"huella":null,"rh":"+","grupoSanguineo":"A","tarjetaProfesional":null,"rolPersonaNatural":"PACIENTE"}
+    $scope.mostrarMenu = function (value) {
+        for (var i = 0; i < store.get('listaGrupos').length; i++ ){
+            if (value instanceof Array){
+                for (var j = 0; j < value.length ; j++){
+                    if (value[j] === store.get('listaGrupos')[i]){
+                        return true;
+                    }
+                }
+            }else{
+                if (value === store.get('listaGrupos')[i]){
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
+});
 
 app.run(function ($rootScope, $state, $http, AUTH_EVENTS, AuthService) {
 

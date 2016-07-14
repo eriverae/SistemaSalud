@@ -135,11 +135,11 @@ app.controller('grupoFormController', function ($scope, $rootScope, $stateParams
 
     $scope.closepopup = function () {
         $('#message-box-success').hide();
-        $state.go('grupos');
+        $state.go('home.grupos');
     };
 
     $scope.cancelar = function () {
-        $state.go('grupos');
+        $state.go('home.grupos');
     };
 
 });
