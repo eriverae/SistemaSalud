@@ -11,6 +11,7 @@ import com.acme.sisc.agenda.entidades.Operacion;
 import com.acme.sisc.agenda.entidades.PersonaJuridica;
 import com.acme.sisc.agenda.entidades.PersonaNatural;
 import com.acme.sisc.agenda.entidades.PersonaNaturalBeneficiario;
+import com.acme.sisc.common.errorhandling.CustomExceptionMapper;
 import com.acme.sisc.common.errorhandling.ErrorMessage;
 import com.acme.sisc.common.exceptions.CustomException;
 import com.acme.sisc.common.pagination.PaginatedListWrapper;
@@ -31,18 +32,21 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
- * Servicio REST que provee las funcionalidades para 
- * todo tipo de persona natural.
+ * Servicio REST que provee las funcionalidades para todo tipo de persona
+ * natural.
  *
  * @author rreedd
  */
 @Path("personaNatural")
 @RequestScoped
 public class PersonaNaturalResource {
+
     /**
      * Instancia del logger.
      */
     private static final Logger LOGGER = Logger.getLogger(PersonaNaturalResource.class.getName());
+
+    private static final CustomExceptionMapper mapper = new CustomExceptionMapper();
 
     @Context
     private UriInfo context;
@@ -61,6 +65,7 @@ public class PersonaNaturalResource {
 
     /**
      * Función por defecto para listar las personas naturales.
+     *
      * @param page Número de página.
      * @param sortFields Campo por el cuál se debe ordenar.
      * @param sortDirections Ordenamiento de los registros.
@@ -81,7 +86,7 @@ public class PersonaNaturalResource {
         paginatedListWrapper.setSortFields(sortFields);
         paginatedListWrapper.setSortDirections(sortDirections);
         paginatedListWrapper.setPageSize(10);
-        if(!rol.equals("ADMIN") && !rol.isEmpty()){
+        if (!rol.equals("ADMIN") && !rol.isEmpty()) {
             return personasPorRolWrapper(paginatedListWrapper, rol);
         }
         return findPersonaNatural(paginatedListWrapper);
@@ -97,7 +102,7 @@ public class PersonaNaturalResource {
                 wrapper.getSortDirections()));
         return wrapper;
     }
-    
+
     private PaginatedListWrapper<PersonaNatural> personasPorRolWrapper(PaginatedListWrapper<PersonaNatural> wrapper, String rol) {
         int total = facadePersonaNatural.count();
         wrapper.setTotalResults(total);
@@ -114,6 +119,7 @@ public class PersonaNaturalResource {
 
     /**
      * Consultar una persona natural dado su identificador.
+     *
      * @param id Identificador único.
      * @return Representación de la persona, si existe.
      */
@@ -122,18 +128,23 @@ public class PersonaNaturalResource {
     @Produces(MediaType.APPLICATION_JSON)
     public PersonaNatural consultarPersona(@PathParam("id") Long id) {
         PersonaNatural response = null;
-        LOGGER.log(Level.FINE, "ATENCION id " + id + " \n\n\n");
-        LOGGER.log(Level.FINE, "Consultando persona natural con id {0} \n\n\n", id);
-        response = facadePersonaNatural.find(id);
-        if (response == null) {
-            LOGGER.log(Level.FINE, "Consultando persona natural con numero identificacion {0} \n\n\n", id);
-            return facadePersonaNatural.findByNumeroIdentificacion(id);
+        try {
+            LOGGER.log(Level.FINE, "ATENCION id " + id + " \n\n\n");
+            LOGGER.log(Level.FINE, "Consultando persona natural con id {0} \n\n\n", id);
+            response = facadePersonaNatural.find(id);
+            if (response == null) {
+                LOGGER.log(Level.FINE, "Consultando persona natural con numero identificacion {0} \n\n\n", id);
+                return facadePersonaNatural.findByNumeroIdentificacion(id);
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error en asociarPacienteEPS: " + e.toString() + "\n" + e.getStackTrace());
         }
         return response;
     }
 
     /**
      * Consultar una persona natural según su número de identificación.
+     *
      * @param numberId Número de identificación.
      * @return Representación de la persona, si existe.
      */
@@ -141,12 +152,18 @@ public class PersonaNaturalResource {
     @Path("getByNumber/{numberId}")
     @Produces(MediaType.APPLICATION_JSON)
     public PersonaNatural consultarPersonaPorNumeroIdentificacion(@PathParam("numberId") Long numberId) {
-        LOGGER.log(Level.FINE, "Consultando persona natural con numero identificacion {0} \n\n\n", numberId);
-        return facadePersonaNatural.findByNumeroIdentificacion(numberId);
+        try {
+            LOGGER.log(Level.FINE, "Consultando persona natural con numero identificacion {0} \n\n\n", numberId);
+            return facadePersonaNatural.findByNumeroIdentificacion(numberId);
+        } catch (CustomException ex) {
+            Logger.getLogger(PersonaNaturalResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     /**
      * Consultar una persona natural según su correo electrónico.
+     *
      * @param email Correo electrónico.
      * @return Representación de la persona, si existe.
      */
@@ -160,19 +177,25 @@ public class PersonaNaturalResource {
 
     /**
      * Eliminar una persona natural dado su identificador único.
+     *
      * @param id Identificador único.
      */
     @DELETE
     @Path("{id}")
     public void eliminarPersona(@PathParam("id") Long id) {
-        LOGGER.log(Level.FINE, "Request para eliminar persona natural con id {0}", id);
-        facadePersonaNatural.remove(id);
+        try {
+            LOGGER.log(Level.FINE, "Request para eliminar persona natural con id {0}", id);
+            facadePersonaNatural.remove(id);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error en asociarPacienteEPS: " + e.toString() + "\n" + e.getStackTrace());
+        }
     }
 
     /**
      * Crear o actualizar una persona natural.
      *
      * @param personaNatural Entidad representativa de la persona.
+     * @return Response exitoso o fallido.
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -184,24 +207,17 @@ public class PersonaNaturalResource {
                 personaNatural = facadePersonaNatural.modificarPersonaNatural(personaNatural);
             }
         } catch (CustomException ex) {
-            ErrorMessage errorMessage = new ErrorMessage();
-            errorMessage.setCode(ex.getErrorCode());
-            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
-            errorMessage.setMessage(ex.getMessage());
-            StringWriter errorStackTrace = new StringWriter();
-            ex.printStackTrace(new PrintWriter(errorStackTrace));
-            errorMessage.setDeveloperMessage(errorStackTrace.toString());
-
-            return Response.status(errorMessage.getStatus())
-                    .entity(errorMessage)
-                    .type(MediaType.APPLICATION_JSON)
-                    .build();
+            return mapper.toResponse(ex);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error en guardarPersonaNatural: " + e.toString() + "\n" + e.getStackTrace());
         }
+
         return Response.ok(personaNatural).build();
     }
 
     /**
      * Listado de los beneficiarios de determinado cotizante.
+     *
      * @param page Número de página.
      * @param sortFields Campo por el cuál se debe ordenar.
      * @param sortDirections Ordenamiento de los registros.
@@ -229,22 +245,28 @@ public class PersonaNaturalResource {
     }
 
     private PaginatedListWrapper<PersonaNaturalBeneficiario> beneficiariosWrapper(PaginatedListWrapper wrapper, String cotizante) {
-        int total = facadePersonaNatural.count();
-        wrapper.setTotalResults(total);
-        int start = (wrapper.getCurrentPage() - 1) * wrapper.getPageSize();
-        wrapper.setList(
-                facadePersonaNatural.findBeneficiarios(start,
-                        wrapper.getPageSize(),
-                        wrapper.getSortFields(),
-                        wrapper.getSortDirections(),
-                        Long.parseLong(cotizante))
-        );
-        return wrapper;
+        try {
+            int total = facadePersonaNatural.count();
+            wrapper.setTotalResults(total);
+            int start = (wrapper.getCurrentPage() - 1) * wrapper.getPageSize();
+            wrapper.setList(
+                    facadePersonaNatural.findBeneficiarios(start,
+                            wrapper.getPageSize(),
+                            wrapper.getSortFields(),
+                            wrapper.getSortDirections(),
+                            Long.parseLong(cotizante))
+            );
+            return wrapper;
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error en beneficiariosWrapper: " + e.toString() + "\n" + e.getStackTrace());
+            return null;
+        }
     }
-    
+
     /**
-     * Asociar dos personas naturales como cotizante y beneficiario según 
+     * Asociar dos personas naturales como cotizante y beneficiario según
      * determinado parentezco.
+     *
      * @param cotizante Identificador único del cotizante.
      * @param beneficiario Identificador único del beneficiario.
      * @param parentezco Parentezco entre ambas personas.
@@ -253,81 +275,76 @@ public class PersonaNaturalResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("asociarBeneficiario")
-    public Response asociarBeneficiario(@QueryParam("cotizante") String cotizante, 
-                                    @QueryParam("beneficiario") String beneficiario,
-                                    @QueryParam("parentezco") String parentezco){
-        try{
-            facadePersonaNatural.asociarBeneficiario(Long.valueOf(cotizante), 
+    public Response asociarBeneficiario(@QueryParam("cotizante") String cotizante,
+            @QueryParam("beneficiario") String beneficiario,
+            @QueryParam("parentezco") String parentezco) {
+        try {
+            facadePersonaNatural.asociarBeneficiario(Long.valueOf(cotizante),
                     Long.valueOf(beneficiario), Integer.valueOf(parentezco));
-        }
-        catch (CustomException ex) {
-            ErrorMessage errorMessage = new ErrorMessage();
-            errorMessage.setCode(ex.getErrorCode());
-            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
-            errorMessage.setMessage(ex.getMessage());
-            StringWriter errorStackTrace = new StringWriter();
-            ex.printStackTrace(new PrintWriter(errorStackTrace));
-            errorMessage.setDeveloperMessage(errorStackTrace.toString());
-
-            return Response.status(errorMessage.getStatus())
-                    .entity(errorMessage)
-                    .type(MediaType.APPLICATION_JSON)
-                    .build();
+        } catch (CustomException ex) {
+            return mapper.toResponse(ex);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error en guardarPersonaNatural: " + e.toString() + "\n" + e.getStackTrace());
         }
         return Response.ok(0).build();
     }
-    
+
     /**
      * Listar las EPS registradas en el sistema.
+     *
      * @return Listado de personas jurídicas.
      */
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("listaEPS")
-    public List<PersonaJuridica> listaEPS(){
+    public List<PersonaJuridica> listaEPS() {
         return facadePersonaNatural.listaEPS();
     }
-    
+
     /**
      * Listar las alergias registradas en el sistema.
+     *
      * @return Listado de alergias.
      */
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("listaAlergias")
-    public List<Alergia> listaAlergias(){
+    public List<Alergia> listaAlergias() {
         return facadePersonaNatural.listaAlergias();
     }
-    
+
     /**
      * Listar las enfermedades registradas en el sistema.
+     *
      * @return Listado de enfermedades.
      */
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("listaEnfermedades")
-    public List<Enfermedad> listaEnfermedades(){
+    public List<Enfermedad> listaEnfermedades() {
         return facadePersonaNatural.listaEnfermedades();
     }
-    
+
     /**
      * Listar las operaciones registradas en el sistema.
+     *
      * @return Listado de operaciones.
      */
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("listaOperaciones")
-    public List<Operacion> listaOperacion(){
+    public List<Operacion> listaOperacion() {
         return facadePersonaNatural.listaOperaciones();
     }
 
     /**
-     * Asociar un paciente a una EPS y dar por terminada una relación anterior 
-     * a otra EPS
+     * Asociar un paciente a una EPS y dar por terminada una relación anterior a
+     * otra EPS
+     *
      * @param paciente Identificador único del paciente.
      * @param eps Identificador único de la EPS.
      * @return Representación del paciente en forma de entidad.
@@ -339,24 +356,16 @@ public class PersonaNaturalResource {
         try {
             facadePersonaNatural.asociarPaciente_EPS(paciente, eps);
         } catch (CustomException ex) {
-            ErrorMessage errorMessage = new ErrorMessage();
-            errorMessage.setCode(ex.getErrorCode());
-            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
-            errorMessage.setMessage(ex.getMessage());
-            StringWriter errorStackTrace = new StringWriter();
-            ex.printStackTrace(new PrintWriter(errorStackTrace));
-            errorMessage.setDeveloperMessage(errorStackTrace.toString());
-
-            return Response.status(errorMessage.getStatus())
-                    .entity(errorMessage)
-                    .type(MediaType.APPLICATION_JSON)
-                    .build();
+            return mapper.toResponse(ex);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error en asociarPacienteEPS: " + e.toString() + "\n" + e.getStackTrace());
         }
         return Response.ok(paciente).build();
     }
 
     /**
      * Obtener la asociación vigente entre el paciente y una EPS.
+     *
      * @param paciente Identificador único del paciente.
      * @return Objeto representativo de la EPS encontrada.
      */
@@ -368,21 +377,15 @@ public class PersonaNaturalResource {
         PersonaJuridica response = null;
         try {
             response = facadePersonaNatural.getPaciente_EPS(paciente);
-        } catch (CustomException ex) {
-            ErrorMessage errorMessage = new ErrorMessage();
-            errorMessage.setCode(ex.getErrorCode());
-            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
-            errorMessage.setMessage(ex.getMessage());
-            StringWriter errorStackTrace = new StringWriter();
-            ex.printStackTrace(new PrintWriter(errorStackTrace));
-            errorMessage.setDeveloperMessage(errorStackTrace.toString());
-
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error en asociarPacienteEPS: " + e.toString() + "\n" + e.getStackTrace());
         }
         return response;
     }
-    
+
     /**
      * Asociar un médico a una o más EPS.
+     *
      * @param medico Identificador único de la persona.
      * @param eps Identificador único de la EPS.
      * @return Objeto completo del médico con las asociaciones.
@@ -396,32 +399,26 @@ public class PersonaNaturalResource {
             eps = eps.replace("[", "");
             eps = eps.replace("]", "");
             String[] lista = eps.split(",");
-                        
+
             List<Long> listado = new ArrayList<>();
             for (String elemento : lista) {
-                if(!elemento.isEmpty()) listado.add(Long.valueOf(elemento));
+                if (!elemento.isEmpty()) {
+                    listado.add(Long.valueOf(elemento));
+                }
             }
-            
+
             facadePersonaNatural.asociarMedico_EPS(Long.valueOf(medico), listado);
         } catch (CustomException ex) {
-            ErrorMessage errorMessage = new ErrorMessage();
-            errorMessage.setCode(ex.getErrorCode());
-            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
-            errorMessage.setMessage(ex.getMessage());
-            StringWriter errorStackTrace = new StringWriter();
-            ex.printStackTrace(new PrintWriter(errorStackTrace));
-            errorMessage.setDeveloperMessage(errorStackTrace.toString());
-
-            return Response.status(errorMessage.getStatus())
-                    .entity(errorMessage)
-                    .type(MediaType.APPLICATION_JSON)
-                    .build();
+            return mapper.toResponse(ex);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error en asociarPacienteEPS: " + e.toString() + "\n" + e.getStackTrace());
         }
         return Response.ok(medico).build();
     }
-    
+
     /**
      * Obtener las asociaciones del médico con una o más EPS.
+     *
      * @param medico Identificador único del médico.
      * @return Lista de EPS asociadas al médico.
      */
@@ -433,21 +430,15 @@ public class PersonaNaturalResource {
         List<PersonaJuridica> response = null;
         try {
             response = facadePersonaNatural.getMedico_EPS(medico);
-        } catch (CustomException ex) {
-            ErrorMessage errorMessage = new ErrorMessage();
-            errorMessage.setCode(ex.getErrorCode());
-            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
-            errorMessage.setMessage(ex.getMessage());
-            StringWriter errorStackTrace = new StringWriter();
-            ex.printStackTrace(new PrintWriter(errorStackTrace));
-            errorMessage.setDeveloperMessage(errorStackTrace.toString());
-
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error en getMedicoEPS: " + e.toString() + "\n" + e.getStackTrace());
         }
         return response;
     }
-    
+
     /**
      * Asociar alergias a un paciente.
+     *
      * @param paciente Identificador único del paciente.
      * @param alergias Listado de alergias a asociar.
      * @return Objeto Paciente con alergias asociadas.
@@ -460,32 +451,24 @@ public class PersonaNaturalResource {
             alergias = alergias.replace("[", "");
             alergias = alergias.replace("]", "");
             String[] lista = alergias.split(",");
-                        
+
             List<Long> listado = new ArrayList<>();
             for (String elemento : lista) {
                 listado.add(Long.valueOf(elemento));
             }
-            
+
             facadePersonaNatural.asociarPaciente_Alergias(Long.valueOf(paciente), listado);
         } catch (CustomException ex) {
-            ErrorMessage errorMessage = new ErrorMessage();
-            errorMessage.setCode(ex.getErrorCode());
-            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
-            errorMessage.setMessage(ex.getMessage());
-            StringWriter errorStackTrace = new StringWriter();
-            ex.printStackTrace(new PrintWriter(errorStackTrace));
-            errorMessage.setDeveloperMessage(errorStackTrace.toString());
-
-            return Response.status(errorMessage.getStatus())
-                    .entity(errorMessage)
-                    .type(MediaType.APPLICATION_JSON)
-                    .build();
+            return mapper.toResponse(ex);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error en asociarPacienteEPS: " + e.toString() + "\n" + e.getStackTrace());
         }
         return Response.ok(paciente).build();
     }
-    
+
     /**
      * Asociar enfermedades a un paciente.
+     *
      * @param paciente Identificador único del paciente.
      * @param enfermedades Listado de enfermedades del paciente.
      * @return Paciente con enfermedades asociadas.
@@ -498,32 +481,24 @@ public class PersonaNaturalResource {
             enfermedades = enfermedades.replace("[", "");
             enfermedades = enfermedades.replace("]", "");
             String[] lista = enfermedades.split(",");
-                        
+
             List<Long> listado = new ArrayList<>();
             for (String elemento : lista) {
                 listado.add(Long.valueOf(elemento));
             }
-            
+
             facadePersonaNatural.asociarPaciente_Enfermedades(Long.valueOf(paciente), listado);
         } catch (CustomException ex) {
-            ErrorMessage errorMessage = new ErrorMessage();
-            errorMessage.setCode(ex.getErrorCode());
-            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
-            errorMessage.setMessage(ex.getMessage());
-            StringWriter errorStackTrace = new StringWriter();
-            ex.printStackTrace(new PrintWriter(errorStackTrace));
-            errorMessage.setDeveloperMessage(errorStackTrace.toString());
-
-            return Response.status(errorMessage.getStatus())
-                    .entity(errorMessage)
-                    .type(MediaType.APPLICATION_JSON)
-                    .build();
+            return mapper.toResponse(ex);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error en asociarPacienteEPS: " + e.toString() + "\n" + e.getStackTrace());
         }
         return Response.ok(paciente).build();
     }
-    
+
     /**
      * Asociar operaciones realizadas al paciente.
+     *
      * @param paciente Identificador único del paciente.
      * @param operaciones Listado de operaciones.
      * @return Paciente con las operaciones asociadas.
@@ -536,32 +511,24 @@ public class PersonaNaturalResource {
             operaciones = operaciones.replace("[", "");
             operaciones = operaciones.replace("]", "");
             String[] lista = operaciones.split(",");
-                        
+
             List<Long> listado = new ArrayList<>();
             for (String elemento : lista) {
                 listado.add(Long.valueOf(elemento));
             }
-            
+
             facadePersonaNatural.asociarPaciente_Operaciones(Long.valueOf(paciente), listado);
         } catch (CustomException ex) {
-            ErrorMessage errorMessage = new ErrorMessage();
-            errorMessage.setCode(ex.getErrorCode());
-            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
-            errorMessage.setMessage(ex.getMessage());
-            StringWriter errorStackTrace = new StringWriter();
-            ex.printStackTrace(new PrintWriter(errorStackTrace));
-            errorMessage.setDeveloperMessage(errorStackTrace.toString());
-
-            return Response.status(errorMessage.getStatus())
-                    .entity(errorMessage)
-                    .type(MediaType.APPLICATION_JSON)
-                    .build();
+            return mapper.toResponse(ex);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error en asociarPacienteEPS: " + e.toString() + "\n" + e.getStackTrace());
         }
         return Response.ok(paciente).build();
     }
 
     /**
      * Obtener las alergias asociadas a un paciente.
+     *
      * @param paciente Identificador único del paciente.
      * @return Listado de alergias asociadas.
      */
@@ -573,21 +540,15 @@ public class PersonaNaturalResource {
         List<Alergia> response = null;
         try {
             response = facadePersonaNatural.getAlergiasPaciente(paciente);
-        } catch (CustomException ex) {
-            ErrorMessage errorMessage = new ErrorMessage();
-            errorMessage.setCode(ex.getErrorCode());
-            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
-            errorMessage.setMessage(ex.getMessage());
-            StringWriter errorStackTrace = new StringWriter();
-            ex.printStackTrace(new PrintWriter(errorStackTrace));
-            errorMessage.setDeveloperMessage(errorStackTrace.toString());
-
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error en asociarPacienteEPS: " + e.toString() + "\n" + e.getStackTrace());
         }
         return response;
     }
 
     /**
      * Obtener las enfermedades de un paciente.
+     *
      * @param paciente Identificador único del paciente.
      * @return Enfermedades asociadas al paciente.
      */
@@ -599,21 +560,15 @@ public class PersonaNaturalResource {
         List<Enfermedad> response = null;
         try {
             response = facadePersonaNatural.getEnfermedadesPaciente(paciente);
-        } catch (CustomException ex) {
-            ErrorMessage errorMessage = new ErrorMessage();
-            errorMessage.setCode(ex.getErrorCode());
-            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
-            errorMessage.setMessage(ex.getMessage());
-            StringWriter errorStackTrace = new StringWriter();
-            ex.printStackTrace(new PrintWriter(errorStackTrace));
-            errorMessage.setDeveloperMessage(errorStackTrace.toString());
-
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error en asociarPacienteEPS: " + e.toString() + "\n" + e.getStackTrace());
         }
         return response;
     }
 
     /**
      * Obtener las operaciones de un paciente.
+     *
      * @param paciente Identificador único del paciente.
      * @return Listado de operaciones hechas al paciente.
      */
@@ -625,19 +580,12 @@ public class PersonaNaturalResource {
         List<Operacion> response = null;
         try {
             response = facadePersonaNatural.getOperacionesPaciente(paciente);
-        } catch (CustomException ex) {
-            ErrorMessage errorMessage = new ErrorMessage();
-            errorMessage.setCode(ex.getErrorCode());
-            errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
-            errorMessage.setMessage(ex.getMessage());
-            StringWriter errorStackTrace = new StringWriter();
-            ex.printStackTrace(new PrintWriter(errorStackTrace));
-            errorMessage.setDeveloperMessage(errorStackTrace.toString());
-
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error en asociarPacienteEPS: " + e.toString() + "\n" + e.getStackTrace());
         }
         return response;
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////
     // Servicios a módulos
     ////////////////////////////////////////////////////////////////////////////

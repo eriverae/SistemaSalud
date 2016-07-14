@@ -7,6 +7,7 @@ package com.acme.sisc.registro.rest;
 
 import com.acme.sisc.agenda.entidades.PersonaJuridica;
 import com.acme.sisc.agenda.entidades.TipoIdentificacion;
+import com.acme.sisc.common.exceptions.CustomException;
 import com.acme.sisc.registro.ejb.IPersonaJuridicaFacadeLocal;
 import com.acme.sisc.registro.pagination.PaginatedListWrapperPJ;
 import java.util.logging.Level;
@@ -100,8 +101,12 @@ public class PersonaJuridicaResource {
     @DELETE
     @Path("{id}")
     public void eliminarPersonaJuridica(@PathParam("id") Long id) {
-        LOGGER.log(Level.FINE, "Request para eliminar persona natural con id {0}", id);
-        facadePersonaJuridica.remove(id);
+        try {
+            LOGGER.log(Level.FINE, "Request para eliminar persona natural con id {0}", id);
+            facadePersonaJuridica.remove(id);
+        } catch (CustomException ex) {
+            Logger.getLogger(PersonaJuridicaResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

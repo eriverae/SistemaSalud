@@ -9,6 +9,7 @@ package com.acme.sisc.registro.ejb;
 
 import com.acme.sisc.agenda.entidades.PersonaJuridica;
 import com.acme.sisc.agenda.entidades.TipoIdentificacion;
+import com.acme.sisc.common.exceptions.CustomException;
 import java.util.List;
 import javax.ejb.Local;
 import javax.ejb.TransactionAttribute;
@@ -54,7 +55,7 @@ public interface IPersonaJuridicaFacadeLocal{
      * @return Objeto PersonaJuridica, si existe.
      */
     @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
-    PersonaJuridica findByIdentificacion(TipoIdentificacion tId, long identificacion);
+    PersonaJuridica findByIdentificacion(TipoIdentificacion tId, long identificacion) throws CustomException;
 
     /**
      * Buscar un listado de EPS entre un rango.
@@ -83,5 +84,5 @@ public interface IPersonaJuridicaFacadeLocal{
      * Eliminar una EPS según su identificador único.
      * @param id Identificador único de la persona jurídica.
      */
-    void remove(Long id);
+    void remove(Long id) throws CustomException;
 }

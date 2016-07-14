@@ -30,7 +30,7 @@ public class CustomRunTimeExceptionMapper implements ExceptionMapper<CustomRunTi
         StringWriter errorStackTrace = new StringWriter();
         ex.printStackTrace(new PrintWriter(errorStackTrace));
         errorMessage.setDeveloperMessage(errorStackTrace.toString());
-        errorMessage.setLink("www.banco.com/soporte");
+        errorMessage.setLink("www.sisc.com/soporte");
         
         log.log(Level.SEVERE, "ERROR,se presento un error Tecnico... ", errorStackTrace.toString());
         return Response.status(errorMessage.getStatus())

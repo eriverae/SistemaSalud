@@ -30,9 +30,9 @@ public class CustomExceptionMapper implements ExceptionMapper<CustomException> {
         StringWriter errorStackTrace = new StringWriter();
         ex.printStackTrace(new PrintWriter(errorStackTrace));
         errorMessage.setDeveloperMessage(errorStackTrace.toString());
-        errorMessage.setLink("www.banco.com/soporte");
+        errorMessage.setLink("www.sisc.com/soporte");
         
-        log.log(Level.SEVERE, "ERROR,se presento un error en la capa de negocio... ", errorStackTrace.toString());
+        log.log(Level.SEVERE, "ERROR, se presento un error en la capa de negocio... ", errorStackTrace.toString());
         return Response.status(errorMessage.getStatus())
                 .entity(errorMessage)
                 .type(MediaType.APPLICATION_JSON)
