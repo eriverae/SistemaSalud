@@ -56,7 +56,7 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
      */
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Override
-    public PersonaNatural findByIdentificacion(TipoIdentificacion tId, long identificacion) {
+    public PersonaNatural findByIdentificacion(TipoIdentificacion tId, long identificacion) throws CustomException {
         LOGGER.log(Level.FINE, "Consulta persona {0}", identificacion);
         Query q = em.createNamedQuery("Persona.findByIdentificacion");
         q.setParameter("tipoIdentificacion", tId);
@@ -64,9 +64,10 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
         try {
             return ((PersonaNatural) q.getSingleResult());
         } catch (NoResultException nre) {
-            LOGGER.log(Level.WARNING, "No se encontró persona con identificación " + tId + " - " + identificacion);
-            return null;
+            String msgError = "No se encontró persona con identificación " + tId + " - " + identificacion;
+            LOGGER.log(Level.INFO, msgError);
         }
+        return null;
     }
 
     /**
@@ -76,15 +77,16 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
      */
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Override
-    public PersonaNatural findByNumeroIdentificacion(long identificacion) {
+    public PersonaNatural findByNumeroIdentificacion(long identificacion) throws CustomException {
         LOGGER.log(Level.FINE, "Consulta persona {0}", identificacion);
         Query q = em.createNamedQuery("Persona.findByNumeroIdentificacion");
         q.setParameter("numeroIdentificacion", identificacion);
         try {
             return ((PersonaNatural) q.getSingleResult());
         } catch (NoResultException nre) {
-            LOGGER.log(Level.WARNING, "No se encontró persona con identificación {0}", identificacion);
-            return null;
+            String msgError = "No se encontró persona con identificación " + identificacion;
+            LOGGER.log(Level.WARNING, msgError);
+            throw new CustomException(-1, -1, msgError);
         }
     }
 
@@ -160,14 +162,16 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
      * Eliminar una persona natural según su identificador único.
      * @param id Identificador único.
      */
-    public void remove(Long id) {
+    public void remove(Long id) throws CustomException {
         LOGGER.log(Level.FINE, "Eliminar persona natural con id {0}", id);
         PersonaNatural p = this.find(id);
         if (p != null) {
             remove(p);
             LOGGER.log(Level.INFO, "Persona natural eliminado correctamente");
         } else {
-            LOGGER.log(Level.INFO, "Cliente con id {} no existe", id);
+            String msgError = "Persona natural con id " + id + "no existe";
+            LOGGER.log(Level.INFO, msgError);
+            throw new CustomException(-1, -1, msgError);
         }
     }
 
@@ -221,25 +225,20 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
      */
     @Override
     public PersonaNatural crearPersonaNatural(PersonaNatural personaNatural) throws CustomException {
-        try {
-            LOGGER.info("Inicia crearPersonaNatural(...)");
-            //Se verifica si ya existe
-            PersonaNatural p = findByIdentificacion(personaNatural.getTipoIdentificacion(), personaNatural.getNumeroIdentificacion());
-            if (p != null) {
-                em.lock(p, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
-                LOGGER.log(Level.WARNING, "Persona natural {0} ya existe !!", personaNatural.getNumeroIdentificacion());
-                throw new CustomException("La persona natural " + personaNatural.getTipoIdentificacion() + "-"
-                        + personaNatural.getNumeroIdentificacion() + " ya existe en el sistema");
-            }
-            em.persist(personaNatural);
-            LOGGER.log(Level.INFO, "Persona natural creada con id: {0}", personaNatural.getIdPersona());
-            //Prueba queues
-            //JMSUtil.sendMessage(personaNatural,"java:/jms/queue/BancoQueue");
-            LOGGER.info("Finaliza crearPersonaNatural despues(...)");
-        } catch (CustomException ex) {
-            LOGGER.log(Level.WARNING, "No se encontró persona {0}", personaNatural.getTipoIdentificacion() + " "
-                    + personaNatural.getNumeroIdentificacion() + " Exception: " + ex.getLocalizedMessage());
+        LOGGER.info("Inicia crearPersonaNatural(...)");
+        //Se verifica si ya existe
+        PersonaNatural p = findByIdentificacion(personaNatural.getTipoIdentificacion(), personaNatural.getNumeroIdentificacion());
+        if (p != null) {
+            em.lock(p, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
+            String msgError = "La persona natural " + personaNatural.getTipoIdentificacion() + "-"
+                    + personaNatural.getNumeroIdentificacion() + " ya existe en el sistema";
+            LOGGER.log(Level.INFO, msgError);
+            throw new CustomException(-1, -1, msgError);
         }
+        em.persist(personaNatural);
+        LOGGER.log(Level.INFO, "Persona natural creada con id: {0}", personaNatural.getIdPersona());
+        LOGGER.info("Finaliza crearPersonaNatural despues(...)");
+        
         return personaNatural;
     }
 
@@ -280,7 +279,7 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
      */
     @Override
     public List<PersonaNaturalBeneficiario> findBeneficiarios(int startPosition, int maxResults, String sortFields,
-            String sortDirections, long cotizante) {
+            String sortDirections, long cotizante) throws CustomException {
         LOGGER.log(Level.FINE, "Consulta beneficiarios, cotizante {0}", cotizante);
         try {
             Query q = em.createNamedQuery("PersonaNaturalBeneficiario.findAllByCotizante");
@@ -289,8 +288,9 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
             q.setMaxResults(maxResults);
             return q.getResultList();
         } catch (NoResultException nre) {
-            LOGGER.log(Level.WARNING, "No se lograron consultar los beneficiarios del cotizante {0}", cotizante);
-            return null;
+            String msgError = "No se lograron consultar los beneficiarios del cotizante " + cotizante;
+            LOGGER.log(Level.INFO, msgError);
+            throw new CustomException(-1, -1, msgError);
         }
     }
 
@@ -304,27 +304,22 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
      */
     @Override
     public void asociarBeneficiario(Long cotizante, Long beneficiario, int parentezco) throws CustomException {
-        try {
-            LOGGER.info("Inicia asociarBeneficiario(...)");
-            
-            Query q = em.createQuery("SELECT b FROM PersonaNaturalBeneficiario b "
-                                   + "WHERE b.cotizante.idPersona=:cotizante "
-                                   + "AND b.beneficiario.idPersona=:beneficiario");
-            q.setParameter("cotizante", cotizante);
-            q.setParameter("beneficiario", cotizante);
-            if (q.getResultList().size() > 0){
-                throw new CustomException("Ya existe la relación cotizante-beneficiario");
-            }            
-            PersonaNaturalBeneficiario b = new PersonaNaturalBeneficiario();
-            b.setCotizante(em.find(PersonaNatural.class, cotizante));
-            b.setBeneficiario(em.find(PersonaNatural.class, beneficiario));
-            b.setParentezco(parentezco);
-            em.persist(b);
-            LOGGER.info("Finaliza asociarBeneficiario despues(...)");
-        } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, "Error al guardar beneficiario {0}", cotizante + " "
-                    + beneficiario + " Exception: " + ex.getLocalizedMessage());
-        }
+        LOGGER.info("Inicia asociarBeneficiario(...)");
+
+        Query q = em.createQuery("SELECT b FROM PersonaNaturalBeneficiario b "
+                               + "WHERE b.cotizante.idPersona=:cotizante "
+                               + "AND b.beneficiario.idPersona=:beneficiario");
+        q.setParameter("cotizante", cotizante);
+        q.setParameter("beneficiario", cotizante);
+        if (q.getResultList().size() > 0){
+            throw new CustomException(-1, -1, "Ya existe la relación cotizante-beneficiario");
+        }            
+        PersonaNaturalBeneficiario b = new PersonaNaturalBeneficiario();
+        b.setCotizante(em.find(PersonaNatural.class, cotizante));
+        b.setBeneficiario(em.find(PersonaNatural.class, beneficiario));
+        b.setParentezco(parentezco);
+        em.persist(b);
+        LOGGER.info("Finaliza asociarBeneficiario despues(...)");
     }
 
     /**
@@ -332,8 +327,17 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
      * @param beneficiario 
      */
     @Override
-    public void removerBeneficiario(PersonaNaturalBeneficiario beneficiario) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void removerBeneficiario(PersonaNaturalBeneficiario beneficiario) throws CustomException {
+        LOGGER.log(Level.FINE, "removerBeneficiario con id {0}", beneficiario.getIdPersonaNaturalBeneficiario());
+        PersonaNatural p = this.find(beneficiario.getIdPersonaNaturalBeneficiario());
+        if (p != null) {
+            remove(p);
+            LOGGER.log(Level.INFO, "Beneficiario eliminado correctamente");
+        } else {
+            String msgError = "Beneficiario con id " + beneficiario.getIdPersonaNaturalBeneficiario() + " no existe";
+            LOGGER.log(Level.WARNING, msgError);
+            throw new CustomException(-1, -1, msgError);
+        }
     }
 
     /**
@@ -405,8 +409,9 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
             em.persist(pe);
             LOGGER.info("Finaliza asociarPacienteEPS(...)");
         } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, "Error al asociar paciente-eps {0}", paciente + "-"
-                    + eps + " Exception: " + ex.getLocalizedMessage());
+            String msgError = "Error al asociar paciente-eps " + paciente + "-" + eps;
+            LOGGER.log(Level.WARNING, msgError + "\n" + ex.getLocalizedMessage());
+            throw new CustomException(-1, -1, msgError);
         }
     }
 
@@ -434,8 +439,9 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
             }
             LOGGER.info("Finaliza getPaciente_EPS(...)");
         } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, "Error en getPaciente_EPS {0}", paciente + "-"
-                    + " Exception: " + ex.getLocalizedMessage());
+            String msgError = "Error al obtener EPS del paciente";
+            LOGGER.log(Level.WARNING, msgError + "\n" + ex.getLocalizedMessage());
+            throw new CustomException(-1, -1, msgError);
         }
         return response;
     }
@@ -472,11 +478,14 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
                     em.persist(pe);
                 }
             }
-            
+            if(!msg.isEmpty()){
+                throw new CustomException(-1, -1, msg);
+            }
             LOGGER.log(Level.INFO, "Finaliza asociarMedico_EPS(...) {0}", msg);
         } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, "Error al asociar medico {0}", medico 
-                    + " a eps - Exception: " + ex.getLocalizedMessage());
+            String msgError = "No se lograron asociar las EPS al médico";
+            LOGGER.log(Level.WARNING, msgError + " - Exception: " + ex.getLocalizedMessage());
+            throw new CustomException(-1, -1, msgError);
         }
     }
 
@@ -498,8 +507,9 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
             
             LOGGER.info("Finaliza getMedico_EPS(...)");
         } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, "Error en getMedico_EPS {0}", medico + "-"
-                    + " Exception: " + ex.getLocalizedMessage());
+            String msgError = "No se lograron obtener las EPS del médico";
+            LOGGER.log(Level.WARNING, msgError + " - Exception: " + ex.getLocalizedMessage());
+            throw new CustomException(-1, -1, msgError);
         }
         return response;
     }
@@ -535,11 +545,14 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
                     em.persist(pna);
                 }
             }
-            
+            if(!msg.isEmpty()){
+                throw new CustomException(-1, -1, msg);
+            }
             LOGGER.log(Level.INFO, "Finaliza asociarPaciente_Alergias(...) {0}", msg);
         } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, "Error al asociar paciente {0}", paciente 
-                    + " a alergia - Exception: " + ex.getLocalizedMessage());
+            String msgError = "No se lograron asociar una o más alergias al paciente";
+            LOGGER.log(Level.WARNING, msgError + " - Exception: " + ex.getLocalizedMessage());
+            throw new CustomException(-1, -1, msgError);
         }
     }
 
@@ -574,11 +587,14 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
                     em.persist(pne);
                 }
             }
-            
+            if(!msg.isEmpty()){
+                throw new CustomException(-1, -1, msg);
+            }
             LOGGER.log(Level.INFO, "Finaliza asociarPaciente_Enfermedades(...) {0}", msg);
         } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, "Error al asociar paciente {0}", paciente 
-                    + " a enfermedad - Exception: " + ex.getLocalizedMessage());
+            String msgError = "No se lograron asociar una o más enfermedades al paciente";
+            LOGGER.log(Level.WARNING, msgError + " - Exception: " + ex.getLocalizedMessage());
+            throw new CustomException(-1, -1, msgError);
         }
     }
 
@@ -613,11 +629,14 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
                     em.persist(pno);
                 }
             }
-            
+            if(!msg.isEmpty()){
+                throw new CustomException(-1, -1, msg);
+            }
             LOGGER.log(Level.INFO, "Finaliza asociarPaciente_Operaciones(...) {0}", msg);
         } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, "Error al asociar paciente {0}", paciente 
-                    + " a operacion - Exception: " + ex.getLocalizedMessage());
+            String msgError = "No se lograron asociar una o más operaciones al paciente";
+            LOGGER.log(Level.WARNING, msgError + " - Exception: " + ex.getLocalizedMessage());
+            throw new CustomException(-1, -1, msgError);
         }
     }
 
@@ -639,8 +658,9 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
             
             LOGGER.info("Finaliza getAlergiasPaciente(...)");
         } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, "Error en getAlergiasPaciente {0}", paciente + "-"
-                    + " Exception: " + ex.getLocalizedMessage());
+            String msgError = "No se lograron obtener las alergias del paciente";
+            LOGGER.log(Level.WARNING, msgError + " - Exception: " + ex.getLocalizedMessage());
+            throw new CustomException(-1, -1, msgError);
         }
         return response;
     }
@@ -663,8 +683,9 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
             
             LOGGER.info("Finaliza getEnfermedadesPaciente(...)");
         } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, "Error en getEnfermedadesPaciente {0}", paciente + "-"
-                    + " Exception: " + ex.getLocalizedMessage());
+            String msgError = "No se lograron obtener las enfermedades del paciente";
+            LOGGER.log(Level.WARNING, msgError + " - Exception: " + ex.getLocalizedMessage());
+            throw new CustomException(-1, -1, msgError);
         }
         return response;
     }
@@ -687,8 +708,9 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
             
             LOGGER.info("Finaliza getOperacionesPaciente(...)");
         } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, "Error en getOperacionesPaciente {0}", paciente + "-"
-                    + " Exception: " + ex.getLocalizedMessage());
+            String msgError = "No se lograron obtener las operaciones del paciente";
+            LOGGER.log(Level.WARNING, msgError + " - Exception: " + ex.getLocalizedMessage());
+            throw new CustomException(-1, -1, msgError);
         }
         return response;
     }

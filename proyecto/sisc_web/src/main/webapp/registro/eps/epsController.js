@@ -4,6 +4,7 @@ var app = angular.module('sisc_web');
 app.controller('epsController', function ($scope, $rootScope, $stateParams, $state, epsService, modalService) {
 
     $scope.eps = {};
+    $scope.bizMessage = "";
 
     if (angular.isDefined($stateParams.idPersona)) {
         console.log('EPS a modificar, ID = ' + $stateParams.idPersona);
@@ -39,10 +40,14 @@ app.controller('epsController', function ($scope, $rootScope, $stateParams, $sta
     // Calls the rest method to save a Medico.
     $scope.updateEps = function () {
         epsService.save($scope.eps).$promise.then(
-                function () {
-                    // Broadcast the event to display a save message.
-                    $rootScope.$broadcast('epsSaved');
-
+                function (response) {
+                    if (response.status == 0) {
+                        // Broadcast the event to display a save message.
+                        $rootScope.$broadcast('epsSaved');
+                    } else {
+                        $scope.bizMessage = response.message;
+                        $rootScope.$broadcast('error');
+                    }
                 },
                 function () {
                     // Broadcast the event for a server error.
@@ -63,9 +68,14 @@ app.controller('epsController', function ($scope, $rootScope, $stateParams, $sta
         $scope.clearForm();
         $state.go('registroEps');
     });
+
+    $scope.$on('error', function () {
+        $('#message-box-warning').show();
+    });
     
     $scope.closepopup = function(){
  	 $('#message-box-success').hide();
+         $('#message-box-warning').hide();
     };
 
     $scope.cancelar = function () {

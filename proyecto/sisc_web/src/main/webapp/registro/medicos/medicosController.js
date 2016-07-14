@@ -117,27 +117,32 @@ app.controller('medicosController', function ($scope, $rootScope, $stateParams, 
     $scope.updateMedico = function () {
         $scope.medico.rolPersonaNatural = "MEDICO";
         personaService.save($scope.medico).$promise.then(
-            function (response) {                
-                var epsList = [];
-                angular.forEach($scope.epsSeleccionadas, function(eps) {
-                    epsList.push(eps.idPersona);
-		});
-                
-                var args = {
-                    medico: response.idPersona,
-                    eps: angular.toJson(epsList)
-                };
-                personaService.asociarMedicoEPS(args).$promise.then(
-                    function () {
+            function (response) {
+                if (response.status == 0) {
+                    var epsList = [];
+                    angular.forEach($scope.epsSeleccionadas, function(eps) {
+                        epsList.push(eps.idPersona);
+                    });
 
-                    },
-                    function () {
-                        // Broadcast the event for a server error.
-                        $rootScope.$broadcast('error');
-                    }
-                );
-                // Broadcast the event to display a save message.
-                $rootScope.$broadcast('medicoSaved');
+                    var args = {
+                        medico: response.idPersona,
+                        eps: angular.toJson(epsList)
+                    };
+                    personaService.asociarMedicoEPS(args).$promise.then(
+                        function () {
+
+                        },
+                        function () {
+                            // Broadcast the event for a server error.
+                            $rootScope.$broadcast('error');
+                        }
+                    );
+                    // Broadcast the event to display a save message.
+                    $rootScope.$broadcast('medicoSaved');
+                } else {                    
+                    $scope.bizMessage = response.message;
+                    $rootScope.$broadcast('error');
+                }                
             },
             function () {
                 // Broadcast the event for a server error.
@@ -158,9 +163,14 @@ app.controller('medicosController', function ($scope, $rootScope, $stateParams, 
         $scope.clearForm();
         $state.go('registroMedicos');
     });
+
+    $scope.$on('error', function () {
+        $('#message-box-warning').show();
+    });
     
     $scope.closepopup = function(){
  	 $('#message-box-success').hide();
+         $('#message-box-warning').hide();
     };
 
     $scope.cancelar = function () {

@@ -72,7 +72,7 @@ public interface IPersonaNaturalFacadeRemote {
      * @return Objeto Persona, si existe.
      */
     @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
-    PersonaNatural findByIdentificacion(TipoIdentificacion tId, long identificacion);
+    PersonaNatural findByIdentificacion(TipoIdentificacion tId, long identificacion) throws CustomException;
 
     /**
      * Buscar persona por número de identificación.
@@ -80,7 +80,7 @@ public interface IPersonaNaturalFacadeRemote {
      * @return Objeto Persona, si existe.
      */
     @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
-    PersonaNatural findByNumeroIdentificacion(long identificacion);
+    PersonaNatural findByNumeroIdentificacion(long identificacion) throws CustomException;
 
     /**
      * Buscar una persona según su correo electrónico.
@@ -117,7 +117,7 @@ public interface IPersonaNaturalFacadeRemote {
      * Eliminar una persona natural según su identificador único.
      * @param id Identificador único.
      */
-    void remove(Long id);
+    void remove(Long id) throws CustomException;
     
     /**
      * Listado de beneficiarios de un cotizante.
@@ -128,7 +128,7 @@ public interface IPersonaNaturalFacadeRemote {
      * @param cotizante Persona natural asociada a cierta EPS.
      * @return Listado de beneficiarios.
      */
-    List<PersonaNaturalBeneficiario> findBeneficiarios(int startPosition, int maxResults, String sortFields, String sortDirections, long cotizante);
+    List<PersonaNaturalBeneficiario> findBeneficiarios(int startPosition, int maxResults, String sortFields, String sortDirections, long cotizante) throws CustomException;
     
     /**
      * Asociar una persona natural como beneficiario de determinado 
@@ -144,7 +144,7 @@ public interface IPersonaNaturalFacadeRemote {
      * Eliminar relación entre beneficiario y cotizante.
      * @param beneficiario 
      */
-    void removerBeneficiario(PersonaNaturalBeneficiario beneficiario);
+    void removerBeneficiario(PersonaNaturalBeneficiario beneficiario) throws CustomException;
     
     /**
      * Listar todas las EPS del sistema.
