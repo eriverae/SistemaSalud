@@ -34,6 +34,11 @@ public class FacadeMedico extends  AbstractFacade <PersonaNatural>  {
     @PersistenceContext(unitName = WebConstant.UNIT_NAME_PERSISTENCE)
     private EntityManager em;
     
+    /**
+     * Consulta lista eps de persona natural
+     * @param idMedico
+     * @return 
+     */
     public List<PersonaEps> consultarListaEpsMedico(long idMedico){
        PersonaNatural medico= em.find(PersonaNatural.class, idMedico);
        if(medico!=null&&medico.getListaPersonasEps()!=null){

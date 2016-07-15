@@ -103,9 +103,9 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                 .state('agenda', {
                     url: '/medico/agenda',
                     templateUrl: 'agenda/medicos/agendaMedico.html',
-                    controller: 'agendaMedicoContoller',
+                    controller: 'agendaMedicoContoller'
 //                    params: {'idMedico': '9'},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+//                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
 
                 })
                 .state('citasPaciente', {
@@ -114,22 +114,22 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
                     controller: 'citasController',
                     //params : {'idPaciente':'2'}
 //                    params: {'idPaciente': '23'},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+//                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
-                .state('citasHistorialPaciente', {
-                    url: '/paciente/historialCitas',
-                    templateUrl: 'agenda/pacientes/historialCitas.html',
-                    controller: 'historialCitasController',
-//                    params : {'idPaciente':'23'},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
-                    
-                })
+//                .state('citasHistorialPaciente', {
+//                    url: '/paciente/historialCitas',
+//                    templateUrl: 'agenda/pacientes/historialCitas.html',
+//                    controller: 'historialCitasController',
+////                    params : {'idPaciente':'23'},
+//                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+//                    
+//                })
                 .state('historialPacienteEPS', {
                     url: '/paciente/historialPacienteEPS',
                     templateUrl: 'agenda/pacientes/historialPacienteEPS.html',
                     controller: 'citasController',
                     params: {'idPaciente': '23'},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+//                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
                 .state('pacienteConsultaMedicoEspecializado', {
                     url: '/paciente/ConsultaMedicoEspecializado',
@@ -139,14 +139,14 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
 //                            idPersona: "23",
 //                            idEps: "3",
 //                        }},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+//                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
-                .state('agendarCalendarioDelMedico', {
-                    url: '/paciente/agendarCalendarioDelMedico',
-                    templateUrl: 'agenda/pacientes/agendarCalendarioDelMedico.html',
-                    controller: 'agendarCalendarioDelMedico',
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
-                })
+//                .state('agendarCalendarioDelMedico', {
+//                    url: '/paciente/agendarCalendarioDelMedico',
+//                    templateUrl: 'agenda/pacientes/agendarCalendarioDelMedico.html',
+//                    controller: 'agendarCalendarioDelMedico',
+//                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+//                })
 
 
 

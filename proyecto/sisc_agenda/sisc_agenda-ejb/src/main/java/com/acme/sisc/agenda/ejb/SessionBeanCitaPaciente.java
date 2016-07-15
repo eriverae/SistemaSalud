@@ -9,20 +9,16 @@ import com.acme.sisc.agenda.constant.WebConstant;
 import com.acme.sisc.agenda.dto.GeneralResponse;
 import com.acme.sisc.agenda.ejb.facade.FacadeCita;
 import com.acme.sisc.agenda.entidades.Cita;
-import com.acme.sisc.agenda.exceptions.CitaException;
 import com.acme.sisc.agenda.shared.ICitaLocal;
 import com.acme.sisc.agenda.shared.ICitaRemote;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-import javax.faces.bean.ViewScoped;  // se mantiene vivo para todas las peticiones
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -31,7 +27,6 @@ import javax.persistence.PersistenceContext;
  * @author BryanCFz-user
  */
 @Stateless
-//@Stateful(mappedName = "cita_paciente")
 public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
 
     Logger logger = Logger.getLogger(this.getClass().getName());
@@ -61,28 +56,7 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
     }
 
     /**
-     *
-     * @param cita
-     * @throws CitaException
-     */
-    @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
-    @Override
-    public void agendarCita(Cita cita) throws CitaException {
-        logger.info("Inicia crearCitaPaciente(...)");
-        //Se verifica si el paciente ya existe;
-        Cita cita1 = cita;      //findByIdentificacion(cliente.getTipoIdentificacion(), cliente.getIdentificacion());
-//        if (cita != null) {
-//            em.lock(cita, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
-//            LOGGER.log(Level.WARNING, "La cita {0} ya existe !!", cita.getIdCita());
-//
-//            throw new CitaException("La cita " + cita.getIdCita() + "- con el id del paciente " + cita.getPacienteEps().getPersona().getIdPersona() + " ya existe en el sistema");
-//
-//        }
-//        em.persist(cita);
-//        LOGGER.info("Finaliza crearCita(...)");
-    }
-
-    /**
+     * Trae resumen de las ultimas citas de un paciente
      *
      * @param idPaciente
      * @return
@@ -99,6 +73,7 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
     }
 
     /**
+     * Metodo para cancelar cita de un paciente
      *
      * @param idCita
      * @return
@@ -111,6 +86,7 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
     }
 
     /**
+     * Trae el historial de citas de un paciente
      *
      * @param idPaciente
      * @return
@@ -126,9 +102,8 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-    //historial de citas
     /**
+     * Metodo para contar registros de la tabla cita
      *
      * @return
      */
@@ -142,26 +117,7 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
     }
 
     /**
-     *
-     * @param startPosition
-     * @param maxResults
-     * @param sortFields
-     * @param sortDirections
-     * @return
-     */
-    @Override
-    public List<Cita> findRange(int startPosition, int maxResults, String sortFields, String sortDirections) {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Cita.class));
-        javax.persistence.Query q = em.createQuery(cq);
-        q.setFirstResult(startPosition);
-        q.setMaxResults(maxResults);
-
-        return q.getResultList();
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
-    /**
+     * Metodo para eliminar una cita por id
      *
      * @param id
      */
@@ -178,6 +134,7 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
     }
 
     /**
+     * Metodo para eliminar una cita por objeto
      *
      * @param entity
      */
@@ -186,18 +143,33 @@ public class SessionBeanCitaPaciente implements ICitaLocal, ICitaRemote {
         em.remove(entity);
     }
 
+    /**
+     * Metodo para buscar citas dispobibles por paciente
+     *
+     * @param idEspecialidad
+     * @param idEps
+     * @param fechaBusqueda
+     * @return
+     */
     @Override
     public List<Cita> buscarCitasDisponiblesPaciente(long idEspecialidad, long idEps, String fechaBusqueda) {
-        try{
+        try {
             return facadeCita.buscarCitasDisponiblesPaciente(idEspecialidad, idEps, fechaBusqueda);
-        }catch(NullPointerException e) {
+        } catch (NullPointerException e) {
             return new ArrayList<>();
         }
     }
 
+    /**
+     * Metodo para agendar cita del medico por parte del paciente.
+     *
+     * @param idCita
+     * @param idPersona
+     * @return
+     */
     @Override
     public GeneralResponse agendarCita(long idCita, long idPersona) {
-       return facadeCita.agendarCita(idCita,idPersona);
+        return facadeCita.agendarCita(idCita, idPersona);
     }
 
 }

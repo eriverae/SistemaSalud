@@ -25,9 +25,7 @@ public interface ICitaRemote {
     @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
     public Cita find(Long id);
 
-    @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
-    public void agendarCita(Cita cita) throws CitaException;
-    
+       
     @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
     public List<Cita> listaCitasPendientePaciente(long idPaciente);
 
@@ -38,9 +36,6 @@ public interface ICitaRemote {
     public List<Cita> listaCitasHistorialPacienteEPS(long idPaciente);
        
     int count();
-    
-    List<Cita> findRange(int startPosition, int maxResults, String sortFields, String sortDirections);
-    ////////////////////////////////////////////////////////////////   
 
     void remove(Long id);
 

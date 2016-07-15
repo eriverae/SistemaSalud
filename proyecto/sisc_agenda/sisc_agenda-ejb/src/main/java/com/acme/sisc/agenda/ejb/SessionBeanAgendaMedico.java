@@ -58,22 +58,47 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
     @EJB
     FacadeCita facadeCita;
 
+    /**
+     * Metodo para consultar agenda la agenda de un medico
+     *
+     * @param idMedico
+     * @param fechaInicial
+     * @param fechaFinal
+     * @return
+     * @throws AgendaException
+     */
     @Override
     public List<Agenda> consultaAgendaMedico(long idMedico, Date fechaInicial, Date fechaFinal) throws AgendaException {
         try {
-            _log.log(Level.INFO, "CONSULTADO AGENDA: " + idMedico);
-
+            _log.log(Level.INFO, "CONSULTADO AGENDA: {0}", idMedico);
             return null;
         } catch (NullPointerException e) {
             return null;
         }
     }
 
+    /**
+     * Metodo para consultarCitasAgendaMedico
+     *
+     * @param idAgenda
+     * @param fechaCita
+     * @return
+     * @throws AgendaException
+     */
     @Override
     public String consultarCitasAgendaMedico(String idAgenda, String fechaCita) throws AgendaException {
         return "consultando citas de medico: " + idAgenda + " fechaCita: " + fechaCita;
     }
 
+    /**
+     * Metodo para insertar una agenda
+     *
+     * @param idMedico
+     * @param idEps
+     * @param agendas
+     * @return
+     * @throws AgendaException
+     */
     @Override
     public boolean insertarAgenda(long idMedico, long idEps, List<Agenda> agendas) throws AgendaException {
         try {
@@ -93,6 +118,12 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
         }
     }
 
+    /**
+     * Metodo para consultar lista eps por medico
+     *
+     * @param idMedico
+     * @return
+     */
     @Override
     public List<PersonaEps> consutarEpsMedico(long idMedico) {
         try {
@@ -103,6 +134,12 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
 
     }
 
+    /**
+     * Metodo para insetrtar una agenda completa del medico
+     *
+     * @param request
+     * @return
+     */
     @Override
     public GeneralResponse insertarAgenda(RequestCrearAgenda request) {
 
@@ -210,7 +247,6 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
                 }
             }
 
-//            }
         } catch (Exception e) {
             response.setCodigoRespuesta(CodesResponse.ERROR.value());
             _log.log(Level.SEVERE, "ERROR EN  SessionBeanAgendaMedico.insertarAgenda", e);
@@ -219,6 +255,12 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
         return response;
     }
 
+    /**
+     * Metodo para consultar agenda de un mes por medico
+     *
+     * @param idMedico
+     * @return
+     */
     @Override
     public ResponseAgendaMedico consultarAgendaMesMedico(long idMedico) {
         ResponseAgendaMedico response = new ResponseAgendaMedico();
@@ -235,8 +277,7 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
                     for (Cita cita : agenda.getCitasAgenda()) {
                         EventoCalendarioAgenda eventoCita = new EventoCalendarioAgenda();
                         eventoCita.setAllDay(false);
-//                    eventoCita.setColor(cita.getEstadoCita().equalsIgnoreCase(WebConstant.ESTADO_CITA_DISPONIBLE)?
-//                            WebConstant.COLOR_CITA_DISPONIBLE:WebConstant.COLOR_CITA);
+
                         if (cita.getEstadoCita().equals(WebConstant.ESTADO_CITA_DISPONIBLE)) {
                             eventoCita.setColor(WebConstant.COLOR_CITA_DISPONIBLE);
                         } else if (cita.getEstadoCita().equals(WebConstant.ESTADO_CITA_APARTADA)) {
@@ -275,6 +316,7 @@ public class SessionBeanAgendaMedico implements IAgendaLocal, IAgendaRemote {
     }
 
     /**
+     * Metodo para gestionar las opciones sobre una cita que posee un medico
      *
      * @param request
      * @return

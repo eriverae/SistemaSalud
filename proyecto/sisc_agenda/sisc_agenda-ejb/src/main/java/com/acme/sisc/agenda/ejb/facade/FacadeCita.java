@@ -5,7 +5,6 @@
  */
 package com.acme.sisc.agenda.ejb.facade;
 
-//import com.acme.sisc.UTILprueba.JMSUtil;
 import com.acme.sisc.agenda.constant.CodesResponse;
 import com.acme.sisc.agenda.constant.WebConstant;
 import com.acme.sisc.agenda.dto.ErrorObjSiscAgenda;
@@ -63,11 +62,7 @@ public class FacadeCita extends AbstractFacade<Cita> {
             q.setParameter(WebConstant.QUERY_PARAMETER_ID_PACIENTE, idPaciente);
             List<Cita> listacitasPaciente = (List<Cita>) q.getResultList();
             _log.log(Level.WARNING, "ULTIMO REGISTRO LISTA-CITAS-PACIENTE, id= {0}", listacitasPaciente.get((listacitasPaciente.size() - 1)).getIdCita());
-            /////////////////////////////////////////////
-            /*java Message Bean*/
-//            JMSUtil.sendMessage(listacitasPaciente.get(0), "java:/jms/queue/siscQueue");
-//            _log.info("Finaliza CONSULTA DE CITAS(...)");
-            /////////////////////////////////////////////
+
             return listacitasPaciente;
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,6 +70,12 @@ public class FacadeCita extends AbstractFacade<Cita> {
         }
     }
 
+    /**
+     * Trae el historial de citas por paciente
+     *
+     * @param idPaciente
+     * @return
+     */
     public List<Cita> CitasDelPacianteHistorialEPS(long idPaciente) {
         try {
             Query q = em.createNamedQuery(WebConstant.QUERY_CITA_FIND_BY_ID_PACIENTE_HISTORIAL_EPS);
@@ -109,7 +110,6 @@ public class FacadeCita extends AbstractFacade<Cita> {
         }
     }
 
-    /////////////////////////
     /**
      * pacient cancela su cita mediante un click y aquio cambiamos el estado a
      * cancelado en su cita cancelada
@@ -127,8 +127,7 @@ public class FacadeCita extends AbstractFacade<Cita> {
             q.setParameter(2, cita.getIdCita());
             int resultado = q.executeUpdate();
             _log.log(Level.INFO, "Resultado de la ejecucion update: " + resultado + "\n");
-//            em.merge(cita);
-//            em.flush();
+
             return "CITA CANCELADA.. ";
 
         } catch (Exception e) {
@@ -138,11 +137,23 @@ public class FacadeCita extends AbstractFacade<Cita> {
         }
     }
 
+    /**
+     * Medoto que trasforma objeto de tipo java.util.Date a java.sql.Date
+     *
+     * @param uDate
+     * @return
+     */
     private static java.sql.Date convertUtilToSql(java.util.Date uDate) {
         java.sql.Date sDate = new java.sql.Date(uDate.getTime());
         return sDate;
     }
 
+    /**
+     * Metodo que autorixa la cacelacion de una cita
+     *
+     * @param idCita
+     * @return
+     */
     private boolean autorizarCancelacionCita(Long idCita) {
         boolean autorizar = true;
         Cita cita = em.find(Cita.class, idCita);
@@ -158,8 +169,7 @@ public class FacadeCita extends AbstractFacade<Cita> {
                     + sDateSistema + "  FECHA-SISTEMA \n\n\n");
             autorizar = false;
         } else //_log.log(Level.WARNING, "FECHAS DIFERENTES\n");
-        {
-            if (sDateCita.after(sDateSistema)) {
+         if (sDateCita.after(sDateSistema)) {
                 _log.log(Level.WARNING, "\n\n AUTORIZO CANCELAR CITA \n"
                         + "FECHA-CITA  " + sDateCita + "   >   "
                         + sDateSistema + "  FECHA-SISTEMA \n\n\n");
@@ -170,11 +180,16 @@ public class FacadeCita extends AbstractFacade<Cita> {
                         + sDateSistema + "  FECHA-SISTEMA \n\n\n");
                 autorizar = false;
             }
-        }
 
         return autorizar;
     }
 
+    /**
+     * Metod para cancelar cita por id
+     *
+     * @param idCita
+     * @return
+     */
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public GeneralResponse PacienteCancelaSuCita(Long idCita) {
 
@@ -214,8 +229,8 @@ public class FacadeCita extends AbstractFacade<Cita> {
         return response;
     }
 
-    /////////////////////////////
     /**
+     * Consulta citas por medico y las filta segun los parametros recibidos.
      *
      * @param idMedico
      * @param fechaInicio
@@ -255,61 +270,72 @@ public class FacadeCita extends AbstractFacade<Cita> {
 
     }
 
+    /**
+     * Busca citas por paciente y las filta por eps,especialidad y fecha
+     *
+     * @param idEspecialidad
+     * @param idEps
+     * @param fechaBusqueda
+     * @return
+     */
     public List<Cita> buscarCitasDisponiblesPaciente(long idEspecialidad, long idEps, String fechaBusqueda) {
         try {
             Query q = em.createNativeQuery(WebConstant.QUERY_CITA_FIND_CITAS_DIPONIBLES_PACIENTE, Cita.class);
 
             List<PersonaEps> listPersonaEps = facadeMedicoEps.consultarEpsMedico(idEps);
-            
-            if(listPersonaEps!=null){
-                
-                for(PersonaEps p:listPersonaEps){
-                    if(p.getFechaFin()==null){
-                        idEps=p.getEps().getIdPersona();
+
+            if (listPersonaEps != null) {
+
+                for (PersonaEps p : listPersonaEps) {
+                    if (p.getFechaFin() == null) {
+                        idEps = p.getEps().getIdPersona();
                     }
                 }
-            
-               
-            q.setParameter(1, idEspecialidad);
-            q.setParameter(2, idEps);
-            Date aux;
-            if (fechaBusqueda != null) {
 
-                aux = AgendaUtil.parserStringToDateSimpleDateFormat(fechaBusqueda);
-                if (aux == null) {
-                    aux = new Date();
+                q.setParameter(1, idEspecialidad);
+                q.setParameter(2, idEps);
+                Date aux;
+                if (fechaBusqueda != null) {
+
+                    aux = AgendaUtil.parserStringToDateSimpleDateFormat(fechaBusqueda);
+                    if (aux == null) {
+                        aux = new Date();
+                    }
+                } else {
+                    aux = AgendaUtil.getCurrentDate();
                 }
+                _log.log(Level.SEVERE, "QUERY: " + WebConstant.QUERY_CITA_FIND_CITAS_DIPONIBLES_PACIENTE);
+                _log.log(Level.SEVERE, "1 : " + idEspecialidad);
+                _log.log(Level.SEVERE, "2 : " + idEps);
+                _log.log(Level.SEVERE, "3 : " + aux);
+                _log.log(Level.SEVERE, "4 : " + (new Date(aux.getTime() + WebConstant.MS_DAY)));
+
+                q.setParameter(3, aux);
+                q.setParameter(4, new Date(aux.getTime() + WebConstant.MS_DAY));
+
+                return (List<Cita>) q.getResultList();
             } else {
-                aux = AgendaUtil.getCurrentDate();
-            }
-            _log.log(Level.SEVERE, "QUERY: " + WebConstant.QUERY_CITA_FIND_CITAS_DIPONIBLES_PACIENTE);
-            _log.log(Level.SEVERE, "1 : " + idEspecialidad);
-            _log.log(Level.SEVERE, "2 : " + idEps);
-            _log.log(Level.SEVERE, "3 : " + aux);
-            _log.log(Level.SEVERE, "4 : " + (new Date(aux.getTime() + WebConstant.MS_DAY)));
-
-            q.setParameter(3, aux);
-            q.setParameter(4, new Date(aux.getTime() + WebConstant.MS_DAY));
-
-            return (List<Cita>) q.getResultList();
-            }else{
                 return null;
             }
         } catch (Exception e) {
             return null;
         }
-        
 
     }
 
+    /**
+     * Metodo que agenda de un medico a un paciente
+     *
+     * @param idCita
+     * @param idPersona
+     * @return
+     */
     public GeneralResponse agendarCita(long idCita, long idPersona) {
         GeneralResponse response = new GeneralResponse();
         PersonaEps personaEpsCita = null;
         ErrorObjSiscAgenda error;
         Cita cita;
         try {
-
-            
 
             List<PersonaEps> listEps = facadeMedicoEps.consultarEpsMedico(idPersona);
             if (listEps != null && listEps.size() > 0) {
@@ -331,7 +357,7 @@ public class FacadeCita extends AbstractFacade<Cita> {
 
                 } else {
                     /*Error cita no disponible*/
-                     _log.log(Level.WARNING,"NO HAY CITA  {0}",idCita);
+                    _log.log(Level.WARNING, "NO HAY CITA  {0}", idCita);
                     response.setCodigoRespuesta("ERROR");
                     error = new ErrorObjSiscAgenda();
                     error.setCodigoError("001");
@@ -341,7 +367,7 @@ public class FacadeCita extends AbstractFacade<Cita> {
 
             } else {
                 /*error*/
-                _log.log(Level.WARNING,"NO HAY LISTA ESP PERSONA PARA {0}",idPersona);
+                _log.log(Level.WARNING, "NO HAY LISTA ESP PERSONA PARA {0}", idPersona);
                 response.setCodigoRespuesta("ERROR");
                 error = new ErrorObjSiscAgenda();
                 error.setCodigoError("000");
@@ -350,7 +376,7 @@ public class FacadeCita extends AbstractFacade<Cita> {
             }
 
         } catch (Exception e) {
-            _log.log(Level.SEVERE,"ERRO EN agendarCita ",e);
+            _log.log(Level.SEVERE, "ERRO EN agendarCita ", e);
             response.setCodigoRespuesta("ERROR");
             error = new ErrorObjSiscAgenda();
             error.setCodigoError("000");
@@ -359,8 +385,8 @@ public class FacadeCita extends AbstractFacade<Cita> {
         }
         return response;
     }
-    
-    public Cita mergeCita(Cita cita){
+
+    public Cita mergeCita(Cita cita) {
         return em.merge(cita);
     }
 }

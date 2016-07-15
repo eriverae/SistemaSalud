@@ -4,9 +4,11 @@
  * and open the template in the editor.
  */
 
-//modulo
-var app = angular.module('sisc_web');
 
+var app = angular.module('sisc_web');
+/**
+ *Definicio de filtro para html de implementacion del controlador 
+ */
 app.filter("getFormatoEstado", function () {
     return function (input) {
         if (input === 'DISPONIBLE') {
@@ -22,7 +24,7 @@ app.filter("getFormatoEstado", function () {
                         return 'Atendido';
                     } else {
                         if (input === 'PACIENTE_NO_ASISTIO_A_CITA') {
-                            return 'No asistio'
+                            return 'No asistio';
                         } else {
                             return input;
                         }
@@ -33,7 +35,9 @@ app.filter("getFormatoEstado", function () {
 
     };
 });
-
+/**
+ * Filtro formato de fecha
+ */
 app.filter("getFormatofecha", function () {
     return function (input) {
         var res = new Date(input);
@@ -41,6 +45,9 @@ app.filter("getFormatofecha", function () {
 
     };
 });
+/**
+ * Filtro formato de hora
+ */
 app.filter("getFormatoHora", function () {
     return function (input) {
         var res = new Date(input);
@@ -49,12 +56,17 @@ app.filter("getFormatoHora", function () {
     };
 });
 
-
 app.controller('citasController',
         function ($scope, $http, $stateParams, $rootScope, DTOptionsBuilder, DTColumnDefBuilder) {
 
             var idPacienteSesion = 0;
             var medicoPro = null;
+            var configServicePost = {
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8;'
+                }
+            };
+
 
             /*Validacion de objeto personaNatural en localStorage*/
             if (localStorage.getItem('personaNatural') !== null) {
@@ -64,8 +76,8 @@ app.controller('citasController',
                 if (medicoPro.idPersona === null) {
                     medicoPro = JSON.parse('{"idPersona":23,"tipoIdentificacion":"CC","numeroIdentificacion":151515154,"version":0,"correoElectronico":"paciente@prueba.com","nombres":"jhvj","apellidos":"Rojas Rojas","genero":"M","fechaNacimiento":-2242062000000,"telefonoCelular":71717171717,"telefonoFijo":61616161,"direccion":"kkks","fotografia":null,"huella":null,"rh":"+","grupoSanguineo":"A","tarjetaProfesional":null,"rolPersonaNatural":"PACIENTE"}');
                 }
-               
-            }else{
+
+            } else {
                 medicoPro = JSON.parse('{"idPersona":23,"tipoIdentificacion":"CC","numeroIdentificacion":151515154,"version":0,"correoElectronico":"paciente@prueba.com","nombres":"jhvj","apellidos":"Rojas Rojas","genero":"M","fechaNacimiento":-2242062000000,"telefonoCelular":71717171717,"telefonoFijo":61616161,"direccion":"kkks","fotografia":null,"huella":null,"rh":"+","grupoSanguineo":"A","tarjetaProfesional":null,"rolPersonaNatural":"PACIENTE"}');
             }
             idPacienteSesion = medicoPro.idPersona;
@@ -98,20 +110,23 @@ app.controller('citasController',
              */
             $scope.mostrarMensajeCitaSeleccionada = function () {
                 $scope.esconderMensajeCitaSeleccionada = !$scope.esconderMensajeCitaSeleccionada;
-            }
+            };
 
             $scope.informacionCita = null;
             $scope.mensajesCita = {};
+
             /**
              * Mostrar una cita detallada, que fue seleccionada por el paciente
+             * @param {type} informacionCita
+             * @returns {undefined}
              */
             $scope.mostrarUnaCitaDetallada = function (informacionCita) {
-                
-                console.log("mostrarUnaCitaDetallada(informacionCita)")
-                console.log("idCita" + informacionCita.idCita)
+
+                console.log("mostrarUnaCitaDetallada(informacionCita)");
+                console.log("idCita" + informacionCita.idCita);
 
                 $scope.informacionCita = informacionCita;
-                $('#tab222').show()
+                $('#tab222').show();
                 $('#message-box-sound-1').modal();
                 $('#audio-fail').get(0).play();
 
@@ -120,8 +135,8 @@ app.controller('citasController',
                             msn_citaSeleccionada1: 'MUY BIEN!!! ',
                             msn_citaSeleccionada2: 'Has seleccionado una cita correctamente'
                         };
-            }
-           
+            };
+
             $scope.posicionFila = -1;
 
             /**
@@ -157,18 +172,10 @@ app.controller('citasController',
                  */
                 if ($scope.posicionFila >= 0) {
                     console.log("*** popsicio0nFila = " + $scope.posicionFila + "  ..  ");
-
-
-                    var configServicePost = {
-                        headers: {
-                            'Content-Type': 'application/json;charset=utf-8;'
-                        }
-                    }
-
                     console.log("idCita-->" + JSON.stringify($scope.listaCitasPaciente[$scope.posicionFila].idCita));
-                    console.log("...");
+                    
                     var idCita = $scope.listaCitasPaciente[$scope.posicionFila].idCita + "";
-                    //$http.post('/SiscAgenda/api/paciente/cancelarCita', idCita, configServicePost)
+                    
                     $http.post('/SiscAgenda/api/paciente/' + idCita + '/cancelarCita', configServicePost)
                             .success(function (data, status, headers, config) {
                                 if (data.codigoRespuesta === "SUCCESS") {
@@ -207,34 +214,10 @@ app.controller('citasController',
                 $('#message-box-success').hide();
             };
 
-
-
-
-            /******************************************************************* */
-            /******************************************************************* */
-
-
             $(document).ready(function () {
                 $('#example').DataTable({
                     "pagingType": "full_numbers"
                 });
             });
 
-
-
-
-
-
-
-
-            //fin <citasController>
         });
-
-//$(document).ready(function() {
-//    $('#example').DataTable( {
-//        "pagingType": "full_numbers"
-//    } );
-//} );
-
-//RECARGAR PAGINA 
-//   window.setTimeout(function(){location.reload()},4000);

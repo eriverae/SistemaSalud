@@ -37,10 +37,10 @@ import javax.ws.rs.core.UriInfo;
  * @author BryanCFz-user
  */
 @Path("paciente")
-//@RequestScoped
+
 public class RestFullCitaPaciente {
 
-    private final static Logger logi = Logger.getLogger(RestFullAgendaMedico.class.getName());
+    private final static Logger _log = Logger.getLogger(RestFullAgendaMedico.class.getName());
 
     @Context
     private UriInfo context;
@@ -51,29 +51,33 @@ public class RestFullCitaPaciente {
     @EJB
     IUtilitariosAgendaLocal facadeUtilitariosAgenda;
 
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Path("/{idPaciente}/listaCitas")
-//    public List<Cita> CitasDePaciente(
-//            @PathParam("idPaciente") Long idPaciente) {
-//        List<Cita> lista = facadeCita.listaCitasPaciente(idPaciente).toArray();
-//        return facadeCita.listaCitasPaciente(idPaciente);
-//    }
+    /**
+     * Servicio rest que se comunica con el ejb para consultar las ultimas citas
+     * agendadas por un paciente
+     *
+     * @param idPaciente
+     * @return
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{idPaciente}/listaCitas")
     public Object[] CitasDePaciente(
             @PathParam("idPaciente") Long idPaciente) {
         List<Cita> lista = facadeCita.listaCitasPendientePaciente(idPaciente);
-        if(lista!=null){
+        if (lista != null) {
             return lista.toArray();
-        }else{
+        } else {
             return null;
         }
-        //return facadeCita.listaCitasPaciente(idPaciente);
-        
     }
 
+    /**
+     * Servicio rest que se comunica con el ejb para consultar el hitorial de
+     * las citas agendadas por un paciente
+     *
+     * @param idPaciente
+     * @return
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{idPaciente}/listaCitasHistorialEPS")
@@ -84,16 +88,9 @@ public class RestFullCitaPaciente {
         return lista.toArray();
     }
 
-    //ORIGINAL
-//    @POST
-//    @Path("/cancelarCita")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public String cancelarUnaCitaDePaciente(Cita cita) {
-//        logi.log(Level.WARNING,  "Request para cancelar la Cita con id {0}", cita.getIdCita());
-//        return facadeCita.cancelarCita(cita); 
-//    }
     /**
+     * Servicio rest que se comunica con el ejb para cancelar un cita del
+     * paciente
      *
      * @param idCita
      * @return
@@ -104,12 +101,14 @@ public class RestFullCitaPaciente {
     public GeneralResponse cancelarUnaCitaDePaciente(
             @PathParam("idCita") String idCita
     ) {
-        logi.log(Level.WARNING, "Request para cancelar la Cita con id {0}", idCita);
+        _log.log(Level.WARNING, "Request para cancelar la Cita con id {0}", idCita);
         Long idCitaA = Long.valueOf(idCita);
         return facadeCita.cancelarCita1(idCitaA);
     }
 
     /**
+     * Servicio rest que se comunica con el ejb para consultar informacion
+     * completa de una cita.
      *
      * @param idCita
      * @return
@@ -119,66 +118,13 @@ public class RestFullCitaPaciente {
     @Path("/{idCita}/consultarCita")
     public Cita consultarCitaId(
             @PathParam("idCita") Long idCita) {
-        logi.log(Level.WARNING, "Obtener la cita segun su id: " + idCita);
+        _log.log(Level.WARNING, "Obtener la cita segun su id: {0}", idCita);
         return facadeCita.find(idCita);
     }
 
     /**
-     * Crear y Modificar una Cita
-     *
-     * @param cita
-     * @return
-     */
-    /*@POST
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response agendarCitaPaciente(Cita cita) {
-
-        if (cita.getIdCita() == null) {
-            try {
-                //agendar la cita
-                facadeCita.agendarCita(cita);
-            } catch (CitaException ex) {
-                //error al agendar la cita
-                ErrorMessage errorMessage = new ErrorMessage();
-                errorMessage.setCode(ex.getErrorCode());
-                errorMessage.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
-                errorMessage.setMessage(ex.getMessage());
-                StringWriter errorStackTrace = new StringWriter();
-                ex.printStackTrace(new PrintWriter(errorStackTrace));
-                errorMessage.setDeveloperMessage(errorStackTrace.toString());
-                errorMessage.setLink("www.banco.com/soporte");
-
-                return Response.status(errorMessage.getStatus())
-                        .entity(errorMessage)
-                        .type(MediaType.APPLICATION_JSON)
-                        .build();
-            }
-        } else {
-            //modificar la cita
-            //facadeCita.modificarCitaPaciente(cita);
-        }
-        return Response.ok().build();
-    }*/
-    /**
-     * retorna los medicos segun la especialidad
-     *
-     * @return
-     */
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{descripcion}/listaMedicosEspecialidad")
-    public Object[] listaMedicosEspecialidadEPS(
-            @PathParam("descripcion") String descripcion, @QueryParam("idEps") String idEps) {
-        if (idEps != null) {
-            logi.log(Level.WARNING, "SERVICIOrEST: listaMedicos con especialidad: " + descripcion + "\n\n");
-            return facadeUtilitariosAgenda.listaEspecialidadMedicosEps(descripcion, idEps).toArray();
-        }
-
-        return null;
-    }
-
-    /**
-     * retorna las especialidades de los medicos
+     * Servicio rest que se comunica con el ejb para retornar las especialidades
+     * de un medico
      *
      * @return
      */
@@ -186,79 +132,19 @@ public class RestFullCitaPaciente {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/especialidadesMedicosEPS")
     public Object[] especialidadesMedicos() {
-        logi.log(Level.WARNING, "SERVICIOrEST: ConsultarEspecialidades\n\n");
+        _log.log(Level.WARNING, "SERVICIOrEST: ConsultarEspecialidades\n\n");
         return facadeUtilitariosAgenda.especialidadesEps().toArray();
     }
 
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Path("/citasDisponibles")
-//    public List<ResponseCitasDisponiblesMedico> buscarCitasDisponiblesPaciente(
-//            @QueryParam("idEspecialidad") long idEspecialidad,
-//            @QueryParam("idEps") long idEps,
-//            @DefaultValue("null")
-//            @QueryParam("fechaBusqueda") String fechaBusqueda) {
-//
-//        Map<Long, ResponseCitasDisponiblesMedico> response = new HashMap<Long, ResponseCitasDisponiblesMedico>();
-//        List<ResponseCitasDisponiblesMedico> list = null;
-//        try {
-//            List<Cita> listCitas;
-//            if (fechaBusqueda.equals("null")) {
-//                listCitas = facadeCita.buscarCitasDisponiblesPaciente(idEspecialidad, idEps, null);
-//            } else {
-//                listCitas = facadeCita.buscarCitasDisponiblesPaciente(idEspecialidad, idEps, fechaBusqueda);
-//            }
-//            for (Cita cita : listCitas) {
-//
-//                CitaDisponible e = new CitaDisponible();
-//                e.setCiudad(cita.getAgenda().getCiudad());
-//                e.setDireccion(cita.getAgenda().getDireccion());
-//                e.setEstadoCita(cita.getEstadoCita());
-//                e.setFecha(AgendaUtil.parserDateToString(cita.getHoraInicio(), WebConstant.SIMPLE_DATE_FORMAT));
-//                e.setHoraInicio(AgendaUtil.parserDateToString(cita.getHoraInicio(), WebConstant.SIMPLE_DATE_FORMAT_HOUR));
-//                e.setHoraFin(AgendaUtil.parserDateToString(cita.getHoraFin(), WebConstant.SIMPLE_DATE_FORMAT_HOUR));
-//                e.setLocalidad(cita.getAgenda().getLocalidad());
-//                e.setNumeroConsultorio(cita.getAgenda().getNumeroConsultorio());
-//                e.setIdCita(cita.getIdCita());
-//
-//                if (response.get(cita.getAgenda().getMedicoEps().getPersona().getIdPersona()) != null) {
-//                    response.get(cita.getAgenda().getMedicoEps().getPersona().getIdPersona()).getCitasDisponibles().add(e);
-//                } else {
-//                    ResponseCitasDisponiblesMedico responseCitasDisponiblesMedico = new ResponseCitasDisponiblesMedico();
-//                    responseCitasDisponiblesMedico.setCorreoElectronico(cita.getAgenda().getMedicoEps().getPersona().getCorreoElectronico());
-//                    responseCitasDisponiblesMedico.setFotografia(cita.getAgenda().getMedicoEps().getPersona().getFotografia());
-//                    responseCitasDisponiblesMedico.setIdMedico(cita.getAgenda().getMedicoEps().getPersona().getIdPersona());
-//                    responseCitasDisponiblesMedico.setCiudad(cita.getAgenda().getCiudad());
-//                    responseCitasDisponiblesMedico.setLocalidad(cita.getAgenda().getLocalidad());
-//                    responseCitasDisponiblesMedico.setDireccion(cita.getAgenda().getDireccion());
-//                    responseCitasDisponiblesMedico.setFechaConsulta(AgendaUtil.parserDateToString(cita.getHoraInicio(), WebConstant.SIMPLE_DATE_FORMAT));
-//                    responseCitasDisponiblesMedico.setNumeroConsultorio(cita.getAgenda().getNumeroConsultorio());
-//                    if (cita.getAgenda().getMedicoEps().getPersona().getNombres() != null) {
-//                        responseCitasDisponiblesMedico.setNombreCompleto(cita.getAgenda().getMedicoEps().getPersona().getApellidos() != null
-//                                ? cita.getAgenda().getMedicoEps().getPersona().getNombres() + " " + cita.getAgenda().getMedicoEps().getPersona().getApellidos()
-//                                : cita.getAgenda().getMedicoEps().getPersona().getNombres());
-//                    } else {
-//                        responseCitasDisponiblesMedico.setNombreCompleto(cita.getAgenda().getMedicoEps().getPersona().getApellidos() != null ? cita.getAgenda().getMedicoEps().getPersona().getApellidos() : "");
-//                    }
-//                    responseCitasDisponiblesMedico.setNumeroIdentificacion(cita.getAgenda().getMedicoEps().getPersona().getNumeroIdentificacion() + "");
-//                    responseCitasDisponiblesMedico.setTipoIdentificacion(cita.getAgenda().getMedicoEps().getPersona().getTipoIdentificacion().name());
-//                    responseCitasDisponiblesMedico.getCitasDisponibles().add(e);
-//
-//                    response.put(responseCitasDisponiblesMedico.getIdMedico(), responseCitasDisponiblesMedico);
-//                }
-//
-//            }
-//
-//            list = new ArrayList<ResponseCitasDisponiblesMedico>(response.values());
-//
-//        } catch (NullPointerException e) {
-//
-//        }
-//
-//        return list;
-//
-//    }
-//    /SiscAgenda/api/paciente/citasDisponibles?idEspecialidad=1&idEps=0&fechaBusqueda=11-07-2016&idPaciente=23
+    /**
+     * Servicio rest que se comunica con el ejb para consultar las citas
+     * disponibles para un paciente filtrado por especilidad y fecha
+     *
+     * @param idEspecialidad
+     * @param fechaBusqueda
+     * @param idPaciente
+     * @return
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/citasDisponibles")
@@ -268,7 +154,7 @@ public class RestFullCitaPaciente {
             @QueryParam("fechaBusqueda") String fechaBusqueda,
             @QueryParam("idPaciente") long idPaciente) {
 
-        Map<Long, ResponseCitasDisponiblesMedico> response = new HashMap<Long, ResponseCitasDisponiblesMedico>();
+        Map<Long, ResponseCitasDisponiblesMedico> response = new HashMap<>();
         List<ResponseCitasDisponiblesMedico> list = null;
         try {
             List<Cita> listCitas;
@@ -318,17 +204,18 @@ public class RestFullCitaPaciente {
 
             }
 
-            list = new ArrayList<ResponseCitasDisponiblesMedico>(response.values());
+            list = new ArrayList<>(response.values());
 
         } catch (NullPointerException e) {
 
         }
 
         return list;
-
     }
 
     /**
+     * Servicio rest que se comunica con el ejb para agendar una cita sobre el
+     * horario disponible de un medico.
      *
      * @param idCita
      * @param idPaciente
@@ -341,8 +228,6 @@ public class RestFullCitaPaciente {
             @PathParam("idCita") Long idCita,
             @PathParam("idPaciente") Long idPaciente) {
 
-        logi.log(Level.WARNING,">> "+idCita+" "+idPaciente);
-        
         return facadeCita.agendarCita(idCita, idPaciente);
     }
 

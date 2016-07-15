@@ -7,7 +7,6 @@ package com.acme.sisc.agenda.shared;
 
 import com.acme.sisc.agenda.dto.GeneralResponse;
 import com.acme.sisc.agenda.entidades.Cita;
-import com.acme.sisc.agenda.exceptions.CitaException;
 import java.util.List;
 import javax.ejb.Local;
 import javax.ejb.TransactionAttribute;
@@ -23,10 +22,7 @@ public interface ICitaLocal {
     
     @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
     public Cita find(Long id);
-
-    @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
-    public void agendarCita(Cita cita) throws CitaException;
-
+   
     @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
     public List<Cita> listaCitasPendientePaciente(long idPaciente);
 
@@ -38,14 +34,11 @@ public interface ICitaLocal {
        
     int count();
     
-    List<Cita> findRange(int startPosition, int maxResults, String sortFields, String sortDirections);
-    
     void remove(Long id);
 
     void remove(Cita entity);
     
-    public List<Cita> buscarCitasDisponiblesPaciente(long idEspecialidad,long idEps,String fechaBusqueda);
-    
+    public List<Cita> buscarCitasDisponiblesPaciente(long idEspecialidad,long idEps,String fechaBusqueda);    
     
     public GeneralResponse agendarCita(long idCita,long idPersona);
 

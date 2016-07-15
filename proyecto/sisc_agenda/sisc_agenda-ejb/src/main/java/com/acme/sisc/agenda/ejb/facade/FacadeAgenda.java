@@ -22,11 +22,11 @@ import javax.persistence.Query;
  * @author desarrollador
  */
 @Stateless
-public class FacadeAgenda  extends  AbstractFacade <Agenda>  {
-    
-     Logger log = Logger.getLogger(this.getClass().getName());
+public class FacadeAgenda extends AbstractFacade<Agenda> {
 
-     @Override
+    Logger log = Logger.getLogger(this.getClass().getName());
+
+    @Override
     protected EntityManager getEntityManager() {
         return em;
     }
@@ -34,34 +34,47 @@ public class FacadeAgenda  extends  AbstractFacade <Agenda>  {
     public FacadeAgenda() {
         super(Agenda.class);
     }
-    
+
     @PersistenceContext(unitName = WebConstant.UNIT_NAME_PERSISTENCE)
     private EntityManager em;
-    
-    
-    public boolean insertarAgenda(Agenda agenda){
-        try{
+
+    /**
+     * Metodo que persiste un registro de la tabla agenda en bd.
+     *
+     * @param agenda
+     * @return
+     */
+    public boolean insertarAgenda(Agenda agenda) {
+        try {
             em.persist(agenda);
             JMSUtil.sendMessage(agenda, "java:/jms/queue/SiscQueue");
             return true;
-        }catch(Exception e){
-            log.log(Level.SEVERE, "ERROR EN insertarAgenda",e);
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "ERROR EN insertarAgenda", e);
             return false;
         }
-        
+
     }
-    public List<Agenda> consultarAgendasMedico(long idMedico,Date fechaInicial,Date fechaFinal){
-       try{
-            Query  q = em.createNamedQuery(WebConstant.QUERY_AGENDA_FIND_BY_ID_MEDICO);
+
+    /**
+     * Metodo que consulta en bd los registro de agendas
+     *
+     * @param idMedico
+     * @param fechaInicial
+     * @param fechaFinal
+     * @return
+     */
+    public List<Agenda> consultarAgendasMedico(long idMedico, Date fechaInicial, Date fechaFinal) {
+        try {
+            Query q = em.createNamedQuery(WebConstant.QUERY_AGENDA_FIND_BY_ID_MEDICO);
             q.setParameter(WebConstant.QUERY_PARAMETER_ID_MEDICO, idMedico);
-            List<Agenda> listaAgendasMedico=(List<Agenda>) q.getResultList();
-             return listaAgendasMedico;
-        }catch(Exception e){
-            e.printStackTrace();
-            return  null;
+            List<Agenda> listaAgendasMedico = (List<Agenda>) q.getResultList();
+            return listaAgendasMedico;
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "ERROR EN consultarAgendasMedico", e);
+            return null;
         }
-      
+
     }
-    
-    
+
 }

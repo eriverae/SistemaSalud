@@ -1,18 +1,19 @@
 
-//$(window).load(function () {
-//  // Una vez se cargue al completo la página desaparecerá el div "cargando"
-//  $('#cargando').hide();
-//});
-
 /**
- * calendarDemoApp - 0.9.0
+ * Js agendaMedico.html
  */
-
-
 
 var app = angular.module('sisc_web');
 
-app.filter("getEdad", function () {  //fa y fb dos fechas
+/**
+ * Definicion de filtro para html
+ */
+
+/*
+ * Filtro para dar formato a la edad de un paciente.
+ *   
+ */
+app.filter("getEdad", function () {
     return function (input) {
         var fa = new Date(input);
         var fb = new Date();
@@ -61,67 +62,61 @@ app.filter("getEdad", function () {  //fa y fb dos fechas
                 f3 = new Date(f1.getFullYear(), m1 + 1, 1);
                 f3.setDate(f3.getDate() - 1);
                 d3 = f3.getDate();
-                if (d3 == 30)
+                if (d3 === 30)
                     dias -= 1;
-                if (d3 == 29)
+                if (d3 === 29)
                     dias -= 2;
-                if (d3 == 28)
+                if (d3 === 28)
                     dias -= 3;
             }
         }
-//        var res=ans +'años con '+meses+' meses y '+ dias  ;
         return ans + ' años con ' + meses + ' meses y ' + dias + ' dias';
-    }
+    };
 });
-
+/**
+ * Filtro para dar formato a fecha 
+ */
 app.filter("getFormatofecha", function () {
     return function (input) {
         var res = new Date(input);
         return res.getDate() + '-' + (res.getMonth() + 1) + '-' + res.getFullYear();
-
-    }
+    };
 });
-
-
+/**
+ * Filtro para dar formato a hora
+ */
 app.filter("getFormatoHora", function () {
     return function (input) {
         var res = new Date(input);
         return res.getHours() + ':' + (res.getMinutes()) + ':' + res.getSeconds();
 
-    }
+    };
 });
-
-//app.controller('agendaMedicoContoller',
-//        function ($scope, $compile, $timeout, uiCalendarConfig, $http, $stateParams, $state) {
-
+/**
+ * Controlador agendaMedico.html
+ */
 app.controller('agendaMedicoContoller',
-        function ($scope, $compile, $timeout, uiCalendarConfig, $http,$state) {
+        function ($scope, $compile, $timeout, uiCalendarConfig, $http, $state) {
 
             var idMedicoSesion = 0;
             var medicoPro = null;
-
-            /*Validacion de objeto personaNatural en localStorage*/
-            if (localStorage.getItem('personaNatural') !== null) {
-                medicoPro = JSON.parse(localStorage.getItem('personaNatural'));
-                console.log('personaNatural localStorage: ');
-                console.log(medicoPro);
-                if (medicoPro.idPersona === null) {
-                    medicoPro = JSON.parse('{"idPersona":9,"tipoIdentificacion":"CC","numeroIdentificacion":3456765434,"version":0,"correoElectronico":"medico@prueba.com","nombres":"Ã‰rika","apellidos":"Villa","genero":"F","fechaNacimiento":511074000000,"telefonoCelular":4567655676,"telefonoFijo":45654456,"direccion":"gygbnhb","fotografia":null,"huella":null,"rh":"+","grupoSanguineo":"A","tarjetaProfesional":null,"rolPersonaNatural":"MEDICO"}');
-                }                
-            }else{
-                medicoPro = JSON.parse('{"idPersona":9,"tipoIdentificacion":"CC","numeroIdentificacion":3456765434,"version":0,"correoElectronico":"medico@prueba.com","nombres":"Ã‰rika","apellidos":"Villa","genero":"F","fechaNacimiento":511074000000,"telefonoCelular":4567655676,"telefonoFijo":45654456,"direccion":"gygbnhb","fotografia":null,"huella":null,"rh":"+","grupoSanguineo":"A","tarjetaProfesional":null,"rolPersonaNatural":"MEDICO"}');
-            }
-
-              idMedicoSesion = medicoPro.idPersona;
-
-//           idMedicoSesion=$stateParams.idMedico;
-
-            console.log('idMedico: ' + idMedicoSesion);
-
+            var date = new Date();
+            var d = date.getDate();
+            var m = date.getMonth();
+            var y = date.getFullYear();
+            $scope.calEventsExt = {
+                textColor: '#f1111',
+                events: []
+            };
+            var configServicePost = {
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8;'
+                }
+            };
+            $scope.listEpsMedico = {};
             $scope.objErrorNuevaAgenda;
             $scope.generalResponse;
             $scope.infoConsultaCita;
-
             $scope.nuevaAgenda = {
                 fechaInicio: '',
                 fechaFinal: '',
@@ -149,6 +144,24 @@ app.controller('agendaMedicoContoller',
 
             };
 
+
+            /*Validacion de objeto personaNatural en localStorage*/
+            if (localStorage.getItem('personaNatural') !== null) {
+                medicoPro = JSON.parse(localStorage.getItem('personaNatural'));
+                console.log('personaNatural localStorage: ');
+                console.log(medicoPro);
+                if (medicoPro.idPersona === null) {
+                    medicoPro = JSON.parse('{"idPersona":9,"tipoIdentificacion":"CC","numeroIdentificacion":3456765434,"version":0,"correoElectronico":"medico@prueba.com","nombres":"Ã‰rika","apellidos":"Villa","genero":"F","fechaNacimiento":511074000000,"telefonoCelular":4567655676,"telefonoFijo":45654456,"direccion":"gygbnhb","fotografia":null,"huella":null,"rh":"+","grupoSanguineo":"A","tarjetaProfesional":null,"rolPersonaNatural":"MEDICO"}');
+                }
+            } else {
+                medicoPro = JSON.parse('{"idPersona":9,"tipoIdentificacion":"CC","numeroIdentificacion":3456765434,"version":0,"correoElectronico":"medico@prueba.com","nombres":"Ã‰rika","apellidos":"Villa","genero":"F","fechaNacimiento":511074000000,"telefonoCelular":4567655676,"telefonoFijo":45654456,"direccion":"gygbnhb","fotografia":null,"huella":null,"rh":"+","grupoSanguineo":"A","tarjetaProfesional":null,"rolPersonaNatural":"MEDICO"}');
+            }
+
+            idMedicoSesion = medicoPro.idPersona;
+            console.log('idMedico: ' + idMedicoSesion);
+            /*
+             * Funcion para ir a opciones de cita modulo hc           
+             */
             $scope.irMenuHC = function (cita) {
                 $state.go('menuhc', {'cita': cita});
             };
@@ -160,25 +173,13 @@ app.controller('agendaMedicoContoller',
                     dia.incluir = true;
                     $scope.nuevaAgenda.semana.listaDias[index] = dia;
                     $scope.nuevaAgenda.semana.numeroDiasSelecionado = $scope.nuevaAgenda.semana.numeroDiasSelecionado + 1;
-
                 } else {
                     dia.incluir = false;
                     $scope.nuevaAgenda.semana.listaDias[index] = dia;
                     $scope.nuevaAgenda.semana.numeroDiasSelecionado = $scope.nuevaAgenda.semana.numeroDiasSelecionado - 1;
-
                 }
-
             };
 
-            var date = new Date();
-
-            var d = date.getDate();
-            var m = date.getMonth();
-            var y = date.getFullYear();
-
-
-
-            $scope.listEpsMedico = {};
             /**
              * Traer lista eps medico
              */
@@ -186,76 +187,12 @@ app.controller('agendaMedicoContoller',
             data_eps.then(function (result) {
                 $scope.listEpsMedico = result.data;
             });
-
-
+            /**
+             * Cierrar ventana de confimacion de creacion de agenda.
+             */
             $scope.terminarCreacionNuevaAgenda = function () {
                 $('#message-box-success').hide();
             };
-
-            var configServicePost = {
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8;'
-                }
-            };
-
-            $scope.agregarAgenda = function () {
-                /**
-                 * Validar datos del formulario.
-                 */
-                var validacion = true;
-                if ($scope.nuevaAgenda.semana.numeroDiasSelecionado <= 0) {
-                    alert('Selecciona al menos un día para agendar.');
-                    validacion = false;
-                }
-                if (validacion) {
-
-                    /**
-                     * Llamar a servicio post par insertar agenda.
-                     */
-                    $http.post('/SiscAgenda/api/medico/agenda/nuevaAgenda', $scope.nuevaAgenda, configServicePost)
-                            .success(function (data, status, headers, config) {
-                                /**
-                                 * Insertar en arreglo de citas
-                                 */
-                                if (data.codigoRespuesta === "SUCCESS") {
-                                    /**
-                                     * Mensaje de confirmacion de agenda insertada correctamente.
-                                     */
-
-                                    $scope.generalResponse = data.objectResponse;
-                                    $('#message-box-success').show();
-
-                                    $scope.calEventsExt.events = [];
-                                    var utilRest1 = $http.get('/SiscAgenda/api/medico/agenda/' + idMedicoSesion);
-                                    utilRest1.then(function (result) {
-                                        var obj = result.data;
-                                        if (obj.existeAgenda) {
-                                            $.each(obj.events, function (k, v) {
-                                                $scope.calEventsExt.events.push(v);
-                                            });
-                                        }
-                                    });
-
-
-
-                                } else {
-                                    if (data.codigoRespuesta === "ERROR") {
-                                        $scope.objErrorNuevaAgenda = data.error;
-                                        $('#message-box-sound-2').show();
-
-
-                                    }
-                                }
-
-                            })
-                            .error(function (data, status, header, config) {
-
-                            });
-
-                }
-
-            };
-
 
             $scope.changeTo = 'Hungarian';
             /* event source that pulls from google.com */
@@ -266,98 +203,25 @@ app.controller('agendaMedicoContoller',
             };
             /* arreglo con las agendas a programar */
             $scope.events = [
-//      {title: 'All Day Event',start: new Date(y, m, 1)},
-
             ];
             /* event source that calls a function on every view switch */
             $scope.eventsF = function (start, end, timezone, callback) {
                 var s = new Date(start).getTime() / 1000;
                 var e = new Date(end).getTime() / 1000;
                 var m = new Date(start).getMonth();
-
-
                 var events = [{title: 'Feed Me ' + m, start: s + (50000), end: s + (100000), allDay: false, className: ['customFeed']}];
                 callback(events);
-            };
-
-//            var utilRest = $http.get('/SiscAgenda/api/medico/agenda/' + $stateParams.idMedico);
-//
-//            utilRest.then(function (result) {
-//
-//                var obj = result.data;
-//                if (obj.existeAgenda) {
-//                    $.each(obj.events, function (k, v) {
-////                        alert('aca?');
-//                        $scope.calEventsExt.events.push(v);
-//                    });
-//                    alert('sali?');
-//                    $scope.loading = false;
-//                }
-//
-//
-//            });
-            $http.get('/SiscAgenda/api/medico/agenda/' + idMedicoSesion).
-                    success(function (data) {
-
-                        var obj = data;
-                        if (obj.existeAgenda) {
-                            $.each(obj.events, function (k, v) {
-//                        alert('aca?');
-                                $scope.calEventsExt.events.push(v);
-                            });
-//                           $('#pleaseWaitDialog').hide();
-//                            $scope.loading = false;
-                        }
-                    });
-
-
-            $scope.calEventsExt = {
-                textColor: '#f1111',
-                events: []
             };
 
 
             /* alert on eventClick */
             $scope.alertOnEventClick = function (date, jsEvent, view) {
-
-
-//                console.log(jsEvent);
-//                console.log(view);
-//                var eventAux=$scope.calEventsExt.events[0];
-//                console.log('eventAux: '+eventAux);
-//                eventAux.className = ['highPriority'];                
-//                $scope.calEventsExt.events.splice(0,1);
-//                 $scope.calEventsExt.events.push(eventAux);
-
-
-//                $scope.calEventsExt.events.push( $scope.calEventsExt.events[0]);
-
-//                 jsEvent.attr({className : ['highPriority']});
-//                $compile(jsEvent)($scope);
-
-//                
-//                 $compile($scope.calEventsExt.events[0])($scope);
-//                callback($scope.calEventsExt);
-
                 var utilRest = $http.get('/SiscAgenda/api/paciente/' + date.idCita + "/consultarCita");
                 utilRest.then(function (result) {
-                    var obj = result.data;
 
                     $scope.infoConsultaCita = result.data;
-
-//                    $('#tab222').show();
-//                    $('#tab232').hide();
-//                    $('#tab242').hide();
-
-
                     $("#info_init_cita").click();
-
-
                     $('#myModal').modal();
-
-
-
-
                 });
 
             };
@@ -433,12 +297,85 @@ app.controller('agendaMedicoContoller',
                 }
             };
             $scope.uiConfig.calendar.dayNames = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
-            $scope.uiConfig.calendar.dayNamesShort = ["Dom", "Lun", "Mar", "Mi", "Jue", "Vi", "Sa"];
+            $scope.uiConfig.calendar.dayNamesShort = ["Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab"];
 
             /* event sources array*/
             $scope.eventSources = [$scope.events, $scope.eventSource, $scope.eventsF];
             $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];
 
+
+
+
+            /** 
+             * FUncion para crear nueva agenda para el medico
+             */
+            $scope.agregarAgenda = function () {
+                /**
+                 * Validar datos del formulario.
+                 */
+                var validacion = true;
+                if ($scope.nuevaAgenda.semana.numeroDiasSelecionado <= 0) {
+                    alert('Selecciona al menos un día para agendar.');
+                    validacion = false;
+                }
+                if (validacion) {
+
+                    /**
+                     * Llamar a servicio post par insertar agenda.
+                     */
+                    $http.post('/SiscAgenda/api/medico/agenda/nuevaAgenda', $scope.nuevaAgenda, configServicePost)
+                            .success(function (data, status, headers, config) {
+                                /**
+                                 * Insertar en arreglo de citas
+                                 */
+                                if (data.codigoRespuesta === "SUCCESS") {
+                                    /**
+                                     * Mensaje de confirmacion de agenda insertada correctamente.
+                                     */
+
+                                    $scope.generalResponse = data.objectResponse;
+                                    $('#message-box-success').show();
+
+//                                    $scope.calEventsExt.events = [];
+//                                    var utilRest1 = $http.get('/SiscAgenda/api/medico/agenda/' + idMedicoSesion);
+//                                    utilRest1.then(function (result) {
+//                                        var obj = result.data;
+//                                        if (obj.existeAgenda) {
+////                                            $scope.calEventsExt.events = obj.events;
+////                                            $compile($scope.calEventsExt.events)($scope);
+//                                            $.each(obj.events, function (k, v) {
+//                                               
+//                                                $scope.calEventsExt.events.push(v);
+//                                            });
+//                                        }
+//                                    });
+                                    cargarAgendamedico($timeout, $http, $scope, idMedicoSesion,uiCalendarConfig,$compile);
+                                } else {
+                                    if (data.codigoRespuesta === "ERROR") {
+                                        $scope.objErrorNuevaAgenda = data.error;
+                                        $('#message-box-sound-2').show();
+                                    }
+                                }
+
+                            })
+                            .error(function (data, status, header, config) {
+
+                                $scope.objErrorNuevaAgenda =
+                                        {
+                                            codigoError: '-1',
+                                            mensajeError: "Se ha presentado un error en el sistema",
+                                            objError: null
+                                        };
+                                $('#message-box-sound-2').show();
+                            });
+
+                }
+
+            };
+
+            /**
+             * Funcion para controlar las opciones por cita que dispone el medico             
+             */
             $scope.opcionesCita = function (idCitaSelec, accionSelec) {
 
                 var request = {
@@ -492,6 +429,41 @@ app.controller('agendaMedicoContoller',
 
             };
 
+            cargarAgendamedico($timeout, $http, $scope, idMedicoSesion,uiCalendarConfig,$compile);
+
         });
+
+/**
+ * Se hace consulta a la agenda disponible para el medico
+ * @param {type} $timeout
+ * @param {type} $http
+ * @param {type} $scope
+ * @param {type} idMedicoSesion
+ * @param {type} uiCalendarConfig
+ * @param {type} $compile
+ * @returns {undefined}
+ */
+function cargarAgendamedico($timeout, $http, $scope, idMedicoSesion,uiCalendarConfig,$compile) {
+
+    $timeout(function () {
+        $http.get('/SiscAgenda/api/medico/agenda/' + idMedicoSesion).
+                success(function (data) {
+
+                    var obj = data;
+                    if (obj.existeAgenda) {
+                       
+                                uiCalendarConfig.calendars.myCalendar1.fullCalendar('rerenderEvents');
+//                                 $scope.calEventsExt.events = {};
+//                                $scope.calEventsExt.events = obj.events;
+//                                $compile($scope.calEventsExt.events)($scope);
+                        $.each(obj.events, function (k, v) {
+                            $scope.events.push(v);
+                        });
+                        return true;
+                    }
+                });
+    });
+    return false;
+}
 
 /* EOF */

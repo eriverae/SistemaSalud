@@ -29,7 +29,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class SessionBeanUtilitariosAgenda implements IUtilitariosAgendaLocal, IUtilitariosAgendaRemote {
-    
+
     Logger logger = Logger.getLogger(this.getClass().getName());
 
     @PersistenceContext(unitName = WebConstant.UNIT_NAME_PERSISTENCE)
@@ -42,17 +42,29 @@ public class SessionBeanUtilitariosAgenda implements IUtilitariosAgendaLocal, IU
 
     @EJB
     FacadeUtilitariosAgenda facadeUtilitariosAgenda;
-    
-     @EJB
-     FacadePersonaNatural facadePersonaNatural;
 
+    @EJB
+    FacadePersonaNatural facadePersonaNatural;
+
+    /**
+     * Metodo para traer las especialidades registradas en sisc
+     *
+     * @return
+     */
     @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
     @Override
     public List<Especialidad> especialidadesEps() {
         logger.log(Level.WARNING, "\nESPECIALIDADES : sessionBean\n");
         return facadeUtilitariosAgenda.getEspecialidadesList();
     }
-    
+
+    /**
+     * Metod de consulta para traer las especialidades por medico
+     *
+     * @param especialidad
+     * @param idEps
+     * @return
+     */
     @TransactionAttribute(value = TransactionAttributeType.SUPPORTS)
     @Override
     public List<PersonaNaturalEspecialidad> listaEspecialidadMedicosEps(String especialidad, String idEps) {
@@ -60,12 +72,15 @@ public class SessionBeanUtilitariosAgenda implements IUtilitariosAgendaLocal, IU
         return facadeUtilitariosAgenda.getMedicosList(especialidad, idEps);
     }
 
+    /**
+     * Metodo para consultar una persona natural por correo electronico
+     *
+     * @param email
+     * @return
+     */
     @Override
     public PersonaNatural consultaPersonaNatural(String email) {
-       return facadePersonaNatural.consultarPersonaNatural(email);
+        return facadePersonaNatural.consultarPersonaNatural(email);
     }
-    
-    
-    
-    
+
 }

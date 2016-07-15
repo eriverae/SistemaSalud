@@ -9,15 +9,13 @@ import com.acme.sisc.agenda.dto.GeneralResponse;
 import com.acme.sisc.agenda.dto.RequestCrearAgenda;
 import com.acme.sisc.agenda.dto.RequestOpcionesCitaAgendaMedico;
 import com.acme.sisc.agenda.dto.ResponseAgendaMedico;
-import com.acme.sisc.agenda.entidades.Agenda;
 import com.acme.sisc.agenda.entidades.PersonaEps;
-import com.acme.sisc.agenda.exceptions.AgendaException;
 import javax.enterprise.context.RequestScoped;
-import javax.ws.rs.DefaultValue;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
@@ -47,11 +45,12 @@ public class RestFullAgendaMedico {
     @EJB
     private IAgendaLocal agenda;
 
-    
     /**
-     * Rest que retorna objeto con una descripcion de las citas 
+     * Servicio rest que permite comunicarce con el ejb para retorna la
+     * informacion de la agenda
+     *
      * @param idMedico
-     * @return 
+     * @return
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -59,7 +58,7 @@ public class RestFullAgendaMedico {
     public ResponseAgendaMedico consultaAgendaMedico(@PathParam("idMedico") Long idMedico) {
 
         try {
-          return  agenda.consultarAgendaMesMedico(idMedico);
+            return agenda.consultarAgendaMesMedico(idMedico);
         } catch (Exception ex) {
             _log.log(Level.SEVERE, "RestFullAgendaMedico.consultaAgendaMedico", ex);
             return null;
@@ -67,22 +66,25 @@ public class RestFullAgendaMedico {
     }
 
     /**
-     * Servicio REST que consulta lista de eps de un medico
+     * Servicio rest que permite comunicarce con el ejb para la consulta de eps
+     * por medico
+     *
      * @param idMedico
-     * @return 
+     * @return
      */
     @GET
     @Path("/{idMedico}/listaEps")
     @Produces(MediaType.APPLICATION_JSON)
-
     public List<PersonaEps> consultarListaEps(@PathParam("idMedico") long idMedico) {
         return agenda.consutarEpsMedico(idMedico);
     }
-    
+
     /**
-     * Servicio Rest que crea una nueva agenda.
+     * Servicio rest que permite comunicarce con el ejb para la creacion de una
+     * agenda para el medico.
+     *
      * @param request
-     * @return 
+     * @return
      */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -91,12 +93,20 @@ public class RestFullAgendaMedico {
     public GeneralResponse insertarAgenda(RequestCrearAgenda request) {
         return agenda.insertarAgenda(request);
     }
-     @POST
+
+    /**
+     * Servicio rest que permite comunicarce con el ejb para la gestion de una
+     * cita por parte del medico
+     *
+     * @param request objeto con la accion a realizar y el id de la cita sobre
+     * la cual hacer la operacion.
+     * @return
+     */
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/opcionesCita")
-    /*http://localhost:8080/SiscAgenda/api/medico/agenda/opcionesCita*/      
-    public GeneralResponse opcionesCitaAgendaMedico(RequestOpcionesCitaAgendaMedico request){
+    public GeneralResponse opcionesCitaAgendaMedico(RequestOpcionesCitaAgendaMedico request) {
         return agenda.opcionesCitaAgendaMedico(request);
     }
 }
