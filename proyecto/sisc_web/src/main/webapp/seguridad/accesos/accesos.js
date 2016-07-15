@@ -81,7 +81,7 @@ app.controller('accesosListController', function ($scope, $rootScope, $state, ac
 
     $scope.updateRow = function (row) {
         var acceAcce = row.entity.acceAcce;
-        $state.go("modificarAcceso", {'acceAcce': acceAcce});
+        $state.go("home.modificarAcceso", {'acceAcce': acceAcce});
     };
 
     // Watch the sortInfo variable. If changes are detected than we need to refresh the grid.

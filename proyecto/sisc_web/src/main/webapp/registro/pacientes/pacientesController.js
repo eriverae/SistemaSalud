@@ -6,6 +6,7 @@ app.controller('pacientesController', function ($scope, $rootScope, $stateParams
 
     $scope.paciente = {};
     $scope.eps = {};
+    $scope.bizMessage = "";
     $scope.listaEPS;
     
     personaService.listaEPS().$promise.then(
@@ -216,16 +217,37 @@ app.controller('pacientesController', function ($scope, $rootScope, $stateParams
         $scope.paciente.rolPersonaNatural = "PACIENTE";
         personaService.save($scope.paciente).$promise.then(
             function (response) {
-                console.log("Paciente almacenado");
-                // Broadcast the event to refresh the grid.
-                $rootScope.$broadcast('pacienteSaved');
-                
-                if(!(angular.isUndefined($scope.eps.razonSocial) || $scope.eps.razonSocial === null)){
-                    var args = {
-                        paciente: response.idPersona,
-                        eps: $scope.eps.idPersona
+                if (response.status == 0) {
+                    console.log("Paciente almacenado");
+                    // Broadcast the event to refresh the grid.
+                    $rootScope.$broadcast('pacienteSaved');
+
+                    if(!(angular.isUndefined($scope.eps.razonSocial) || $scope.eps.razonSocial === null)){
+                        var args = {
+                            paciente: response.idPersona,
+                            eps: $scope.eps.idPersona
+                        };
+                        personaService.asociarPacienteEPS(args).$promise.then(
+                            function () {
+
+                            },
+                            function () {
+                                // Broadcast the event for a server error.
+                                $rootScope.$broadcast('error');
+                            }
+                        );
                     };
-                    personaService.asociarPacienteEPS(args).$promise.then(
+
+                    var alergiasList = [];
+                    angular.forEach($scope.alergiasSeleccionadas, function(a) {
+                        alergiasList.push(a.idAlergia);
+                    });
+
+                    var argsA = {
+                        paciente: angular.toJson(response.idPersona),
+                        alergias: angular.toJson(alergiasList)
+                    };
+                    personaService.asociarPacienteAlergias(argsA).$promise.then(
                         function () {
 
                         },
@@ -234,69 +256,55 @@ app.controller('pacientesController', function ($scope, $rootScope, $stateParams
                             $rootScope.$broadcast('error');
                         }
                     );
-                };
-                
-                var alergiasList = [];
-                angular.forEach($scope.alergiasSeleccionadas, function(a) {
-                    alergiasList.push(a.idAlergia);
-		});
-                
-                var argsA = {
-                    paciente: angular.toJson(response.idPersona),
-                    alergias: angular.toJson(alergiasList)
-                };
-                personaService.asociarPacienteAlergias(argsA).$promise.then(
-                    function () {
 
-                    },
-                    function () {
-                        // Broadcast the event for a server error.
-                        $rootScope.$broadcast('error');
-                    }
-                );
-                
-                var enfermedadesList = [];
-                angular.forEach($scope.enfermedadesSeleccionadas, function(m) {
-                    enfermedadesList.push(m.idEnfermedad);
-		});
-                
-                var argsM = {
-                    paciente: angular.toJson(response.idPersona),
-                    enfermedades: angular.toJson(enfermedadesList)
-                };
-                personaService.asociarPacienteEnfermedades(argsM).$promise.then(
-                    function () {
+                    var enfermedadesList = [];
+                    angular.forEach($scope.enfermedadesSeleccionadas, function(m) {
+                        enfermedadesList.push(m.idEnfermedad);
+                    });
 
-                    },
-                    function () {
-                        // Broadcast the event for a server error.
-                        $rootScope.$broadcast('error');
-                    }
-                );
-                
-                var operacionesList = [];
-                angular.forEach($scope.operacionesSeleccionadas, function(m) {
-                    operacionesList.push(m.idOperacion);
-		});
-                var argsO = {
-                    paciente: angular.toJson(response.idPersona),
-                    operaciones: angular.toJson(operacionesList)
-                };
-                personaService.asociarPacienteOperaciones(argsO).$promise.then(
-                    function () {
+                    var argsM = {
+                        paciente: angular.toJson(response.idPersona),
+                        enfermedades: angular.toJson(enfermedadesList)
+                    };
+                    personaService.asociarPacienteEnfermedades(argsM).$promise.then(
+                        function () {
 
-                    },
-                    function () {
-                        // Broadcast the event for a server error.
-                        $rootScope.$broadcast('error');
-                    }
-                );
+                        },
+                        function () {
+                            // Broadcast the event for a server error.
+                            $rootScope.$broadcast('error');
+                        }
+                    );
+
+                    var operacionesList = [];
+                    angular.forEach($scope.operacionesSeleccionadas, function(m) {
+                        operacionesList.push(m.idOperacion);
+                    });
+                    var argsO = {
+                        paciente: angular.toJson(response.idPersona),
+                        operaciones: angular.toJson(operacionesList)
+                    };
+                    personaService.asociarPacienteOperaciones(argsO).$promise.then(
+                        function () {
+
+                        },
+                        function () {
+                            // Broadcast the event for a server error.
+                            $rootScope.$broadcast('error');
+                        }
+                    );
+                }   
+                else {
+                    $scope.bizMessage = response.message;
+                    $rootScope.$broadcast('error', response.message);
+                }
             },
             function (response) {
                 // Broadcast the event for a server error.
+                $scope.bizMessage = response.data.message;
                 console.log('Mensaje error:'+ response.data.message);
                 console.log('Codigo error :' + response.data.code);
-                console.log('Status:'+ response.status );
+                console.log('Status:'+ response.status);
 
                 $rootScope.$broadcast('error', response.data.message);
             }
@@ -309,6 +317,10 @@ app.controller('pacientesController', function ($scope, $rootScope, $stateParams
         $('#message-box-success').show();
         $scope.clearForm();
         $state.go('registroPacientes');
+    });   
+
+    $scope.$on('error', function () {
+        $('#message-box-warning').show();
     });
 
     $scope.cancelar = function () {
@@ -317,5 +329,6 @@ app.controller('pacientesController', function ($scope, $rootScope, $stateParams
     
     $scope.closepopup = function(){
  	 $('#message-box-success').hide();
+         $('#message-box-warning').hide();
     };
 });

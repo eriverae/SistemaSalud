@@ -87,12 +87,12 @@ app.controller('usuariosListController', function ($scope, $rootScope,$state ,us
     
     $scope.updateRow = function(row){
       var usuaUsua = row.entity.usuaUsua;
-      $state.go("modificarUsuario", {'usuaUsua':usuaUsua});
+      $state.go("home.modificarUsuario", {'usuaUsua':usuaUsua});
     };
     
     $scope.changePasswordRow = function(row){
       var usuaUsua = row.entity.usuaUsua;
-      $state.go("cambiarContrasena", {'usuaUsua':usuaUsua});
+      $state.go("home.cambiarContrasena", {'usuaUsua':usuaUsua});
     };
 
     // Watch the sortInfo variable. If changes are detected than we need to refresh the grid.

@@ -81,7 +81,7 @@ app.controller('gruposListController', function ($scope, $rootScope, $state, gru
 
     $scope.updateRow = function (row) {
         var grupGrup = row.entity.grupGrup;
-        $state.go("modificarGrupo", {'grupGrup': grupGrup});
+        $state.go("home.modificarGrupo", {'grupGrup': grupGrup});
     };
 
     // Watch the sortInfo variable. If changes are detected than we need to refresh the grid.

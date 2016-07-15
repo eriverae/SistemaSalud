@@ -1,6 +1,6 @@
 'use strict';
 // Declare app level module which depends on views, and components
-var app = angular.module('sisc_web', ['ui.router', 'ngResource', 'ui.calendar', 'ui.bootstrap', 'ngGrid', 'app.utils', 'ngRoute', 'angular-storage','datatables']);
+var app = angular.module('sisc_web', ['ui.router', 'ngResource', 'ui.calendar', 'ui.bootstrap', 'ngGrid', 'app.utils', 'ngRoute', 'angular-storage', 'datatables']);
 
 app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($stateProvider, $urlRouterProvider, USER_ROLES) {
 
@@ -15,314 +15,461 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
 
                 .state('home', {
                     url: '/home',
-                    templateUrl: 'home.html',
+                    templateUrl: 'template.html',
+                    controller: function ($scope) {
+                        $scope.title = 'SISC WEB';
+                    },
                     roles: {authorizedRoles: [USER_ROLES.Administrador, USER_ROLES.Medico, USER_ROLES.Paciente, USER_ROLES.EPS, USER_ROLES.Auditor]}
                 })
 
-                .state('accesos', {
-                    url: '/accesos',
-                    templateUrl: 'seguridad/accesos/accesos.html',
-                    controller: 'accesosListController',
+                .state('home.#', {
+                    views: {
+                        "@": {
+                            url: '/home',
+                            templateUrl: 'template.html',
+                            controller: function ($scope) {
+                                $scope.title = 'SISC WEB';
+                            }
+                        }
+                    },
+                    roles: {authorizedRoles: [USER_ROLES.Administrador, USER_ROLES.Medico, USER_ROLES.Paciente, USER_ROLES.EPS, USER_ROLES.Auditor]}
+                })
+
+                .state('home.accesos', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/accesos',
+                            templateUrl: 'seguridad/accesos/accesos.html',
+                            controller: 'accesosListController'
+                        }
+                    },
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
 
-                .state('crearAcceso', {
-                    url: '/crearAcceso',
-                    templateUrl: 'seguridad/accesos/formularioAcceso.html',
-                    controller: 'accesoFormController',
+                .state('home.crearAcceso', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/crearAcceso',
+                            templateUrl: 'seguridad/accesos/formularioAcceso.html',
+                            controller: 'accesoFormController'
+                        }
+                    },
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
 
-                .state('modificarAcceso', {
-                    url: '/modificarAcceso',
-                    templateUrl: 'seguridad/accesos/formularioAcceso.html',
-                    controller: 'accesoFormController',
+                .state('home.modificarAcceso', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/modificarAcceso',
+                            templateUrl: 'seguridad/accesos/formularioAcceso.html',
+                            controller: 'accesoFormController'
+
+                        }
+                    },
                     params: {'acceAcce': null},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
 
-                .state('grupos', {
-                    url: '/grupos',
-                    templateUrl: 'seguridad/grupos/grupos.html',
-                    controller: 'gruposListController',
+                .state('home.grupos', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/grupos',
+                            templateUrl: 'seguridad/grupos/grupos.html',
+                            controller: 'gruposListController'}},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
 
-                .state('crearGrupo', {
-                    url: '/crearGrupo',
-                    templateUrl: 'seguridad/grupos/formularioGrupo.html',
-                    controller: 'grupoFormController',
+                .state('home.crearGrupo', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/crearGrupo',
+                            templateUrl: 'seguridad/grupos/formularioGrupo.html',
+                            controller: 'grupoFormController'}},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
 
-                .state('modificarGrupo', {
-                    url: '/modificarGrupo',
-                    templateUrl: 'seguridad/grupos/formularioGrupo.html',
-                    controller: 'grupoFormController',
+                .state('home.modificarGrupo', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/modificarGrupo',
+                            templateUrl: 'seguridad/grupos/formularioGrupo.html',
+                            controller: 'grupoFormController'
+                        }},
                     params: {'grupGrup': null},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
 
-                .state('usuarios', {
-                    url: '/usuarios',
-                    templateUrl: 'seguridad/usuarios/usuarios.html',
-                    controller: 'usuariosListController',
+                .state('home.usuarios', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/usuarios',
+                            templateUrl: 'seguridad/usuarios/usuarios.html',
+                            controller: 'usuariosListController'}},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
 
-                .state('crearUsuario', {
-                    url: '/crearUsuario',
-                    templateUrl: 'seguridad/usuarios/formularioUsuario.html',
-                    controller: 'usuarioFormController',
+                .state('home.crearUsuario', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/crearUsuario',
+                            templateUrl: 'seguridad/usuarios/formularioUsuario.html',
+                            controller: 'usuarioFormController'}},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
-                
-                .state('modificarUsuario', {
-                    url: '/modificarUsuario',
-                    templateUrl: 'seguridad/usuarios/formularioUsuario.html',
-                    controller: 'usuarioFormController',
+
+                .state('home.modificarUsuario', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/modificarUsuario',
+                            templateUrl: 'seguridad/usuarios/formularioUsuario.html',
+                            controller: 'usuarioFormController'
+                        }},
                     params: {'usuaUsua': null},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
-                
-                .state('cambiarContrasena', {
-                    url: '/cambiarContrasena',
-                    templateUrl: 'seguridad/usuarios/formularioContrasena_Admin.html',
-                    controller: 'contrasenaFormController',
+
+                .state('home.cambiarContrasena', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/cambiarContrasena',
+                            templateUrl: 'seguridad/usuarios/formularioContrasena_Admin.html',
+                            controller: 'contrasenaFormController'
+                        }},
                     params: {'usuaUsua': null},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
-                
-                .state('cambiarContrasenaUsuario', {
-                    url: '/cambiarContrasenaUsuario',
-                    templateUrl: 'seguridad/usuarios/formularioContrasena.html',
-                    controller: 'contrasenaFormController',
+
+                .state('home.cambiarContrasenaUsuario', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/cambiarContrasenaUsuario',
+                            templateUrl: 'seguridad/usuarios/formularioContrasena.html',
+                            controller: 'contrasenaFormController'}},
                     roles: {authorizedRoles: [USER_ROLES.Administrador, USER_ROLES.Medico, USER_ROLES.Paciente, USER_ROLES.EPS, USER_ROLES.Auditor]}
                 })
 
-                .state('agenda', {
-                    url: '/medico/agenda',
-                    templateUrl: 'agenda/medicos/agendaMedico.html',
-                    controller: 'agendaMedicoContoller'
+                .state('home.agenda', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/medico/agenda',
+                            templateUrl: 'agenda/medicos/agendaMedico.html',
+                            controller: 'agendaMedicoContoller'
 //                    params: {'idMedico': '9'},
+
 //                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
 
+                        }}
+                    ,roles: {authorizedRoles: [USER_ROLES.Medico]}
+
+
                 })
-                .state('citasPaciente', {
-                    url: '/paciente/lcitas',
-                    templateUrl: 'agenda/pacientes/consultarCitas.html',
-                    controller: 'citasController',
-                    //params : {'idPaciente':'2'}
-//                    params: {'idPaciente': '23'},
-//                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+
+                .state('home.citasPaciente', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/paciente/lcitas',
+                            templateUrl: 'agenda/pacientes/consultarCitas.html',
+                            controller: 'citasController'
+                        }}
+//                    , roles: {authorizedRoles: [USER_ROLES.Paciente]}
                 })
-//                .state('citasHistorialPaciente', {
-//                    url: '/paciente/historialCitas',
-//                    templateUrl: 'agenda/pacientes/historialCitas.html',
-//                    controller: 'historialCitasController',
-////                    params : {'idPaciente':'23'},
-//                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
-//                    
-//                })
-                .state('historialPacienteEPS', {
-                    url: '/paciente/historialPacienteEPS',
-                    templateUrl: 'agenda/pacientes/historialPacienteEPS.html',
-                    controller: 'citasController',
-                    params: {'idPaciente': '23'},
-//                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+
+                .state('home.citasHistorialPaciente', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/paciente/historialCitas',
+                            templateUrl: 'agenda/pacientes/historialCitas.html',
+                            controller: 'historialCitasController'
+//                    params : {'idPaciente':'23'},
+                        }},
+                    roles: {authorizedRoles: [USER_ROLES.Paciente]}
+
                 })
-                .state('pacienteConsultaMedicoEspecializado', {
-                    url: '/paciente/ConsultaMedicoEspecializado',
-                    templateUrl: 'agenda/pacientes/pacienteConsultaMedicoEspecializado.html',
-                    controller: 'pacienteConsultaMedicoEspecializado',
+                .state('home.historialPacienteEPS', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/paciente/historialPacienteEPS',
+                            templateUrl: 'agenda/pacientes/historialPacienteEPS.html',
+                            controller: 'citasController'
+                        }}
+//                    , roles: {authorizedRoles: [USER_ROLES.Paciente]}
+                })
+                .state('home.pacienteConsultaMedicoEspecializado', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/paciente/ConsultaMedicoEspecializado',
+                            templateUrl: 'agenda/pacientes/pacienteConsultaMedicoEspecializado.html',
+                            controller: 'pacienteConsultaMedicoEspecializado'
 //                    params: {paciente: {
 //                            idPersona: "23",
 //                            idEps: "3",
 //                        }},
-//                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                        }}
+//                    ,roles: {authorizedRoles: [USER_ROLES.Paciente]}
                 })
-//                .state('agendarCalendarioDelMedico', {
-//                    url: '/paciente/agendarCalendarioDelMedico',
-//                    templateUrl: 'agenda/pacientes/agendarCalendarioDelMedico.html',
-//                    controller: 'agendarCalendarioDelMedico',
-//                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
-//                })
+                .state('home.agendarCalendarioDelMedico', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/paciente/agendarCalendarioDelMedico',
+                            templateUrl: 'agenda/pacientes/agendarCalendarioDelMedico.html',
+                            controller: 'agendarCalendarioDelMedico'}},
+                    roles: {authorizedRoles: [USER_ROLES.Paciente]}
+                })
 
 
 
 
                 // Registro    
-                .state('registroPersonaNatural', {
-                    url: '/personaNatural',
-                    templateUrl: 'registro/registroPersonaNatural.html',
-                    controller: 'personaNaturalController',
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                .state('home.registroPersonaNatural', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/personaNatural',
+                            templateUrl: 'registro/registroPersonaNatural.html',
+                            controller: 'personaNaturalController'}},
+                    roles: {authorizedRoles: [USER_ROLES.Administrador, USER_ROLES.EPS]}
                 })
 
-                .state('modificarPersonaNatural', {
-                    url: '/mPersonaNatural',
-                    templateUrl: 'registro/registroPersonaNatural.html',
-                    controller: 'personaNaturalController',
+                .state('home.modificarPersonaNatural', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/mPersonaNatural',
+                            templateUrl: 'registro/registroPersonaNatural.html',
+                            controller: 'personaNaturalController'
+                        }},
                     params: {idPersona: null},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    roles: {authorizedRoles: [USER_ROLES.Administrador, USER_ROLES.EPS]}
                 })
 
-                .state('registroMedicos', {
-                    url: '/medicos',
-                    templateUrl: 'registro/medicos/registroMedicos.html',
-                    controller: 'medicosController',
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                .state('home.registroMedicos', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/medicos',
+                            templateUrl: 'registro/medicos/registroMedicos.html',
+                            controller: 'medicosController'}},
+                    roles: {authorizedRoles: [USER_ROLES.Administrador, USER_ROLES.EPS]}
                 })
 
-                .state('listarMedicos', {
-                    url: '/listaMedicos',
-                    templateUrl: 'registro/medicos/listaMedicos.html',
-                    controller: 'listaMedicosController',
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                .state('home.listarMedicos', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/listaMedicos',
+                            templateUrl: 'registro/medicos/listaMedicos.html',
+                            controller: 'listaMedicosController'}},
+                    roles: {authorizedRoles: [USER_ROLES.Administrador, USER_ROLES.EPS]}
                 })
 
-                .state('modificarMedicos', {
-                    url: '/modificarMedicos',
-                    templateUrl: 'registro/medicos/registroMedicos.html',
-                    controller: 'medicosController',
+                .state('home.modificarMedicos', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/modificarMedicos',
+                            templateUrl: 'registro/medicos/registroMedicos.html',
+                            controller: 'medicosController'
+                        }},
                     params: {idPersona: null},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    roles: {authorizedRoles: [USER_ROLES.Administrador, USER_ROLES.EPS]}
                 })
 
-                .state('registroPacientes', {
-                    url: '/pacientes',
-                    templateUrl: 'registro/pacientes/registroPacientes.html',
-                    controller: 'pacientesController',
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                .state('home.registroPacientes', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/pacientes',
+                            templateUrl: 'registro/pacientes/registroPacientes.html',
+                            controller: 'pacientesController'}},
+                    roles: {authorizedRoles: [USER_ROLES.Administrador, USER_ROLES.EPS]}
                 })
 
-                .state('listarPacientes', {
-                    url: '/listaPacientes',
-                    templateUrl: 'registro/pacientes/listaPacientes.html',
-                    controller: 'listaPacientesController',
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                .state('home.listarPacientes', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/listaPacientes',
+                            templateUrl: 'registro/pacientes/listaPacientes.html',
+                            controller: 'listaPacientesController'}},
+                    roles: {authorizedRoles: [USER_ROLES.Administrador, USER_ROLES.EPS]}
                 })
 
-                .state('modificarPacientes', {
-                    url: '/modificarPacientes',
-                    templateUrl: 'registro/pacientes/registroPacientes.html',
-                    controller: 'pacientesController',
+                .state('home.modificarPacientes', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/modificarPacientes',
+                            templateUrl: 'registro/pacientes/registroPacientes.html',
+                            controller: 'pacientesController'
+                        }},
                     params: {idPersona: null},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    roles: {authorizedRoles: [USER_ROLES.Administrador, USER_ROLES.EPS]}
                 })
 
-                .state('registroBeneficiarios', {
-                    url: '/beneficiario',
-                    templateUrl: 'registro/beneficiario/registroBeneficiarios.html',
-                    controller: 'beneficiariosController',
+                .state('home.registroBeneficiarios', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/beneficiario',
+                            templateUrl: 'registro/beneficiario/registroBeneficiarios.html',
+                            controller: 'beneficiariosController'
+                        }},
                     params: {idPersona: null},
+                    roles: {authorizedRoles: [USER_ROLES.Administrador, USER_ROLES.EPS]}
+                })
+
+                .state('home.registroEps', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/RegistroEPS',
+                            templateUrl: 'registro/eps/registroEps.html',
+                            controller: 'epsController'}},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
 
-                .state('registroEps', {
-                    url: '/RegistroEPS',
-                    templateUrl: 'registro/eps/registroEps.html',
-                    controller: 'epsController',
+                .state('home.listarEps', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/listaEPS',
+                            templateUrl: 'registro/eps/listaEps.html',
+                            controller: 'listaEpsController'}},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
 
-                .state('listarEps', {
-                    url: '/listaEPS',
-                    templateUrl: 'registro/eps/listaEps.html',
-                    controller: 'listaEpsController',
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
-                })
-
-                .state('modificarEps', {
-                    url: '/ModificarEPS',
-                    templateUrl: 'registro/eps/registroEps.html',
-                    controller: 'epsController',
+                .state('home.modificarEps', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/ModificarEPS',
+                            templateUrl: 'registro/eps/registroEps.html',
+                            controller: 'epsController'
+                        }},
                     params: {idPersona: null},
                     roles: {authorizedRoles: [USER_ROLES.Administrador]}
                 })
 
 
                 // hc
-                .state('diagnostico', {
-                    url: '/historia/diagnostico',
-                    templateUrl: 'historia/diagnostico.html',
-                    controller: 'diagnosticoController',
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                .state('home.diagnostico', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/historia/diagnostico',
+                            templateUrl: 'historia/diagnostico.html',
+                            controller: 'diagnosticoController'}},
+                    roles: {authorizedRoles: [USER_ROLES.Medico]}
                 })
-                .state('menuhc', {
-                    url: '/menuhc',
-                    templateUrl: 'historia/menuhc.html',
-                    controller: 'menuController',
+                .state('home.menuhc', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/menuhc',
+                            templateUrl: 'historia/menuhc.html',
+                            controller: 'menuController'
+                        }},
                     params: {cita: null},
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                    roles: {authorizedRoles: [USER_ROLES.Medico, USER_ROLES.Paciente]}
 
                 })
-                .state('historia', {
-                    url: '/historia/historiaclinica',
-                    templateUrl: 'historia/historiaclinica.html',
-                    controller: 'historiaController'
-                    ,
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                .state('home.historia', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/historia/historiaclinica',
+                            templateUrl: 'historia/historiaclinica.html',
+                            controller: 'historiaController'
+                        }},
+                    roles: {authorizedRoles: [USER_ROLES.Medico, USER_ROLES.Paciente]}
                 })
-                .state('asignarmedicamento', {
-                    url: '/historia/asignar-medicamento',
-                    templateUrl: 'historia/asignarmedicamento.html',
-                    controller: 'medicamentoController',
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                .state('home.asignarmedicamento', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/historia/asignar-medicamento',
+                            templateUrl: 'historia/asignarmedicamento.html',
+                            controller: 'medicamentoController'}},
+                    roles: {authorizedRoles: [USER_ROLES.Medico]}
                 })
-                .state('asignarTratamiento', {
-                    url: '/historia/asignar-tratamiento',
-                    templateUrl: 'historia/asignarTratamiento.html',
-                    controller: 'tratamientoController',
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
-                })
-
-                .state('asignarincapacidad', {
-                    url: '/historia/asignar-incapacidad',
-                    templateUrl: 'historia/asignarincapacidad.html',
-                    controller: 'incapacidadController',
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
-                })
-
-                .state('asignarexamen', {
-                    url: '/historia/asignar-examen',
-                    templateUrl: 'historia/asignarexamen.html',
-                    controller: 'examenController',
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                .state('home.asignarTratamiento', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/historia/asignar-tratamiento',
+                            templateUrl: 'historia/asignarTratamiento.html',
+                            controller: 'tratamientoController'}},
+                    roles: {authorizedRoles: [USER_ROLES.Medico]}
                 })
 
-                .state('asignarCirugia', {
-                    url: '/historia/asignar-cirugia',
-                    templateUrl: 'historia/asignarCirugia.html',
-                    controller: 'cirugiaController',
-                    roles: {authorizedRoles: [USER_ROLES.Administrador]}
+                .state('home.asignarincapacidad', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/historia/asignar-incapacidad',
+                            templateUrl: 'historia/asignarincapacidad.html',
+                            controller: 'incapacidadController'}},
+                    roles: {authorizedRoles: [USER_ROLES.Medico]}
+                })
+
+                .state('home.asignarexamen', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/historia/asignar-examen',
+                            templateUrl: 'historia/asignarexamen.html',
+                            controller: 'examenController'}},
+                    roles: {authorizedRoles: [USER_ROLES.Medico]}
+                })
+
+                .state('home.asignarCirugia', {
+                    views: {
+                        'contenidoOculto': {
+                            url: '/historia/asignar-cirugia',
+                            templateUrl: 'historia/asignarCirugia.html',
+                            controller: 'cirugiaController'}},
+                    roles: {authorizedRoles: [USER_ROLES.Medico]}
                 })
 
                 ;
 
     }]);
 
+app.controller('loginController', function ($scope, store) {
+
+    $scope.nombrePersona = store.get('personaNatural').nombres;
+    $scope.apellidoPersona = store.get('personaNatural').apellidos;
+    $scope.tipoDocPersona = store.get('personaNatural').tipoIdentificacion;
+    $scope.docPersona = store.get('personaNatural').numeroIdentificacion;
+    $scope.correoPersona = store.get('personaNatural').correoElectronico;
+
+    $.getJSON("https://api.ipify.org?format=jsonp&callback=?", function (json) {
+        store.set('ip', json.ip);
+    }
+    );
+
+    $scope.ipPersona = store.get('ip');
+
+
+    //{"idPersona":1,"tipoIdentificacion":"CC","numeroIdentificacion":9999999,"version":0,"correoElectronico":"admin@admin.com","nombres":"Admin","apellidos":"admin","genero":"M","fechaNacimiento":315550800000,"telefonoCelular":555555555555,"telefonoFijo":444444444444,"direccion":"Direccion de mi casa","fotografia":null,"huella":null,"rh":"+","grupoSanguineo":"A","tarjetaProfesional":null,"rolPersonaNatural":"PACIENTE"}
+    $scope.mostrarMenu = function (value) {
+        for (var i = 0; i < store.get('listaGrupos').length; i++) {
+            if (value instanceof Array) {
+                for (var j = 0; j < value.length; j++) {
+                    if (value[j] === store.get('listaGrupos')[i]) {
+                        return true;
+                    }
+                }
+            } else {
+                if (value === store.get('listaGrupos')[i]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
+});
+
 app.run(function ($rootScope, $state, $http, AUTH_EVENTS, AuthService) {
 
     $rootScope.$on('$stateChangeStart', function (event, next) {
 
         if (next.name !== 'login') {
-            console.log(next);
             var authorizedRoles = next.roles.authorizedRoles;
 
             if (!AuthService.isAuthorized(authorizedRoles)) {
 
                 event.preventDefault();
 
-                if (AuthService.isAuthenticated()){
+                if (AuthService.isAuthenticated()) {
                     $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
                     $state.go('home');
-                }
-                else{
+                } else {
                     $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
                     $state.go('login');
                 }
-                
+
                 alert('No tiene acceso para esta acci\u00F3n');
 
             }

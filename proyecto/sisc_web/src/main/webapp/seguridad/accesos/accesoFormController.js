@@ -72,11 +72,11 @@ app.controller('accesoFormController', function ($scope, $rootScope, $stateParam
 
     $scope.closepopup = function () {
         $('#message-box-success').hide();
-        $state.go('accesos');
+        $state.go('home.accesos');
     };
   
   $scope.cancelar = function(){
-    $state.go('accesos');
+    $state.go('home.accesos');
   };
   
 });

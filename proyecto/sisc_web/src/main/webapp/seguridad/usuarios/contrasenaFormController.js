@@ -86,7 +86,7 @@ app.controller('contrasenaFormController', function ($scope, $rootScope, $stateP
 
     $scope.closepopup_successAdmin = function () {
         $('#message-box-success').hide();
-        $state.go('usuarios');
+        $state.go('home.usuarios');
     };
 
     $scope.closepopup_success = function () {
@@ -114,7 +114,7 @@ app.controller('contrasenaFormController', function ($scope, $rootScope, $stateP
 
     $scope.closepopup_failure = function () {
         $('#message-box-danger').hide();
-        $state.go('cambiarContrasenaUsuario');
+        $state.go('home.cambiarContrasenaUsuario');
     };
 
     $scope.cancelar = function () {
@@ -122,7 +122,7 @@ app.controller('contrasenaFormController', function ($scope, $rootScope, $stateP
     };
 
     $scope.cancelarAdmin = function () {
-        $state.go('usuarios');
+        $state.go('home.usuarios');
     };
 
 });

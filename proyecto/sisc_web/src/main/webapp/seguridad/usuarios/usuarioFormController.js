@@ -90,7 +90,6 @@ app.controller('usuarioFormController', function ($scope, $rootScope, $statePara
                             grupoUsuarioService.save(grupoUsuario);
                             //cadenaRoles = cadenaRoles + $scope.items[index].acceNombre + ";"
                         }
-                        getIp();
                         auditoriaService.save(store.get('login') + "-" + "Crear usuario" + "-" + store.get('ip') + "-" + document.location.hostname);
                         NotificacionService.save(data.usuaEmail + "-" + "Creacion Usuario" + "-" + "Hola, les informamos la creacion del usuario" + "-" + "Modulo Seguridad");
                     }
@@ -99,14 +98,6 @@ app.controller('usuarioFormController', function ($scope, $rootScope, $statePara
                     // Broadcast the event for a server error.
                     $rootScope.$broadcast('error');
                 });
-    };
-
-    window.getIp = function ()
-    {
-        $.getJSON("https://api.ipify.org?format=jsonp&callback=?", function (json) {
-            store.set('ip', json.ip);
-        }
-        );
     };
 
     // Picks up the event broadcasted when the person is selected from the grid and perform the person load by calling
@@ -131,7 +122,7 @@ app.controller('usuarioFormController', function ($scope, $rootScope, $statePara
 //    });
 
     $scope.cancelar = function () {
-        $state.go('usuarios');
+        $state.go('home.usuarios');
     };
 
     $scope.$on('usuarioSaved', function () {
@@ -141,7 +132,7 @@ app.controller('usuarioFormController', function ($scope, $rootScope, $statePara
 
     $scope.closepopup = function () {
         $('#message-box-success').hide();
-        $state.go('usuarios');
+        $state.go('home.usuarios');
     };
 
 });
