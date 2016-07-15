@@ -225,6 +225,7 @@ public class PersonaNaturalFacade implements IPersonaNaturalFacadeRemote, IPerso
      */
     @Override
     public PersonaNatural crearPersonaNatural(PersonaNatural personaNatural) throws CustomException {
+        personaNatural.setIdPersona(null);
         LOGGER.info("Inicia crearPersonaNatural(...)");
         //Se verifica si ya existe
         PersonaNatural p = findByIdentificacion(personaNatural.getTipoIdentificacion(), personaNatural.getNumeroIdentificacion());

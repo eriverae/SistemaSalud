@@ -170,6 +170,7 @@ public class PersonaJuridicaFacade implements IPersonaJuridicaFacadeRemote, IPer
     public void crearPersonaJuridica(PersonaJuridica personaJuridica) throws Exception {
         try {
             LOGGER.info("Inicia crearPersonaJuridica(...)");
+            personaJuridica.setIdPersona(null);
             //Se verifica si ya existe
             PersonaJuridica p = findByIdentificacion(personaJuridica.getTipoIdentificacion(), personaJuridica.getNumeroIdentificacion());
             if (p != null) {

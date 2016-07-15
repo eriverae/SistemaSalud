@@ -85,7 +85,10 @@ public class RestFullCitaPaciente {
             @PathParam("idPaciente") Long idPaciente) {
         List<Cita> lista = facadeCita.listaCitasHistorialPacienteEPS(idPaciente);
         //return facadeCita.listaCitasPaciente(idPaciente);
-        return lista.toArray();
+        if(lista!=null){
+            return lista.toArray();
+        }
+        return null;
     }
 
     /**

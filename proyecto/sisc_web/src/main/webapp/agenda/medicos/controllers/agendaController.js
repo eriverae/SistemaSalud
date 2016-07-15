@@ -97,7 +97,10 @@ app.filter("getFormatoHora", function () {
  */
 app.controller('agendaMedicoContoller',
         function ($scope, $compile, $timeout, uiCalendarConfig, $http, $state) {
-
+            
+            
+            
+            
             var idMedicoSesion = 0;
             var medicoPro = null;
             var date = new Date();
@@ -117,6 +120,22 @@ app.controller('agendaMedicoContoller',
             $scope.objErrorNuevaAgenda;
             $scope.generalResponse;
             $scope.infoConsultaCita;
+             /*Validacion de objeto personaNatural en localStorage*/
+            if (localStorage.getItem('personaNatural') !== null) {
+                medicoPro = JSON.parse(localStorage.getItem('personaNatural'));
+                console.log('personaNatural localStorage: ');
+                console.log(medicoPro);
+                if (medicoPro.idPersona === null) {
+                    medicoPro = JSON.parse('{"idPersona":9,"tipoIdentificacion":"CC","numeroIdentificacion":3456765434,"version":0,"correoElectronico":"medico@prueba.com","nombres":"Ã‰rika","apellidos":"Villa","genero":"F","fechaNacimiento":511074000000,"telefonoCelular":4567655676,"telefonoFijo":45654456,"direccion":"gygbnhb","fotografia":null,"huella":null,"rh":"+","grupoSanguineo":"A","tarjetaProfesional":null,"rolPersonaNatural":"MEDICO"}');
+                }
+            } else {
+                medicoPro = JSON.parse('{"idPersona":9,"tipoIdentificacion":"CC","numeroIdentificacion":3456765434,"version":0,"correoElectronico":"medico@prueba.com","nombres":"Ã‰rika","apellidos":"Villa","genero":"F","fechaNacimiento":511074000000,"telefonoCelular":4567655676,"telefonoFijo":45654456,"direccion":"gygbnhb","fotografia":null,"huella":null,"rh":"+","grupoSanguineo":"A","tarjetaProfesional":null,"rolPersonaNatural":"MEDICO"}');
+            }
+
+            idMedicoSesion = medicoPro.idPersona;
+            console.log('idMedico: ' + idMedicoSesion);           
+            
+            
             $scope.nuevaAgenda = {
                 fechaInicio: '',
                 fechaFinal: '',
@@ -145,25 +164,12 @@ app.controller('agendaMedicoContoller',
             };
 
 
-            /*Validacion de objeto personaNatural en localStorage*/
-            if (localStorage.getItem('personaNatural') !== null) {
-                medicoPro = JSON.parse(localStorage.getItem('personaNatural'));
-                console.log('personaNatural localStorage: ');
-                console.log(medicoPro);
-                if (medicoPro.idPersona === null) {
-                    medicoPro = JSON.parse('{"idPersona":9,"tipoIdentificacion":"CC","numeroIdentificacion":3456765434,"version":0,"correoElectronico":"medico@prueba.com","nombres":"Ã‰rika","apellidos":"Villa","genero":"F","fechaNacimiento":511074000000,"telefonoCelular":4567655676,"telefonoFijo":45654456,"direccion":"gygbnhb","fotografia":null,"huella":null,"rh":"+","grupoSanguineo":"A","tarjetaProfesional":null,"rolPersonaNatural":"MEDICO"}');
-                }
-            } else {
-                medicoPro = JSON.parse('{"idPersona":9,"tipoIdentificacion":"CC","numeroIdentificacion":3456765434,"version":0,"correoElectronico":"medico@prueba.com","nombres":"Ã‰rika","apellidos":"Villa","genero":"F","fechaNacimiento":511074000000,"telefonoCelular":4567655676,"telefonoFijo":45654456,"direccion":"gygbnhb","fotografia":null,"huella":null,"rh":"+","grupoSanguineo":"A","tarjetaProfesional":null,"rolPersonaNatural":"MEDICO"}');
-            }
-
-            idMedicoSesion = medicoPro.idPersona;
-            console.log('idMedico: ' + idMedicoSesion);
+           
             /*
              * Funcion para ir a opciones de cita modulo hc           
              */
             $scope.irMenuHC = function (cita) {
-                $state.go('menuhc', {'cita': cita});
+                $state.go('home.menuhc', {'cita': cita});
             };
 
 
@@ -372,7 +378,12 @@ app.controller('agendaMedicoContoller',
                 }
 
             };
-
+            
+            $scope.cerrarMensajeError= function (){
+              $('#message-box-sound-2').hide();
+              $scope.objErrorNuevaAgenda=null;
+            };
+            
             /**
              * Funcion para controlar las opciones por cita que dispone el medico             
              */

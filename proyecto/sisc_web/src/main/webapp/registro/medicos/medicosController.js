@@ -161,7 +161,7 @@ app.controller('medicosController', function ($scope, $rootScope, $stateParams, 
     $scope.$on('medicoSaved', function () {
         $('#message-box-success').show();
         $scope.clearForm();
-        $state.go('registroMedicos');
+        $state.go('home.registroMedicos');
     });
 
     $scope.$on('error', function () {
@@ -174,7 +174,7 @@ app.controller('medicosController', function ($scope, $rootScope, $stateParams, 
     };
 
     $scope.cancelar = function () {
-        $state.go('registroMedicos');
+        $state.go('home.registroMedicos');
     };
 
 });

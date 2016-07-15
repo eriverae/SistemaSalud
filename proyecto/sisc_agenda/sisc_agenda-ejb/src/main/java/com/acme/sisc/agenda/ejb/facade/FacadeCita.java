@@ -13,6 +13,8 @@ import com.acme.sisc.agenda.dto.RespuestaCita;
 import com.acme.sisc.agenda.entidades.Cita;
 import com.acme.sisc.agenda.entidades.PersonaEps;
 import com.acme.sisc.agenda.util.AgendaUtil;
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -61,7 +63,8 @@ public class FacadeCita extends AbstractFacade<Cita> {
             Query q = em.createNamedQuery(WebConstant.QUERY_CITA_FIND_BY_ID_PACIENTE);
             q.setParameter(WebConstant.QUERY_PARAMETER_ID_PACIENTE, idPaciente);
             List<Cita> listacitasPaciente = (List<Cita>) q.getResultList();
-            _log.log(Level.WARNING, "ULTIMO REGISTRO LISTA-CITAS-PACIENTE, id= {0}", listacitasPaciente.get((listacitasPaciente.size() - 1)).getIdCita());
+            if(listacitasPaciente==null) listacitasPaciente=new ArrayList<>();
+            _log.log(Level.WARNING, "ULTIMO REGISTRO LISTA-CITAS-PACIENTE, id= {0}",(listacitasPaciente.size()>0)? listacitasPaciente.get((listacitasPaciente.size() - 1)).getIdCita():"No hay citas");
 
             return listacitasPaciente;
         } catch (Exception e) {
@@ -81,10 +84,12 @@ public class FacadeCita extends AbstractFacade<Cita> {
             Query q = em.createNamedQuery(WebConstant.QUERY_CITA_FIND_BY_ID_PACIENTE_HISTORIAL_EPS);
             q.setParameter(WebConstant.QUERY_PARAMETER_ID_PACIENTE, idPaciente);
             List<Cita> listacitasPaciente = (List<Cita>) q.getResultList();
+            if(listacitasPaciente!=null && listacitasPaciente.size()>0){
             _log.log(Level.WARNING, "ULTIMO REGISTRO LISTA-CITAS-PACIENTE, id= {0}", listacitasPaciente.get((listacitasPaciente.size() - 1)).getIdCita());
+            }
             return listacitasPaciente;
         } catch (Exception e) {
-            e.printStackTrace();
+           _log.log(Level.SEVERE,"Error en CitasDelPacianteHistorialEPS",e); 
             return null;
         }
     }
@@ -385,7 +390,11 @@ public class FacadeCita extends AbstractFacade<Cita> {
         }
         return response;
     }
-
+    /**
+     * Metodo para actulizar datos de la tabla cita solo actuliza los datos diferentes de null
+     * @param cita
+     * @return 
+     */
     public Cita mergeCita(Cita cita) {
         return em.merge(cita);
     }

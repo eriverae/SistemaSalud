@@ -66,7 +66,7 @@ app.controller('epsController', function ($scope, $rootScope, $stateParams, $sta
     $scope.$on('epsSaved', function () {
         $('#message-box-success').show();
         $scope.clearForm();
-        $state.go('registroEps');
+        $state.go('home.registroEps');
     });
 
     $scope.$on('error', function () {
@@ -79,6 +79,6 @@ app.controller('epsController', function ($scope, $rootScope, $stateParams, $sta
     };
 
     $scope.cancelar = function () {
-        $state.go('registroEPS');
+        $state.go('home.registroEPS');
     };
 });

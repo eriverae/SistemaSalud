@@ -8,6 +8,7 @@ package com.acme.sisc.agenda.constant;
 /**
  *
  * @author desarrollador
+ * Clase con constante para agenda
  */
 public class WebConstant {
     

@@ -22,8 +22,8 @@ import javax.persistence.Query;
  * @author desarrollador
  */
 @Stateless
-public class FacadeMedicoEps extends AbstractFacade<PersonaEps>{
-    
+public class FacadeMedicoEps extends AbstractFacade<PersonaEps> {
+
     Logger _log = Logger.getLogger(this.getClass().getName());
 
     @Override
@@ -34,49 +34,58 @@ public class FacadeMedicoEps extends AbstractFacade<PersonaEps>{
     public FacadeMedicoEps() {
         super(PersonaEps.class);
     }
-    
+
     @PersistenceContext(unitName = WebConstant.UNIT_NAME_PERSISTENCE)
     private EntityManager em;
-    
+
     /**
-     * 
+     * Consulta a relacion medico EPS por id del medico y idEps
+     *
      * @param idMedico
      * @param idEps
      * @return
-     * @throws AgendaException 
+     * @throws AgendaException
      */
-    public PersonaEps consultarMedicoEps(long idMedico,long idEps) throws AgendaException{
-        try{
-            Query  q = em.createNamedQuery(WebConstant.QUERY_PERSONA_EPS_FIND_MEDICO_EPS);
+    public PersonaEps consultarMedicoEps(long idMedico, long idEps) throws AgendaException {
+        try {
+            Query q = em.createNamedQuery(WebConstant.QUERY_PERSONA_EPS_FIND_MEDICO_EPS);
             q.setParameter(WebConstant.QUERY_PARAMETER_ID_MEDICO, idMedico);
             q.setParameter(WebConstant.QUERY_PARAMETER_ID_EPS, idEps);
-            
-            PersonaEps personaEps=(PersonaEps)q.getSingleResult();
+
+            PersonaEps personaEps = (PersonaEps) q.getSingleResult();
             return personaEps;
-        }catch(NoResultException e){
-            _log.log(Level.SEVERE, "error en consultarMedicoEps :",e);
-            throw new AgendaException("Error consultando PersonaEps idMedico: "+idMedico+" idEps: "+idEps);
+        } catch (NoResultException e) {
+            _log.log(Level.SEVERE, "error en consultarMedicoEps :", e);
+            throw new AgendaException("Error consultando PersonaEps idMedico: " + idMedico + " idEps: " + idEps);
         }
     }
-     public PersonaEps consultarMedicoEpsXId(long idPersonaEps) throws AgendaException{
+
+    public PersonaEps consultarMedicoEpsXId(long idPersonaEps) throws AgendaException {
         PersonaEps personaEps = em.find(PersonaEps.class, idPersonaEps);
-         if(personaEps!=null){
+        if (personaEps != null) {
             return em.find(PersonaEps.class, idPersonaEps);
-         }else{
-             throw new AgendaException("Error consultando PersonaEps idPersonaEps: "+idPersonaEps);
-         }
-     }
-    
-     public List<PersonaEps> consultarEpsMedico(long idMedico) throws AgendaException{
-        try{
-            Query  q = em.createNamedQuery(WebConstant.QUERY_PERSONA_EPS_FIND_LIST_MEDICO_EPS);
-            q.setParameter(WebConstant.QUERY_PARAMETER_ID_MEDICO, idMedico);
-            List<PersonaEps> listEpsMedico=(List<PersonaEps>)q.getResultList();
-            return listEpsMedico;
-        }catch(NoResultException e){
-            _log.log(Level.SEVERE, "error en consultarEpsMedico :",e);
-            throw new AgendaException("Error consultando lista eps medico idMedico: "+idMedico);
+        } else {
+            throw new AgendaException("Error consultando PersonaEps idPersonaEps: " + idPersonaEps);
         }
     }
-    
+
+    /**
+     * Trae todas larelaciones entre medico y Eps
+     *
+     * @param idMedico
+     * @return
+     * @throws AgendaException
+     */
+    public List<PersonaEps> consultarEpsMedico(long idMedico) throws AgendaException {
+        try {
+            Query q = em.createNamedQuery(WebConstant.QUERY_PERSONA_EPS_FIND_LIST_MEDICO_EPS);
+            q.setParameter(WebConstant.QUERY_PARAMETER_ID_MEDICO, idMedico);
+            List<PersonaEps> listEpsMedico = (List<PersonaEps>) q.getResultList();
+            return listEpsMedico;
+        } catch (NoResultException e) {
+            _log.log(Level.SEVERE, "error en consultarEpsMedico :", e);
+            throw new AgendaException("Error consultando lista eps medico idMedico: " + idMedico);
+        }
+    }
+
 }

@@ -34,7 +34,11 @@ public class FacadePersonaNatural extends AbstractFacade<PersonaNatural> {
 
     @PersistenceContext(unitName = WebConstant.UNIT_NAME_PERSISTENCE)
     private EntityManager em;
-
+    /**
+     * Metodo para consultar una persona natural x email
+     * @param email
+     * @return 
+     */
     public PersonaNatural consultarPersonaNatural(String email) {
         Query q = em.createNamedQuery("PersonaNatural.findByCorreoElectronico");
         q.setParameter("correoElectronico", email);

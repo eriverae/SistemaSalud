@@ -69,7 +69,7 @@ app.controller('historialCitasController', function ($scope, $rootScope, $stateP
     $scope.updateRow = function(row){
       var idP = row.entity.idCita;
       console.log('Modificar cita: ' & idP);
-      $state.go("modificarCitas", {idCita: idP});
+      $state.go("home.modificarCitas", {idCita: idP});
     };
     
     $scope.autenticar = function () {

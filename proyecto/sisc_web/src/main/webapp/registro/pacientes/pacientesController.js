@@ -316,7 +316,7 @@ app.controller('pacientesController', function ($scope, $rootScope, $stateParams
     $scope.$on('pacienteSaved', function () {
         $('#message-box-success').show();
         $scope.clearForm();
-        $state.go('registroPacientes');
+        $state.go('home.registroPacientes');
     });   
 
     $scope.$on('error', function () {
@@ -324,7 +324,7 @@ app.controller('pacientesController', function ($scope, $rootScope, $stateParams
     });
 
     $scope.cancelar = function () {
-        $state.go('registroPacientes');
+        $state.go('home.registroPacientes');
     };
     
     $scope.closepopup = function(){

@@ -119,11 +119,11 @@ app.controller('personaNaturalController', function ($scope, $rootScope, $stateP
 
             modalService.showModal({}, modalOptions).then(function () {
                 $scope.clearForm();
-                $state.go('registroPersonaNatural');
+                $state.go('home.registroPersonaNatural');
             });
         });
         $scope.cancelar = function () {
-            $state.go('registroPersonaNatural');
+            $state.go('home.registroPersonaNatural');
         };
     });
 });

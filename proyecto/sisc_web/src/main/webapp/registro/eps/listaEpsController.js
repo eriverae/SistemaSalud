@@ -69,7 +69,7 @@ app.controller('listaEpsController', function ($scope, $rootScope, $stateParams,
     $scope.updateRow = function(row){
       var idP = row.entity.idPersona;
       console.log('Modificar EPS: ' & idP);
-      $state.go("modificarEps", {'idPersona': idP});
+      $state.go("home.modificarEps", {'idPersona': idP});
     };
     
     // Watch the sortInfo variable. If changes are detected than we need to refresh the grid.

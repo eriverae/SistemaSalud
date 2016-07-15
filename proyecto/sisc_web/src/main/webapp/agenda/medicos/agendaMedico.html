@@ -44,10 +44,16 @@
         padding: 3px 3px 3px !important;
         margin-left: 17px !important;
     }
-/*    .modal-backdrop.in {
-        filter: alpha(opacity=50) !important;
-        opacity: -0.5 !important;
-    }*/
+    .ver-lista-conflictos{
+        display: block;
+    }
+    .no-ver-lista-conflictos{
+        display: none;
+    }
+    /*    .modal-backdrop.in {
+            filter: alpha(opacity=50) !important;
+            opacity: -0.5 !important;
+        }*/
 </style>
 
 <script>
@@ -62,7 +68,7 @@
         showMeridian: false,
         showSeconds: true
     });
-   
+
 
 </script>
 
@@ -166,14 +172,12 @@
                         <span class="fa fa-circle text-success citas-asis"></span>
                         &nbsp;&nbsp;El paciente asistio a la cita                        
                     </div>
-                </div>
-                <div class="form-group" style="text-align: center;padding-top: 26px;">
-                    <div class="col-md-11">
+                    <div class="col-md-3">
                         <span class="fa fa-circle text-success citas-cancel"></span>
-                        &nbsp;&nbsp;Canceladas por mi
+                        &nbsp;&nbsp;Canceladas por mi                       
                     </div>
-
                 </div>
+               
             </div>
         </div>
     </div>  
@@ -485,29 +489,31 @@
             <div class="mb-title"><span class="fa fa-times"></span> Error</div>
             <div class="mb-content">
                 <div style="color: white">
-                    {{objErrorNuevaAgenda.mensajeError}}<br>
-                <div style="overflow-y: scroll; height: 100px;    padding-top:10px">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                            <th># </th>
-                            <th>Fecha: </th>
-                            <th>Horario: </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr id="trow_1" ng-repeat="citaEror in objErrorNuevaAgenda.objError"> 
-                            <td>{{citaEror.idCita}}</td>
-                            <td>{{citaEror.horaInicio| getFormatofecha }}</td>
-                            <td>de {{citaEror.horaInicio| getFormatoHora }} a {{citaEror.horaFin| getFormatoHora }}</td>
-                            </tr>   
-                        </tbody>
-                    </table>
-                </div>    
+                    {{objErrorNuevaAgenda.mensajeError}} <br>
+                    <div  ng-show="objErrorNuevaAgenda.codigoError != '-555'" >
+                        <div  style="overflow-y: scroll; height: 100px;    padding-top:10px">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                    <th># </th>
+                                    <th>Fecha: </th>
+                                    <th>Horario: </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id="trow_1" ng-repeat="citaEror in objErrorNuevaAgenda.objError"> 
+                                    <td>{{citaEror.idCita}}</td>
+                                    <td>{{citaEror.horaInicio| getFormatofecha }}</td>
+                                    <td>de {{citaEror.horaInicio| getFormatoHora }} a {{citaEror.horaFin| getFormatoHora }}</td>
+                                    </tr>   
+                                </tbody>
+                            </table>
+                        </div>
+                    </div> 
                 </div>                    
             </div>
             <div class="mb-footer">
-                <button class="btn btn-default btn-lg pull-right mb-control-close" onClick=" $('#message-box-sound-2').hide()">Error</button>
+                <button class="btn btn-default btn-lg pull-right mb-control-close" ng-click="cerrarMensajeError();">Cerrar</button>
             </div>
         </div>
     </div>
