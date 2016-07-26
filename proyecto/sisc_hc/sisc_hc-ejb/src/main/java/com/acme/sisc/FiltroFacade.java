@@ -46,16 +46,16 @@ public class FiltroFacade implements IFiltroFacadeLocal, IFiltroFacadeRemote {
         
         PersonaEps personaeps = cita.getPacienteEps();
         
-        Query q1 = em.createQuery("SELECT c FROM Cita c WHERE c.pacienteEps.idPersonaEps = "+personaeps.getIdPersonaEps());
-        List<Cita> citasporpaciente= q1.getResultList();
+        Query q1 = em.createQuery("SELECT DISTINCT c.agenda.medicoEps FROM Cita c WHERE c.pacienteEps.idPersonaEps = "+personaeps.getIdPersonaEps());
+        List<PersonaEps> citasporpaciente= q1.getResultList();
         
         ArrayList<HashMap> js = new ArrayList<HashMap>();
 
         for(int i=0; i<citasporpaciente.size();i++){
             HashMap m = new HashMap();
-            m.put("idmedico", citasporpaciente.get(i).getAgenda().getMedicoEps().getIdPersonaEps());
-            m.put("nombremedico",citasporpaciente.get(i).getAgenda().getMedicoEps().getPersona().getNombres().toUpperCase()
-                    + citasporpaciente.get(i).getAgenda().getMedicoEps().getPersona().getApellidos().toUpperCase());
+            m.put("idmedico", citasporpaciente.get(i).getIdPersonaEps());
+            m.put("nombremedico",citasporpaciente.get(i).getPersona().getNombres().toUpperCase()
+                    + citasporpaciente.get(i).getPersona().getApellidos().toUpperCase());
             js.add(m);
         }
 
