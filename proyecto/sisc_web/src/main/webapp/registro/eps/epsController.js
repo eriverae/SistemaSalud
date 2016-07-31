@@ -17,6 +17,7 @@ app.controller('epsController', function ($scope, $rootScope, $stateParams, $sta
                 },
                 function () {
                     console.log('Datos paila :(');
+                    $scope.bizMessage = "Error al conectar";
                     // Broadcast the event for a server error.
                     $rootScope.$broadcast('error');
                 });
@@ -41,7 +42,7 @@ app.controller('epsController', function ($scope, $rootScope, $stateParams, $sta
     $scope.updateEps = function () {
         epsService.save($scope.eps).$promise.then(
                 function (response) {
-                    if (response.status == 0) {
+                    if (response.status == 0 || !angular.isDefined(response.status)) {
                         // Broadcast the event to display a save message.
                         $rootScope.$broadcast('epsSaved');
                     } else {
@@ -50,6 +51,7 @@ app.controller('epsController', function ($scope, $rootScope, $stateParams, $sta
                     }
                 },
                 function () {
+                    $scope.bizMessage = "Error al conectar";
                     // Broadcast the event for a server error.
                     $rootScope.$broadcast('error');
                 });

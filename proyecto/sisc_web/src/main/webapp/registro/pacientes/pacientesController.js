@@ -171,6 +171,7 @@ app.controller('pacientesController', function ($scope, $rootScope, $stateParams
             },
             function () {
                 console.log('Datos paila');
+                $scope.bizMessage = "Error al conectar";
                 // Broadcast the event for a server error.
                 $rootScope.$broadcast('error');
             }
@@ -217,7 +218,7 @@ app.controller('pacientesController', function ($scope, $rootScope, $stateParams
         $scope.paciente.rolPersonaNatural = "PACIENTE";
         personaService.save($scope.paciente).$promise.then(
             function (response) {
-                if (response.status == 0) {
+                if (response.status == 0 || !angular.isDefined(response.status)) {
                     console.log("Paciente almacenado");
                     // Broadcast the event to refresh the grid.
                     $rootScope.$broadcast('pacienteSaved');

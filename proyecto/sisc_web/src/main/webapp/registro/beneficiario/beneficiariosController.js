@@ -7,6 +7,7 @@ app.controller('beneficiariosController', function ($scope, $rootScope, $statePa
     $scope.parentezco;
     $scope.beneficiarioSelected = {};
     $scope.numeroIdBeneficiario;
+    $scope.bizMessage = "";
 
     if (angular.isDefined($stateParams.idPersona)) {
         console.log('Cotizante a..., ID = ' + $stateParams.idPersona);
@@ -18,6 +19,7 @@ app.controller('beneficiariosController', function ($scope, $rootScope, $statePa
             },
             function () {
                 console.log('Datos paila :(');
+                $scope.bizMessage = "Error al conectar";                
                 // Broadcast the event for a server error.
                 $rootScope.$broadcast('error');
             });
@@ -41,6 +43,7 @@ app.controller('beneficiariosController', function ($scope, $rootScope, $statePa
         },
         function () {
             console.log('Datos paila :(');
+            $scope.bizMessage = "Error al conectar";  
             // Broadcast the event for a server error.
             $rootScope.$broadcast('error');
         });
@@ -54,15 +57,18 @@ app.controller('beneficiariosController', function ($scope, $rootScope, $statePa
                 parentezco: $scope.parentezco
             };
             personaService.asociarBeneficiario(args).$promise.then(
-                function () {
-                    // Broadcast the event to refresh the grid.
-                    //$rootScope.$broadcast('refreshGrid');
-                    // Broadcast the event to display a save message.
-                    $rootScope.$broadcast('beneficiarioSaved');
-
+                function (response) {
+                    if (response.status == 0 || !angular.isDefined(response.status)) {
+                        // Broadcast the event to display a save message.
+                        $rootScope.$broadcast('beneficiarioSaved');
+                    } else {
+                        $scope.bizMessage = response.message;
+                        $rootScope.$broadcast('error');
+                    }
                 },
                 function () {
                     // Broadcast the event for a server error.
+                    $scope.bizMessage = "Error al conectar";  
                     $rootScope.$broadcast('error');
                 });
         }
@@ -185,8 +191,13 @@ app.controller('beneficiariosController', function ($scope, $rootScope, $statePa
         $scope.beneficiario = [];
         $scope.refreshGrid();
     });
+
+    $scope.$on('error', function () {
+        $('#message-box-warning').show();
+    });
     
     $scope.closepopup = function(){
- 	 $('#guardar-beneficiario-success').hide();
+ 	 $('#message-box-success').hide();
+         $('#message-box-warning').hide();
     };
 });

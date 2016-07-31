@@ -118,7 +118,7 @@ app.controller('medicosController', function ($scope, $rootScope, $stateParams, 
         $scope.medico.rolPersonaNatural = "MEDICO";
         personaService.save($scope.medico).$promise.then(
             function (response) {
-                if (response.status == 0) {
+                if (response.status == 0 || !angular.isDefined(response.status)) {
                     var epsList = [];
                     angular.forEach($scope.epsSeleccionadas, function(eps) {
                         epsList.push(eps.idPersona);
