@@ -43,16 +43,18 @@
 html * {
   outline: none !important;
 }
+
 html,
 body {
   min-height: 500%;
   padding: 0px;
   margin: 0px;
-  background: #f5f5f5 url('../img/bg.png') left top repeat;
+  background: #f5f5f5 url('../img/hero_bg.jpg') left top repeat;
   position: relative;
   font-family: 'Open Sans', sans-serif;
   font-size: 12px;
   color: #22262e;
+  /*profile-data*/
   overflow-x: hidden;
 }
 .body-full-height {
@@ -1084,6 +1086,7 @@ body.page-container-boxed .page-container {
   width: 100%;
   float: left;
   text-align: center;
+  color: #FFFFFF !important;
 }
 .profile .profile-data .profile-data-name {
   width: 100%;
@@ -3875,7 +3878,7 @@ background: #1caf9a !important;
   float: left;
   width: 100%;
   min-height: 100%;
-  background: url("../img/bg.png") left top repeat #1b1e24;
+  background: url("../img/hero_bg.jpg") left top repeat #1b1e24;
 }
 .login-container .login-box {
   width: 400px;

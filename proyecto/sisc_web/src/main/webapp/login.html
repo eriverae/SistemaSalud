@@ -26,7 +26,7 @@
       
                         <!-- Correo electronico-->
                         <div class="form-group" ng-class="{'has-error' : credencialesForm.usuario.$invalid && credencialesForm.usuario.$dirty}">
-                          <label for="usuaEmail">Correo electronico:</label>
+                            <label for="usuaEmail" style="color: #FFFFFF !important;" >Correo electronico:</label>
                           <!-- Display a check when the field is valid and was modified -->
                           <span ng-class="{'glyphicon glyphicon-ok' : credencialesForm.usuario.$valid && credencialesForm.usuario.$dirty}"></span>
                           <input id="usuaEmail" name="usuaEmail" type="email" class="form-control" maxlength="50"
@@ -39,7 +39,7 @@
 
                         <!-- Password -->
                         <div class="form-group" ng-class="{'has-error' : credencialesForm.password.$invalid && credencialesForm.password.$dirty}">
-                          <label for="usuaPass">Constraseña:</label>
+                          <label for="usuaPass" style="color: #FFFFFF !important;">Constraseña:</label>
                           <!-- Display a check when the field is valid and was modified -->
                           <span ng-class="{'glyphicon glyphicon-ok' : credencialesForm.password.$valid && credencialesForm.password.$dirty}"></span>
                           <input id="usuaPass" name="usuaPass" type="password" class="form-control" maxlength="50"
